@@ -1,0 +1,55 @@
+package com.sososhopping.server.entity.orders;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.sososhopping.server.entity.BaseTimeEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
+
+import static javax.persistence.FetchType.*;
+
+@Entity
+@Getter
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Payment extends BaseTimeEntity {
+
+    @Id @GeneratedValue
+    @Column(name = "payment_id")
+    private Long id;
+
+    @NotNull
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "order_id", unique = true)
+    private Order order;
+
+    @NotNull
+    private String pg;
+
+    @NotNull
+    private String payMethod;
+
+    @NotNull
+    private LocalDateTime payDatetime;
+
+    @NotNull
+    private Integer payAmount;
+
+    @NotNull
+    private String payIp;
+
+    @NotNull
+    @Column(unique = true)
+    private String receiptUrl;
+
+    @NotNull
+    @Column(unique = true)
+    private String payToken;
+
+    private String status;
+}
