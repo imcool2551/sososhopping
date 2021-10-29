@@ -33,7 +33,3 @@ FOREIGN KEY (store_id) REFERENCES store (store_id);
 ALTER TABLE orders
 ADD CONSTRAINT fk__orders__user_id
 FOREIGN KEY (user_id) REFERENCES users (user_id);
-
-CREATE INDEX idx__orders__user_id ON orders (user_id);
-
-CREATE INDEX idx__orders__store_id ON orders (store_id);

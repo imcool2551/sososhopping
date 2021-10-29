@@ -11,5 +11,3 @@ CREATE TABLE store_log (
 ALTER TABLE store_log
 ADD CONSTRAINT fk__store_log__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__store_log__store ON store_log (store_id);

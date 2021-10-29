@@ -15,5 +15,3 @@ CREATE TABLE item (
 ALTER TABLE item
 ADD CONSTRAINT fk__item__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__item__store_id ON item (store_id);

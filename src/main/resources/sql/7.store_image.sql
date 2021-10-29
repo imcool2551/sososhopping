@@ -8,5 +8,3 @@ CREATE TABLE store_image (
 ALTER TABLE store_image
 ADD CONSTRAINT fk__store_image__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__store_image__store ON store_image (store_id);

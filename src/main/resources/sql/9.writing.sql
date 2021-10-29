@@ -13,5 +13,3 @@ CREATE TABLE writing (
 ALTER TABLE writing
 ADD CONSTRAINT fk__writing__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__writing__store_id ON writing (store_id);

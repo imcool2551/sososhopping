@@ -23,5 +23,3 @@ FOREIGN KEY (store_id) REFERENCES store (store_id);
 ALTER TABLE coupon 
 ADD CONSTRAINT uk__coupon__coupon_code
 UNIQUE (coupon_code);
-
-CREATE INDEX idx__coupon__store_id ON coupon (store_id);

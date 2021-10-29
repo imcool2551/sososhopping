@@ -11,5 +11,3 @@ FOREIGN KEY (user_id) REFERENCES users (user_id);
 ALTER TABLE interest_store
 ADD CONSTRAINT fk__interest_store__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__interest_store__store_id ON interest_store (store_id);

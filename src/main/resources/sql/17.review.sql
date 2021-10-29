@@ -16,5 +16,3 @@ FOREIGN KEY (user_id) references users (user_id);
 ALTER TABLE review
 ADD CONSTRAINT fk__review__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__review__user_id ON review (user_id);

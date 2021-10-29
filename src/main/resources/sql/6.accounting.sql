@@ -11,5 +11,3 @@ CREATE TABLE accounting (
 ALTER TABLE accounting
 ADD CONSTRAINT fk__accounting__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
-
-CREATE INDEX idx__accounting__store ON accounting (store_id);

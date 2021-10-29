@@ -75,12 +75,13 @@ public class Store extends BaseTimeEntity {
 
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1
-            ,name = "delivery_status")
+            , name = "delivery_status")
     private Boolean deliveryStatus;
 
-    @Column(columnDefinition = "TINYINT", length = 1
-            ,name = "point_policy_status")
-    private Boolean pointPolicyStatus;
+    @NotNull
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1
+            , name = "point_policy_status")
+    private Boolean pointPolicyStatus = false;
 
     private Integer minimumOrderPrice;
 
@@ -120,6 +121,6 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<InterestStore> interestStores = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
 }
