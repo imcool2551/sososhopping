@@ -15,3 +15,6 @@ FOREIGN KEY (user_id) REFERENCES users (user_id);
 ALTER TABLE store_report
 ADD CONSTRAINT fk__store_report__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
+
+CREATE INDEX idx__store_report__created_at ON store_report (created_at);
+

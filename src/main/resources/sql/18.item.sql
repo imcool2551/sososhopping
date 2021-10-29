@@ -4,7 +4,7 @@ CREATE TABLE item (
     name VARCHAR(20) NOT NULL,
     description VARCHAR(255),
     purchase_unit VARCHAR(20),
-    img_url VARCHAR(255),
+    img_url VARCHAR(512),
     price INT NOT NULL,
     sale_status TINYINT(1) NOT NULL,
     created_at DATETIME(6) NOT NULL,

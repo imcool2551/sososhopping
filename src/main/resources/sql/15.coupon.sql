@@ -1,6 +1,7 @@
 CREATE TABLE coupon (
     coupon_id BIGINT NOT NULL,
     store_id BIGINT NOT NULL,
+    store_name VARCHAR(20),
     coupon_name VARCHAR(20),
     stock_quantity MEDIUMINT NOT NULL,
     coupon_code CHAR(10) NOT NULL,

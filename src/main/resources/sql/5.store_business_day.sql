@@ -3,8 +3,8 @@ CREATE TABLE store_business_day (
     store_id BIGINT NOT NULL,
     day VARCHAR(10) NOT NULL,
     is_open TINYINT(1) NOT NULL,
-    open_time TIME,
-    close_time TIME,
+    open_time CHAR(4),
+    close_time CHAR(4),
     PRIMARY KEY (store_business_day_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

@@ -4,7 +4,7 @@ CREATE TABLE writing (
     title VARCHAR(40) NOT NULL,
     content TEXT NOT NULL,
     writing_type VARCHAR(20) NOT NULL,
-    img_url VARCHAR(255),
+    img_url VARCHAR(512),
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (writing_id)
@@ -13,3 +13,4 @@ CREATE TABLE writing (
 ALTER TABLE writing
 ADD CONSTRAINT fk__writing__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
+

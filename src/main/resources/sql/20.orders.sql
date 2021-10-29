@@ -7,6 +7,7 @@ CREATE TABLE orders (
     order_type VARCHAR(20) NOT NULL,
     visit_date DATETIME(6),
     store_id BIGINT NOT NULL,
+    store_name VARCHAR(20) NOT NULL,
     delivery_charge INT,
     delivery_detailed_address VARCHAR(40),
     delivery_street_address VARCHAR(20),

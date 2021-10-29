@@ -1,16 +1,11 @@
 CREATE TABLE user_point (
-	user_point_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
 	store_id BIGINT NOT NULL,
 	point INT NOT NULL,
 	created_at DATETIME(6) NOT NULL,
 	updated_at DATETIME(6) NOT NULL
-	PRIMARY KEY (user_point_id)
+	PRIMARY KEY (user_id, store_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-ALTER TABLE user_point
-ADD CONSTRAINT uk__user_point__store_id__user_id
-UNIQUE (store_id, user_id);
 
 ALTER TABLE user_point
 ADD CONSTRAINT fk__user_point__user_id
