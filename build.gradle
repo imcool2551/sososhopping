@@ -45,6 +45,9 @@ dependencies {
 
 	// Jpa spatial type
 	implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.1.0.Final'
+
+	// https://mvnrepository.com/artifact/org.locationtech.jts/jts-core
+	implementation group: 'org.locationtech.jts', name: 'jts-core', version: '1.18.1'
 }
 
 test {
