@@ -79,7 +79,7 @@ public class Store extends BaseTimeEntity {
     private Boolean deliveryStatus;
 
     @Column(columnDefinition = "TINYINT", length = 1
-            ,name = "delivery_status")
+            ,name = "point_policy_status")
     private Boolean pointPolicyStatus;
 
     private Integer minimumOrderPrice;
