@@ -33,7 +33,7 @@ public class Owner extends BaseTimeEntity {
     private String name;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "char")
     private String phone;
 
     @Enumerated(EnumType.STRING)

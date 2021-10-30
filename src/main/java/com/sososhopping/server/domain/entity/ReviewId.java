@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewId implements Serializable {
-    private String user;
-    private String store;
+    private Long user;
+    private Long store;
 }

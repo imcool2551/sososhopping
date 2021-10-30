@@ -1,6 +1,6 @@
 CREATE TABLE store_metadata (
     store_id BIGINT NOT NULL,
-    business_number CHAR(12) NOT NULL,
+    business_number CHAR(10) NOT NULL,
     representative_name VARCHAR(20) NOT NULL,
     business_name VARCHAR(20) NOT NULL,
     opening_date DATETIME(6) NOT NULL,

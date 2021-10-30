@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemId implements Serializable {
-    private String order;
-    private String item;
+    private Long order;
+    private Long item;
 }

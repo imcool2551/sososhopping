@@ -45,12 +45,12 @@ public class Order extends BaseTimeEntity {
     @Column(name = "orderer_name")
     private String ordererName;
 
-    @Column(name = "orderer_phone")
+    @Column(name = "orderer_phone", columnDefinition = "char")
     private String ordererPhone;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "orderer_type")
+    @Column(name = "order_type")
     private OrderType orderType;
 
     private LocalDateTime visitDate;
