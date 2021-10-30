@@ -31,5 +31,6 @@ public class Accounting extends BaseTimeEntity {
     @NotNull
     private Integer amount;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 }

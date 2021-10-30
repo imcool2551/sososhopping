@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "coupon_type")
+@DiscriminatorColumn(name = "coupon_type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,7 +43,7 @@ public abstract class Coupon extends BaseTimeEntity {
     private Integer stockQuantity;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "char")
     private String couponCode;
 
     @NotNull

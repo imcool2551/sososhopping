@@ -5,7 +5,7 @@ CREATE TABLE user_point_log (
     point_amount INT NOT NULL,
     result_amount INT NOT NULL,
     created_at DATETIME(6) NOT NULL,
-    updated_at DATETIME(6) NOT NULL
+    updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (user_point_log_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

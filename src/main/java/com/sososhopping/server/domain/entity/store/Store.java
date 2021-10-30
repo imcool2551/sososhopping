@@ -45,11 +45,13 @@ public class Store extends BaseTimeEntity {
 
     private String imgUrl;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String extraBusinessDay;
 
     @NotNull
+    @Column(columnDefinition = "char")
     private String phone;
 
     @NotNull

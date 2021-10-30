@@ -3,7 +3,7 @@ CREATE TABLE store (
     owner_id BIGINT NOT NULL,
     store_type VARCHAR(20),
     name VARCHAR(40) NOT NULL,
-    imt_url VARCHAR(512),
+    img_url VARCHAR(512),
     description TEXT,
     extra_business_day VARCHAR(255),
     phone CHAR(11) NOT NULL,

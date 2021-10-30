@@ -23,7 +23,7 @@ public class UserReport {
 
     @Id
     @GeneratedValue
-    @Column(name = "store_report_id")
+    @Column(name = "user_report_id")
     private Long id;
 
     @NotNull
@@ -37,5 +37,6 @@ public class UserReport {
     private User user;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 }

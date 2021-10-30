@@ -39,7 +39,9 @@ public class StoreBusinessDay {
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean isOpen;
 
+    @Column(columnDefinition = "char")
     private String openTime;
 
+    @Column(columnDefinition = "char")
     private String closeTime;
 }
