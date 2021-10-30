@@ -6,6 +6,7 @@
 
 body {
   font-family: sans-serif;
+  background-color: #f0f0f0;
 }
 
 nav {
@@ -30,7 +31,8 @@ nav {
 }
 
 .form-group {
-  width: 500px;
+  width: 70%;
+  background-color: #fff;
   margin: 50px auto;
   border: 1px solid black;
   border-radius: 10px;
