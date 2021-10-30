@@ -36,5 +36,6 @@ public class StoreReport extends BaseTimeEntity {
     private Store store;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 }

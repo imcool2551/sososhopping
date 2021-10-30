@@ -26,7 +26,7 @@ public class StoreMetaData extends BaseTimeEntity {
     private Store store;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "char")
     private String businessNumber;
 
     @NotNull

@@ -3,7 +3,7 @@ CREATE TABLE user_point (
 	store_id BIGINT NOT NULL,
 	point INT NOT NULL,
 	created_at DATETIME(6) NOT NULL,
-	updated_at DATETIME(6) NOT NULL
+	updated_at DATETIME(6) NOT NULL,
 	PRIMARY KEY (user_id, store_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
