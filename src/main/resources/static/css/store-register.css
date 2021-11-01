@@ -26,9 +26,16 @@ ul {
   font-size: 20px;
 }
 
-.nav-links .nav-link:last-child {
+.btn-logout {
   position: absolute;
   right: 10px;
+  background-color: #5221ff;
+  border: none;
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: normal;
+  height: 50px;
 }
 
 .nav-link:link,
@@ -40,11 +47,12 @@ ul {
   font-weight: normal;
   text-decoration: none;
   height: 50px;
-  line-height: 40px;
+  line-height: 42px;
 }
 
 .nav-link:hover,
-.nav-link:active {
+.nav-link:active,
+.btn-logout:hover {
   cursor: pointer;
 }
 
