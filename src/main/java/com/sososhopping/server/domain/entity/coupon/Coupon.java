@@ -24,7 +24,7 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 public abstract class Coupon extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coupon_id")
     private Long id;
 

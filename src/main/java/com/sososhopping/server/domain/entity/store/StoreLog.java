@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 public class StoreLog extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_log_id")
     private Long id;
 
