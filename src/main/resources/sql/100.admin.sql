@@ -1,5 +1,5 @@
 CREATE TABLE admin (
-    admin_id BIGINT NOT NULL,
+    admin_id BIGINT NOT NULL AUTO_INCREMENT,
     nickname VARCHAR(20) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (admin_id)

@@ -1,5 +1,5 @@
 CREATE TABLE coupon (
-    coupon_id BIGINT NOT NULL,
+    coupon_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     store_name VARCHAR(20),
     coupon_name VARCHAR(20),
