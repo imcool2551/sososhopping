@@ -1,7 +1,7 @@
 package com.sososhopping.server.controller.auth;
 
-import com.sososhopping.server.domain.requestDto.member.*;
-import com.sososhopping.server.domain.responseDto.member.LoginResponseDto;
+import com.sososhopping.server.common.dto.auth.request.*;
+import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
 import com.sososhopping.server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

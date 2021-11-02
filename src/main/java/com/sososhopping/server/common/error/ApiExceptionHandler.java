@@ -1,6 +1,6 @@
 package com.sososhopping.server.common.error;
 
-import com.sososhopping.server.domain.responseDto.ErrorResponse;
+import com.sososhopping.server.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +24,14 @@ public class ApiExceptionHandler {
         e.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(Api404Exception.class)
+    public ResponseEntity api404Exception(HttpServletRequest request, final Api404Exception e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(e.getMessage()));
     }
 
