@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 public class UserReport {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_report_id")
     private Long id;
 

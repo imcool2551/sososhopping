@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 public class StoreImage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_image_id")
     private Long id;
 

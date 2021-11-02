@@ -1,16 +1,14 @@
 package com.sososhopping.server.domain.entity.member;
 import com.sososhopping.server.domain.entity.BaseTimeEntity;
 import com.sososhopping.server.domain.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -18,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Owner extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "owner_id")
     private Long id;
 
