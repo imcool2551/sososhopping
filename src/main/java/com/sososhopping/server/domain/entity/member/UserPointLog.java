@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 public class UserPointLog extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_point_log_id")
     private Long id;
 

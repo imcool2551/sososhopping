@@ -5,10 +5,7 @@ import com.sososhopping.server.domain.entity.InterestStore;
 import com.sososhopping.server.domain.entity.Review;
 import com.sososhopping.server.domain.entity.coupon.UserCoupon;
 import com.sososhopping.server.domain.entity.orders.Order;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -16,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -24,7 +22,7 @@ import java.util.List;
 @Table(name = "users")
 public class User extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 

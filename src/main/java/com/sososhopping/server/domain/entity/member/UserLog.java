@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.*;
 public class UserLog extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_log_id")
     private Long id;
 

@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 public class Writing extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "writing_id")
     private Long id;
 

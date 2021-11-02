@@ -1,0 +1,17 @@
+package com.sososhopping.server.repository.member;
+
+import com.sososhopping.server.domain.entity.member.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    //이메일로 정보 찾기
+    Optional<User> findByEmail(String email);
+
+    //이메일 중복 확인
+    boolean existsByEmail(String email);
+}
