@@ -1,5 +1,5 @@
 CREATE TABLE store_report (
-  store_report_id BIGINT NOT NULL,
+  store_report_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
   store_id BIGINT NOT NULL,
   content TEXT NOT NULL,
@@ -17,3 +17,4 @@ ADD CONSTRAINT fk__store_report__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
 
 CREATE INDEX idx__store_report__created_at ON store_report (created_at);
+

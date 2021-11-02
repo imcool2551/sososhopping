@@ -1,5 +1,5 @@
 CREATE TABLE orders (
-    order_id BIGINT NOT NULL,
+    order_id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     order_date DATETIME(6) NOT NULL,
     orderer_name VARCHAR(20) NOT NULL,

@@ -1,4 +1,4 @@
-package com.sososhopping.server.domain.entity;
+package com.sososhopping.server.domain.entity.member;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewId implements Serializable {
+public class InterestStoreId implements Serializable {
     private Long user;
     private Long store;
 }

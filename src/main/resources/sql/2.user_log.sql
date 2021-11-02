@@ -1,5 +1,5 @@
 CREATE TABLE user_log (
-    user_log_id BIGINT NOT NULL,
+    user_log_id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     active VARCHAR(20) NOT NULL,
     description TEXT,

@@ -1,5 +1,5 @@
 CREATE TABLE store_business_day (
-    store_business_day_id BIGINT NOT NULL,
+    store_business_day_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     day VARCHAR(10) NOT NULL,
     is_open TINYINT(1) NOT NULL,

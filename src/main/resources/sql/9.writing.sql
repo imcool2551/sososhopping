@@ -1,5 +1,5 @@
 CREATE TABLE writing (
-    writing_id BIGINT NOT NULL,
+    writing_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     title VARCHAR(40) NOT NULL,
     content TEXT NOT NULL,
@@ -13,3 +13,4 @@ CREATE TABLE writing (
 ALTER TABLE writing
 ADD CONSTRAINT fk__writing__store_id
 FOREIGN KEY (store_id) REFERENCES store (store_id);
+

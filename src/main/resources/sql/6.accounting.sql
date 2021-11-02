@@ -1,5 +1,5 @@
 CREATE TABLE accounting (
-    accounting_id BIGINT NOT NULL,
+    accounting_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     amount INT NOT NULL,
     description TEXT,

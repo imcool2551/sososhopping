@@ -1,5 +1,5 @@
 CREATE TABLE item (
-    item_id BIGINT NOT NULL,
+    item_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     name VARCHAR(20) NOT NULL,
     description VARCHAR(255),
