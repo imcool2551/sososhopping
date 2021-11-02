@@ -1,5 +1,5 @@
 CREATE TABLE writing (
-    writing_id BIGINT NOT NULL,
+    writing_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     title VARCHAR(40) NOT NULL,
     content TEXT NOT NULL,

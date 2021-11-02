@@ -1,5 +1,5 @@
 CREATE TABLE store_log (
-    store_log_id BIGINT NOT NULL,
+    store_log_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     store_status VARCHAR(20) NOT NULL,
     description TEXT,

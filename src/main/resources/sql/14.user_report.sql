@@ -1,5 +1,5 @@
 CREATE TABLE user_report (
-  user_report_id BIGINT NOT NULL,
+  user_report_id BIGINT NOT NULL AUTO_INCREMENT,
   store_id BIGINT NOT NULL,
   user_id BIGINT NOT NULL,
   content TEXT NOT NULL,

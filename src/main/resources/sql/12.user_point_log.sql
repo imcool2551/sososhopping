@@ -1,5 +1,5 @@
 CREATE TABLE user_point_log (
-    user_point_log_id BIGINT NOT NULL,
+    user_point_log_id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     store_id BIGINT NOT NULL,
     point_amount INT NOT NULL,

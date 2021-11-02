@@ -1,5 +1,5 @@
 CREATE TABLE store (
-    store_id BIGINT NOT NULL,
+    store_id BIGINT NOT NULL AUTO_INCREMENT,
     owner_id BIGINT NOT NULL,
     store_type VARCHAR(20),
     name VARCHAR(40) NOT NULL,

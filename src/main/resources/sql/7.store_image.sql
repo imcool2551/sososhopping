@@ -1,5 +1,5 @@
 CREATE TABLE store_image (
-    store_image_id BIGINT NOT NULL,
+    store_image_id BIGINT NOT NULL AUTO_INCREMENT,
     store_id BIGINT NOT NULL,
     img_url VARCHAR(512) NOT NULL,
     PRIMARY KEY (store_image_id)

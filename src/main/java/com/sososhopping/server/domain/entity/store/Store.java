@@ -1,8 +1,8 @@
 package com.sososhopping.server.domain.entity.store;
 
 import com.sososhopping.server.domain.entity.BaseTimeEntity;
-import com.sososhopping.server.domain.entity.InterestStore;
-import com.sososhopping.server.domain.entity.Review;
+import com.sososhopping.server.domain.entity.member.InterestStore;
+import com.sososhopping.server.domain.entity.member.Review;
 import com.sososhopping.server.domain.entity.coupon.Coupon;
 import com.sososhopping.server.domain.entity.member.Owner;
 import lombok.AccessLevel;
