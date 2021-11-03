@@ -10,13 +10,16 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Item extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
 
@@ -42,27 +45,8 @@ public class Item extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean saleStatus;
 
-    // 생성자 + 빌더
-    @Builder
-    public Item(Store store,
-                String name,
-                String description,
-                String purchaseUnit,
-                String imgUrl,
-                Integer price,
-                Boolean saleStatus
-    ) {
-        setStore(store);
-        this.name = name;
-        this.description = description;
-        this.purchaseUnit = purchaseUnit;
-        this.imgUrl = imgUrl;
-        this.price = price;
-        this.saleStatus = saleStatus;
-    }
-
     // 연관 관계 편의 메서드
-    private void setStore(Store store) {
+    public void setStore(Store store) {
         this.store = store;
         this.store.getItems().add(this);
     }

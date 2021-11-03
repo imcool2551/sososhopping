@@ -19,10 +19,12 @@ import java.util.List;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Store extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,7 +113,7 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Item> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Coupon> coupons = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
@@ -120,49 +122,8 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
 
-    // 생성자 + 빌더
-    @Builder
-    public Store(Owner owner,
-                 StoreType storeType,
-                 String name,
-                 String imgUrl,
-                 String description,
-                 String extraBusinessDay,
-                 String phone,
-                 Point location,
-                 Boolean businessStatus,
-                 StoreStatus storeStatus,
-                 Boolean localCurrencyStatus,
-                 Boolean pickupStatus,
-                 Boolean deliveryStatus,
-                 Boolean pointPolicyStatus,
-                 Integer minimumOrderPrice,
-                 BigDecimal saveRate,
-                 String streetAddress,
-                 String detailedAddress
-    ) {
-        setOwner(owner);
-        this.storeType = storeType;
-        this.name = name;
-        this.imgUrl = imgUrl;
-        this.description = description;
-        this.extraBusinessDay = extraBusinessDay;
-        this.phone = phone;
-        this.location = location;
-        this.businessStatus = businessStatus;
-        this.storeStatus = storeStatus;
-        this.localCurrencyStatus = localCurrencyStatus;
-        this.pickupStatus = pickupStatus;
-        this.deliveryStatus = deliveryStatus;
-        this.pointPolicyStatus = pointPolicyStatus;
-        this.minimumOrderPrice = minimumOrderPrice;
-        this.saveRate = saveRate;
-        this.streetAddress = streetAddress;
-        this.detailedAddress = detailedAddress;
-    }
-
     // 연관 관계 편의 메서드
-    private void setOwner(Owner owner) {
+    public void setOwner(Owner owner) {
         if (this.owner != null) {
             this.owner.getStores().remove(this);
         }
