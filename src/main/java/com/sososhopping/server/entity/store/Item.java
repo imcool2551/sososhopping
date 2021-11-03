@@ -1,10 +1,7 @@
 package com.sososhopping.server.entity.store;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -17,7 +14,6 @@ import static javax.persistence.FetchType.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Item extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +41,29 @@ public class Item extends BaseTimeEntity {
     @Type(type = "numeric_boolean")
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean saleStatus;
+
+    // 생성자 + 빌더
+    @Builder
+    public Item(Store store,
+                String name,
+                String description,
+                String purchaseUnit,
+                String imgUrl,
+                Integer price,
+                Boolean saleStatus
+    ) {
+        setStore(store);
+        this.name = name;
+        this.description = description;
+        this.purchaseUnit = purchaseUnit;
+        this.imgUrl = imgUrl;
+        this.price = price;
+        this.saleStatus = saleStatus;
+    }
+
+    // 연관 관계 편의 메서드
+    private void setStore(Store store) {
+        this.store = store;
+        this.store.getItems().add(this);
+    }
 }

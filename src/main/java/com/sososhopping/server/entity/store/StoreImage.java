@@ -7,11 +7,9 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
-@Builder
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class StoreImage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +25,15 @@ public class StoreImage {
     @Column(length = 512)
     private String imgUrl;
 
+    // 생성자 + 빌더
+    @Builder
+    public StoreImage(Store store, String imgUrl) {
+        setStore(store);
+        this.imgUrl = imgUrl;
+    }
+
     // 연관 관계 편의 메서드
-    public void setStore(Store store) {
+    private void setStore(Store store) {
         this.store = store;
         this.store.getStoreImages().add(this);
     }

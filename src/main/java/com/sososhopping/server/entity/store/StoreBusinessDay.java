@@ -7,14 +7,12 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
-@Builder
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"store_id", "day"})
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class StoreBusinessDay {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +38,18 @@ public class StoreBusinessDay {
     @Column(columnDefinition = "char")
     private String closeTime;
 
+    // 생성자 + 빌더
+    @Builder
+    public StoreBusinessDay(Store store, Day day, Boolean isOpen, String openTime, String closeTime) {
+        setStore(store);
+        this.day = day;
+        this.isOpen = isOpen;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+    }
+
     // 연관 관계 편의 메서드
-    public void setStore(Store store) {
+    private void setStore(Store store) {
         this.store = store;
         this.store.getStoreBusinessDays().add(this);
     }
