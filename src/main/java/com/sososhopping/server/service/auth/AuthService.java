@@ -1,14 +1,13 @@
 package com.sososhopping.server.service.auth;
 
 import com.sososhopping.server.auth.JwtTokenProvider;
+import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
-import com.sososhopping.server.common.error.Api409Exception;
-import com.sososhopping.server.domain.entity.member.AccountStatus;
-import com.sososhopping.server.domain.entity.member.Admin;
-import com.sososhopping.server.domain.entity.member.Owner;
-import com.sososhopping.server.domain.entity.member.User;
-import com.sososhopping.server.domain.requestDto.member.*;
+import com.sososhopping.server.entity.member.AccountStatus;
+import com.sososhopping.server.entity.member.Admin;
+import com.sososhopping.server.entity.member.Owner;
+import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.repository.member.AdminRepository;
 import com.sososhopping.server.repository.member.OwnerRepository;
 import com.sososhopping.server.repository.member.UserRepository;

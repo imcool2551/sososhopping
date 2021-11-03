@@ -1,6 +1,6 @@
 package com.sososhopping.server.repository.member;
 
-import com.sososhopping.server.domain.entity.member.Admin;
+import com.sososhopping.server.entity.member.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

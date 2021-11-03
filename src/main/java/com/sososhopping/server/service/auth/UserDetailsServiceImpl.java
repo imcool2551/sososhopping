@@ -1,9 +1,9 @@
 package com.sososhopping.server.service.auth;
 
 import com.sososhopping.server.auth.AuthMember;
-import com.sososhopping.server.domain.entity.member.Admin;
-import com.sososhopping.server.domain.entity.member.Owner;
-import com.sososhopping.server.domain.entity.member.User;
+import com.sososhopping.server.entity.member.Admin;
+import com.sososhopping.server.entity.member.Owner;
+import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.repository.member.AdminRepository;
 import com.sososhopping.server.repository.member.OwnerRepository;
 import com.sososhopping.server.repository.member.UserRepository;
