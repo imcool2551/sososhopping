@@ -2,10 +2,10 @@ package com.sososhopping.server.controller.auth;
 
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
-import com.sososhopping.server.domain.entity.member.Owner;
-import com.sososhopping.server.domain.requestDto.member.OwnerLoginRequestDto;
-import com.sososhopping.server.domain.requestDto.member.OwnerSignUpRequestDto;
-import com.sososhopping.server.domain.responseDto.member.LoginResponseDto;
+import com.sososhopping.server.entity.member.Owner;
+import com.sososhopping.server.common.dto.auth.request.OwnerLoginRequestDto;
+import com.sososhopping.server.common.dto.auth.request.OwnerSignUpRequestDto;
+import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
 import com.sososhopping.server.repository.member.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
