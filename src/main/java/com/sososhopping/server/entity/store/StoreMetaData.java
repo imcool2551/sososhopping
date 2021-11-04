@@ -1,8 +1,10 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreMetaDataRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,5 +38,5 @@ public class StoreMetaData extends BaseTimeEntity {
     private String businessName;
 
     @NotNull
-    private LocalDateTime openingDate;
+    private String openingDate;
 }
