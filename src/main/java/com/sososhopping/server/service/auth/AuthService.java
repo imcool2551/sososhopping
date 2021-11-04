@@ -66,7 +66,7 @@ public class AuthService {
         if(!passwordEncoder.matches(dto.getPassword(), owner.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
-        return jwtTokenProvider.createToken('O', owner.getId());
+        return jwtTokenProvider.createToken("O", owner.getId());
     }
 
     /**
@@ -112,7 +112,7 @@ public class AuthService {
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
-        return jwtTokenProvider.createToken('U', user.getId());
+        return jwtTokenProvider.createToken("U", user.getId());
     }
 
     /**
@@ -143,6 +143,6 @@ public class AuthService {
         if (!passwordEncoder.matches(dto.getPassword(), admin.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
-        return jwtTokenProvider.createToken('A', admin.getId());
+        return jwtTokenProvider.createToken("A", admin.getId());
     }
 }
