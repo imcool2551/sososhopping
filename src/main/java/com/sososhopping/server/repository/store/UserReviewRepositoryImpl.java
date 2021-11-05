@@ -20,7 +20,7 @@ public class UserReviewRepositoryImpl implements UserReviewRepository {
     }
 
     @Override
-    public List<Review> findReviewsByStore(Long storeId) {
+    public List<Review> findReviewsByStoreId(Long storeId) {
         return queryFactory
                 .selectFrom(review)
                 .join(review.user, user).fetchJoin()

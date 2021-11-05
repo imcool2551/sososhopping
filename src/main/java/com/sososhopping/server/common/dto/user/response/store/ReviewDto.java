@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 @Getter
 public class ReviewDto {
 
-    private Long storeId;
-    private Long userId;
-    private String nickname;
-    private String content;
-    private String imgUrl;
-    private BigDecimal score;
+    private final Long storeId;
+    private final Long userId;
+    private final String nickname;
+    private final String content;
+    private final String imgUrl;
+    private final BigDecimal score;
 
     public ReviewDto(Review review) {
         storeId = review.getStore().getId();

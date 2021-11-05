@@ -29,13 +29,13 @@ public class UserReviewService {
 
     @Transactional
     public List<ReviewDto> getStoreReviews(Long storeId) {
-        Store findStore = storeRepository
+        storeRepository
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        List<ReviewDto> reviewDtoList = reviewRepository.findReviewsByStore(storeId)
+        List<ReviewDto> reviewDtoList = reviewRepository.findReviewsByStoreId(storeId)
                 .stream()
-                .map(review -> new ReviewDto(review))
+                .map(ReviewDto::new)
                 .collect(Collectors.toList());
 
         return reviewDtoList;

@@ -3,10 +3,7 @@ package com.sososhopping.server.entity.report;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -14,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
