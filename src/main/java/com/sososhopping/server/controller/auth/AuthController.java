@@ -21,8 +21,8 @@ public class AuthController {
      */
     //점주 이메일 중복 확인
     @PostMapping(value = "/api/v1/owner/auth/signup/validation")
-    public ResponseEntity ownerSignUpValidation(@RequestBody String email) {
-        if(authService.ownerSignUpValidation(email))
+    public ResponseEntity ownerSignUpValidation(@RequestBody OwnerSignUpRequestDto dto) {
+        if(authService.ownerSignUpValidation(dto.getEmail()))
             return new ResponseEntity(HttpStatus.OK);
         else
             return new ResponseEntity(HttpStatus.CONFLICT);
@@ -49,8 +49,8 @@ public class AuthController {
      */
     //고객 이메일 중복 확인
     @PostMapping(value = "/api/v1/users/auth/signup/validation")
-    public ResponseEntity userSignUpValidation(@RequestBody String email) {
-        if(authService.userSignUpValidation(email))
+    public ResponseEntity userSignUpValidation(@RequestBody UserSignUpRequestDto dto) {
+        if(authService.userSignUpValidation(dto.getEmail()))
             return new ResponseEntity(HttpStatus.OK);
         else
             return new ResponseEntity(HttpStatus.CONFLICT);
