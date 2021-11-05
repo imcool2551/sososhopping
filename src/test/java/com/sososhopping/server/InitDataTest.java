@@ -5,6 +5,8 @@ import com.sososhopping.server.entity.coupon.FixCoupon;
 import com.sososhopping.server.entity.coupon.RateCoupon;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Owner;
+import com.sososhopping.server.entity.member.Review;
+import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.*;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -33,32 +35,36 @@ class InitDataTest {
     void init() throws Exception {
 
         Store findStore = em.find(Store.class, 2L);
+        Store findStore2 = em.find(Store.class, 32L);
+        User findUser = em.find(User.class, 1L);
+        User findUser2 = em.find(User.class, 4L);
 
-        Coupon coupon = FixCoupon.builder()
-                .storeName("김씨네 야채가게")
-                .couponName("추석 할인 쿠폰")
-                .stockQuantity(100)
-                .couponCode("ABCDE12345")
-                .minimumOrderPrice(10000)
-                .startDate(LocalDateTime.now())
-                .dueDate(LocalDateTime.of(2021, 11, 30, 0, 0, 0))
-                .fixAmount(1000)
+        Review review1 = buildReview();
+        Review review2 = buildReview();
+
+        review2.setStore(findStore2);
+        review2.setUser(findUser);
+    }
+
+    private User buildUser() {
+        User user = User.builder()
+                .email("test2@test.com")
+                .password("password")
+                .name("name")
+                .phone("01043214321")
+                .nickname("tester")
+                .streetAddress("Seoul")
+                .detailedAddress("A-102")
+                .active(AccountStatus.ACTIVE)
                 .build();
+        return user;
+    }
 
-        Coupon coupon2 = RateCoupon.builder()
-                .storeName("김씨네 야채가게")
-                .couponName("1주년 쿠폰")
-                .stockQuantity(200)
-                .couponCode("QWERT54321")
-                .minimumOrderPrice(0)
-                .startDate(LocalDateTime.now())
-                .dueDate(LocalDateTime.of(2021, 11, 30, 0, 0, 0))
-                .rateAmount(new BigDecimal(5.5))
+    private Review buildReview() {
+        Review review = Review.builder()
+                .content("후기입니다33. 정말 좋았습니다")
+                .score(new BigDecimal(4.0))
                 .build();
-
-        coupon.setStore(findStore);
-        coupon2.setStore(findStore);
-
-        em.persist(findStore);
+        return review;
     }
 }

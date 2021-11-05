@@ -107,7 +107,7 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<StoreLog> storeLogs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Writing> writings = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = ALL)
@@ -119,8 +119,30 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<InterestStore> interestStores = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Review> reviews = new ArrayList<>();
+
+    // 생성자
+//    @Builder
+//    public Store(StoreType storeType, String name, String imgUrl, String description, String extraBusinessDay, String phone, Point location, Boolean businessStatus, StoreStatus storeStatus, Boolean localCurrencyStatus, Boolean pickupStatus, Boolean deliveryStatus, Boolean pointPolicyStatus, Integer minimumOrderPrice, BigDecimal saveRate, String streetAddress, String detailedAddress) {
+//        this.storeType = storeType;
+//        this.name = name;
+//        this.imgUrl = imgUrl;
+//        this.description = description;
+//        this.extraBusinessDay = extraBusinessDay;
+//        this.phone = phone;
+//        this.location = location;
+//        this.businessStatus = businessStatus;
+//        this.storeStatus = storeStatus;
+//        this.localCurrencyStatus = localCurrencyStatus;
+//        this.pickupStatus = pickupStatus;
+//        this.deliveryStatus = deliveryStatus;
+//        this.pointPolicyStatus = pointPolicyStatus;
+//        this.minimumOrderPrice = minimumOrderPrice;
+//        this.saveRate = saveRate;
+//        this.streetAddress = streetAddress;
+//        this.detailedAddress = detailedAddress;
+//    }
 
     // 연관 관계 편의 메서드
     public void setOwner(Owner owner) {

@@ -2,10 +2,7 @@ package com.sososhopping.server.entity.member;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import java.math.BigDecimal;
 
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -42,4 +40,15 @@ public class Review extends BaseTimeEntity {
 
     @NotNull
     private BigDecimal score;
+
+    // 연관 관계 편의 메서드
+    public void setStore(Store store) {
+        this.store = store;
+        this.store.getReviews().add(this);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        this.user.getReviews().add(this);
+    }
 }
