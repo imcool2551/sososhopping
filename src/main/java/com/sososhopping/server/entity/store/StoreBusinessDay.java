@@ -18,7 +18,8 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 public class StoreBusinessDay {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_business_day_id")
     private Long id;
 
