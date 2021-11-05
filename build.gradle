@@ -51,6 +51,11 @@ dependencies {
 
 	// 쿼리 파라미터 출력
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
+
+	//AWS
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
 test {
