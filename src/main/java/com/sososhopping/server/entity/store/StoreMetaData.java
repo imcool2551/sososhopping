@@ -39,4 +39,12 @@ public class StoreMetaData extends BaseTimeEntity {
 
     @NotNull
     private String openingDate;
+
+    public StoreMetaData(Store store, StoreMetaDataRequestDto dto) {
+        this.store = store;
+        this.businessNumber = dto.getBusinessNumber();
+        this.representativeName = dto.getRepresentativeName();
+        this.businessName = dto.getBusinessName();
+        this.openingDate = dto.getOpeningDate();
+    }
 }
