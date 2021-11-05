@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice(basePackages = "com.sososhopping.server.controller")
 public class ApiExceptionHandler {
@@ -47,8 +48,14 @@ public class ApiExceptionHandler {
     public ResponseEntity api500Exception(HttpServletRequest request, final Api500Exception e) {
         e.printStackTrace();
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity constraintViolationException(HttpServletRequest request, final ConstraintViolationException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(e.getMessage()));
+    }
 }

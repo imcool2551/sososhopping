@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -49,8 +50,8 @@ public class AuthController {
      */
     //고객 이메일 중복 확인
     @PostMapping(value = "/api/v1/users/auth/signup/validation")
-    public ResponseEntity userSignUpValidation(@RequestBody String email) {
-        if(authService.userSignUpValidation(email))
+    public ResponseEntity userSignUpValidation(@RequestBody UserSignUpRequestDto dto) {
+        if(authService.userSignUpValidation(dto.getEmail()))
             return new ResponseEntity(HttpStatus.OK);
         else
             return new ResponseEntity(HttpStatus.CONFLICT);
