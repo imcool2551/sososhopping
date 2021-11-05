@@ -1,5 +1,8 @@
 package com.sososhopping.server;
 
+import com.sososhopping.server.entity.coupon.Coupon;
+import com.sososhopping.server.entity.coupon.FixCoupon;
+import com.sososhopping.server.entity.coupon.RateCoupon;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.store.*;
@@ -12,6 +15,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 테스트 데이터를 넣기 위한 파일입니다. @Rollback(false) 사용
@@ -24,55 +29,36 @@ class InitDataTest {
     private EntityManager em;
 
     @Test
-    void test() throws Exception {
-        Owner owner = Owner.builder()
-                .email("test2@test.com")
-                .password("password")
-                .name("ownerA")
-                .phone("01012345678")
-                .active(AccountStatus.ACTIVE)
+    @Rollback(false)
+    void init() throws Exception {
+
+        Store findStore = em.find(Store.class, 2L);
+
+        Coupon coupon = FixCoupon.builder()
+                .storeName("김씨네 야채가게")
+                .couponName("추석 할인 쿠폰")
+                .stockQuantity(100)
+                .couponCode("ABCDE12345")
+                .minimumOrderPrice(10000)
+                .startDate(LocalDateTime.now())
+                .dueDate(LocalDateTime.of(2021, 11, 30, 0, 0, 0))
+                .fixAmount(1000)
                 .build();
 
-        em.persist(owner);
-
-        GeometryFactory gf = new GeometryFactory();
-
-        Store store = Store.builder()
-                .name("김씨네 야채가게")
-                .storeType(StoreType.VEGETABLES)
-                .imgUrl("대표이미지 URL")
-                .description("싱싱한 야채를 팝니다")
-                .extraBusinessDay("매월 2주, 4주 수요일은 휴무일입니다")
-                .phone("01012345678")
-                .location(gf.createPoint(new Coordinate(0, 0)))
-                .businessStatus(true)
-                .storeStatus(StoreStatus.ACTIVE)
-                .localCurrencyStatus(true)
-                .pickupStatus(true)
-                .deliveryStatus(true)
-                .pointPolicyStatus(true)
-                .streetAddress("서울시 용산구 녹사평대로 40다길 19")
-                .detailedAddress("A동 101호")
+        Coupon coupon2 = RateCoupon.builder()
+                .storeName("김씨네 야채가게")
+                .couponName("1주년 쿠폰")
+                .stockQuantity(200)
+                .couponCode("QWERT54321")
+                .minimumOrderPrice(0)
+                .startDate(LocalDateTime.now())
+                .dueDate(LocalDateTime.of(2021, 11, 30, 0, 0, 0))
+                .rateAmount(new BigDecimal(5.5))
                 .build();
 
-        store.setOwner(owner);
+        coupon.setStore(findStore);
+        coupon2.setStore(findStore);
 
-        em.persist(store);
-        em.flush();
-        em.clear();
-     }
-
-     @Test
-     void test2() throws Exception {
-
-         StoreImage image = StoreImage.builder()
-                 .imgUrl("https://sample-image-url.com")
-                 .build();
-
-         Store findStore = em.find(Store.class, 2L);
-
-         image.setStore(findStore);
-
-         em.persist(findStore);
-     }
+        em.persist(findStore);
+    }
 }

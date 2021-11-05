@@ -94,7 +94,7 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String detailedAddress;
 
-    //List
+    // List
     @OneToMany(mappedBy = "store", cascade = ALL)
     private List<StoreBusinessDay> storeBusinessDays;
 
@@ -110,10 +110,10 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<Writing> writings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Item> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = ALL)
     private List<Coupon> coupons = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")

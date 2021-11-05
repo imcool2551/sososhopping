@@ -2,10 +2,7 @@ package com.sososhopping.server.entity.coupon;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -21,7 +18,6 @@ import static javax.persistence.FetchType.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public abstract class Coupon extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,30 +27,56 @@ public abstract class Coupon extends BaseTimeEntity {
     @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
-    private Store store;
+    protected Store store;
 
     @NotNull
-    private String storeName;
+    protected String storeName;
 
     @Column(name = "coupon_name")
-    private String couponName;
+    protected String couponName;
 
     @NotNull
-    private Integer stockQuantity;
+    protected Integer stockQuantity;
 
     @NotNull
     @Column(unique = true, columnDefinition = "char")
-    private String couponCode;
+    protected String couponCode;
 
     @NotNull
-    private Integer minimumOrderPrice;
+    protected Integer minimumOrderPrice;
 
     @NotNull
-    private LocalDateTime startDate;
+    protected LocalDateTime startDate;
 
     @NotNull
-    private LocalDateTime dueDate;
+    protected LocalDateTime dueDate;
+
+    @Column(name = "coupon_type", insertable = false, updatable = false)
+    protected String couponType;
+
+    public Coupon(
+            String storeName,
+            String couponName,
+            Integer stockQuantity,
+            String couponCode,
+            Integer minimumOrderPrice,
+            LocalDateTime startDate,
+            LocalDateTime dueDate
+    ) {
+        this.storeName = storeName;
+        this.couponName = couponName;
+        this.stockQuantity = stockQuantity;
+        this.couponCode = couponCode;
+        this.minimumOrderPrice = minimumOrderPrice;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+    }
 
     abstract protected int getDiscountPrice();
 
+    // 연관 관계 편의 메서드
+    public void setStore(Store store) {
+        this.store = store;
+        this.store.getCoupons().add(this);
+    }
 }
