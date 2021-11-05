@@ -1,6 +1,8 @@
 package com.sososhopping.server.service.auth;
 
 import com.sososhopping.server.auth.AuthMember;
+import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api500Exception;
 import com.sososhopping.server.entity.member.Admin;
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.member.User;
@@ -26,19 +28,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return null;
     }
 
-    public UserDetails loadUserByUsername(char memberType, String id) throws UsernameNotFoundException {
-        if (memberType == 'A') {
-            Admin admin = adminRepository.getById(Long.parseLong(id));
-            return new AuthMember('A', admin.getId(), null, admin.getPassword());
-        } else if(memberType == 'U'){
-            User user = userRepository.getById(Long.parseLong(id));
-            return new AuthMember('U', user.getId(), user.getActive(), user.getPassword());
-        } else if(memberType == 'O'){
-            Owner owner = ownerRepository.getById(Long.parseLong(id));
-            return new AuthMember('O', owner.getId(), owner.getActive(), owner.getPassword());
+    public UserDetails loadUserByUsername(String memberType, String id) throws UsernameNotFoundException {
+        if (memberType.equals("A")) {
+            Admin admin = adminRepository.findById(Long.parseLong(id)).orElseThrow(() -> new
+                    Api400Exception("해당하는 사용자가 없습니다."));
+            return new AuthMember("A", admin.getId(), null, admin.getPassword());
+        } else if(memberType.equals("U")){
+            User user = userRepository.findById(Long.parseLong(id)).orElseThrow(() -> new
+                    Api400Exception("해당하는 사용자가 없습니다."));
+            return new AuthMember("U", user.getId(), user.getActive(), user.getPassword());
+        } else if(memberType.equals("O")){
+            Owner owner = ownerRepository.findById(Long.parseLong(id)).orElseThrow(() -> new
+                    Api400Exception("해당하는 사용자가 없습니다."));
+            return new AuthMember("O", owner.getId(), owner.getActive(), owner.getPassword());
         } else {
-            //임시 오류
-            throw new RuntimeException();
+            throw new Api500Exception("권한 부여 오류");
         }
     }
 }

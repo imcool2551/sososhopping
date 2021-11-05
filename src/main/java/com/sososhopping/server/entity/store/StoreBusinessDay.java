@@ -1,5 +1,6 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreBusinessDayRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,5 +46,19 @@ public class StoreBusinessDay {
     public void setStore(Store store) {
         this.store = store;
         this.store.getStoreBusinessDays().add(this);
+    }
+
+    public StoreBusinessDay(Store store, StoreBusinessDayRequestDto dto) {
+        this.store = store;
+        this.day = Day.nameOf(dto.getDay());
+        this.isOpen = dto.getIsOpen();
+        this.openTime = dto.getOpenTime();
+        this.closeTime = dto.getCloseTime();
+    }
+
+    public void update(StoreBusinessDayRequestDto dto) {
+        this.isOpen = dto.getIsOpen();
+        this.openTime = dto.getOpenTime();
+        this.closeTime = dto.getCloseTime();
     }
 }
