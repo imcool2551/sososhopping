@@ -43,4 +43,12 @@ public class ApiExceptionHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(Api500Exception.class)
+    public ResponseEntity api500Exception(HttpServletRequest request, final Api500Exception e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
 }

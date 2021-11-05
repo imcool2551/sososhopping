@@ -1,5 +1,6 @@
 package com.sososhopping.server.auth;
 
+import com.sososhopping.server.common.error.Api500Exception;
 import com.sososhopping.server.service.auth.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -36,21 +37,20 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(char memberType, Long pk) {
+    public String createToken(String memberType, Long pk) {
         Claims claims = Jwts.claims().setSubject(String.valueOf(pk));
         claims.put("memberType", memberType);
 
         List<String> roles = new ArrayList<>();
 
-        if (memberType == 'A') {
+        if (memberType.equals("A")) {
             roles.add("ROLE_ADMIN");
-        } else if(memberType == 'U'){
+        } else if(memberType.equals("U")){
             roles.add("ROLE_USER");
-        } else if(memberType == 'O'){
+        } else if(memberType.equals("O")){
             roles.add("ROLE_OWNER");
         } else {
-            //임시 오류
-            throw new RuntimeException();
+            throw new Api500Exception("권한에 문제가 있습니다");
         }
 
         claims.put("roles", roles);
@@ -76,8 +76,8 @@ public class JwtTokenProvider {
     }
 
     //토큰에서 회원 타입 추출
-    public char getMemberType(String token) {
-        return (char)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberType");
+    public String getMemberType(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberType").toString();
     }
 
     //요청의 헤더에서 token 값 가져오기

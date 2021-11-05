@@ -1,5 +1,7 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreBusinessDayRequestDto;
+import com.sososhopping.server.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.InterestStore;
 import com.sososhopping.server.entity.member.Review;
@@ -72,7 +74,7 @@ public class Store extends BaseTimeEntity {
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1
             ,name = "pickup_status")
-    private Boolean pickupStatus;
+    private Boolean pickupStatus = true;
 
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1
@@ -94,11 +96,18 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String detailedAddress;
 
-    // List
-    @OneToMany(mappedBy = "store", cascade = ALL)
-    private List<StoreBusinessDay> storeBusinessDays;
+    @OneToOne(mappedBy = "store", fetch = LAZY, cascade = ALL,
+            orphanRemoval = true)
+    private StoreMetaData storeMetaData;
 
-    @OneToMany(mappedBy = "store", cascade = ALL)
+    //List
+    @OneToMany(mappedBy = "store", cascade = ALL,
+            orphanRemoval = true)
+    @OrderBy("id asc")
+    private List<StoreBusinessDay> storeBusinessDays = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = ALL,
+            orphanRemoval = true)
     private List<StoreImage> storeImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
@@ -107,7 +116,7 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<StoreLog> storeLogs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = ALL)
+    @OneToMany(mappedBy = "store")
     private List<Writing> writings = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = ALL)
@@ -119,8 +128,17 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<InterestStore> interestStores = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = ALL)
+    @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
+
+    // 연관 관계 편의 메서드
+    public void setOwner(Owner owner) {
+        if (this.owner != null) {
+            this.owner.getStores().remove(this);
+        }
+        this.owner = owner;
+        this.owner.getStores().add(this);
+    }
 
     // 생성자
 //    @Builder
@@ -144,12 +162,39 @@ public class Store extends BaseTimeEntity {
 //        this.detailedAddress = detailedAddress;
 //    }
 
-    // 연관 관계 편의 메서드
-    public void setOwner(Owner owner) {
-        if (this.owner != null) {
-            this.owner.getStores().remove(this);
-        }
+    public Store(Owner owner, StoreRequestDto dto, Point location) {
         this.owner = owner;
-        this.owner.getStores().add(this);
+        this.storeType = StoreType.valueOf(dto.getStoreType());
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.extraBusinessDay = dto.getExtraBusinessDay();
+        this.phone = dto.getPhone();
+        this.businessStatus = Boolean.FALSE;
+        this.storeStatus = StoreStatus.PENDING;
+        this.localCurrencyStatus = dto.getLocalCurrencyStatus();
+        this.deliveryStatus = dto.getDeliveryStatus();
+        this.streetAddress = dto.getStreetAddress();
+        this.detailedAddress = dto.getDetailedAddress();
+        this.location = location;
+    }
+
+    public void update(StoreRequestDto dto) {
+        this.storeType = StoreType.valueOf(dto.getStoreType());
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.extraBusinessDay = dto.getExtraBusinessDay();
+        this.phone = dto.getPhone();
+        this.localCurrencyStatus = dto.getLocalCurrencyStatus();
+        this.deliveryStatus = dto.getDeliveryStatus();
+
+        List<StoreBusinessDayRequestDto> storeBusinessDays = dto.getStoreBusinessDays();
+
+        for (int i = 0; i < storeBusinessDays.size(); i++) {
+            this.storeBusinessDays.get(i).update(storeBusinessDays.get(i));
+        }
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

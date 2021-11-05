@@ -3,7 +3,7 @@ CREATE TABLE store_metadata (
     business_number CHAR(10) NOT NULL,
     representative_name VARCHAR(20) NOT NULL,
     business_name VARCHAR(20) NOT NULL,
-    opening_date DATETIME(6) NOT NULL,
+    opening_date VARCHAR(20) NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (store_id)
