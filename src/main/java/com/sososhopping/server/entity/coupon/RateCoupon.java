@@ -1,5 +1,7 @@
 package com.sososhopping.server.entity.coupon;
 
+import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
+import com.sososhopping.server.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +38,10 @@ public class RateCoupon extends Coupon {
     @Override
     protected int getDiscountPrice() {
         return 0;
+    }
+
+    public RateCoupon(Store store, StoreCouponRequestDto dto, String couponCode) {
+        super(store, dto, couponCode);
+        this.rateAmount = dto.getRateAmount();
     }
 }
