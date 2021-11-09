@@ -40,4 +40,14 @@ public class UserPoint extends BaseTimeEntity {
     //List
     @OneToMany(mappedBy = "userPoint")
     private List<UserPointLog> userPointLogs = new ArrayList<>();
+
+    public UserPoint(User user, Store store, Integer point) {
+        this.user = user;
+        this.store = store;
+        this.point = point;
+    }
+
+    public void updatePoint(Integer pointAmount) {
+        this.point += pointAmount;
+    }
 }

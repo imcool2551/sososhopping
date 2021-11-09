@@ -1,6 +1,7 @@
 package com.sososhopping.server.entity.store;
 
 import com.sososhopping.server.common.dto.owner.request.StoreBusinessDayRequestDto;
+import com.sososhopping.server.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.server.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.InterestStore;
@@ -175,5 +176,11 @@ public class Store extends BaseTimeEntity {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    //가게 포인트 정책 업데이트
+    public void updatePointPolicy(StorePointPolicyRequestDto dto) {
+        this.pointPolicyStatus = dto.getPointPolicyStatus();
+        this.saveRate = dto.getSaveRate();
     }
 }
