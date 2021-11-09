@@ -86,8 +86,6 @@ public class Store extends BaseTimeEntity {
             , name = "point_policy_status")
     private Boolean pointPolicyStatus = false;
 
-    private Integer minimumOrderPrice;
-
     private BigDecimal saveRate;
 
     @NotNull
@@ -117,6 +115,7 @@ public class Store extends BaseTimeEntity {
     private List<StoreLog> storeLogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
+    @OrderBy("createdAt desc")
     private List<Writing> writings = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = ALL)
@@ -129,6 +128,7 @@ public class Store extends BaseTimeEntity {
     private List<InterestStore> interestStores = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
+    @OrderBy("createdAt desc")
     private List<Review> reviews = new ArrayList<>();
 
     // 연관 관계 편의 메서드
@@ -156,6 +156,7 @@ public class Store extends BaseTimeEntity {
         this.location = location;
     }
 
+    //가게 정보 업데이트
     public void update(StoreRequestDto dto) {
         this.storeType = StoreType.valueOf(dto.getStoreType());
         this.name = dto.getName();

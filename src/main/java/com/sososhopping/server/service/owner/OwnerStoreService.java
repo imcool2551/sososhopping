@@ -37,29 +37,18 @@ public class OwnerStoreService {
 
     //점주의 점포 리스트 조회
     @Transactional
-    public List<StoreListResponseDto> readStoreList(Long ownerId) {
+    public List<Store> readStoreList(Long ownerId) {
         Owner owner = ownerRepository.findOwnerStoresById(ownerId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점주입니다"));
 
-        return owner.getStores()
-                .stream()
-                .map(store -> StoreListResponseDto.builder()
-                        .id(store.getId())
-                        .name(store.getName())
-                        .imgUrl(store.getImgUrl())
-                        .description(store.getDescription())
-                        .storeStatus(store.getStoreStatus().toString())
-                        .build())
-                .collect(Collectors.toList());
+        return owner.getStores();
     }
 
     //점주의 특정 점포 조회
     @Transactional
-    public StoreResponseDto readStore(Long storeId) {
-        Store store = storeRepository.findStoreInforById(storeId).orElseThrow(() ->
+    public Store readStore(Long storeId) {
+        return storeRepository.findStoreInforById(storeId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점포입니다"));
-
-        return new StoreResponseDto(store);
     }
 
 
@@ -94,7 +83,7 @@ public class OwnerStoreService {
         /**
          * 이미지 저장
          */
-        if (!image.isEmpty()) {
+        if (image != null && !image.isEmpty()) {
             try {
                 String imgUrl = s3Service.upload(image, "store/" + store.getId());
                 store.setImgUrl(imgUrl);
@@ -112,7 +101,7 @@ public class OwnerStoreService {
 
         store.update(dto);
 
-        if (!image.isEmpty()) {
+        if (image != null && !image.isEmpty()) {
             try {//이미지 저장 후 url 교체
                 String newImgUrl = s3Service.upload(image, "store/" + store.getId());
 //                String deleteImgUrl = store.getImgUrl().substring(store.getImgUrl().lastIndexOf("/"));
