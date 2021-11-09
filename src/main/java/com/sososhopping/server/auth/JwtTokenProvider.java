@@ -27,8 +27,8 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.secret-key}")
     private String secretKey;
 
-    //토큰 기한 60분
-    private long tokenValidTime = 1000L * 60 * 60;
+    //토큰 기한 1일
+    private long tokenValidTime = 1000L * 60 * 60 * 24;
 
     private final UserDetailsServiceImpl userDetailsService;
 

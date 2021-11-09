@@ -47,7 +47,7 @@ public class ApiExceptionHandler {
     public ResponseEntity api500Exception(HttpServletRequest request, final Api500Exception e) {
         e.printStackTrace();
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(e.getMessage()));
     }
 
