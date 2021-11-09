@@ -1,5 +1,6 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -49,5 +50,17 @@ public class Item extends BaseTimeEntity {
     public void setStore(Store store) {
         this.store = store;
         this.store.getItems().add(this);
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void update(StoreItemRequestDto dto) {
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.purchaseUnit = dto.getPurchaseUnit();
+        this.price = dto.getPrice();
+        this.saleStatus = dto.getSaleStatus();
     }
 }
