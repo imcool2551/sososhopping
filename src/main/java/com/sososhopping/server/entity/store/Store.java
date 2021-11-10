@@ -141,28 +141,6 @@ public class Store extends BaseTimeEntity {
         this.owner.getStores().add(this);
     }
 
-    // 생성자
-//    @Builder
-//    public Store(StoreType storeType, String name, String imgUrl, String description, String extraBusinessDay, String phone, Point location, Boolean businessStatus, StoreStatus storeStatus, Boolean localCurrencyStatus, Boolean pickupStatus, Boolean deliveryStatus, Boolean pointPolicyStatus, Integer minimumOrderPrice, BigDecimal saveRate, String streetAddress, String detailedAddress) {
-//        this.storeType = storeType;
-//        this.name = name;
-//        this.imgUrl = imgUrl;
-//        this.description = description;
-//        this.extraBusinessDay = extraBusinessDay;
-//        this.phone = phone;
-//        this.location = location;
-//        this.businessStatus = businessStatus;
-//        this.storeStatus = storeStatus;
-//        this.localCurrencyStatus = localCurrencyStatus;
-//        this.pickupStatus = pickupStatus;
-//        this.deliveryStatus = deliveryStatus;
-//        this.pointPolicyStatus = pointPolicyStatus;
-//        this.minimumOrderPrice = minimumOrderPrice;
-//        this.saveRate = saveRate;
-//        this.streetAddress = streetAddress;
-//        this.detailedAddress = detailedAddress;
-//    }
-
     public Store(Owner owner, StoreRequestDto dto, Point location) {
         this.owner = owner;
         this.storeType = StoreType.valueOf(dto.getStoreType());

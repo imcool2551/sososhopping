@@ -30,17 +30,21 @@ public class UserStoreController {
     private final InterestStoreRepository interestStoreRepository;
 
     @GetMapping("/api/v1/stores/{storeId}")
-    public ApiResponse<StoreInfoDto> getStore(@PathVariable Long storeId) {
-        Store findStore = storeRepository
-                .findStoreDetailById(storeId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+    public ApiResponse<StoreInfoDto> getStoreInfo(
+            Authentication authentication,
+            @PathVariable Long storeId
+    ) {
+        Long userId = null;
 
-        StoreInfoDto storeInfoDto = new StoreInfoDto(findStore);
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        StoreInfoDto storeInfoDto = userStoreService.getStoreInfo(userId, storeId);
+
         return new ApiResponse<StoreInfoDto>(storeInfoDto);
     }
 
     @PostMapping("/api/v1/users/my/interest_store")
-    public ResponseEntity toggleStore(
+    public ResponseEntity toggleStoreLike(
             Authentication authentication,
             @RequestBody @Valid ToggleStoreLikeDto dto
     ) {

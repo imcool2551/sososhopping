@@ -106,7 +106,7 @@ class UserWritingServiceTest {
         Point point = gf.createPoint(new Coordinate(0.5, 0.5));
 
         Store store = Store.builder()
-                .storeType(StoreType.VEGETABLES)
+                .storeType(StoreType.GROCERY)
                 .name("test shop")
                 .phone("01012341234")
                 .location(point)

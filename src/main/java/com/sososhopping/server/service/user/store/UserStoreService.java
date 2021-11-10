@@ -1,5 +1,6 @@
 package com.sososhopping.server.service.user.store;
 
+import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
@@ -41,5 +42,22 @@ public class UserStoreService {
                         existingStoreLike -> interestStoreRepository.delete(existingStoreLike),
                         () -> interestStoreRepository.save(new InterestStore(user, store))
                 );
+    }
+
+    @Transactional
+    public StoreInfoDto getStoreInfo(Long userId, Long storeId) {
+
+        User user = userRepository
+                .findById(userId)
+                .orElse(null);
+
+
+        Store findStore = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        boolean isInterestStore = interestStoreRepository.existsByStoreAndUser(findStore, user);
+
+        return new StoreInfoDto(findStore, isInterestStore);
     }
 }

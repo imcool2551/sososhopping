@@ -11,7 +11,7 @@ import lombok.Getter;
 public class StoreListDto {
 
     private Long storeId;
-    private StoreType storeType;
+    private String storeType;
     private String name;
     private String imgUrl;
     private Boolean businessStatus;
@@ -23,7 +23,7 @@ public class StoreListDto {
 
     public StoreListDto (InterestStore interestStore) {
         storeId = interestStore.getStore().getId();
-        storeType = interestStore.getStore().getStoreType();
+        storeType = interestStore.getStore().getStoreType().getKrType();
         name = interestStore.getStore().getName();
         imgUrl = interestStore.getStore().getImgUrl();
         businessStatus = interestStore.getStore().getBusinessStatus();
