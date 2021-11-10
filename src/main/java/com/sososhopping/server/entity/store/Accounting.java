@@ -1,17 +1,19 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreAccountingRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -29,8 +31,18 @@ public class Accounting extends BaseTimeEntity {
     private Store store;
 
     @NotNull
+    private LocalDateTime date;
+
+    @NotNull
     private Integer amount;
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    public void update(StoreAccountingRequestDto dto) {
+        this.date= LocalDateTime.parse(dto.getDate() + ":00",
+                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+        this.amount = dto.getAmount();
+        this.description = dto.getDescription();
+    }
 }

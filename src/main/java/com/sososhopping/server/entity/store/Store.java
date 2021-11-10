@@ -1,6 +1,7 @@
 package com.sososhopping.server.entity.store;
 
 import com.sososhopping.server.common.dto.owner.request.StoreBusinessDayRequestDto;
+import com.sososhopping.server.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.server.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.InterestStore;
@@ -86,8 +87,6 @@ public class Store extends BaseTimeEntity {
             , name = "point_policy_status")
     private Boolean pointPolicyStatus = false;
 
-    private Integer minimumOrderPrice;
-
     private BigDecimal saveRate;
 
     @NotNull
@@ -117,6 +116,7 @@ public class Store extends BaseTimeEntity {
     private List<StoreLog> storeLogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
+    @OrderBy("createdAt desc")
     private List<Writing> writings = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = ALL)
@@ -129,6 +129,7 @@ public class Store extends BaseTimeEntity {
     private List<InterestStore> interestStores = new ArrayList<>();
 
     @OneToMany(mappedBy = "store")
+    @OrderBy("createdAt desc")
     private List<Review> reviews = new ArrayList<>();
 
     // 연관 관계 편의 메서드
@@ -156,6 +157,7 @@ public class Store extends BaseTimeEntity {
         this.location = location;
     }
 
+    //가게 정보 업데이트
     public void update(StoreRequestDto dto) {
         this.storeType = StoreType.valueOf(dto.getStoreType());
         this.name = dto.getName();
@@ -174,5 +176,11 @@ public class Store extends BaseTimeEntity {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    //가게 포인트 정책 업데이트
+    public void updatePointPolicy(StorePointPolicyRequestDto dto) {
+        this.pointPolicyStatus = dto.getPointPolicyStatus();
+        this.saveRate = dto.getSaveRate();
     }
 }

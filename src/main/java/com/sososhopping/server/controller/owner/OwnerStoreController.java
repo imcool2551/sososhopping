@@ -1,11 +1,9 @@
 package com.sososhopping.server.controller.owner;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sososhopping.server.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.server.common.dto.owner.response.StoreListResponseDto;
 import com.sososhopping.server.common.dto.owner.response.StoreResponseDto;
-import com.sososhopping.server.common.error.Api500Exception;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.service.owner.OwnerStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,28 +24,20 @@ public class OwnerStoreController {
     @GetMapping(value = "/api/v1/owner/store")
     public ResponseEntity readStoreList(Authentication authentication) {
         List<StoreListResponseDto> stores = ownerStoreService.readStoreList(
-                Long.parseLong(authentication.getName()));
+                Long.parseLong(authentication.getName()))
+                .stream()
+                .map(store -> new StoreListResponseDto(store))
+                .collect(Collectors.toList());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(stores);
     }
 
-    @PostMapping(value = "/api/v1/owner/store"
-            ,consumes = { "multipart/form-data" }
-    )
+    @PostMapping(value = "/api/v1/owner/store")
     public ResponseEntity createStore(Authentication authentication
-            , @RequestPart(value = "data") String data
+            , @RequestPart(value = "dto") StoreRequestDto dto
             , @RequestPart(value = "img", required = false) MultipartFile image) {
-        StoreRequestDto dto;
-
-        //string 으로 받은 data 다시 json화
-        try {
-            dto = new ObjectMapper().readValue(data, StoreRequestDto.class);
-        } catch (JsonProcessingException e) {
-            throw new Api500Exception("데이터 변환에 실패했습니다");
-        }
-
         ownerStoreService.createStore(dto, Long.parseLong(authentication.getName()), image);
 
         return new ResponseEntity(HttpStatus.CREATED);
@@ -54,27 +45,18 @@ public class OwnerStoreController {
 
     @GetMapping(value = "/api/v1/owner/store/{storeId}")
     public ResponseEntity readStore(Authentication authentication, @PathVariable(name = "storeId") Long storeId) {
-        StoreResponseDto storeResponseDto = ownerStoreService.readStore(storeId);
+        Store store = ownerStoreService.readStore(storeId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(storeResponseDto);
+                .body(new StoreResponseDto(store));
     }
 
     @PatchMapping(value = "/api/v1/owner/store/{storeId}")
     public ResponseEntity updateStore(Authentication authentication
             , @PathVariable(name = "storeId") Long storeId
-            , @RequestPart(value = "data") String data
+            , @RequestPart(value = "dto") StoreRequestDto dto
             , @RequestPart(value = "img", required = false) MultipartFile image) {
-        StoreRequestDto dto;
-
-        //string 으로 받은 data 다시 json화
-        try {
-            dto = new ObjectMapper().readValue(data, StoreRequestDto.class);
-        } catch (JsonProcessingException e) {
-            throw new Api500Exception("데이터 변환에 실패했습니다");
-        }
-
         ownerStoreService.updateStore(storeId, dto, image);
 
         return new ResponseEntity(HttpStatus.OK);
