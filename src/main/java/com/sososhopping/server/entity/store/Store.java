@@ -96,7 +96,7 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String detailedAddress;
 
-    @OneToOne(mappedBy = "store", fetch = LAZY, cascade = ALL,
+    @OneToOne(mappedBy = "store", cascade = ALL,
             orphanRemoval = true)
     private StoreMetaData storeMetaData;
 
@@ -196,5 +196,9 @@ public class Store extends BaseTimeEntity {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public void updateStoreStatus(StoreStatus storeStatus) {
+        this.storeStatus = storeStatus;
     }
 }

@@ -29,6 +29,7 @@ public class StoreInfoDto {
     private List<StoreBusinessDayDto> businessDays;
     private List<StoreImageDto> storeImages;
     private Coordinate location;
+    private Double score;
 
     public StoreInfoDto(Store store) {
         storeId = store.getId();
@@ -55,6 +56,11 @@ public class StoreInfoDto {
                 .map(storeImage -> new StoreImageDto(storeImage))
                 .collect(Collectors.toList());
         location = new Coordinate(store.getLocation().getX(), store.getLocation().getY());
+        score = store.getReviews()
+                .stream()
+                .mapToDouble(reviews -> reviews.getScore().doubleValue())
+                .average()
+                .orElse(0);
     }
 
     @Getter

@@ -14,20 +14,27 @@
     </div>
 </nav>
 <main>
-    <form action="#" method="post" class="form-group">
+    <form action="#" th:object="${adminVO}" class="form-group" method="post">
         <h1 class="form-title">관리자 인증</h1>
         <div class="form-control">
-            <label class="form-control-label">관리자 아이디</label>
-            <input type="text" class="form-control-field" />
+            <label class="form-control-label">닉네임</label>
+            <input type="text" class="form-control-field" th:field="*{nickname}" />
         </div>
         <div class="form-control">
             <label class="form-control-label">비밀번호</label>
-            <input type="password" class="form-control-field" />
+            <input type="password" class="form-control-field" th:field="*{password}" />
         </div>
         <div class="form-control">
-            <button class="form-control-submit">로그인</button>
+            <button
+                   class="form-control-submit"
+            >로그인</button>
         </div>
     </form>
 </main>
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
 </html>

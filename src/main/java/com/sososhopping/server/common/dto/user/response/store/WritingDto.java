@@ -4,6 +4,8 @@ import com.sososhopping.server.entity.store.Writing;
 import com.sososhopping.server.entity.store.WritingType;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class WritingDto {
 
@@ -12,6 +14,7 @@ public class WritingDto {
     private String content;
     private WritingType writingType;
     private String imgUrl;
+    private final LocalDateTime createdAt;
 
     public WritingDto(Writing writing) {
         writingId = writing.getId();
@@ -19,5 +22,6 @@ public class WritingDto {
         content = writing.getContent();
         writingType = writing.getWritingType();
         imgUrl = writing.getImgUrl();
+        createdAt = writing.getCreatedAt();
     }
 }

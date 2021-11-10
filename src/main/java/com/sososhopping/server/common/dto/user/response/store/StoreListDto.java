@@ -19,6 +19,7 @@ public class StoreListDto {
     private Boolean pickupStatus;
     private Boolean deliveryStatus;
     private StoreInfoDto.Coordinate location;
+    private Double score;
 
     public StoreListDto (InterestStore interestStore) {
         storeId = interestStore.getStore().getId();
@@ -33,6 +34,11 @@ public class StoreListDto {
                 interestStore.getStore().getLocation().getX(),
                 interestStore.getStore().getLocation().getY()
         );
+        score = interestStore.getStore().getReviews()
+                .stream()
+                .mapToDouble(review -> review.getScore().doubleValue())
+                .average()
+                .orElse(0);
     }
 
     @Getter

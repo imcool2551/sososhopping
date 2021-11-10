@@ -15,7 +15,13 @@ public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRe
 
     List<Store> findByOwner(Owner owner);
 
+    @EntityGraph(attributePaths = {"storeMetaData"}, type = EntityGraph.EntityGraphType.FETCH)
+    List<Store> findByStoreStatus(StoreStatus storeStatus);
+
     //점주 가게 정보 read with 사업자 정보
     @EntityGraph(attributePaths = {"storeBusinessDays"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Store> findStoreInforById(Long storeId);
+
+    @EntityGraph(attributePaths = {"reviews"}, type = EntityGraph.EntityGraphType.FETCH)
+    Optional<Store> findStoreDetailById(Long storeId);
 }

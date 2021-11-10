@@ -32,7 +32,7 @@ public class UserStoreController {
     @GetMapping("/api/v1/stores/{storeId}")
     public ApiResponse<StoreInfoDto> getStore(@PathVariable Long storeId) {
         Store findStore = storeRepository
-                .findById(storeId)
+                .findStoreDetailById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
         StoreInfoDto storeInfoDto = new StoreInfoDto(findStore);

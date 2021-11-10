@@ -1,7 +1,7 @@
 package com.sososhopping.server.service.user.store;
 
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
-import com.sososhopping.server.common.dto.user.response.store.ReviewDto;
+import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.Review;
@@ -28,17 +28,17 @@ public class UserReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public List<ReviewDto> getStoreReviews(Long storeId) {
+    public List<StoreReviewDto> getStoreReviews(Long storeId) {
         storeRepository
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        List<ReviewDto> reviewDtoList = reviewRepository.findReviewsByStoreId(storeId)
+        List<StoreReviewDto> storeReviewDtoList = reviewRepository.findReviewsByStoreId(storeId)
                 .stream()
-                .map(ReviewDto::new)
+                .map(StoreReviewDto::new)
                 .collect(Collectors.toList());
 
-        return reviewDtoList;
+        return storeReviewDtoList;
     }
 
     @Transactional
