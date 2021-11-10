@@ -30,8 +30,8 @@ public class CouponDto {
         stockQuantity = coupon.getStockQuantity();
         couponCode = coupon.getCouponCode();
         minimumOrderPrice = coupon.getMinimumOrderPrice();
-        startDate = coupon.getStartDate();
-        dueDate = coupon.getDueDate();
+        startDate = coupon.getIssuedStartDate();
+        dueDate = coupon.getIssuedDueDate();
         couponType = coupon.getCouponType();
         if (coupon instanceof FixCoupon) {
             fixAmount = ((FixCoupon) coupon).getFixAmount();

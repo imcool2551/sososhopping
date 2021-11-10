@@ -43,7 +43,6 @@ public class StoreInfoDto {
         localCurrencyStatus = store.getLocalCurrencyStatus();
         pickupStatus = store.getPickupStatus();
         deliveryStatus = store.getDeliveryStatus();
-        minimumOrderPrice = store.getMinimumOrderPrice();
         saveRate = store.getSaveRate();
         streetAddress = store.getStreetAddress();
         detailedAddress = store.getDetailedAddress();

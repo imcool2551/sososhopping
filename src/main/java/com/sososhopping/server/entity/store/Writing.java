@@ -1,5 +1,6 @@
 package com.sososhopping.server.entity.store;
 
+import com.sososhopping.server.common.dto.owner.request.StoreWritingRequestDto;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -40,15 +41,6 @@ public class Writing extends BaseTimeEntity {
     @Column(length = 512)
     private String imgUrl;
 
-    // 생성자
-//    @Builder
-//    public Writing(String title, String content, WritingType writingType, String imgUrl) {
-//        this.title = title;
-//        this.content = content;
-//        this.writingType = writingType;
-//        this.imgUrl = imgUrl;
-//    }
-
     // 연관 관계 편의 메서드
     public void setStore(Store store) {
         this.store = store;
@@ -58,5 +50,15 @@ public class Writing extends BaseTimeEntity {
     // 비즈니스 로직
     public boolean belongsTo(Store store) {
         return this.store == store;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void update(StoreWritingRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.writingType = dto.getWritingType();
     }
 }
