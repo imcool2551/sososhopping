@@ -110,7 +110,7 @@ public class StoreCouponService {
         if (coupon.getStore().getId() != storeId)
             throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
 
-        UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user, coupon)).orElseThrow(() ->
+        UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
                 new Api400Exception("고객이 쿠폰을 받은 기록이 없습니다"));
 
         if (userCoupon.getUsed() == true) {
