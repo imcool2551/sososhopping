@@ -36,6 +36,7 @@ dependencies {
 
 	//querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	implementation 'com.querydsl:querydsl-core:5.0.0'
 
 	//JWT용 라이브러리 추가
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'

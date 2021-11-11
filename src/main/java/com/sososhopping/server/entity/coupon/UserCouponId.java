@@ -11,6 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCouponId implements Serializable {
-    private User user;
-    private Coupon coupon;
+    private Long user;
+    private Long coupon;
 }
