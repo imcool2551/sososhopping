@@ -5,6 +5,7 @@ import com.sososhopping.server.entity.store.WritingType;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 public class WritingListDto {
@@ -14,7 +15,7 @@ public class WritingListDto {
     private String content;
     private WritingType writingType;
     private String imgUrl;
-    private final LocalDateTime createdAt;
+    private String createdAt;
 
     public WritingListDto(Writing writing) {
         writingId = writing.getId();
@@ -24,6 +25,7 @@ public class WritingListDto {
                 : writing.getContent().substring(0, 30);
         writingType = writing.getWritingType();
         imgUrl = writing.getImgUrl();
-        createdAt = writing.getCreatedAt();
+        createdAt = writing.getCreatedAt()
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }
 }

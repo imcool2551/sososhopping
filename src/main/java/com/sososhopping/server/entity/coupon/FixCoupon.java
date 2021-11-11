@@ -20,7 +20,7 @@ public class FixCoupon extends Coupon {
     private Integer fixAmount;
 
     @Override
-    protected int getDiscountPrice() {
+    public int getDiscountPrice(int orderPrice) {
         return fixAmount;
     }
 

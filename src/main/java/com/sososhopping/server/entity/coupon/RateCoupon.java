@@ -36,8 +36,8 @@ public class RateCoupon extends Coupon {
     }
 
     @Override
-    protected int getDiscountPrice() {
-        return 0;
+    public int getDiscountPrice(int orderPrice) {
+        return (int)(orderPrice * rateAmount.doubleValue() / 100);
     }
 
     public RateCoupon(Store store, StoreCouponRequestDto dto, String couponCode) {

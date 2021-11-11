@@ -63,4 +63,9 @@ public class Item extends BaseTimeEntity {
         this.price = dto.getPrice();
         this.saleStatus = dto.getSaleStatus();
     }
+
+    // Business Logic
+    public boolean canBeProvidedBy(Store store) {
+        return this.store == store && saleStatus;
+    }
 }

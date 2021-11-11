@@ -1,10 +1,7 @@
 package com.sososhopping.server.entity.member;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -12,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -35,4 +33,10 @@ public class UserPointLog extends BaseTimeEntity {
 
     @NotNull
     private Integer resultAmount;
+
+    // 연관 관계 편의 메서드
+    public void setUserPoint(UserPoint userPoint) {
+        this.userPoint = userPoint;
+        this.userPoint.getUserPointLogs().add(this);
+    }
 }
