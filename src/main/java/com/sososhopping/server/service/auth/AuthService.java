@@ -128,7 +128,7 @@ public class AuthService {
         //계정 저장
         Admin admin = Admin.builder()
                 .nickname(dto.getNickname())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
         adminRepository.save(admin);

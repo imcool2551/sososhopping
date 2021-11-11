@@ -79,12 +79,17 @@ ul {
 .card-left,
 .card-right {
   display: inline-block;
+  width: 250px;
   border: 1px solid black;
   padding: 15px 30px;
 }
 
-.card-left > div,
-.card-right > div {
+.card-left div,
+.card-right div {
+  margin-bottom: 20px;
+}
+
+.store-name {
   margin-bottom: 20px;
 }
 

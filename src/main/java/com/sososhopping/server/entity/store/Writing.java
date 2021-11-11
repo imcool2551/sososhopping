@@ -41,6 +41,17 @@ public class Writing extends BaseTimeEntity {
     @Column(length = 512)
     private String imgUrl;
 
+    // 연관 관계 편의 메서드
+    public void setStore(Store store) {
+        this.store = store;
+        this.store.getWritings().add(this);
+    }
+
+    // 비즈니스 로직
+    public boolean belongsTo(Store store) {
+        return this.store == store;
+    }
+
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }

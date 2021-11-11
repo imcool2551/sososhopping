@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class UserItemController {
+public class
+UserItemController {
 
     private final StoreRepository storeRepository;
 

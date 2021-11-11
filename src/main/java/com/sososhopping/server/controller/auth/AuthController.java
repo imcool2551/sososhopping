@@ -6,9 +6,7 @@ import com.sososhopping.server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -84,8 +82,8 @@ public class AuthController {
     }
 
     //관리자 로그인
-    @PostMapping(value = "/api/v1/admin/auth/login")
-    public ResponseEntity adminLogin(@RequestBody AdminAuthRequestDto dto) {
+    @PostMapping("/api/v1/admin/auth/login")
+    public ResponseEntity adminLogin(@ModelAttribute AdminAuthRequestDto dto) {
         String token = authService.adminLogin(dto);
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -39,6 +39,16 @@ public class Owner extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus active;
 
+    // 생성자
+//    @Builder
+//    public Owner(String email, String password, String name, String phone, AccountStatus active) {
+//        this.email = email;
+//        this.password = password;
+//        this.name = name;
+//        this.phone = phone;
+//        this.active = active;
+//    }
+
     //List
     @OneToMany(mappedBy = "owner")
     private List<Store> stores = new ArrayList<>();

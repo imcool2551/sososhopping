@@ -7,6 +7,7 @@ import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class UserCouponController {
     private final StoreRepository storeRepository;
 
     @GetMapping("/api/v1/stores/{storeId}/coupons")
-    public ApiResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId) {
+    public ApiResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
 
         Store findStore = storeRepository
                 .findById(storeId)
