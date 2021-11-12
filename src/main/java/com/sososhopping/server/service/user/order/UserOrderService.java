@@ -11,11 +11,13 @@ import com.sososhopping.server.entity.member.UserPointLog;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderItem;
 import com.sososhopping.server.entity.orders.OrderStatus;
+import com.sososhopping.server.entity.orders.OrderType;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.coupon.UserCouponRepository;
 import com.sososhopping.server.repository.member.UserPointRepository;
+import com.sososhopping.server.repository.order.OrderRepository;
 import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class UserOrderService {
     private final UserPointRepository userPointRepository;
     private final UserCouponRepository userCouponRepository;
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
     private final EntityManager em;
 
     @Transactional
@@ -161,5 +164,9 @@ public class UserOrderService {
 //            em.persist(userPoint);
 //        }
 
+    }
+
+    public List<Order> getOrders(User user, OrderStatus status) {
+        return orderRepository.findOrderListByUserAndOrderStatus(user, status);
     }
 }
