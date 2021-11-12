@@ -151,15 +151,15 @@ public class UserOrderService {
 
         em.persist(order);
 
-        // 포인트 추가
-        if (findStore.hasPointPolicy()) {
-            userPoint = userPointRepository.findByUserAndStore(user, findStore)
-                    .orElse(new UserPoint(user, findStore, 0));
-
-            int savedPoint = (int)(findStore.getSaveRate().doubleValue() / 100 * finalPrice);
-            userPoint.savePoint(savedPoint);
-            em.persist(userPoint);
-        }
+        // TODO: 포인트 추가 (사장 족으로 이동)
+//        if (findStore.hasPointPolicy()) {
+//            userPoint = userPointRepository.findByUserAndStore(user, findStore)
+//                    .orElse(new UserPoint(user, findStore, 0));
+//
+//            int savedPoint = (int)(findStore.getSaveRate().doubleValue() / 100 * finalPrice);
+//            userPoint.savePoint(savedPoint);
+//            em.persist(userPoint);
+//        }
 
     }
 }

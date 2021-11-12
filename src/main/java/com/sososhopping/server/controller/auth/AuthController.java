@@ -54,6 +54,15 @@ public class AuthController {
             return new ResponseEntity(HttpStatus.CONFLICT);
     }
 
+    //고객 닉네임 중복 확인
+    @PostMapping(value = "/api/v1/users/auth/signup/nickname")
+    public ResponseEntity isDuplicateNickname(@RequestBody UserSignUpRequestDto dto) {
+        if(authService.isDuplicateNickname(dto.getNickname()))
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     //고객 회원가입
     @PostMapping(value = "/api/v1/users/auth/signup")
