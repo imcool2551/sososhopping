@@ -3,7 +3,7 @@ package com.sososhopping.server.service.owner;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.entity.member.Review;
 import com.sososhopping.server.entity.store.Store;
-import com.sososhopping.server.repository.member.ReviewRepository;
+import com.sososhopping.server.repository.store.ReviewRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
