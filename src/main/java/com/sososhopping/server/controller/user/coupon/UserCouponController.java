@@ -9,6 +9,7 @@ import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
+import com.sososhopping.server.repository.coupon.UserCouponRepository;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.coupon.UserCouponService;
@@ -30,6 +31,7 @@ public class UserCouponController {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final CouponRepository couponRepository;
+    private final UserCouponRepository userCouponRepository;
 
     @GetMapping("/api/v1/stores/{storeId}/coupons")
     public ApiResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
@@ -69,6 +71,19 @@ public class UserCouponController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(null);
+    }
+
+    @GetMapping("/api/v1/users/my/coupons")
+    public ApiResponse<CouponDto> getMyCoupons(Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        List<CouponDto> dtos = userCouponRepository.findUsableCouponsByUser(user)
+                .stream()
+                .map(userCoupon -> new CouponDto(userCoupon.getCoupon()))
+                .collect(Collectors.toList());
+        return new ApiResponse<CouponDto>(dtos);
     }
 }
 
