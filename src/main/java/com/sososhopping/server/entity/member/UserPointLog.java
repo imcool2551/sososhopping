@@ -34,9 +34,16 @@ public class UserPointLog extends BaseTimeEntity {
     @NotNull
     private Integer resultAmount;
 
+    public UserPointLog(UserPoint userPoint, Integer pointAmount, Integer resultAmount) {
+        this.userPoint = userPoint;
+        this.pointAmount = pointAmount;
+        this.resultAmount = resultAmount;
+    }
+
     // 연관 관계 편의 메서드
     public void setUserPoint(UserPoint userPoint) {
         this.userPoint = userPoint;
         this.userPoint.getUserPointLogs().add(this);
     }
+
 }

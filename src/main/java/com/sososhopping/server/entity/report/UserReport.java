@@ -38,4 +38,10 @@ public class UserReport {
     @NotNull
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    public UserReport(Store store, User user, String content) {
+        this.store = store;
+        this.user = user;
+        this.content = content;
+    }
 }

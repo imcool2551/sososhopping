@@ -11,6 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPointId implements Serializable {
-    private User user;
-    private Store store;
+    private Long user;
+    private Long store;
 }

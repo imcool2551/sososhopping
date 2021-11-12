@@ -69,10 +69,11 @@ public class UserOrderService {
                 ).sum();
 
         // 유저 포인트 검증
+        UserPoint userPoint = null;
+
         Integer usedPoint = Optional
                 .ofNullable(dto.getUsedPoint())
                 .orElse(0);
-        UserPoint userPoint = null;
         if (usedPoint > 0) {
             userPoint = userPointRepository
                     .findByUserAndStore(user, findStore)

@@ -36,7 +36,7 @@ public class StorePointController {
     }
 
     //고객 포인트 직접 변경
-    @PostMapping(value = "/api/v1/owner/my/store/{storeId}/pointpolicy/local")
+    @PostMapping(value = "/api/v1/owner/store/{storeId}/pointpolicy/local")
     public ResponseEntity updateUserPointDirectly(@PathVariable(value = "storeId") Long storeId
             , @RequestBody UserPointUpdateRequestDto dto) {
         storePointService.updateUserPointDirectly(storeId, dto);
