@@ -3,6 +3,7 @@ package com.sososhopping.server.controller.user.order;
 import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
 import com.sososhopping.server.common.dto.user.request.order.OrderItemDto;
+import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderListDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.entity.member.User;
@@ -60,5 +61,19 @@ public class UserOrderController {
                 .collect(Collectors.toList());
 
         return new ApiResponse<OrderListDto>(dtos);
+    }
+
+    @GetMapping("/api/v1/users/my/orders/{orderId}")
+    public ApiResponse<OrderDetailDto> getOrderDetail(
+            Authentication authentication,
+            @PathVariable Long orderId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        Order order = userOrderService.getOrderDetail(user, orderId);
+        OrderDetailDto dto = new OrderDetailDto(order);
+        return new ApiResponse<OrderDetailDto>(dto);
     }
 }

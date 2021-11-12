@@ -2,6 +2,7 @@ package com.sososhopping.server.service.user.order;
 
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
 import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
@@ -168,5 +169,16 @@ public class UserOrderService {
 
     public List<Order> getOrders(User user, OrderStatus status) {
         return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+    }
+
+    public Order getOrderDetail(User user, Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 주문입니다"));
+
+        if (user != order.getUser()) {
+            throw new Api401Exception("다른 고객의 주문입니다");
+        }
+        return order;
     }
 }
