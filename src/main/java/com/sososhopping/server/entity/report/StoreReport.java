@@ -4,6 +4,7 @@ import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -36,4 +37,13 @@ public class StoreReport extends BaseTimeEntity {
     @NotNull
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @NotNull
+    @Type(type = "numeric_boolean")
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    private Boolean handled;
+
+    public void setHandled(boolean handled) {
+        this.handled = handled;
+    }
 }

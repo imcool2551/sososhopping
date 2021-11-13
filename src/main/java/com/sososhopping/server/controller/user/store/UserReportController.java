@@ -19,7 +19,7 @@ public class UserReportController {
 
     private final UserReportService userReportService;
 
-    @PostMapping("/api/v1/stores/{storeId}/reports")
+    @PostMapping("/api/v1/users/stores/{storeId}/reports")
     public ResponseEntity createStoreReport(
             Authentication authentication,
             @PathVariable Long storeId,

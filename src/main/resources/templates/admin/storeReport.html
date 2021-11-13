@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" th:href="@{/css/storeReport.css}" />
+    <title>점포 신고</title>
+</head>
+<body>
+<nav>
+    <div class="nav-links">
+        <a th:href="@{~/admin}" class="nav-link">소소한 장보기</a>
+        <a th:href="@{~/admin/storeRegister}" class="nav-link">점포 등록</a>
+        <a th:href="@{~/admin/userReport}" class="nav-link">사용자 신고</a>
+        <a th:href="@{~/admin/storeReport}" class="nav-link">점포 신고</a>
+        <button class="btn-logout">로그아웃</button>
+    </div>
+</nav>
+<main>
+    <div class="container">
+        <h1 class="main-text">점포 신고 처리</h1>
+        <div class="cards">
+            <div th:each="report : ${reports}">
+                <div class="card">
+                    <div class="card-1">
+                        <div class="store-main">
+                            <h2>신고 점포 정보</h2>
+                            <div class="store-name">
+                                <strong>이름: </strong><span th:text="${report.store.name}">철수네 과일가게</span>
+                            </div>
+                            <div class="store-category">
+                                <strong>분류: </strong><span th:text="${report.store.storeType.krType}">분류</span>
+                            </div>
+                            <div class="store-description">
+                                <strong>설명: </strong><span th:text="${report.store.description}">설명</span>
+                            </div>
+                        </div>
+                        <div class="store-images">
+                            <img th:if="${report.store.imgUrl}" alt="store-image" width="100" />
+                        </div>
+                        <div class="store-phone">
+                            <h4 class="store-phone-header">번호</h4>
+                            <div th:text="${report.store.phone}" class="store-phone-content">
+                                01012341234
+                            </div>
+                        </div>
+                        <div class="store-service">
+                            <h4 class="store-service-header">제공 서비스</h4>
+                            <ul class="store-service-list">
+                                <li th:if="${report.store.localCurrencyStatus}" class="store-service-item">지역화폐</li>
+                                <li th:if="${report.store.deliveryStatus}" class="store-service-item">배달 서비스</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-2">
+                        <div class="business-number">
+                            <h4 class="business-number-header">사업자 등록 번호</h4>
+                            <div th:text="${report.store.storeMetaData?.businessNumber}" class="business-number-content">00000000000</div>
+                        </div>
+                        <div class="ceo">
+                            <h4 class="ceo-header">대표자</h4>
+                            <div th:text="${report.store.storeMetaData?.representativeName}" class="ceo-content">김철수</div>
+                        </div>
+                        <div class="company-name">
+                            <h4 class="company-name-header">상호명</h4>
+                            <div th:text="${report.store.storeMetaData?.businessName}" class="company-name-content">상호명</div>
+                        </div>
+                        <div class="open-date">
+                            <h4 class="open-date-header">개업일</h4>
+                            <div th:text="${report.store.storeMetaData?.openingDate}" class="open-date-content">2021-01-01</div>
+                        </div>
+                        <div class="address">
+                            <h4 class="address-header">점포 주소</h4>
+                            <div th:text="|${report.store.streetAddress} ${report.store.detailedAddress}|" class="address-content">서울시 xx구 xx동 A동 102호</div>
+                        </div>
+                    </div>
+                    <div class="card-3">
+                        <div class="reporter">
+                            <h4 class="reporter-name-header">신고자</h4>
+                            <div class="reporter-name-body" th:text="${report.user.name}">아무개</div>
+                            <h4 class="reporter-phone-header">신고자 번호</h4>
+                            <div class="reporter-name-body" th:text="${report.user.phone}">아무개</div>
+                        </div>
+                        <div class="report-content">
+                            <h4 class="report-content-header">신고 내용</h4>
+                            <div class="report-content-body" th:text="${report.content}">신고 내용</div>
+                        </div>
+                        <div class="report-date">
+                            <h4 class="report-date-header">신고 날짜</h4>
+                            <div class="report-date-body" th:text="${#temporals.format(report.createdAt, 'yyyy-MM-dd HH:mm:ss')}">
+                                2021-11-21 11:11:11
+                            </div>
+                        </div>
+                        <div class="form-submit">
+                            <form action="/admin/storeReport" method="post">
+                                <input type="hidden" name="reportId" th:value="${report.id}">
+                                <input type="hidden" name="storeId" th:value="${report.store.id}">
+                                <input type="hidden" name="description" th:value="${report.content}">
+                                <button type="submit" name="action" value="reject" class="btn btn-blue">보류</button>
+                                <button type="submit" name="action" value="approve" class="btn btn-red">정지</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

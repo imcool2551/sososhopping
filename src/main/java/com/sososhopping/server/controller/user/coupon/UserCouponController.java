@@ -33,7 +33,7 @@ public class UserCouponController {
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
 
-    @GetMapping("/api/v1/stores/{storeId}/coupons")
+    @GetMapping("/api/v1/users/stores/{storeId}/coupons")
     public ApiResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
 
         Store findStore = storeRepository

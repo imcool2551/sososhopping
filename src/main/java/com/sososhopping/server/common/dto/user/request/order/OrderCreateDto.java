@@ -42,7 +42,7 @@ OrderCreateDto {
     @NotNull
     private String ordererPhone;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @FutureOrPresent
     private LocalDateTime visitDate;
 
