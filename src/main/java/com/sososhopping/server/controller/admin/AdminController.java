@@ -43,14 +43,14 @@ public class AdminController {
 
     @PostMapping("/admin/login")
     private String login() {
-        return "/admin/login";
+        return "admin/login";
     }
 
     @GetMapping("/admin/storeRegister")
     private String storeRegisterPage(Model model) {
         List<Store> stores = storeRepository.findByStoreStatus(StoreStatus.PENDING);
         model.addAttribute("stores", stores);
-        return "/admin/storeRegister";
+        return "admin/storeRegister";
     }
 
     @PostMapping("/admin/storeRegister")
@@ -67,7 +67,7 @@ public class AdminController {
     private String userReportPage(Model model) {
         List<UserReport> reports = userReportRepository.findByHandled(false);
         model.addAttribute("reports", reports);
-        return "/admin/userReport";
+        return "admin/userReport";
     }
 
     @PostMapping("/admin/userReport")
@@ -86,7 +86,7 @@ public class AdminController {
     private String storeReportPage(Model model) {
         List<StoreReport> reports = storeReportRepository.findByHandled(false);
         model.addAttribute("reports", reports);
-        return "/admin/storeReport";
+        return "admin/storeReport";
     }
 
     @PostMapping("/admin/storeReport")
@@ -104,6 +104,6 @@ public class AdminController {
 
     @PostMapping("/admin/logout")
     private String logout() {
-        return "/admin/login";
+        return "admin/login";
     }
 }
