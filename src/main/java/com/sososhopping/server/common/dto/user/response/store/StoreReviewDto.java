@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 public class StoreReviewDto {
@@ -15,7 +16,7 @@ public class StoreReviewDto {
     private final String content;
     private final String imgUrl;
     private final BigDecimal score;
-    private final LocalDateTime createdAt;
+    private final String createdAt;
 
     public StoreReviewDto(Review review) {
         storeId = review.getStore().getId();
@@ -24,6 +25,7 @@ public class StoreReviewDto {
         content = review.getContent();
         imgUrl = review.getImgUrl();
         score = review.getScore();
-        createdAt = review.getCreatedAt();
+        createdAt = review.getCreatedAt()
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }
 }

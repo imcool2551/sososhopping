@@ -33,12 +33,10 @@ public class UserReviewService {
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        List<StoreReviewDto> storeReviewDtoList = reviewRepository.findReviewsByStoreId(storeId)
+        return reviewRepository.findReviewsByStoreId(storeId)
                 .stream()
                 .map(StoreReviewDto::new)
                 .collect(Collectors.toList());
-
-        return storeReviewDtoList;
     }
 
     @Transactional

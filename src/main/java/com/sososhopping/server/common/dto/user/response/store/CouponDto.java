@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 public class CouponDto {
@@ -17,8 +18,9 @@ public class CouponDto {
     private Integer stockQuantity;
     private String couponCode;
     private Integer minimumOrderPrice;
-    private LocalDateTime startDate;
-    private LocalDateTime dueDate;
+    private String issuedStartDate;
+    private String issuedDueDate;
+    private String expiryDate;
     private String couponType;
     private Integer fixAmount;
     private BigDecimal rateAmount;
@@ -30,8 +32,12 @@ public class CouponDto {
         stockQuantity = coupon.getStockQuantity();
         couponCode = coupon.getCouponCode();
         minimumOrderPrice = coupon.getMinimumOrderPrice();
-        startDate = coupon.getIssuedStartDate();
-        dueDate = coupon.getIssuedDueDate();
+        issuedStartDate = coupon.getIssuedStartDate()
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        issuedDueDate = coupon.getIssuedDueDate()
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        expiryDate = coupon.getExpiryDate()
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         couponType = coupon.getCouponType();
         if (coupon instanceof FixCoupon) {
             fixAmount = ((FixCoupon) coupon).getFixAmount();

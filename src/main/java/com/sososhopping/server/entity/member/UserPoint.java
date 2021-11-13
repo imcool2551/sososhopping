@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -38,7 +39,7 @@ public class UserPoint extends BaseTimeEntity {
     private Integer point;
 
     //List
-    @OneToMany(mappedBy = "userPoint")
+    @OneToMany(mappedBy = "userPoint", cascade = ALL, orphanRemoval = true)
     private List<UserPointLog> userPointLogs = new ArrayList<>();
 
     public UserPoint(User user, Store store, Integer point) {
@@ -49,5 +50,31 @@ public class UserPoint extends BaseTimeEntity {
 
     public void updatePoint(Integer pointAmount) {
         this.point += pointAmount;
+    }
+
+    public boolean hasMoreThan(Integer usedPoint) {
+        return point >= usedPoint;
+    }
+
+    public void usePoint(Integer usedPoint) {
+        point -= usedPoint;
+
+        UserPointLog userPointLog = UserPointLog.builder()
+                .pointAmount(-usedPoint)
+                .resultAmount(point)
+                .build();
+
+        userPointLog.setUserPoint(this);
+    }
+
+    public void savePoint(Integer savedPoint) {
+        point += savedPoint;
+
+        UserPointLog userPointLog = UserPointLog.builder()
+                .pointAmount(savedPoint)
+                .resultAmount(point)
+                .build();
+
+        userPointLog.setUserPoint(this);
     }
 }

@@ -2,6 +2,7 @@ package com.sososhopping.server.entity.coupon;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
+import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.store.Store;
 import lombok.*;
@@ -78,7 +79,7 @@ public abstract class Coupon extends BaseTimeEntity {
         this.issuedDueDate = dueDate;
     }
 
-    abstract protected int getDiscountPrice();
+    abstract public int getDiscountPrice(int orderPrice);
 
     // 연관 관계 편의 메서드
     public void setStore(Store store) {
@@ -108,5 +109,33 @@ public abstract class Coupon extends BaseTimeEntity {
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         this.expiryDate = LocalDateTime.parse(dto.getExpiryDate() + " 23:59:59",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+    }
+
+    // Business Logic
+    public Coupon issueCoupon() {
+        if (!hasStock()) {
+            throw new Api400Exception("쿠폰 재고가 없습니다");
+        }
+        if (!isBeingIssuedAt(LocalDateTime.now())) {
+            throw new Api400Exception("쿠폰 발급기간이 아닙니다");
+        }
+        stockQuantity--;
+        return this;
+    }
+
+    public boolean belongsTo(Store store) {
+        return this.store == store;
+    }
+
+    public boolean minimumPriceGreaterThan(Integer orderPrice) {
+        return minimumOrderPrice > orderPrice;
+    }
+
+    private boolean hasStock() {
+        return stockQuantity > 0;
+    }
+
+    private boolean isBeingIssuedAt(LocalDateTime at) {
+        return at.isAfter(issuedStartDate) && at.isBefore(issuedDueDate);
     }
 }

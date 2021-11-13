@@ -2,10 +2,7 @@ package com.sososhopping.server.entity.orders;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.store.Item;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"order_id", "item_id"})
@@ -41,4 +39,10 @@ public class OrderItem extends BaseTimeEntity {
 
     @NotNull
     private Integer totalPrice;
+
+    // 연관 관계 편의 메서드
+    public void setOrder(Order order) {
+        this.order = order;
+        this.order.getOrderItems().add(this);
+    }
 }
