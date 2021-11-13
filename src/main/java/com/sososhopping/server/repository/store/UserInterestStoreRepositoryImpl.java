@@ -30,6 +30,9 @@ public class UserInterestStoreRepositoryImpl implements UserInterestStoreReposit
     }
 
     private BooleanExpression userIdEq(Long userId) {
+        if (userId == null) {
+            return null;
+        }
         return interestStore.user.id.eq(userId);
     }
 }

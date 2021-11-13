@@ -4,10 +4,7 @@ import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -78,7 +76,7 @@ public class Order extends BaseTimeEntity {
 
     private Integer usedPoint;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 
@@ -90,9 +88,30 @@ public class Order extends BaseTimeEntity {
     private OrderStatus orderStatus;
 
     //List
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = LAZY, mappedBy = "order")
     private Payment payment;
+
+    @Builder
+    public Order(User user, String ordererName, String ordererPhone, OrderType orderType, LocalDateTime visitDate, Store store, String storeName, Integer deliveryCharge, String deliveryStreetAddress, String deliveryDetailedAddress, PaymentType paymentType, Integer orderPrice, Integer usedPoint, Coupon coupon, Integer finalPrice, OrderStatus orderStatus, Payment payment) {
+        this.user = user;
+        this.ordererName = ordererName;
+        this.ordererPhone = ordererPhone;
+        this.orderType = orderType;
+        this.visitDate = visitDate;
+        this.store = store;
+        this.storeName = storeName;
+        this.deliveryCharge = deliveryCharge;
+        this.deliveryStreetAddress = deliveryStreetAddress;
+        this.deliveryDetailedAddress = deliveryDetailedAddress;
+        this.paymentType = paymentType;
+        this.orderPrice = orderPrice;
+        this.usedPoint = usedPoint;
+        this.coupon = coupon;
+        this.finalPrice = finalPrice;
+        this.orderStatus = orderStatus;
+        this.payment = payment;
+    }
 }

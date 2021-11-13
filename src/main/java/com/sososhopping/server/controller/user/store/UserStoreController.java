@@ -2,11 +2,9 @@ package com.sososhopping.server.controller.user.store;
 
 import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
-import com.sososhopping.server.common.error.Api404Exception;
-import com.sososhopping.server.entity.member.InterestStore;
-import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
+import com.sososhopping.server.entity.store.StoreType;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserStoreService;
@@ -28,6 +26,21 @@ public class UserStoreController {
     private final UserStoreService userStoreService;
     private final StoreRepository storeRepository;
     private final InterestStoreRepository interestStoreRepository;
+
+    @GetMapping("/api/v1/stores")
+    public ApiResponse<StoreListDto> getStoresByCategory(
+            Authentication authentication,
+            @RequestParam StoreType type
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        List<StoreListDto> dtos = userStoreService
+                .getStoresByCategory(userId, type);
+
+        return new ApiResponse<StoreListDto>(dtos);
+    }
 
     @GetMapping("/api/v1/stores/{storeId}")
     public ApiResponse<StoreInfoDto> getStoreInfo(

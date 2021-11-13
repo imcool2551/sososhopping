@@ -24,7 +24,8 @@ public class UserReviewRepositoryImpl implements UserReviewRepository {
     @Override
     public List<Review> findReviewsByStoreId(Long storeId) {
         return queryFactory
-                .selectFrom(review)
+                .select(review)
+                .from(review)
                 .join(review.user, user).fetchJoin()
                 .where(storeIdEq(storeId))
                 .fetch();
@@ -33,7 +34,8 @@ public class UserReviewRepositoryImpl implements UserReviewRepository {
     @Override
     public List<Review> findReviewsByUserId(Long userId) {
         return queryFactory
-                .selectFrom(review)
+                .select(review)
+                .from(review)
                 .join(review.store, store).fetchJoin()
                 .where(userIdEq(userId))
                 .fetch();

@@ -8,6 +8,7 @@ import com.sososhopping.server.entity.member.InterestStore;
 import com.sososhopping.server.entity.member.InterestStoreId;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
+import com.sososhopping.server.entity.store.StoreType;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +63,21 @@ public class UserStoreService {
         boolean isInterestStore = interestStoreRepository.existsByStoreAndUser(findStore, user);
 
         return new StoreInfoDto(findStore, isInterestStore);
+    }
+
+    public List<StoreListDto> getStoresByCategory(Long userId, StoreType storeType) {
+
+        List<Store> stores = storeRepository.findByStoreType(storeType);
+
+        if (userId == null) {
+            return stores.stream()
+                    .map(store -> new StoreListDto(store, Collections.emptyList()))
+                    .collect(Collectors.toList());
+        }
+
+        List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
+        return stores.stream()
+                .map(store -> new StoreListDto(store, interestStores))
+                .collect(Collectors.toList());
     }
 }

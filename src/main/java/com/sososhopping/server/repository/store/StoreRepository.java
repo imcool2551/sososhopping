@@ -3,6 +3,7 @@ package com.sososhopping.server.repository.store;
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreStatus;
+import com.sososhopping.server.entity.store.StoreType;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -30,4 +31,6 @@ public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRe
     //점주 가게 정보 read with 글
     @EntityGraph(attributePaths = {"writings"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Store> findStoreWithWritingById(Long storeId);
+
+    List<Store> findByStoreType(StoreType storeType);
 }
