@@ -144,7 +144,7 @@ public class Store extends BaseTimeEntity {
 
     public Store(Owner owner, StoreRequestDto dto, Point location) {
         this.owner = owner;
-        this.storeType = StoreType.valueOf(dto.getStoreType());
+        this.storeType = StoreType.nameOf(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();
