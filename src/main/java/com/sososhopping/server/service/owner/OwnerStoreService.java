@@ -125,5 +125,25 @@ public class OwnerStoreService {
             throw new Api400Exception("승인 대기중인 점포가 아닙니다");
         }
     }
+
+    //해당 점포의 영업 여부 조회
+    @Transactional
+    public Boolean readStoreBusinessStatus(Long storeId) {
+        Store store = storeRepository.findStoreInforById(storeId).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 점포입니다"));
+
+        return store.getBusinessStatus();
+    }
+
+    //해당 점포의 영업 여부 변경
+    @Transactional
+    public Boolean updateStoreBusinessStatus(Long storeId) {
+        Store store = storeRepository.findStoreInforById(storeId).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 점포입니다"));
+
+        store.updateBusinessStatus(!store.getBusinessStatus());
+
+        return store.getBusinessStatus();
+    }
 }
 

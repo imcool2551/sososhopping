@@ -3,10 +3,8 @@ package com.sososhopping.server.entity.report;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -14,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -38,4 +37,13 @@ public class StoreReport extends BaseTimeEntity {
     @NotNull
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @NotNull
+    @Type(type = "numeric_boolean")
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    private Boolean handled;
+
+    public void setHandled(boolean handled) {
+        this.handled = handled;
+    }
 }

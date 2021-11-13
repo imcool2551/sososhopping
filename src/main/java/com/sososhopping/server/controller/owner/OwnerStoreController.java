@@ -1,6 +1,7 @@
 package com.sososhopping.server.controller.owner;
 
 import com.sososhopping.server.common.dto.owner.request.StoreRequestDto;
+import com.sososhopping.server.common.dto.owner.response.StoreBusinessStatusResponseDto;
 import com.sososhopping.server.common.dto.owner.response.StoreListResponseDto;
 import com.sososhopping.server.common.dto.owner.response.StoreResponseDto;
 import com.sososhopping.server.entity.store.Store;
@@ -68,5 +69,23 @@ public class OwnerStoreController {
         ownerStoreService.deleteStore(storeId);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/v1/owner/store/{storeId}/businessstatus")
+    public ResponseEntity readStoreBusinessStatus(@PathVariable(name = "storeId") Long storeId) {
+        Boolean businessStatus = ownerStoreService.readStoreBusinessStatus(storeId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new StoreBusinessStatusResponseDto(businessStatus));
+    }
+
+    @PatchMapping(value = "/api/v1/owner/store/{storeId}/businessstatus")
+    public ResponseEntity updateStoreBusinessStatus(@PathVariable(name = "storeId") Long storeId) {
+        Boolean businessStatus = ownerStoreService.updateStoreBusinessStatus(storeId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new StoreBusinessStatusResponseDto(businessStatus));
     }
 }

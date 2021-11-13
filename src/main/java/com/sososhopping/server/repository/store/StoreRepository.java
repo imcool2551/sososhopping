@@ -2,6 +2,8 @@ package com.sososhopping.server.repository.store;
 
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.store.Store;
+import com.sososhopping.server.entity.store.StoreStatus;
+import com.sososhopping.server.entity.store.StoreType;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,9 +14,15 @@ public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRe
 
     List<Store> findByOwner(Owner owner);
 
+    @EntityGraph(attributePaths = {"storeMetaData"}, type = EntityGraph.EntityGraphType.FETCH)
+    List<Store> findByStoreStatus(StoreStatus storeStatus);
+
     //점주 가게 정보 read with 사업자 정보
     @EntityGraph(attributePaths = {"storeBusinessDays"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Store> findStoreInforById(Long storeId);
+
+    @EntityGraph(attributePaths = {"reviews"}, type = EntityGraph.EntityGraphType.FETCH)
+    Optional<Store> findStoreDetailById(Long storeId);
     
     //점주 가게 정보 read with 물품
     @EntityGraph(attributePaths = {"items"}, type = EntityGraph.EntityGraphType.FETCH)
@@ -23,4 +31,6 @@ public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRe
     //점주 가게 정보 read with 글
     @EntityGraph(attributePaths = {"writings"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Store> findStoreWithWritingById(Long storeId);
+
+    List<Store> findByStoreType(StoreType storeType);
 }

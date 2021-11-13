@@ -81,6 +81,12 @@ public class AuthService {
             return true;
     }
 
+    //고객 닉네임 중복 확인
+    @Transactional
+    public boolean isDuplicateNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
     //고객 회원가입
     @Transactional
     public void userSignUp(UserSignUpRequestDto dto) {
@@ -128,7 +134,7 @@ public class AuthService {
         //계정 저장
         Admin admin = Admin.builder()
                 .nickname(dto.getNickname())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
         adminRepository.save(admin);

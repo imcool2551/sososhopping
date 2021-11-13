@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -95,7 +96,7 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String detailedAddress;
 
-    @OneToOne(mappedBy = "store", fetch = LAZY, cascade = ALL,
+    @OneToOne(mappedBy = "store", cascade = ALL,
             orphanRemoval = true)
     private StoreMetaData storeMetaData;
 
@@ -143,7 +144,7 @@ public class Store extends BaseTimeEntity {
 
     public Store(Owner owner, StoreRequestDto dto, Point location) {
         this.owner = owner;
-        this.storeType = StoreType.valueOf(dto.getStoreType());
+        this.storeType = StoreType.nameOf(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();
@@ -178,9 +179,18 @@ public class Store extends BaseTimeEntity {
         this.imgUrl = imgUrl;
     }
 
+
+    public void updateStoreStatus(StoreStatus storeStatus) {
+        this.storeStatus = storeStatus;
+    }
+
     //가게 포인트 정책 업데이트
     public void updatePointPolicy(StorePointPolicyRequestDto dto) {
         this.pointPolicyStatus = dto.getPointPolicyStatus();
         this.saveRate = dto.getSaveRate();
+    }
+
+    public boolean hasPointPolicy() {
+        return pointPolicyStatus;
     }
 }

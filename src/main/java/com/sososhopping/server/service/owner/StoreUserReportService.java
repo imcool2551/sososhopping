@@ -29,7 +29,7 @@ public class StoreUserReportService {
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 고객입니다"));
 
-        UserReport userReport = new UserReport(store, user, dto.getContent());
+        UserReport userReport = new UserReport(store, user, dto.getContent(), false);
 
         userReportRepository.save(userReport);
     }

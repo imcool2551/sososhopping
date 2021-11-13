@@ -76,16 +76,23 @@ ul {
   margin-bottom: 30px;
 }
 
-.card-left,
-.card-right {
+.card-1,
+.card-2,
+.card-3 {
   display: inline-block;
+  width: 250px;
   border: 1px solid black;
   padding: 15px 30px;
 }
 
-.card-left > div,
-.card-right > div {
+.card-1 div,
+.card-2 div,
+.card-3 div {
   margin-bottom: 20px;
+}
+
+.user-name {
+  margin: 20px 0px;
 }
 
 .btn {
@@ -93,6 +100,7 @@ ul {
   border-radius: 10px;
   color: #fff;
   padding: 5px 15px;
+  margin: 5px;
 }
 
 .btn:hover {
@@ -107,7 +115,7 @@ ul {
   background-color: #ff5555;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 623px) {
   .container {
     flex-direction: column;
     justify-content: center;

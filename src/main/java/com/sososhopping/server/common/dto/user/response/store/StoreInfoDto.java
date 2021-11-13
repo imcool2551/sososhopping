@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 public class StoreInfoDto {
     private Long storeId;
-    private StoreType storeType;
+    private String storeType;
     private String name;
     private String imgUrl;
     private String description;
@@ -22,17 +22,18 @@ public class StoreInfoDto {
     private Boolean localCurrencyStatus;
     private Boolean pickupStatus;
     private Boolean deliveryStatus;
-    private Integer minimumOrderPrice;
     private BigDecimal saveRate;
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayDto> businessDays;
     private List<StoreImageDto> storeImages;
     private Coordinate location;
+    private Double score;
+    private Boolean isInterestStore;
 
-    public StoreInfoDto(Store store) {
+    public StoreInfoDto(Store store, boolean isInterestStore) {
         storeId = store.getId();
-        storeType = store.getStoreType();
+        storeType = store.getStoreType().getKrType();
         name = store.getName();
         imgUrl = store.getImgUrl();
         description = store.getDescription();
@@ -54,6 +55,12 @@ public class StoreInfoDto {
                 .map(storeImage -> new StoreImageDto(storeImage))
                 .collect(Collectors.toList());
         location = new Coordinate(store.getLocation().getX(), store.getLocation().getY());
+        score = store.getReviews()
+                .stream()
+                .mapToDouble(reviews -> reviews.getScore().doubleValue())
+                .average()
+                .orElse(0);
+        this.isInterestStore = isInterestStore;
     }
 
     @Getter

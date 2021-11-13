@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class UserItemController {
+public class
+UserItemController {
 
     private final StoreRepository storeRepository;
 
-    @GetMapping("/api/v1/stores/{storeId}/items")
+    @GetMapping("/api/v1/users/stores/{storeId}/items")
     public ApiResponse<ItemDto> getStoreItems(@PathVariable Long storeId) {
 
         Store findStore = storeRepository
