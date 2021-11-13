@@ -72,13 +72,26 @@ ul {
 }
 
 .card {
-  border: 1px solid black;
-  padding: 15px 30px;
+  display: flex;
   margin-bottom: 30px;
 }
 
-.card > div,
-.card > div {
+.card-1,
+.card-2,
+.card-3 {
+  display: inline-block;
+  width: 250px;
+  border: 1px solid black;
+  padding: 15px 30px;
+}
+
+.card-1 div,
+.card-2 div,
+.card-3 div {
+  margin-bottom: 20px;
+}
+
+.store-name {
   margin-bottom: 20px;
 }
 
@@ -87,6 +100,7 @@ ul {
   border-radius: 10px;
   color: #fff;
   padding: 5px 15px;
+  margin: 5px;
 }
 
 .btn:hover {
@@ -101,7 +115,7 @@ ul {
   background-color: #ff5555;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 623px) {
   .container {
     flex-direction: column;
     justify-content: center;
@@ -110,5 +124,9 @@ ul {
 
   .nav-links .nav-link:not(:first-child):not(:last-child) {
     display: none;
+  }
+
+  .card {
+    flex-direction: column;
   }
 }

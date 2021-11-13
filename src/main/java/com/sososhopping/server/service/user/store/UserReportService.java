@@ -35,6 +35,7 @@ public class UserReportService {
                 .user(user)
                 .store(store)
                 .content(content)
+                .handled(false)
                 .build();
 
         storeReportRepository.save(storeReport);
