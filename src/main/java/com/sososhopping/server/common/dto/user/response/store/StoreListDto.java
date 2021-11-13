@@ -15,6 +15,8 @@ public class StoreListDto {
     private final Long storeId;
     private final String storeType;
     private final String name;
+    private final String description;
+    private final String phone;
     private final String imgUrl;
     private final Boolean businessStatus;
     private final Boolean localCurrencyStatus;
@@ -27,7 +29,9 @@ public class StoreListDto {
     public StoreListDto (Store store, List<InterestStore> interestStores) {
         storeId = store.getId();
         storeType = store.getStoreType().getKrType();
-        name = store.getName() ;
+        name = store.getName();
+        description = store.getDescription();
+        phone = store.getPhone();
         imgUrl = store.getImgUrl();
         businessStatus = store.getBusinessStatus();
         localCurrencyStatus = store.getLocalCurrencyStatus();
@@ -52,6 +56,8 @@ public class StoreListDto {
         storeId = interestStore.getStore().getId();
         storeType = interestStore.getStore().getStoreType().getKrType();
         name = interestStore.getStore().getName();
+        description = interestStore.getStore().getDescription();
+        phone = interestStore.getStore().getPhone();
         imgUrl = interestStore.getStore().getImgUrl();
         businessStatus = interestStore.getStore().getBusinessStatus();
         localCurrencyStatus = interestStore.getStore().getLocalCurrencyStatus();

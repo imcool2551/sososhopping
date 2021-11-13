@@ -46,31 +46,31 @@ public class AdminController {
         return "/admin/login";
     }
 
-    @GetMapping("/admin/store-register")
+    @GetMapping("/admin/storeRegister")
     private String storeRegisterPage(Model model) {
         List<Store> stores = storeRepository.findByStoreStatus(StoreStatus.PENDING);
         model.addAttribute("stores", stores);
-        return "/admin/store-register";
+        return "/admin/storeRegister";
     }
 
-    @PostMapping("/admin/store-register")
+    @PostMapping("/admin/storeRegister")
     private String handleStoreRegister(
             @RequestParam Long storeId,
             @RequestParam String action,
             RedirectAttributes redirectAttributes
     ) {
         adminService.updateStoreStatus(storeId, action);
-        return "redirect:/admin/store-register";
+        return "redirect:/admin/storeRegister";
     }
 
-    @GetMapping("/admin/user-report")
+    @GetMapping("/admin/userReport")
     private String userReportPage(Model model) {
         List<UserReport> reports = userReportRepository.findByHandled(false);
         model.addAttribute("reports", reports);
-        return "/admin/user-report";
+        return "/admin/userReport";
     }
 
-    @PostMapping("/admin/user-report")
+    @PostMapping("/admin/userReport")
     private String handleUserReport(
             @RequestParam Long reportId,
             @RequestParam Long userId,
@@ -79,17 +79,17 @@ public class AdminController {
             RedirectAttributes redirectAttributes
     ) {
         adminService.handleUserReport(reportId, userId, action, description);
-        return "redirect:/admin/user-report";
+        return "redirect:/admin/userReport";
     }
 
-    @GetMapping("/admin/store-report")
+    @GetMapping("/admin/storeReport")
     private String storeReportPage(Model model) {
         List<StoreReport> reports = storeReportRepository.findByHandled(false);
         model.addAttribute("reports", reports);
-        return "/admin/store-report";
+        return "/admin/storeReport";
     }
 
-    @PostMapping("/admin/store-report")
+    @PostMapping("/admin/storeReport")
     private String handleStoreReport(
             @RequestParam Long reportId,
             @RequestParam Long storeId,
@@ -98,7 +98,7 @@ public class AdminController {
             RedirectAttributes redirectAttributes
     ) {
         adminService.handleStoreReport(reportId, storeId, action, description);
-        return "redirect:/admin/store-report";
+        return "redirect:/admin/storeReport";
     }
 
 

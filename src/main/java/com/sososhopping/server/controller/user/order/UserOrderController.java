@@ -29,7 +29,7 @@ public class UserOrderController {
     private final UserOrderService userOrderService;
     private final UserRepository userRepository;
 
-    @PostMapping("/api/v1/orders")
+    @PostMapping("/api/v1/users/orders")
     public ResponseEntity makeOrder(
             Authentication authentication,
             @RequestBody @Valid OrderCreateDto orderCreateDto

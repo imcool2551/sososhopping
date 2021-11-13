@@ -27,7 +27,7 @@ public class UserStoreController {
     private final StoreRepository storeRepository;
     private final InterestStoreRepository interestStoreRepository;
 
-    @GetMapping("/api/v1/stores")
+    @GetMapping("/api/v1/users/stores")
     public ApiResponse<StoreListDto> getStoresByCategory(
             Authentication authentication,
             @RequestParam StoreType type
@@ -42,7 +42,7 @@ public class UserStoreController {
         return new ApiResponse<StoreListDto>(dtos);
     }
 
-    @GetMapping("/api/v1/stores/{storeId}")
+    @GetMapping("/api/v1/users/stores/{storeId}")
     public ApiResponse<StoreInfoDto> getStoreInfo(
             Authentication authentication,
             @PathVariable Long storeId

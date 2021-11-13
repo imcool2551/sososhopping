@@ -26,14 +26,14 @@ public class UserReviewController {
     private final UserReviewService userReviewService;
     private final ReviewRepository reviewRepository;
 
-    @GetMapping("/api/v1/stores/{storeId}/reviews")
+    @GetMapping("/api/v1/users/stores/{storeId}/reviews")
     public ApiResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
 
         List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
         return new ApiResponse<StoreReviewDto>(storeReviews);
     }
 
-    @PostMapping("/api/v1/stores/{storeId}/reviews")
+    @PostMapping("/api/v1/users/stores/{storeId}/reviews")
     public ResponseEntity createReview(
             Authentication authentication,
             @PathVariable Long storeId,
