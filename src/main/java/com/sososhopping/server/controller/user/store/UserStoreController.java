@@ -43,7 +43,7 @@ public class UserStoreController {
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}")
-    public ApiResponse<StoreInfoDto> getStoreInfo(
+    public StoreInfoDto getStoreInfo(
             Authentication authentication,
             @PathVariable Long storeId
     ) {
@@ -51,9 +51,7 @@ public class UserStoreController {
 
         if (authentication != null) userId = Long.parseLong(authentication.getName());
 
-        StoreInfoDto storeInfoDto = userStoreService.getStoreInfo(userId, storeId);
-
-        return new ApiResponse<StoreInfoDto>(storeInfoDto);
+        return userStoreService.getStoreInfo(userId, storeId);
     }
 
     @PostMapping("/api/v1/users/my/interest_store")
