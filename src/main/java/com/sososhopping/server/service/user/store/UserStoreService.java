@@ -5,7 +5,6 @@ import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.InterestStore;
-import com.sososhopping.server.entity.member.InterestStoreId;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreType;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,17 +49,19 @@ public class UserStoreService {
     @Transactional
     public StoreInfoDto getStoreInfo(Long userId, Long storeId) {
 
-        User user = userRepository
-                .findById(userId)
-                .orElse(null);
-
-
         Store findStore = storeRepository
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        boolean isInterestStore = interestStoreRepository.existsByStoreAndUser(findStore, user);
+        if (userId == null) {
+            return new StoreInfoDto(findStore, false);
+        }
 
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        boolean isInterestStore = interestStoreRepository.existsByStoreAndUser(findStore, user);
         return new StoreInfoDto(findStore, isInterestStore);
     }
 
