@@ -39,11 +39,11 @@ public class UserWritingController {
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/writings/{writingId}")
-    public ApiResponse<WritingDto> getStoreWriting(
+    public WritingDto getStoreWriting(
             @PathVariable Long storeId,
             @PathVariable Long writingId
     ) {
         Writing writing = userWritingService.getWriting(storeId, writingId);
-        return new ApiResponse<WritingDto>(new WritingDto(writing));
+        return new WritingDto(writing);
     }
 }
