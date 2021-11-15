@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreCouponResponseDto {
+    private Long storeId;
     private Long id;
     private String storeName;
     private String couponName;
@@ -27,7 +28,8 @@ public class StoreCouponResponseDto {
     private BigDecimal rateAmount;
     private Integer fixAmount;
 
-    public StoreCouponResponseDto(Coupon coupon) {
+    public StoreCouponResponseDto(Coupon coupon, Long storeId) {
+        this.storeId = storeId;
         this.id = coupon.getId();
         this.storeName = coupon.getStoreName();
         this.couponName = coupon.getCouponName();

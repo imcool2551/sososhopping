@@ -25,7 +25,7 @@ public class StoreReviewController {
     public ResponseEntity readReviewList(@PathVariable(value = "storeId") Long storeId) {
         List<StoreReviewResponseDto> reviews = storeReviewService.readReviewList(storeId)
                 .stream()
-                .map(review -> new StoreReviewResponseDto(review))
+                .map(review -> new StoreReviewResponseDto(review, storeId))
                 .collect(Collectors.toList());
 
         BigDecimal averageScore = new BigDecimal("0");

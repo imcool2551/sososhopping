@@ -10,13 +10,15 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreReviewResponseDto {
+    private Long storeId;
     private Long userId;
     private String userName;
     private BigDecimal score;
     private String content;
     private String createdAt;
 
-    public StoreReviewResponseDto(Review review) {
+    public StoreReviewResponseDto(Review review, Long storeId) {
+        this.storeId = storeId;
         this.userId = review.getUser().getId();
         this.userName = review.getUser().getName();
         this.score = review.getScore();

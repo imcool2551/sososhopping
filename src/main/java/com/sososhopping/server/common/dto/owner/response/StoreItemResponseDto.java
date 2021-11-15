@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreItemResponseDto {
+    private Long storeId;
     private Long id;
     private String name;
     private String description;
@@ -16,7 +17,8 @@ public class StoreItemResponseDto {
     private Integer price;
     private Boolean saleStatus;
 
-    public StoreItemResponseDto(Item item) {
+    public StoreItemResponseDto(Item item, Long storeId) {
+        this.storeId = storeId;
         this.id = item.getId();
         this.name = item.getName();
         this.description = item.getDescription();
