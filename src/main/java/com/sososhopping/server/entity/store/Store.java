@@ -193,4 +193,8 @@ public class Store extends BaseTimeEntity {
     public boolean hasPointPolicy() {
         return pointPolicyStatus;
     }
+
+    public void updateBusinessStatus(boolean businessStatus) {
+        this.businessStatus = businessStatus;
+    }
 }

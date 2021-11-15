@@ -57,7 +57,7 @@ public class UserPointController {
     }
 
     @GetMapping("/api/v1/users/my/points/{storeId}")
-    public ApiResponse<UserPointLogDto> getMyPointLogs(
+    public UserPointLogDto getMyPointLogs(
             Authentication authentication,
             @PathVariable Long storeId,
             @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate at
@@ -75,8 +75,6 @@ public class UserPointController {
         List<UserPointLog> userPointLogs = userPointLogRepository
                 .findMonthlyUserPointLogs(userPoint, at.atStartOfDay());
 
-        UserPointLogDto dtos = new UserPointLogDto(store, userPointLogs);
-
-        return new ApiResponse<UserPointLogDto>(dtos);
+        return new UserPointLogDto(store, userPointLogs);
     }
 }

@@ -11,12 +11,14 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreAccountingResponseDto {
+    private Long storeId;
     private Long id;
     private Integer amount;
     private String description;
     private String date;
 
-    public StoreAccountingResponseDto(Accounting accounting) {
+    public StoreAccountingResponseDto(Accounting accounting, Long storeId) {
+        this.storeId = storeId;
         this.id = accounting.getId();
         this.amount = accounting.getAmount();
         this.description = accounting.getDescription();

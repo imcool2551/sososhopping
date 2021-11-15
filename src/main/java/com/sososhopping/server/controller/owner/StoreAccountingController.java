@@ -26,7 +26,7 @@ public class StoreAccountingController {
 
         List<StoreAccountingResponseDto> accountings = storeAccountingService.readAccountingList(storeId, yearMonth)
                 .stream()
-                .map(accounting -> new StoreAccountingResponseDto(accounting))
+                .map(accounting -> new StoreAccountingResponseDto(accounting, storeId))
                 .collect(Collectors.toList());
 
         return ResponseEntity
@@ -52,7 +52,7 @@ public class StoreAccountingController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new StoreAccountingResponseDto(accounting));
+                .body(new StoreAccountingResponseDto(accounting, storeId));
     }
 
     //수정
