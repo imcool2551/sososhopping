@@ -67,4 +67,8 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
+
+    public void suspend() {
+        active = AccountStatus.SUSPEND;
+    }
 }

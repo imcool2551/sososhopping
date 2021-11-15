@@ -2,14 +2,12 @@ package com.sososhopping.server.controller.user.order;
 
 import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
-import com.sososhopping.server.common.dto.user.request.order.OrderItemDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderListDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderStatus;
-import com.sososhopping.server.entity.orders.OrderType;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.service.user.order.UserOrderService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,7 @@ public class UserOrderController {
     private final UserOrderService userOrderService;
     private final UserRepository userRepository;
 
-    @PostMapping("/api/v1/orders")
+    @PostMapping("/api/v1/users/orders")
     public ResponseEntity makeOrder(
             Authentication authentication,
             @RequestBody @Valid OrderCreateDto orderCreateDto
@@ -64,7 +62,7 @@ public class UserOrderController {
     }
 
     @GetMapping("/api/v1/users/my/orders/{orderId}")
-    public ApiResponse<OrderDetailDto> getOrderDetail(
+    public OrderDetailDto getOrderDetail(
             Authentication authentication,
             @PathVariable Long orderId
     ) {
@@ -73,7 +71,6 @@ public class UserOrderController {
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
 
         Order order = userOrderService.getOrderDetail(user, orderId);
-        OrderDetailDto dto = new OrderDetailDto(order);
-        return new ApiResponse<OrderDetailDto>(dto);
+        return new OrderDetailDto(order);
     }
 }

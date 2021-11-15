@@ -23,7 +23,7 @@ public class UserWritingController {
     private final UserWritingService userWritingService;
     private final StoreRepository storeRepository;
 
-    @GetMapping("/api/v1/stores/{storeId}/writings")
+    @GetMapping("/api/v1/users/stores/{storeId}/writings")
     public ApiResponse<WritingListDto> getStoreWritings(@PathVariable Long storeId) {
 
         Store findStore = storeRepository
@@ -38,12 +38,12 @@ public class UserWritingController {
         return new ApiResponse<WritingListDto>(writingListDto);
     }
 
-    @GetMapping("/api/v1/stores/{storeId}/writings/{writingId}")
-    public ApiResponse<WritingDto> getStoreWriting(
+    @GetMapping("/api/v1/users/stores/{storeId}/writings/{writingId}")
+    public WritingDto getStoreWriting(
             @PathVariable Long storeId,
             @PathVariable Long writingId
     ) {
         Writing writing = userWritingService.getWriting(storeId, writingId);
-        return new ApiResponse<WritingDto>(new WritingDto(writing));
+        return new WritingDto(writing);
     }
 }
