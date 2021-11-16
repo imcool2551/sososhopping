@@ -38,8 +38,8 @@ public class StoreListDto {
         pickupStatus = store.getPickupStatus() ;
         deliveryStatus = store.getDeliveryStatus();
         location = new Coordinate(
-                store.getLocation().getX(),
-                store.getLocation().getY()
+                store.getLat().doubleValue(),
+                store.getLng().doubleValue()
         );
         score = store.getReviews()
                 .stream()
@@ -64,8 +64,8 @@ public class StoreListDto {
         pickupStatus = interestStore.getStore().getPickupStatus();
         deliveryStatus = interestStore.getStore().getDeliveryStatus();
         location = new Coordinate(
-                interestStore.getStore().getLocation().getX(),
-                interestStore.getStore().getLocation().getY()
+                interestStore.getStore().getLat().doubleValue(),
+                interestStore.getStore().getLng().doubleValue()
         );
         score = interestStore.getStore().getReviews()
                 .stream()

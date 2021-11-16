@@ -21,8 +21,8 @@ public class UserPointLogDto {
     public UserPointLogDto(Store store, List<UserPointLog> userPointLogs) {
         storeName = store.getName();
         phone = store.getPhone();
-        lat = store.getLocation().getX();
-        lng = store.getLocation().getY();
+        lat = store.getLat().doubleValue();
+        lng = store.getLng().doubleValue();
         logs = userPointLogs.stream()
                 .map(userPointLog -> new Logs(
                         userPointLog.getPointAmount(),

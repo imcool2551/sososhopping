@@ -61,6 +61,12 @@ public class Store extends BaseTimeEntity {
     private Point location;
 
     @NotNull
+    private BigDecimal lat;
+
+    @NotNull
+    private BigDecimal lng;
+
+    @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean businessStatus;
 
@@ -156,6 +162,8 @@ public class Store extends BaseTimeEntity {
         this.streetAddress = dto.getStreetAddress();
         this.detailedAddress = dto.getDetailedAddress();
         this.location = location;
+        this.lat = new BigDecimal(dto.getLat());
+        this.lng = new BigDecimal(dto.getLng());
     }
 
     //가게 정보 업데이트
