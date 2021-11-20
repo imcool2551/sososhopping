@@ -1,6 +1,8 @@
 package com.sososhopping.server.service.user.store;
 
-import com.sososhopping.server.common.dto.user.request.store.SearchStoreByCategoryDto;
+import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryDto;
+import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
+import com.sososhopping.server.common.dto.user.request.store.StoreSearchType;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.error.Api401Exception;
@@ -8,7 +10,6 @@ import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.InterestStore;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
-import com.sososhopping.server.entity.store.StoreType;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.JdbcStoreRepository;
@@ -73,7 +74,7 @@ public class UserStoreService {
     @Transactional
     public List<StoreListDto> getStoresByCategory(
             Long userId,
-            SearchStoreByCategoryDto dto
+            GetStoreByCategoryDto dto
     ) {
 
         Map<Long, Double> nearStoreIdsByCategory = jdbcStoreRepository
@@ -93,6 +94,33 @@ public class UserStoreService {
         List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
         return stores.stream()
                 .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<StoreListDto> getStoreBySearch(Long userId, GetStoreBySearchDto dto) {
+        Map<Long, Double> nearStoreIdsBySearch;
+        if (dto.getType().equals(StoreSearchType.STORE)) {
+            nearStoreIdsBySearch = jdbcStoreRepository
+                    .getNearStoreIdsByStoreName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
+        } else {
+            throw new Api404Exception("Go away");
+        }
+
+        List<Long> storeIds = nearStoreIdsBySearch.keySet().stream()
+                .collect(Collectors.toList());
+
+        List<Store> stores = storeRepository.findByIdIn(storeIds);
+
+        if (userId == null) {
+            return stores.stream()
+                    .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsBySearch))
+                    .collect(Collectors.toList());
+        }
+
+        List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
+        return stores.stream()
+                .map(store -> new StoreListDto(store, interestStores, nearStoreIdsBySearch))
                 .collect(Collectors.toList());
     }
 }

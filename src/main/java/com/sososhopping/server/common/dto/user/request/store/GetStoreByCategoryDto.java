@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class SearchStoreByCategoryDto {
+public class GetStoreByCategoryDto {
 
     @NotNull
     private Double lat;

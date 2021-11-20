@@ -67,6 +67,43 @@ public class JdbcStoreRepository {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public Map<Long, Double> getNearStoreIdsByStoreName(Double lat, Double lng, Double radius, String storeName) {
+        String sql = "SELECT  store.store_id AS store_id,\n" +
+                "        p.radius AS radius,\n" +
+                "        p.distance_unit\n" +
+                "                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
+                "                 * COS(RADIANS(store.lat))\n" +
+                "                 * COS(RADIANS(p.longpoint - store.lng))\n" +
+                "                 + SIN(RADIANS(p.latpoint))\n" +
+                "                 * SIN(RADIANS(store.lat))))) AS distance\n" +
+                "  FROM store\n" +
+                "  JOIN (   /* these are the query parameters */\n" +
+                "        SELECT  :lat  AS latpoint, :lng AS longpoint,\n" +
+                "                :radius  AS radius,    111.045 AS distance_unit\n" +
+                "  ) AS p \n" +
+                "  WHERE store.lat\n" +
+                "\t\t     BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
+                "         AND p.latpoint  + (p.radius / p.distance_unit)\n" +
+                "     AND store.lng\n" +
+                "\t\t     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "     AND store.name LIKE :storeName\n" +
+                " HAVING distance <= radius\n" +
+                " ORDER BY distance\n" +
+                " LIMIT 10";
+
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("lat", lat)
+                .addValue("lng", lng)
+                .addValue("radius", radius)
+                .addValue("storeName", "%" + storeName + "%");
+        List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
+
+        return list.stream()
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
     static class StoreMapper implements RowMapper {
         @Override
         public Map<Long, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
