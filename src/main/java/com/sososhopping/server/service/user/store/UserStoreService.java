@@ -10,6 +10,7 @@ import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreType;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
+import com.sososhopping.server.repository.store.JdbcStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +28,8 @@ public class UserStoreService {
     private final InterestStoreRepository interestStoreRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final JdbcStoreRepository jdbcStoreRepository;
+
 
     @Transactional
     public void toggleStoreLike(Long userId, Long storeId) {
@@ -65,19 +69,32 @@ public class UserStoreService {
         return new StoreInfoDto(findStore, isInterestStore);
     }
 
-    public List<StoreListDto> getStoresByCategory(Long userId, StoreType storeType) {
+    @Transactional
+    public List<StoreListDto> getStoresByCategory(
+            Long userId,
+            Double lat,
+            Double lng,
+            Double radius,
+            StoreType storeType
+    ) {
 
-        List<Store> stores = storeRepository.findByStoreType(storeType);
+        Map<Long, Double> nearStoreIdsByCategory = jdbcStoreRepository
+                .getNearStoreIdsByCategory(lat, lng, radius, storeType);
+
+        List<Long> storeIds = nearStoreIdsByCategory.keySet().stream()
+                .collect(Collectors.toList());
+
+        List<Store> stores = storeRepository.findByIdIn(storeIds);
 
         if (userId == null) {
             return stores.stream()
-                    .map(store -> new StoreListDto(store, Collections.emptyList()))
+                    .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsByCategory))
                     .collect(Collectors.toList());
         }
 
         List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
         return stores.stream()
-                .map(store -> new StoreListDto(store, interestStores))
+                .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
                 .collect(Collectors.toList());
     }
 }

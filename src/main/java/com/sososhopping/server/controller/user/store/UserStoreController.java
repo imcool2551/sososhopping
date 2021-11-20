@@ -4,8 +4,10 @@ import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreType;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
+import com.sososhopping.server.repository.store.JdbcStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserStoreService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Tuple;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +28,14 @@ import java.util.stream.Collectors;
 public class UserStoreController {
 
     private final UserStoreService userStoreService;
-    private final StoreRepository storeRepository;
     private final InterestStoreRepository interestStoreRepository;
 
     @GetMapping("/api/v1/users/stores")
     public ApiResponse<StoreListDto> getStoresByCategory(
             Authentication authentication,
+            @RequestParam Double lat,
+            @RequestParam Double lng,
+            @RequestParam Double radius,
             @RequestParam StoreType type
     ) {
         Long userId = null;
@@ -37,9 +43,9 @@ public class UserStoreController {
         if (authentication != null) userId = Long.parseLong(authentication.getName());
 
         List<StoreListDto> dtos = userStoreService
-                .getStoresByCategory(userId, type);
+                .getStoresByCategory(userId, lat, lng, radius, type);
 
-        return new ApiResponse<StoreListDto>(dtos);
+        return new ApiResponse<>(dtos);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}")
@@ -81,4 +87,5 @@ public class UserStoreController {
 
         return new ApiResponse<StoreListDto>(dtos);
     }
+
 }
