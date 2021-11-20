@@ -1,5 +1,6 @@
 package com.sososhopping.server.service.user.store;
 
+import com.sososhopping.server.common.dto.user.request.store.SearchStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.error.Api401Exception;
@@ -72,14 +73,11 @@ public class UserStoreService {
     @Transactional
     public List<StoreListDto> getStoresByCategory(
             Long userId,
-            Double lat,
-            Double lng,
-            Double radius,
-            StoreType storeType
+            SearchStoreByCategoryDto dto
     ) {
 
         Map<Long, Double> nearStoreIdsByCategory = jdbcStoreRepository
-                .getNearStoreIdsByCategory(lat, lng, radius, storeType);
+                .getNearStoreIdsByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType());
 
         List<Long> storeIds = nearStoreIdsByCategory.keySet().stream()
                 .collect(Collectors.toList());

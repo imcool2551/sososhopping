@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.user.store;
 
+import com.sososhopping.server.common.dto.user.request.store.SearchStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.common.dto.ApiResponse;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Tuple;
@@ -33,17 +35,14 @@ public class UserStoreController {
     @GetMapping("/api/v1/users/stores")
     public ApiResponse<StoreListDto> getStoresByCategory(
             Authentication authentication,
-            @RequestParam Double lat,
-            @RequestParam Double lng,
-            @RequestParam Double radius,
-            @RequestParam StoreType type
+            @ModelAttribute @Valid  SearchStoreByCategoryDto dto
     ) {
         Long userId = null;
 
         if (authentication != null) userId = Long.parseLong(authentication.getName());
 
         List<StoreListDto> dtos = userStoreService
-                .getStoresByCategory(userId, lat, lng, radius, type);
+                .getStoresByCategory(userId, dto);
 
         return new ApiResponse<>(dtos);
     }
