@@ -66,15 +66,17 @@ public class JdbcStoreRepository {
                 .flatMap(map -> map.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
-}
 
-class StoreMapper implements RowMapper {
-    @Override
-    public Map<Long, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
-        HashMap<Long, Double> mapRet = new HashMap<>();
-        Long storeId = rs.getLong("store_id");
-        Double distance = rs.getDouble("distance");
-        mapRet.put(storeId, distance);
-        return mapRet;
+    static class StoreMapper implements RowMapper {
+        @Override
+        public Map<Long, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            HashMap<Long, Double> mapRet = new HashMap<>();
+            Long storeId = rs.getLong("store_id");
+            Double distance = rs.getDouble("distance");
+            mapRet.put(storeId, distance);
+            return mapRet;
+        }
     }
 }
+
+
