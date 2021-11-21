@@ -58,21 +58,10 @@ public class OwnerStoreService {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점주입니다"));
 
-        /**
-         * 위, 경도 타입 변환 작업
-         */
-        String pointWKT = "POINT(" + dto.getLng() + " " + dto.getLat() + ")";
-        Point location;
-        try {
-            location = (Point) new WKTReader().read(pointWKT);
-        } catch (ParseException e) {
-            throw new Api500Exception("좌표 변환 중 오류가 발생했습니다");
-        }
-
-        Store store = new Store(owner, dto, location);
+        Store store = new Store(owner, dto);
         em.persist(store);
 
-        StoreMetaData storeMetaData = new StoreMetaData(store, dto.getStoreMetaDataResponseDto());
+        StoreMetaData storeMetaData = new StoreMetaData(store, dto.getStoreMetaDataRequestDto());
         em.persist(storeMetaData);
 
         List<StoreBusinessDayRequestDto> days = dto.getStoreBusinessDays();

@@ -2,6 +2,7 @@ package com.sososhopping.server.service.owner;
 
 import com.sososhopping.server.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.server.common.dto.owner.request.UserPointUpdateRequestDto;
+import com.sososhopping.server.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.member.UserPoint;
@@ -44,11 +45,11 @@ public class StorePointService {
     }
 
     @Transactional
-    public void updateUserPointDirectly(Long storeId, UserPointUpdateRequestDto dto) {
+    public void updateUserPointDirectly(Long storeId, String userPhone, UserPointUpdateRequestDto dto) {
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점포입니다"));
 
-        User user = userRepository.findByPhone(dto.getPhone()).orElseThrow(() ->
+        User user = userRepository.findByPhone(userPhone).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 고객입니다"));
 
         if (store.getPointPolicyStatus() == false) {
@@ -84,6 +85,23 @@ public class StorePointService {
             } else {
                 throw new Api400Exception("포인트 처리 입력이 명확하지 않습니다");
             }
+        }
+    }
+
+    @Transactional
+    public StoreUserPointResponseDto readUserPoint(Long storeId, String userPhone) {
+        Store store = storeRepository.findById(storeId).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 점포입니다"));
+
+        User user = userRepository.findByPhone(userPhone).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 고객입니다"));
+
+        Optional<UserPoint> result = userPointRepository.findByUserAndStore(user, store);
+
+        if (result.isEmpty()) {
+            return new StoreUserPointResponseDto(user.getName(), 0);
+        } else {
+            return new StoreUserPointResponseDto(user.getName(), result.get().getPoint());
         }
     }
 
