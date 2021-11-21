@@ -3,6 +3,7 @@ package com.sososhopping.server.controller.owner;
 import com.sososhopping.server.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.server.common.dto.owner.request.UserPointUpdateRequestDto;
 import com.sososhopping.server.common.dto.owner.response.StorePointPolicyResponseDto;
+import com.sososhopping.server.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.service.owner.StorePointService;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,25 @@ public class StorePointController {
     }
 
     //고객 포인트 직접 변경
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/pointpolicy/local")
-    public ResponseEntity updateUserPointDirectly(@PathVariable(value = "storeId") Long storeId
+    @PostMapping(value = "/api/v1/owner/store/{storeId}/point/local")
+    public ResponseEntity updateUserPointDirectly(
+            @PathVariable(value = "storeId") Long storeId
+            , @RequestParam String userPhone
             , @RequestBody UserPointUpdateRequestDto dto) {
-        storePointService.updateUserPointDirectly(storeId, dto);
+        storePointService.updateUserPointDirectly(storeId, userPhone, dto);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    //고객 포인트 중도 조회
+    @GetMapping(value = "/api/v1/owner/store/{storeId}/point/local")
+    public ResponseEntity getUserPoint(
+            @PathVariable(value = "storeId") Long storeId
+            , @RequestParam String userPhone) {
+        StoreUserPointResponseDto dto = storePointService.readUserPoint(storeId, userPhone);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dto);
     }
 }
