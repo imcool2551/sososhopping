@@ -5,6 +5,7 @@ import com.sososhopping.server.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,9 +34,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt를 통해 인증을 처리하기 때문에 세션 생성 비활성화
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/api/v1/owner/auth/**").permitAll()
-                    .antMatchers("/api/v1/user/auth/**").permitAll()
-                    .antMatchers("/api/v1/admin/auth/**").permitAll()
+                    .antMatchers("/api/v1/owner/auth/**"
+                            , "/api/v1/users/auth/**"
+                            , "/api/v1/admin/login"
+                            , "/api/v1/users/stores"
+                            ,"/api/v1/search").permitAll()
+                    .antMatchers(HttpMethod.GET
+                            , "api/v1/users/stores/**").permitAll()
+                    .antMatchers(HttpMethod.POST
+                            , "api/v1/users/stores/**").hasRole("USER")
+                    .antMatchers("api/v1/users/**").hasRole("USER")
+                    .antMatchers("/api/v1/owner/auth").hasRole("USER")
+                    .antMatchers("/api/v1/owner/store/**").hasRole("OWNER")
+                    .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
                 .and()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
