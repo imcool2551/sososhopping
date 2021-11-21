@@ -24,7 +24,7 @@ public class StoreItemController {
         List<StoreItemResponseDto> items
                 = storeItemService.readItemList(storeId)
                 .stream()
-                .map(item -> new StoreItemResponseDto(item))
+                .map(item -> new StoreItemResponseDto(item, storeId))
                 .collect(Collectors.toList());
 
         return ResponseEntity
@@ -40,7 +40,7 @@ public class StoreItemController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new StoreItemResponseDto(item));
+                .body(new StoreItemResponseDto(item, storeId));
     }
 
     @PostMapping(value = "/api/v1/owner/store/{storeId}/item")

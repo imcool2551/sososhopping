@@ -20,7 +20,7 @@ public class StoreRequestDto {
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayRequestDto> storeBusinessDays;
-    private StoreMetaDataRequestDto storeMetaDataResponseDto;
+    private StoreMetaDataRequestDto storeMetaDataRequestDto;
     private String lat; //위도
     private String lng; //경도
 }

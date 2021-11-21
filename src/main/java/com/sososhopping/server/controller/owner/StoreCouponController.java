@@ -25,12 +25,12 @@ public class StoreCouponController {
     public ResponseEntity readCouponList(@PathVariable(value = "storeId") Long storeId) {
         List<StoreCouponResponseDto> excepted = storeCouponService.readExceptedCouponList(storeId)
                 .stream()
-                .map(coupon -> new StoreCouponResponseDto(coupon))
+                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
                 .collect(Collectors.toList());
 
         List<StoreCouponResponseDto> being = storeCouponService.readBeingCouponList(storeId)
                 .stream()
-                .map(coupon -> new StoreCouponResponseDto(coupon))
+                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
                 .collect(Collectors.toList());
 
         StoreCouponListResponseDto dto = StoreCouponListResponseDto.builder()
@@ -60,7 +60,7 @@ public class StoreCouponController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new StoreCouponResponseDto(coupon));
+                .body(new StoreCouponResponseDto(coupon, storeId));
     }
 
     //쿠폰 수정

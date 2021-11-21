@@ -24,7 +24,7 @@ public class StoreWritingController {
     public ResponseEntity readWritingList(@PathVariable(value = "storeId") Long storeId) {
         List<StoreWritingListResponseDto> writings = storeWritingService.readWritingList(storeId)
                 .stream()
-                .map(writing -> new StoreWritingListResponseDto(writing))
+                .map(writing -> new StoreWritingListResponseDto(writing, storeId))
                 .collect(Collectors.toList());
         return ResponseEntity
                 .status(HttpStatus.OK)

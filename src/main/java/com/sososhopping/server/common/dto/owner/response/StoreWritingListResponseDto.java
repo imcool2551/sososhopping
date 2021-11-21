@@ -11,13 +11,15 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreWritingListResponseDto {
+    private Long storeId;
     private Long id;
     private String title;
     private String content;
     private WritingType writingType;
     private String createdAt;
 
-    public StoreWritingListResponseDto(Writing writing) {
+    public StoreWritingListResponseDto(Writing writing, Long storeId) {
+        this.storeId = storeId;
         this.id = writing.getId();
         this.title = writing.getTitle();
         this.content = writing.getContent();

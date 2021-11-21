@@ -101,6 +101,10 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String detailedAddress;
 
+    private BigDecimal lat;
+
+    private BigDecimal lng;
+
     @OneToOne(mappedBy = "store", cascade = ALL,
             orphanRemoval = true)
     private StoreMetaData storeMetaData;
@@ -172,7 +176,7 @@ public class Store extends BaseTimeEntity {
         this.owner.getStores().add(this);
     }
 
-    public Store(Owner owner, StoreRequestDto dto, Point location) {
+    public Store(Owner owner, StoreRequestDto dto) {
         this.owner = owner;
         this.storeType = StoreType.nameOf(dto.getStoreType());
         this.name = dto.getName();
@@ -185,7 +189,6 @@ public class Store extends BaseTimeEntity {
         this.deliveryStatus = dto.getDeliveryStatus();
         this.streetAddress = dto.getStreetAddress();
         this.detailedAddress = dto.getDetailedAddress();
-        this.location = location;
         this.lat = new BigDecimal(dto.getLat());
         this.lng = new BigDecimal(dto.getLng());
     }
