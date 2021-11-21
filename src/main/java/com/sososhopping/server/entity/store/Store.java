@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -100,10 +99,6 @@ public class Store extends BaseTimeEntity {
 
     @NotNull
     private String detailedAddress;
-
-    private BigDecimal lat;
-
-    private BigDecimal lng;
 
     @OneToOne(mappedBy = "store", cascade = ALL,
             orphanRemoval = true)
