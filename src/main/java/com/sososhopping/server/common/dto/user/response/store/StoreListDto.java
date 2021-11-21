@@ -1,11 +1,13 @@
 package com.sososhopping.server.common.dto.user.response.store;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.sososhopping.server.entity.member.InterestStore;
 import com.sososhopping.server.entity.store.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -25,8 +27,13 @@ public class StoreListDto {
     private final Coordinate location;
     private final Double score;
     private final Boolean isInterestStore;
+    private final Double distance;
 
-    public StoreListDto (Store store, List<InterestStore> interestStores) {
+    public StoreListDto (
+            Store store,
+            List<InterestStore> interestStores,
+            Map<Long, Double> idToDistanceMap
+    ) {
         storeId = store.getId();
         storeType = store.getStoreType().getKrType();
         name = store.getName();
@@ -38,8 +45,8 @@ public class StoreListDto {
         pickupStatus = store.getPickupStatus() ;
         deliveryStatus = store.getDeliveryStatus();
         location = new Coordinate(
-                store.getLocation().getX(),
-                store.getLocation().getY()
+                store.getLat().doubleValue(),
+                store.getLng().doubleValue()
         );
         score = store.getReviews()
                 .stream()
@@ -50,6 +57,7 @@ public class StoreListDto {
                 .anyMatch(interestStore ->
                         Objects.equals(store.getId(), interestStore.getStore().getId())
                 );
+        distance = idToDistanceMap.get(store.getId());
     }
 
     public StoreListDto (InterestStore interestStore) {
@@ -64,8 +72,8 @@ public class StoreListDto {
         pickupStatus = interestStore.getStore().getPickupStatus();
         deliveryStatus = interestStore.getStore().getDeliveryStatus();
         location = new Coordinate(
-                interestStore.getStore().getLocation().getX(),
-                interestStore.getStore().getLocation().getY()
+                interestStore.getStore().getLat().doubleValue(),
+                interestStore.getStore().getLng().doubleValue()
         );
         score = interestStore.getStore().getReviews()
                 .stream()
@@ -73,6 +81,7 @@ public class StoreListDto {
                 .average()
                 .orElse(0);
         isInterestStore = true;
+        distance = null;
     }
 
     @Getter

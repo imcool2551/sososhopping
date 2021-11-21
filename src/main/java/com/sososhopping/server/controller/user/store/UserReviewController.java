@@ -47,6 +47,33 @@ public class UserReviewController {
                 .body(null);
     }
 
+    @PutMapping("/api/v1/users/stores/{storeId}/reviews")
+    public ResponseEntity updateMyReview(
+            Authentication authentication,
+            @PathVariable Long storeId,
+            @RequestBody @Valid ReviewCreateDto dto
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        userReviewService.updateReview(userId, storeId, dto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(null);
+    }
+
+    @DeleteMapping("/api/v1/users/stores/{storeId}/reviews")
+    public ResponseEntity deleteMyReview(
+            Authentication authentication,
+            @PathVariable Long storeId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        userReviewService.deleteReview(userId, storeId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(null);
+    }
+
     @GetMapping("/api/v1/users/my/reviews")
     public ApiResponse<UserReviewDto> getMyReviews(Authentication authentication) {
 
@@ -59,4 +86,6 @@ public class UserReviewController {
 
         return new ApiResponse<UserReviewDto>(dtos);
     }
+
+
 }

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
-@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -59,6 +58,12 @@ public class Store extends BaseTimeEntity {
 
     @NotNull
     private Point location;
+
+    @NotNull
+    private BigDecimal lat;
+
+    @NotNull
+    private BigDecimal lng;
 
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
@@ -137,6 +142,31 @@ public class Store extends BaseTimeEntity {
     @OrderBy("createdAt desc")
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder
+    public Store(Long id, Owner owner, StoreType storeType, String name, String imgUrl, String description, String extraBusinessDay, String phone, Point location, BigDecimal lat, BigDecimal lng, Boolean businessStatus, StoreStatus storeStatus, Boolean localCurrencyStatus, Boolean pickupStatus, Boolean deliveryStatus, Boolean pointPolicyStatus, BigDecimal saveRate, String streetAddress, String detailedAddress, StoreMetaData storeMetaData) {
+        this.id = id;
+        this.owner = owner;
+        this.storeType = storeType;
+        this.name = name;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.extraBusinessDay = extraBusinessDay;
+        this.phone = phone;
+        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
+        this.businessStatus = businessStatus;
+        this.storeStatus = storeStatus;
+        this.localCurrencyStatus = localCurrencyStatus;
+        this.pickupStatus = pickupStatus;
+        this.deliveryStatus = deliveryStatus;
+        this.pointPolicyStatus = pointPolicyStatus;
+        this.saveRate = saveRate;
+        this.streetAddress = streetAddress;
+        this.detailedAddress = detailedAddress;
+        this.storeMetaData = storeMetaData;
+    }
+
     // 연관 관계 편의 메서드
     public void setOwner(Owner owner) {
         if (this.owner != null) {
@@ -203,3 +233,21 @@ public class Store extends BaseTimeEntity {
         this.businessStatus = businessStatus;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

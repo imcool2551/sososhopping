@@ -1,8 +1,5 @@
 package com.sososhopping.server;
 
-import com.sososhopping.server.entity.coupon.Coupon;
-import com.sososhopping.server.entity.coupon.FixCoupon;
-import com.sososhopping.server.entity.coupon.RateCoupon;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.member.Review;
@@ -18,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * 테스트 데이터를 넣기 위한 파일입니다. @Rollback(false) 사용
@@ -33,17 +29,46 @@ class InitDataTest {
     @Test
     @Rollback(false)
     void init() throws Exception {
+        for (int i = 0; i < 100; i++) {
+            build6Stores();
+        }
+    }
 
-        Store findStore = em.find(Store.class, 2L);
-        Store findStore2 = em.find(Store.class, 32L);
-        User findUser = em.find(User.class, 1L);
-        User findUser2 = em.find(User.class, 4L);
+    private void build6Stores() {
+        Store store1 = buildStore(37.534473, 126.986634, "녹사평");
+        Store store2 = buildStore(37.534518, 126.994392, "이태원");
+        Store store3 = buildStore(37.539458, 127.001697, "한강진");
+        Store store4 = buildStore(37.566160, 127.016255, "신당");
+        Store store5 = buildStore(37.535400, 126.974039, "한강진");
+        Store store6 = buildStore(37.519595, 126.988621, "서빙고");
 
-        Review review1 = buildReview();
-        Review review2 = buildReview();
+        em.persist(store1);
+        em.persist(store2);
+        em.persist(store3);
+        em.persist(store4);
+        em.persist(store5);
+        em.persist(store6);
+    }
 
-        review2.setStore(findStore2);
-        review2.setUser(findUser);
+    private Store buildStore(double lat, double lng, String name) {
+        Owner owner = em.find(Owner.class, 21L);
+        return Store.builder()
+                .owner(owner)
+                .storeType(StoreType.BAKERY)
+                .name(name)
+                .phone("01012341234")
+                .location(
+                        new GeometryFactory().createPoint(new Coordinate(lng, lat))
+                )
+                .businessStatus(false)
+                .storeStatus(StoreStatus.ACTIVE)
+                .localCurrencyStatus(false)
+                .pickupStatus(false)
+                .deliveryStatus(false)
+                .pointPolicyStatus(false)
+                .streetAddress("Seoul")
+                .detailedAddress("Seoul")
+                .build();
     }
 
     private User buildUser() {

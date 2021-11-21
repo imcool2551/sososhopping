@@ -87,6 +87,11 @@ public class AuthService {
         return userRepository.existsByNickname(nickname);
     }
 
+    @Transactional
+    public boolean isDuplicatePhone(String phone) {
+        return userRepository.existsByPhone(phone);
+    }
+
     //고객 회원가입
     @Transactional
     public void userSignUp(UserSignUpRequestDto dto) {

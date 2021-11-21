@@ -37,23 +37,19 @@ public class UserPointController {
     private final UserPointLogRepository userPointLogRepository;
 
     @GetMapping("/api/v1/users/my/points")
-    public ApiResponse<UserPointListDto> getMyPoints(Authentication authentication) {
+    public UserPointListDto getMyPoints(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        List<UserPoint> userPoints = userPointRepository.findByUser(user);
 
         List<Store> interestStores = interestStoreRepository.findAllByUserId(userId)
                 .stream()
                 .map(interestStore -> interestStore.getStore())
                 .collect(Collectors.toList());
 
-
-        List<UserPointListDto> dtos = userPointRepository.findByUser(user)
-                .stream()
-                .map(userPoint -> new UserPointListDto(userPoint, interestStores))
-                .collect(Collectors.toList());
-
-        return new ApiResponse<UserPointListDto>(dtos);
+        return new UserPointListDto(userPoints, interestStores);
     }
 
     @GetMapping("/api/v1/users/my/points/{storeId}")
