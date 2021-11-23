@@ -5,6 +5,9 @@ import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.orders.Order;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -68,7 +71,29 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+
+    // Business Logic
     public void suspend() {
         active = AccountStatus.SUSPEND;
+    }
+
+    public void updateUserInfo(
+            String name,
+            String phone,
+            String email,
+            String nickname,
+            String streetAddress,
+            String detailedAddress
+    ) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.nickname = nickname;
+        this.streetAddress = streetAddress;
+        this.detailedAddress = detailedAddress;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

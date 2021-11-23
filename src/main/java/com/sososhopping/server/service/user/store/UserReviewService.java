@@ -93,4 +93,17 @@ public class UserReviewService {
 
         review.updateReview(dto.getContent(), dto.getImgUrl(), dto.getScore());
     }
+
+    @Transactional
+    public boolean existingReviewByUserAndStore(Long userId, Long storeId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid token"));
+
+        Store store = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        return reviewRepository.existsByUserAndStore(user, store);
+    }
 }

@@ -4,8 +4,10 @@ import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.dto.user.response.store.UserReviewDto;
-import com.sososhopping.server.entity.member.Review;
+import com.sososhopping.server.common.error.Api409Exception;
+import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.ReviewRepository;
+import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,23 @@ public class UserReviewController {
 
         List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
         return new ApiResponse<StoreReviewDto>(storeReviews);
+    }
+
+    @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")
+    public ResponseEntity checkStoreReview(
+            Authentication authentication,
+            @PathVariable Long storeId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        boolean exists = userReviewService.existingReviewByUserAndStore(userId, storeId);
+
+        if (exists) {
+            throw new Api409Exception("이미 작성한 리뷰가 있습니다");
+        }
+
+        return ResponseEntity
+                .status(200)
+                .body(null);
     }
 
     @PostMapping("/api/v1/users/stores/{storeId}/reviews")

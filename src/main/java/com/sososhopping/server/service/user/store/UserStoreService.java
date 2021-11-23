@@ -100,11 +100,13 @@ public class UserStoreService {
     @Transactional
     public List<StoreListDto> getStoreBySearch(Long userId, GetStoreBySearchDto dto) {
         Map<Long, Double> nearStoreIdsBySearch;
-        if (dto.getType().equals(StoreSearchType.STORE)) {
+        StoreSearchType searchType = dto.getType();
+        if (searchType.equals(StoreSearchType.STORE)) {
             nearStoreIdsBySearch = jdbcStoreRepository
                     .getNearStoreIdsByStoreName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
         } else {
-            throw new Api404Exception("Go away");
+            nearStoreIdsBySearch = jdbcStoreRepository
+                    .getNearStoreIdsByItemName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
         }
 
         List<Long> storeIds = nearStoreIdsBySearch.keySet().stream()
