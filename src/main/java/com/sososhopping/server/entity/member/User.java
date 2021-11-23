@@ -71,6 +71,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Cart> cart = new ArrayList<>();
+
 
     // Business Logic
     public void suspend() {
