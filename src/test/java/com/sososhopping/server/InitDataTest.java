@@ -27,7 +27,6 @@ class InitDataTest {
     private EntityManager em;
 
     @Test
-    @Rollback(false)
     void init() throws Exception {
         for (int i = 0; i < 100; i++) {
             build6Stores();

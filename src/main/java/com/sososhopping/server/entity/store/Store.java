@@ -9,7 +9,6 @@ import com.sososhopping.server.entity.member.Review;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.member.Owner;
 import lombok.*;
-import org.locationtech.jts.geom.Point;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -54,9 +53,6 @@ public class Store extends BaseTimeEntity {
     @NotNull
     @Column(columnDefinition = "char")
     private String phone;
-
-    @NotNull
-    private Point location;
 
     @NotNull
     private BigDecimal lat;
@@ -136,31 +132,6 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     @OrderBy("createdAt desc")
     private List<Review> reviews = new ArrayList<>();
-
-    @Builder
-    public Store(Long id, Owner owner, StoreType storeType, String name, String imgUrl, String description, String extraBusinessDay, String phone, Point location, BigDecimal lat, BigDecimal lng, Boolean businessStatus, StoreStatus storeStatus, Boolean localCurrencyStatus, Boolean pickupStatus, Boolean deliveryStatus, Boolean pointPolicyStatus, BigDecimal saveRate, String streetAddress, String detailedAddress, StoreMetaData storeMetaData) {
-        this.id = id;
-        this.owner = owner;
-        this.storeType = storeType;
-        this.name = name;
-        this.imgUrl = imgUrl;
-        this.description = description;
-        this.extraBusinessDay = extraBusinessDay;
-        this.phone = phone;
-        this.location = location;
-        this.lat = lat;
-        this.lng = lng;
-        this.businessStatus = businessStatus;
-        this.storeStatus = storeStatus;
-        this.localCurrencyStatus = localCurrencyStatus;
-        this.pickupStatus = pickupStatus;
-        this.deliveryStatus = deliveryStatus;
-        this.pointPolicyStatus = pointPolicyStatus;
-        this.saveRate = saveRate;
-        this.streetAddress = streetAddress;
-        this.detailedAddress = detailedAddress;
-        this.storeMetaData = storeMetaData;
-    }
 
     // 연관 관계 편의 메서드
     public void setOwner(Owner owner) {
