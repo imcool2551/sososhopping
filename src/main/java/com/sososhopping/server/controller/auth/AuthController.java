@@ -63,6 +63,15 @@ public class AuthController {
             return new ResponseEntity(HttpStatus.OK);
     }
 
+    //고객 핸드폰 중복 확인
+    @PostMapping(value = "/api/v1/users/auth/signup/phone")
+    public ResponseEntity isDuplicatePhone(@RequestBody UserSignUpRequestDto dto) {
+        if(authService.isDuplicatePhone(dto.getPhone()))
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     //고객 회원가입
     @PostMapping(value = "/api/v1/users/auth/signup")

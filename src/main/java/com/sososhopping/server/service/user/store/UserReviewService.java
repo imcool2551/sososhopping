@@ -60,4 +60,50 @@ public class UserReviewService {
         review.setStore(store);
         reviewRepository.save(review);
     }
+
+    @Transactional
+    public void deleteReview(Long userId, Long storeId) {
+
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid token"));
+
+        Store store = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        Review review = reviewRepository.findByUserAndStore(user, store)
+                .orElseThrow(() -> new Api404Exception("리뷰가 존재하지 않습니다"));
+
+        reviewRepository.delete(review);
+    }
+
+    @Transactional
+    public void updateReview(Long userId, Long storeId, ReviewCreateDto dto) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid token"));
+
+        Store store = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        Review review = reviewRepository.findByUserAndStore(user, store)
+                .orElseThrow(() -> new Api404Exception("리뷰가 존재하지 않습니다"));
+
+        review.updateReview(dto.getContent(), dto.getImgUrl(), dto.getScore());
+    }
+
+    @Transactional
+    public boolean existingReviewByUserAndStore(Long userId, Long storeId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid token"));
+
+        Store store = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        return reviewRepository.existsByUserAndStore(user, store);
+    }
 }

@@ -54,7 +54,10 @@ public class StoreInfoDto {
                 .stream()
                 .map(storeImage -> new StoreImageDto(storeImage))
                 .collect(Collectors.toList());
-        location = new Coordinate(store.getLocation().getX(), store.getLocation().getY());
+        location = new Coordinate(
+                store.getLat().doubleValue(),
+                store.getLng().doubleValue()
+        );
         score = store.getReviews()
                 .stream()
                 .mapToDouble(reviews -> reviews.getScore().doubleValue())

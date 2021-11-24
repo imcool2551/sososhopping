@@ -9,7 +9,6 @@ import com.sososhopping.server.entity.member.Review;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.member.Owner;
 import lombok.*;
-import org.locationtech.jts.geom.Point;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -18,12 +17,10 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
-@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -58,7 +55,10 @@ public class Store extends BaseTimeEntity {
     private String phone;
 
     @NotNull
-    private Point location;
+    private BigDecimal lat;
+
+    @NotNull
+    private BigDecimal lng;
 
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
@@ -95,10 +95,6 @@ public class Store extends BaseTimeEntity {
 
     @NotNull
     private String detailedAddress;
-
-    private BigDecimal lat;
-
-    private BigDecimal lng;
 
     @OneToOne(mappedBy = "store", cascade = ALL,
             orphanRemoval = true)
@@ -203,3 +199,21 @@ public class Store extends BaseTimeEntity {
         this.businessStatus = businessStatus;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

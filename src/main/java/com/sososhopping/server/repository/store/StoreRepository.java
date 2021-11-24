@@ -1,12 +1,17 @@
 package com.sososhopping.server.repository.store;
 
+import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
 import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreStatus;
 import com.sososhopping.server.entity.store.StoreType;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import javax.persistence.Tuple;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +38,6 @@ public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRe
     Optional<Store> findStoreWithWritingById(Long storeId);
 
     List<Store> findByStoreType(StoreType storeType);
+
+    List<Store> findByIdIn(List<Long> id);
 }

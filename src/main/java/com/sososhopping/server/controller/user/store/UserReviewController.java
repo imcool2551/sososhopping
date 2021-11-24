@@ -4,8 +4,10 @@ import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.dto.user.response.store.UserReviewDto;
-import com.sososhopping.server.entity.member.Review;
+import com.sososhopping.server.common.error.Api409Exception;
+import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.ReviewRepository;
+import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,23 @@ public class UserReviewController {
         return new ApiResponse<StoreReviewDto>(storeReviews);
     }
 
+    @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")
+    public ResponseEntity checkStoreReview(
+            Authentication authentication,
+            @PathVariable Long storeId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        boolean exists = userReviewService.existingReviewByUserAndStore(userId, storeId);
+
+        if (exists) {
+            throw new Api409Exception("이미 작성한 리뷰가 있습니다");
+        }
+
+        return ResponseEntity
+                .status(200)
+                .body(null);
+    }
+
     @PostMapping("/api/v1/users/stores/{storeId}/reviews")
     public ResponseEntity createReview(
             Authentication authentication,
@@ -44,6 +63,33 @@ public class UserReviewController {
         userReviewService.createReview(userId, storeId, dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .body(null);
+    }
+
+    @PutMapping("/api/v1/users/stores/{storeId}/reviews")
+    public ResponseEntity updateMyReview(
+            Authentication authentication,
+            @PathVariable Long storeId,
+            @RequestBody @Valid ReviewCreateDto dto
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        userReviewService.updateReview(userId, storeId, dto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(null);
+    }
+
+    @DeleteMapping("/api/v1/users/stores/{storeId}/reviews")
+    public ResponseEntity deleteMyReview(
+            Authentication authentication,
+            @PathVariable Long storeId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        userReviewService.deleteReview(userId, storeId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(null);
     }
 
@@ -59,4 +105,6 @@ public class UserReviewController {
 
         return new ApiResponse<UserReviewDto>(dtos);
     }
+
+
 }
