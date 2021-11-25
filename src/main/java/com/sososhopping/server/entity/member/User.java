@@ -71,6 +71,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Cart> cart = new ArrayList<>();
+
 
     // Business Logic
     public void suspend() {
@@ -80,14 +83,12 @@ public class User extends BaseTimeEntity {
     public void updateUserInfo(
             String name,
             String phone,
-            String email,
             String nickname,
             String streetAddress,
             String detailedAddress
     ) {
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.nickname = nickname;
         this.streetAddress = streetAddress;
         this.detailedAddress = detailedAddress;
