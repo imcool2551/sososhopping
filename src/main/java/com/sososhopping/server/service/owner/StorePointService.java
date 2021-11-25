@@ -45,11 +45,11 @@ public class StorePointService {
     }
 
     @Transactional
-    public void updateUserPointDirectly(Long storeId, String userPhone, UserPointUpdateRequestDto dto) {
+    public void updateUserPointDirectly(Long storeId, UserPointUpdateRequestDto dto) {
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점포입니다"));
 
-        User user = userRepository.findByPhone(userPhone).orElseThrow(() ->
+        User user = userRepository.findByPhone(dto.getUserPhone()).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 고객입니다"));
 
         if (store.getPointPolicyStatus() == false) {

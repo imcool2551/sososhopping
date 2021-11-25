@@ -40,9 +40,8 @@ public class StorePointController {
     @PostMapping(value = "/api/v1/owner/store/{storeId}/point/local")
     public ResponseEntity updateUserPointDirectly(
             @PathVariable(value = "storeId") Long storeId
-            , @RequestParam String userPhone
             , @RequestBody UserPointUpdateRequestDto dto) {
-        storePointService.updateUserPointDirectly(storeId, userPhone, dto);
+        storePointService.updateUserPointDirectly(storeId, dto);
 
         return new ResponseEntity(HttpStatus.OK);
     }
