@@ -1,6 +1,10 @@
 package com.sososhopping.server.service.auth;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import com.sososhopping.server.auth.JwtTokenProvider;
+import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
@@ -16,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,6 +32,7 @@ public class AuthService {
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final FirebaseAuth firebaseAuth;
 
     /**
      * 점주 관련 인증
@@ -55,18 +63,23 @@ public class AuthService {
                 .build();
 
         ownerRepository.save(owner);
+
+        createFirebaseAccount("O" + owner.getId(), owner.getEmail(), owner.getName());
     }
 
     //점주 로그인
     @Transactional
-    public String ownerLogin(OwnerLoginRequestDto dto) {
+    public AuthToken ownerLogin(OwnerLoginRequestDto dto) {
         Owner owner = ownerRepository.findByEmail(dto.getEmail()).orElseThrow(() ->
                 new Api401Exception("올바르지 않은 아이디입니다"));
 
         if(!passwordEncoder.matches(dto.getPassword(), owner.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
-        return jwtTokenProvider.createToken("O", owner.getId());
+        String apiToken = jwtTokenProvider.createToken("O", owner.getId());
+        String firebaseToken = createFirebaseToken("O" + owner.getId());
+
+        return new AuthToken(apiToken, firebaseToken);
     }
 
     /**
@@ -112,18 +125,23 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
+
+        createFirebaseAccount("U" + user.getId(), user.getEmail(), user.getName());
     }
 
     //고객 로그인
     @Transactional
-    public String userLogin(UserLoginRequestDto dto) {
+    public AuthToken userLogin(UserLoginRequestDto dto) {
         User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(() ->
                 new Api401Exception("올바르지 않은 아이디입니다"));
 
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
-        return jwtTokenProvider.createToken("U", user.getId());
+        String apiToken = jwtTokenProvider.createToken("U", user.getId());
+        String firebaseToken = createFirebaseToken("U" + user.getId());
+
+        return new AuthToken(apiToken, firebaseToken);
     }
 
     /**
@@ -155,5 +173,35 @@ public class AuthService {
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
         return jwtTokenProvider.createToken("A", admin.getId());
+    }
+
+    //Firebase 사용자 생성 및 저장
+    private void createFirebaseAccount(String uid, String email, String name) {
+        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+                .setUid(uid)
+                .setEmail(email)
+                .setDisplayName(name);
+
+        try {
+            firebaseAuth.createUser(request);
+        }catch (FirebaseAuthException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Firebase 커스텀 토큰 생성 및 반환
+    private String createFirebaseToken(String uid) {
+        String firebaseToken = "";
+
+        Map<String, Object> additionalClaims = new HashMap<>();
+        additionalClaims.put("from", "sososhopApi");
+
+        try {
+            firebaseToken = firebaseAuth.createCustomToken(uid, additionalClaims);
+        } catch (FirebaseAuthException e) {
+            e.printStackTrace();
+        }
+
+        return firebaseToken;
     }
 }

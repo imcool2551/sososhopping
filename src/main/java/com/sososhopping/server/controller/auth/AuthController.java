@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.auth;
 
+import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
 import com.sososhopping.server.service.auth.AuthService;
@@ -36,10 +37,10 @@ public class AuthController {
     //점주 로그인
     @PostMapping(value = "/api/v1/owner/auth/login")
     public ResponseEntity ownerLogin(@RequestBody OwnerLoginRequestDto dto) {
-        String token = authService.ownerLogin(dto);
+        AuthToken authToken = authService.ownerLogin(dto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new LoginResponseDto(token));
+                .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
     /**
@@ -83,10 +84,10 @@ public class AuthController {
     //고객 로그인
     @PostMapping(value = "/api/v1/users/auth/login")
     public ResponseEntity userLogin(@RequestBody UserLoginRequestDto dto) {
-        String token = authService.userLogin(dto);
+        AuthToken authToken = authService.userLogin(dto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new LoginResponseDto(token));
+                .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
     /**
@@ -105,6 +106,6 @@ public class AuthController {
         String token = authService.adminLogin(dto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new LoginResponseDto(token));
+                .body(new LoginResponseDto(token, null));
     }
 }
