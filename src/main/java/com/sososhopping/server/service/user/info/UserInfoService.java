@@ -23,7 +23,6 @@ public class UserInfoService {
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
 
         String phone = dto.getPhone();
-        String email = dto.getEmail();
         String password = dto.getPassword();
 
         userRepository.findByPhone(phone)
@@ -34,15 +33,7 @@ public class UserInfoService {
                         }
                 );
 
-        userRepository.findByEmail(email)
-                .ifPresent(
-                        existingUser -> {
-                            if (user != existingUser)
-                                throw new Api409Exception("이미 존재하는 이메일입니다");
-                        }
-                );
-
-        user.updateUserInfo(dto.getName(), phone, email, dto.getNickname(), dto.getStreetAddress(), dto.getDetailedAddress());
+        user.updateUserInfo(dto.getName(), phone, dto.getNickname(), dto.getStreetAddress(), dto.getDetailedAddress());
 
         if (password != null) {
             String encodedPassword = passwordEncoder.encode(password);

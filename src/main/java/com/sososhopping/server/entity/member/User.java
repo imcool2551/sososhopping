@@ -83,14 +83,12 @@ public class User extends BaseTimeEntity {
     public void updateUserInfo(
             String name,
             String phone,
-            String email,
             String nickname,
             String streetAddress,
             String detailedAddress
     ) {
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.nickname = nickname;
         this.streetAddress = streetAddress;
         this.detailedAddress = detailedAddress;

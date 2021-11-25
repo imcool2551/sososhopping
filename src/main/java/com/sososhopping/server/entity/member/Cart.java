@@ -1,5 +1,6 @@
 package com.sososhopping.server.entity.member;
 
+import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.store.Item;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import static javax.persistence.FetchType.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cart {
+public class Cart extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id")
@@ -44,5 +45,10 @@ public class Cart {
     public void setUser(User user) {
         this.user = user;
         this.user.getCart().add(this);
+    }
+
+    // Business Logic
+    public void updateQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
