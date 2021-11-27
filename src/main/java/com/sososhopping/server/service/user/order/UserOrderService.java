@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
+
 @Service
 @RequiredArgsConstructor
 public class UserOrderService {
@@ -141,7 +143,7 @@ public class UserOrderService {
                 .usedPoint(usedPoint)
                 .coupon(findCoupon)
                 .finalPrice(finalPrice)
-                .orderStatus(OrderStatus.PENDING)
+                .orderStatus(PENDING)
                 .build();
 
         dto.getOrderItems()
@@ -172,7 +174,13 @@ public class UserOrderService {
     }
 
     public List<Order> getOrders(User user, OrderStatus status) {
-        return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+        if (status == APPROVE || status == READY) {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, READY, APPROVE);
+        } else if (status == CANCEL || status == REJECT) {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, CANCEL, REJECT);
+        } else {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+        }
     }
 
     public Order getOrderDetail(User user, Long orderId) {

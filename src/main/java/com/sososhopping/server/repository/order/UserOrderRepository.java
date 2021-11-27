@@ -8,5 +8,5 @@ import com.sososhopping.server.entity.orders.OrderType;
 import java.util.List;
 
 public interface UserOrderRepository {
-    List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus type);
+    List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus ... type);
 }

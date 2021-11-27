@@ -22,12 +22,18 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
 
 
     @Override
-    public List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus status) {
+    public List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus ... status) {
+
+        BooleanExpression orderStatusExpr = orderStatusEq(status[0]);
+        for (int i = 1; i < status.length; i++) {
+            orderStatusExpr = orderStatusExpr.or(orderStatusEq(status[i]));
+        }
+
         return queryFactory
                 .select(order)
                 .from(order)
                 .join(order.store, store).fetchJoin()
-                .where(userEq(user), orderStatusEq(status))
+                .where(userEq(user), orderStatusExpr)
                 .orderBy(order.createdAt.desc())
                 .fetch();
     }

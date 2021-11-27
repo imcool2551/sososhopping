@@ -28,7 +28,7 @@ public class UserOrderController {
     private final UserRepository userRepository;
 
     @PostMapping("/api/v1/users/orders")
-    public ResponseEntity makeOrder(
+    public ResponseEntity createOrder(
             Authentication authentication,
             @RequestBody @Valid OrderCreateDto orderCreateDto
     ) {
@@ -45,7 +45,7 @@ public class UserOrderController {
     }
 
     @GetMapping("/api/v1/users/my/orders")
-    public ApiResponse<OrderListDto> getMyOrders(
+    public ApiResponse<OrderListDto> getOrders(
             Authentication authentication,
             @RequestParam OrderStatus status
     ) {
