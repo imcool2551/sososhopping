@@ -121,6 +121,10 @@ public class UserOrderService {
             throw new Api400Exception("최종금액은 0원 이상이어야 합니다");
         }
 
+        if (finalPrice != dto.getFinalPrice()) {
+            throw new Api400Exception("가격이 맞지 않습니다");
+        }
+
         // 주문 완료
         Order order = Order.builder()
                 .user(user)

@@ -4,6 +4,8 @@ import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.order.AddCartItemDto;
 import com.sososhopping.server.common.dto.user.request.order.UpdateCartDto;
 import com.sososhopping.server.common.dto.user.response.order.UserCartDto;
+import com.sososhopping.server.entity.member.Cart;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.service.user.order.UserCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,8 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.*;
 
@@ -43,15 +44,25 @@ public class UserCartController {
     ) {
         Long userId = Long.parseLong(authentication.getName());
 
-        List<UserCartDto> userCartDtos = new ArrayList<>();
-        userCartService.getMyCart(userId)
+        Map<Store, List<Cart>> storeToCarts = userCartService.getMyCart(userId)
                 .stream()
-                .collect(groupingBy(c -> c.getItem().getStore()))
+                .collect(groupingBy(c -> c.getItem().getStore()));
+
+        List<Map.Entry<Store, List<Cart>>> entries = new LinkedList<>(storeToCarts.entrySet());
+        Collections.sort(entries, Comparator.comparing(o -> o.getKey().getId()));
+
+        LinkedHashMap<Store, List<Cart>> orderedStoreToCarts = new LinkedHashMap<>();
+        for (Map.Entry<Store, List<Cart>> entry : entries) {
+            orderedStoreToCarts.put(entry.getKey(), entry.getValue());
+        }
+
+        List<UserCartDto> userCartsDto = new ArrayList<>();
+        orderedStoreToCarts
                 .forEach((k, v) -> {
-                    userCartDtos.add(new UserCartDto(k, v));
+                    userCartsDto.add(new UserCartDto(k, v));
                 });
 
-        return new ApiResponse<>(userCartDtos);
+        return new ApiResponse<>(userCartsDto);
     }
 
     @PatchMapping("/api/v1/users/my/cart")
