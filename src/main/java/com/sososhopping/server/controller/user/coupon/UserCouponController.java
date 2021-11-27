@@ -6,6 +6,7 @@ import com.sososhopping.server.common.dto.user.response.store.CouponDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
+import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
@@ -74,15 +75,21 @@ public class UserCouponController {
     }
 
     @GetMapping("/api/v1/users/my/coupons")
-    public ApiResponse<CouponDto> getMyCoupons(Authentication authentication) {
+    public ApiResponse<CouponDto> getMyCoupons(
+            Authentication authentication,
+            @RequestParam(required = false) Long storeId
+    ) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
 
-        List<CouponDto> dtos = userCouponRepository.findUsableCouponsByUser(user)
+        List<UserCoupon> userCoupons = userCouponService.getMyCoupons(user, storeId);
+
+        List<CouponDto> dtos = userCoupons
                 .stream()
                 .map(userCoupon -> new CouponDto(userCoupon.getCoupon()))
                 .collect(Collectors.toList());
+
         return new ApiResponse<CouponDto>(dtos);
     }
 }
