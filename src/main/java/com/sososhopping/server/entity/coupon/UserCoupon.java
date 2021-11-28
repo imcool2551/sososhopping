@@ -43,7 +43,7 @@ public class UserCoupon extends BaseTimeEntity {
     }
 
     // Business Logic
-    public void useCoupon() {
+    public void use() {
         if (used == true) {
             throw new Api400Exception("이미 사용한 쿠폰입니다");
         }
@@ -51,5 +51,9 @@ public class UserCoupon extends BaseTimeEntity {
             throw new Api400Exception("사용기한이 지났습니다");
         }
         used = true;
+    }
+
+    public void restore() {
+        used = false;
     }
 }
