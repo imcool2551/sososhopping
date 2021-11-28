@@ -1,9 +1,11 @@
 package com.sososhopping.server.controller.user.order;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderListDto;
+import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.orders.Order;
@@ -20,6 +22,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
+
 @RestController
 @RequiredArgsConstructor
 public class UserOrderController {
@@ -28,7 +32,7 @@ public class UserOrderController {
     private final UserRepository userRepository;
 
     @PostMapping("/api/v1/users/orders")
-    public ResponseEntity makeOrder(
+    public ResponseEntity createOrder(
             Authentication authentication,
             @RequestBody @Valid OrderCreateDto orderCreateDto
     ) {
@@ -44,8 +48,31 @@ public class UserOrderController {
                 .body(null);
     }
 
+    @PostMapping("/api/v1/users/orders/{orderId}")
+    public void changeOrderStatus(
+            Authentication authentication,
+            @PathVariable Long orderId,
+            @RequestBody @Valid ChangeOrderStatusDto dto
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        OrderStatus action = dto.getAction();
+
+        if (action != CANCEL && action != DONE) {
+            throw new Api400Exception("알 수 없는 요청입니다");
+        }
+
+        if (action == CANCEL) {
+            userOrderService.cancelOrder(user, orderId);
+        } else if (action == DONE) {
+            userOrderService.confirmOrder(user, orderId);
+        }
+    }
+
     @GetMapping("/api/v1/users/my/orders")
-    public ApiResponse<OrderListDto> getMyOrders(
+    public ApiListResponse<OrderListDto> getOrders(
             Authentication authentication,
             @RequestParam OrderStatus status
     ) {
@@ -58,7 +85,7 @@ public class UserOrderController {
                 .map(order -> new OrderListDto((order)))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<OrderListDto>(dtos);
+        return new ApiListResponse<OrderListDto>(dtos);
     }
 
     @GetMapping("/api/v1/users/my/orders/{orderId}")

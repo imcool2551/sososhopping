@@ -4,7 +4,7 @@ import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryD
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.service.user.store.UserStoreService;
@@ -27,7 +27,7 @@ public class UserStoreController {
     private final InterestStoreRepository interestStoreRepository;
 
     @GetMapping("/api/v1/users/stores")
-    public ApiResponse<StoreListDto> getStoresByCategory(
+    public ApiListResponse<StoreListDto> getStoresByCategory(
             Authentication authentication,
             @ModelAttribute @Valid GetStoreByCategoryDto dto
     ) {
@@ -38,11 +38,11 @@ public class UserStoreController {
         List<StoreListDto> dtos = userStoreService
                 .getStoresByCategory(userId, dto);
 
-        return new ApiResponse<>(dtos);
+        return new ApiListResponse<>(dtos);
     }
 
     @GetMapping("/api/v1/users/search")
-    public ApiResponse<StoreListDto> getStoresBySearch(
+    public ApiListResponse<StoreListDto> getStoresBySearch(
             Authentication authentication,
             @ModelAttribute @Valid GetStoreBySearchDto dto
     ) {
@@ -53,7 +53,7 @@ public class UserStoreController {
         List<StoreListDto> dtos = userStoreService
                 .getStoreBySearch(userId, dto);
 
-        return new ApiResponse<>(dtos);
+        return new ApiListResponse<>(dtos);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}")
@@ -84,7 +84,7 @@ public class UserStoreController {
     }
 
     @GetMapping("/api/v1/users/my/interest_store")
-    public ApiResponse<StoreListDto> getInterestStores(Authentication authentication) {
+    public ApiListResponse<StoreListDto> getInterestStores(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
 
@@ -93,7 +93,7 @@ public class UserStoreController {
                 .map((interestStore) -> new StoreListDto(interestStore))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<StoreListDto>(dtos);
+        return new ApiListResponse<StoreListDto>(dtos);
     }
 
 }

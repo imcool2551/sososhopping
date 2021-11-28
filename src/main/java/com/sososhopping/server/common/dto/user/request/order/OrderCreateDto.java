@@ -29,12 +29,16 @@ public class OrderCreateDto {
     @NotNull
     private OrderType orderType;
 
+    @NotNull
     private PaymentType paymentType;
 
     @NotNull
     private Integer usedPoint;
 
     private Long couponId;
+
+    @NotNull
+    private Integer finalPrice;
 
     @NotNull
     private String ordererName;

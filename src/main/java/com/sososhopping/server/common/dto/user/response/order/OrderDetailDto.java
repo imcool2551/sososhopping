@@ -1,6 +1,7 @@
 package com.sososhopping.server.common.dto.user.response.order;
 
 import com.sososhopping.server.entity.orders.Order;
+import com.sososhopping.server.entity.orders.OrderStatus;
 import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
@@ -12,6 +13,8 @@ import java.util.stream.Collectors;
 public class OrderDetailDto {
 
     private Long orderId;
+    private Long userId;
+    private Long ownerId;
     private List<OrderItemDto> orderItems;
     private String ordererName;
     private String ordererPhone;
@@ -25,10 +28,13 @@ public class OrderDetailDto {
     private Integer usedPoint;
     private Integer couponDiscountPrice;
     private Integer finalPrice;
+    private OrderStatus orderStatus;
     private String createdAt;
 
     public OrderDetailDto(Order order) {
         orderId = order.getId();
+        userId = order.getUser().getId();
+        ownerId = order.getStore().getOwner().getId();
         orderItems = order.getOrderItems().stream()
                 .map(orderItem -> new OrderItemDto(orderItem))
                 .collect(Collectors.toList());
@@ -48,6 +54,7 @@ public class OrderDetailDto {
                 .map(coupon -> coupon.getDiscountPrice(orderPrice))
                 .orElse(null);
         finalPrice = order.getFinalPrice();
+        orderStatus = order.getOrderStatus();
         createdAt = order.getCreatedAt()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }

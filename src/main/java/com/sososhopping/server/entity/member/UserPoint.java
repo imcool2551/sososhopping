@@ -1,6 +1,7 @@
 package com.sososhopping.server.entity.member;
 
 import com.sososhopping.server.entity.BaseTimeEntity;
+import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,14 +69,37 @@ public class UserPoint extends BaseTimeEntity {
         userPointLog.setUserPoint(this);
     }
 
-    public void savePoint(Integer savedPoint) {
-        point += savedPoint;
+    public void savePoint(Order order) {
+        Integer finalPrice = order.getFinalPrice();
+        BigDecimal saveRate = order.getStore().getSaveRate();
 
-        UserPointLog userPointLog = UserPointLog.builder()
-                .pointAmount(savedPoint)
-                .resultAmount(point)
-                .build();
+        if (saveRate != null) {
+            int savedPoint = (int)(finalPrice * saveRate.doubleValue() / 100);
 
-        userPointLog.setUserPoint(this);
+            point += savedPoint;
+
+            UserPointLog userPointLog = UserPointLog.builder()
+                    .pointAmount(savedPoint)
+                    .resultAmount(point)
+                    .build();
+
+            userPointLog.setUserPoint(this);
+        }
+    }
+
+    public void restorePoint(Order order) {
+
+        Integer restorePoint = order.getUsedPoint();
+
+        if (restorePoint > 0) {
+            point += restorePoint;
+
+            UserPointLog userPointLog = UserPointLog.builder()
+                    .pointAmount(restorePoint)
+                    .resultAmount(point)
+                    .build();
+
+            userPointLog.setUserPoint(this);
+        }
     }
 }

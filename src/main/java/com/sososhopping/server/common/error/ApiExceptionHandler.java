@@ -28,6 +28,14 @@ public class ApiExceptionHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(Api403Exception.class)
+    public ResponseEntity api403Exception(HttpServletRequest request, final Api403Exception e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
     @ExceptionHandler(Api404Exception.class)
     public ResponseEntity api404Exception(HttpServletRequest request, final Api404Exception e) {
         e.printStackTrace();

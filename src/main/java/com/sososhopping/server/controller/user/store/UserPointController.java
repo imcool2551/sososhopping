@@ -1,6 +1,5 @@
 package com.sososhopping.server.controller.user.store;
 
-import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.response.point.UserPointListDto;
 import com.sososhopping.server.common.dto.user.response.point.UserPointLogDto;
 import com.sososhopping.server.common.error.Api401Exception;
@@ -20,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

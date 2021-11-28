@@ -8,11 +8,9 @@ import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.member.UserPoint;
-import com.sososhopping.server.entity.member.UserPointLog;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderItem;
 import com.sososhopping.server.entity.orders.OrderStatus;
-import com.sososhopping.server.entity.orders.OrderType;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
@@ -29,6 +27,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -111,7 +111,7 @@ public class UserOrderService {
             UserCoupon userCoupon = userCouponRepository
                     .findByUserAndCoupon(user, findCoupon)
                     .orElseThrow(() -> new Api404Exception("유저에게 쿠폰이 없습니다"));
-            userCoupon.useCoupon();
+            userCoupon.use();
         }
 
         // 최종 가격 계산
@@ -119,6 +119,10 @@ public class UserOrderService {
 
         if (finalPrice < 0) {
             throw new Api400Exception("최종금액은 0원 이상이어야 합니다");
+        }
+
+        if (finalPrice != dto.getFinalPrice()) {
+            throw new Api400Exception("가격이 맞지 않습니다");
         }
 
         // 주문 완료
@@ -137,7 +141,7 @@ public class UserOrderService {
                 .usedPoint(usedPoint)
                 .coupon(findCoupon)
                 .finalPrice(finalPrice)
-                .orderStatus(OrderStatus.PENDING)
+                .orderStatus(PENDING)
                 .build();
 
         dto.getOrderItems()
@@ -154,23 +158,20 @@ public class UserOrderService {
                 });
 
         em.persist(order);
-
-        // TODO: 포인트 추가 (사장 족으로 이동)
-//        if (findStore.hasPointPolicy()) {
-//            userPoint = userPointRepository.findByUserAndStore(user, findStore)
-//                    .orElse(new UserPoint(user, findStore, 0));
-//
-//            int savedPoint = (int)(findStore.getSaveRate().doubleValue() / 100 * finalPrice);
-//            userPoint.savePoint(savedPoint);
-//            em.persist(userPoint);
-//        }
-
     }
 
+    @Transactional
     public List<Order> getOrders(User user, OrderStatus status) {
-        return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+        if (status == APPROVE || status == READY) {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, READY, APPROVE);
+        } else if (status == CANCEL || status == REJECT) {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, CANCEL, REJECT);
+        } else {
+            return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+        }
     }
 
+    @Transactional
     public Order getOrderDetail(User user, Long orderId) {
 
         Order order = orderRepository.findById(orderId)
@@ -180,5 +181,64 @@ public class UserOrderService {
             throw new Api401Exception("다른 고객의 주문입니다");
         }
         return order;
+    }
+
+    @Transactional
+    public void cancelOrder(User user, Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 주문입니다"));
+
+        Store store = order.getStore();
+
+        if (order.getUser() != user) {
+            throw new Api401Exception("다른 고객의 주문입니다");
+        }
+
+        if (!order.canBeCancelledByUser()) {
+            throw new Api400Exception("취소할 수 없는 주문입니다");
+        }
+
+        UserPoint userPoint = userPointRepository.findByUserAndStore(user, store)
+                .orElse(null);
+
+        Coupon usedCoupon = order.getCoupon();
+
+        UserCoupon userCoupon = null;
+        if (usedCoupon != null) {
+            userCoupon = userCouponRepository
+                    .findByUserAndCoupon(user, usedCoupon)
+                    .orElse(null);
+        }
+
+        order.cancel(userPoint, userCoupon);
+    }
+
+    @Transactional
+    public void confirmOrder(User user, Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 주문입니다"));
+
+        Store store = order.getStore();
+
+        if (order.getUser() != user) {
+            throw new Api401Exception("다른 고객의 주문입니다");
+        }
+
+        if (!order.canBeConfirmedByUser()) {
+            throw new Api400Exception("완료할 수 없는 주문입니다");
+        }
+
+        userPointRepository.findByUserAndStore(user, store)
+                .ifPresentOrElse(
+                        userPoint -> {
+                            order.confirm(userPoint);
+                        },
+                        () -> {
+                            UserPoint userPoint = new UserPoint(user, store, 0);
+                            em.persist(userPoint);
+                            order.confirm(userPoint);
+                        }
+                );
     }
 }

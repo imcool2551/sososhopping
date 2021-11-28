@@ -9,7 +9,9 @@ import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.InterestStore;
 import com.sososhopping.server.entity.member.User;
+import com.sososhopping.server.entity.member.UserPoint;
 import com.sososhopping.server.entity.store.Store;
+import com.sososhopping.server.repository.member.UserPointRepository;
 import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.JdbcStoreRepository;
@@ -30,6 +32,7 @@ public class UserStoreService {
     private final InterestStoreRepository interestStoreRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final UserPointRepository userPointRepository;
     private final JdbcStoreRepository jdbcStoreRepository;
 
 
@@ -60,15 +63,23 @@ public class UserStoreService {
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
         if (userId == null) {
-            return new StoreInfoDto(findStore, false);
+            return new StoreInfoDto(findStore, false, 0);
         }
 
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
 
+        UserPoint userPoint = userPointRepository.findByUserAndStore(user, findStore)
+                .orElse(null);
+
+        Integer myPoint = null;
+        if (userPoint != null) {
+            myPoint = userPoint.getPoint();
+        }
+
         boolean isInterestStore = interestStoreRepository.existsByStoreAndUser(findStore, user);
-        return new StoreInfoDto(findStore, isInterestStore);
+        return new StoreInfoDto(findStore, isInterestStore, myPoint);
     }
 
     @Transactional

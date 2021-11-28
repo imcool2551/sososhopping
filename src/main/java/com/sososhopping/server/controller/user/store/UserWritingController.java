@@ -1,6 +1,6 @@
 package com.sososhopping.server.controller.user.store;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.response.store.WritingDto;
 import com.sososhopping.server.common.dto.user.response.store.WritingListDto;
 import com.sososhopping.server.common.error.Api404Exception;
@@ -24,7 +24,7 @@ public class UserWritingController {
     private final StoreRepository storeRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/writings")
-    public ApiResponse<WritingListDto> getStoreWritings(@PathVariable Long storeId) {
+    public ApiListResponse<WritingListDto> getStoreWritings(@PathVariable Long storeId) {
 
         Store findStore = storeRepository
                 .findById(storeId)
@@ -35,7 +35,7 @@ public class UserWritingController {
                 .map(writing -> new WritingListDto(writing))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<WritingListDto>(writingListDto);
+        return new ApiListResponse<WritingListDto>(writingListDto);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/writings/{writingId}")

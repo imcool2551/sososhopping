@@ -1,13 +1,11 @@
 package com.sososhopping.server.controller.user.store;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.dto.user.response.store.UserReviewDto;
 import com.sososhopping.server.common.error.Api409Exception;
-import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.ReviewRepository;
-import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +27,10 @@ public class UserReviewController {
     private final ReviewRepository reviewRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews")
-    public ApiResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
+    public ApiListResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
 
         List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
-        return new ApiResponse<StoreReviewDto>(storeReviews);
+        return new ApiListResponse<StoreReviewDto>(storeReviews);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")
@@ -94,7 +92,7 @@ public class UserReviewController {
     }
 
     @GetMapping("/api/v1/users/my/reviews")
-    public ApiResponse<UserReviewDto> getMyReviews(Authentication authentication) {
+    public ApiListResponse<UserReviewDto> getMyReviews(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
 
@@ -103,7 +101,7 @@ public class UserReviewController {
                 .map(review -> new UserReviewDto(review))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<UserReviewDto>(dtos);
+        return new ApiListResponse<UserReviewDto>(dtos);
     }
 
 
