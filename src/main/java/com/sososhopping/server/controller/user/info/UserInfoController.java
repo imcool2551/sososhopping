@@ -1,6 +1,5 @@
 package com.sososhopping.server.controller.user.info;
 
-import com.sososhopping.server.common.dto.ApiResponse;
 import com.sososhopping.server.common.dto.user.request.info.UserInfoUpdateDto;
 import com.sososhopping.server.common.dto.user.response.info.UserInfoDto;
 import com.sososhopping.server.common.error.Api401Exception;

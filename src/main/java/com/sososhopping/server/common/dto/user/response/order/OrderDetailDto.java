@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class OrderDetailDto {
 
     private Long orderId;
+    private Long userId;
     private Long ownerId;
     private List<OrderItemDto> orderItems;
     private String ordererName;
@@ -32,6 +33,7 @@ public class OrderDetailDto {
 
     public OrderDetailDto(Order order) {
         orderId = order.getId();
+        userId = order.getUser().getId();
         ownerId = order.getStore().getOwner().getId();
         orderItems = order.getOrderItems().stream()
                 .map(orderItem -> new OrderItemDto(orderItem))

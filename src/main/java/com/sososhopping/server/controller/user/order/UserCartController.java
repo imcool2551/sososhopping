@@ -1,6 +1,6 @@
 package com.sososhopping.server.controller.user.order;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.order.AddCartItemDto;
 import com.sososhopping.server.common.dto.user.request.order.UpdateCartDto;
 import com.sososhopping.server.common.dto.user.response.order.UserCartDto;
@@ -39,7 +39,7 @@ public class UserCartController {
     }
 
     @GetMapping("/api/v1/users/my/cart")
-    public ApiResponse<UserCartDto> getMyCart(
+    public ApiListResponse<UserCartDto> getMyCart(
             Authentication authentication
     ) {
         Long userId = Long.parseLong(authentication.getName());
@@ -62,7 +62,7 @@ public class UserCartController {
                     userCartsDto.add(new UserCartDto(k, v));
                 });
 
-        return new ApiResponse<>(userCartsDto);
+        return new ApiListResponse<>(userCartsDto);
     }
 
     @PatchMapping("/api/v1/users/my/cart")

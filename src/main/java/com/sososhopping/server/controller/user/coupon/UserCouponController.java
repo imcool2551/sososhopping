@@ -1,6 +1,6 @@
 package com.sososhopping.server.controller.user.coupon;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.coupon.CouponRegisterDto;
 import com.sososhopping.server.common.dto.user.response.store.CouponDto;
 import com.sososhopping.server.common.error.Api401Exception;
@@ -35,7 +35,7 @@ public class UserCouponController {
     private final UserCouponRepository userCouponRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/coupons")
-    public ApiResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
+    public ApiListResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
 
         Store findStore = storeRepository
                 .findById(storeId)
@@ -51,7 +51,7 @@ public class UserCouponController {
                 .map(coupon -> new CouponDto(coupon))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<CouponDto>(couponListDto);
+        return new ApiListResponse<CouponDto>(couponListDto);
     }
 
     @PostMapping("/api/v1/users/my/coupons")
@@ -75,7 +75,7 @@ public class UserCouponController {
     }
 
     @GetMapping("/api/v1/users/my/coupons")
-    public ApiResponse<CouponDto> getMyCoupons(
+    public ApiListResponse<CouponDto> getMyCoupons(
             Authentication authentication,
             @RequestParam(required = false) Long storeId
     ) {
@@ -90,7 +90,7 @@ public class UserCouponController {
                 .map(userCoupon -> new CouponDto(userCoupon.getCoupon()))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<CouponDto>(dtos);
+        return new ApiListResponse<CouponDto>(dtos);
     }
 }
 

@@ -1,6 +1,6 @@
 package com.sososhopping.server.controller.user.order;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
@@ -72,7 +72,7 @@ public class UserOrderController {
     }
 
     @GetMapping("/api/v1/users/my/orders")
-    public ApiResponse<OrderListDto> getOrders(
+    public ApiListResponse<OrderListDto> getOrders(
             Authentication authentication,
             @RequestParam OrderStatus status
     ) {
@@ -85,7 +85,7 @@ public class UserOrderController {
                 .map(order -> new OrderListDto((order)))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<OrderListDto>(dtos);
+        return new ApiListResponse<OrderListDto>(dtos);
     }
 
     @GetMapping("/api/v1/users/my/orders/{orderId}")
