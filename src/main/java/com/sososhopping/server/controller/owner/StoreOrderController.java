@@ -1,6 +1,7 @@
 package com.sososhopping.server.controller.owner;
 
 import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.entity.orders.Order;
@@ -9,11 +10,9 @@ import com.sososhopping.server.service.owner.StoreOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,5 +54,16 @@ public class StoreOrderController {
         } else {
             throw new Api400Exception("알 수 없는 요청입니다");
         }
+    }
+
+    @PostMapping("/api/v1/owner/store/{storeId}/orders/{orderId}")
+    public void handleOrder(
+            Authentication authentication,
+            @PathVariable Long storeId,
+            @PathVariable Long orderId,
+            @RequestBody @Valid ChangeOrderStatusDto dto
+    ) {
+        Long ownerId = Long.parseLong(authentication.getName());
+        storeOrderService.handleOrder(ownerId, storeId, orderId, dto.getAction());
     }
 }

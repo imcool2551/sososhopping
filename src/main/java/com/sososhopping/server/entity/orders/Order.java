@@ -145,4 +145,32 @@ public class Order extends BaseTimeEntity {
             userPoint.savePoint(this);
         }
     }
+
+    public void approve() {
+        if (orderStatus != PENDING) {
+            throw new Api400Exception("잘못된 요청입니다");
+        }
+        orderStatus = APPROVE;
+    }
+
+    public void reject(UserPoint userPoint, UserCoupon userCoupon) {
+        if (orderStatus != PENDING) {
+            throw new Api400Exception("잘못된 요청입니다");
+        }
+
+        orderStatus = REJECT;
+        if (userPoint != null) {
+            userPoint.restorePoint(this);
+        }
+        if (userCoupon != null) {
+            userCoupon.restore();
+        }
+    }
+
+    public void ready() {
+        if (orderStatus != APPROVE) {
+            throw new Api400Exception("잚못된 요청입니다");
+        }
+        orderStatus = READY;
+    }
 }
