@@ -3,6 +3,7 @@ package com.sososhopping.server.service.owner;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api403Exception;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.Owner;
@@ -38,10 +39,10 @@ public class StoreOrderService {
     @Transactional
     public List<Order> getPendingOrders(Long ownerId, Long storeId) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점주입니다"));
+                new Api404Exception("존재하지 않는 점주입니다"));
 
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
+                new Api404Exception("존재하지 않는 점포입니다"));
 
         if (store.getOwner() != owner) {
             throw new Api403Exception("다른 점주의 점포입니다");
@@ -53,10 +54,10 @@ public class StoreOrderService {
     @Transactional
     public List<Order> getOrdersByDate(Long ownerId, Long storeId, LocalDate date) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점주입니다"));
+                new Api404Exception("존재하지 않는 점주입니다"));
 
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
+                new Api404Exception("존재하지 않는 점포입니다"));
 
         if (store.getOwner() != owner) {
             throw new Api403Exception("다른 점주의 점포입니다");
@@ -73,13 +74,13 @@ public class StoreOrderService {
             OrderStatus action
     ) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점주입니다"));
+                new Api404Exception("존재하지 않는 점주입니다"));
 
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
+                new Api404Exception("존재하지 않는 점포입니다"));
 
         Order order = orderRepository.findById(orderId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 주문입니다"));
+                new Api404Exception("존재하지 않는 주문입니다"));
 
         if (order.getStore() != store) {
             throw new Api400Exception("점포의 주문이 아닙니다");

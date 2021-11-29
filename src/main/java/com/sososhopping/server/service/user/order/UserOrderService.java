@@ -16,6 +16,7 @@ import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.coupon.UserCouponRepository;
 import com.sososhopping.server.repository.member.UserPointRepository;
+import com.sososhopping.server.repository.order.CartRepository;
 import com.sososhopping.server.repository.order.OrderRepository;
 import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
@@ -40,6 +41,7 @@ public class UserOrderService {
     private final UserCouponRepository userCouponRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
     private final EntityManager em;
 
     @Transactional
@@ -153,6 +155,9 @@ public class UserOrderService {
                             .quantity(orderItemDto.getQuantity())
                             .totalPrice(item.getPrice() * orderItemDto.getQuantity())
                             .build();
+
+                    cartRepository.findByUserAndItem(user, item)
+                                    .ifPresent(cart -> em.remove(cart));
 
                     orderItem.setOrder(order);
                 });

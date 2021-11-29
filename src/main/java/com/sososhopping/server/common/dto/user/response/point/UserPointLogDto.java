@@ -28,7 +28,7 @@ public class UserPointLogDto {
                         userPointLog.getPointAmount(),
                         userPointLog.getResultAmount(),
                         userPointLog.getCreatedAt()
-                                .format(DateTimeFormatter.ofPattern("yyyy//MM/dd HH:mm:ss")))
+                                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))
                 )
                 .collect(Collectors.toList());
     }
