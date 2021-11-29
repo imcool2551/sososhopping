@@ -10,5 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class StoreReviewListResponseDto {
     private BigDecimal averageScore;
+    private Integer size;
     private List<StoreReviewResponseDto> reviews;
 }

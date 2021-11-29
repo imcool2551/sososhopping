@@ -63,6 +63,8 @@ dependencies {
 	// JDBC
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
+	//google firebase sdk
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
 }
 
 test {

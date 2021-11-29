@@ -38,6 +38,7 @@ out/
 
 ### Config ###
 /src/main/resources/application.properties
+/src/main/resources/**.json
 
 ##MACOS
 .DS_Store

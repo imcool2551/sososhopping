@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPointUpdateRequestDto {
+    private String userPhone;
     private Integer pointAmount;
     private Boolean isSave;
 }

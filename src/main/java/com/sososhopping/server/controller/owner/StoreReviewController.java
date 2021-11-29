@@ -41,6 +41,6 @@ public class StoreReviewController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new StoreReviewListResponseDto(averageScore, reviews));
+                .body(new StoreReviewListResponseDto(averageScore, reviews.size(), reviews));
     }
 }
