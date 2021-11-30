@@ -5,11 +5,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderStatus;
+import com.sososhopping.server.entity.orders.QOrderItem;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.sososhopping.server.entity.orders.QOrder.*;
+import static com.sososhopping.server.entity.orders.QOrderItem.*;
 import static com.sososhopping.server.entity.store.QStore.*;
 
 public class UserOrderRepositoryImpl implements UserOrderRepository {
@@ -24,16 +26,16 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
     @Override
     public List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus ... status) {
 
-        BooleanExpression orderStatusExpr = orderStatusEq(status[0]);
+        BooleanExpression orderStatusMatch = orderStatusEq(status[0]);
         for (int i = 1; i < status.length; i++) {
-            orderStatusExpr = orderStatusExpr.or(orderStatusEq(status[i]));
+            orderStatusMatch = orderStatusMatch.or(orderStatusEq(status[i]));
         }
 
         return queryFactory
                 .select(order)
                 .from(order)
                 .join(order.store, store).fetchJoin()
-                .where(userEq(user), orderStatusExpr)
+                .where(userEq(user), orderStatusMatch)
                 .orderBy(order.createdAt.desc())
                 .fetch();
     }
