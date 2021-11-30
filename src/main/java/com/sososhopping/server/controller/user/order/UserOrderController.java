@@ -74,16 +74,13 @@ public class UserOrderController {
     @GetMapping("/api/v1/users/my/orders")
     public ApiListResponse<OrderListDto> getOrders(
             Authentication authentication,
-            @RequestParam OrderStatus status
+            @RequestParam List<OrderStatus> statuses
     ) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
 
-        List<OrderListDto> dtos = userOrderService.getOrders(user, status)
-                .stream()
-                .map(order -> new OrderListDto((order)))
-                .collect(Collectors.toList());
+        List<OrderListDto> dtos = userOrderService.getOrders(user, statuses);
 
         return new ApiListResponse<OrderListDto>(dtos);
     }

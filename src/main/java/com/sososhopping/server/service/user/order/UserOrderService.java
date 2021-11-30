@@ -1,6 +1,7 @@
 package com.sososhopping.server.service.user.order;
 
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
+import com.sososhopping.server.common.dto.user.response.order.OrderListDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -170,14 +172,16 @@ public class UserOrderService {
     }
 
     @Transactional
-    public List<Order> getOrders(User user, OrderStatus status) {
-        if (status == APPROVE || status == READY) {
-            return orderRepository.findOrderListByUserAndOrderStatus(user, READY, APPROVE);
-        } else if (status == CANCEL || status == REJECT) {
-            return orderRepository.findOrderListByUserAndOrderStatus(user, CANCEL, REJECT);
-        } else {
-            return orderRepository.findOrderListByUserAndOrderStatus(user, status);
-        }
+    public List<OrderListDto> getOrders(User user, List<OrderStatus> statuses) {
+        OrderStatus[] statusArray =
+                statuses.toArray(new OrderStatus[statuses.size()]);
+        List<Order> orders = orderRepository.findOrderListByUserAndOrderStatus(user, statusArray);
+
+        List<OrderListDto> list = new ArrayList<>();
+        orders.forEach(order -> {
+            list.add(new OrderListDto(order));
+        });
+        return list;
     }
 
     @Transactional

@@ -19,8 +19,7 @@ import static javax.persistence.FetchType.*;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class
-Payment extends BaseTimeEntity {
+public class Payment extends BaseTimeEntity {
 
     @Id
     @Column(name = "order_id")
