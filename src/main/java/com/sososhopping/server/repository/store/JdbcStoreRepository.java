@@ -45,12 +45,13 @@ public class JdbcStoreRepository {
                 "                :radius  AS radius,    111.045 AS distance_unit\n" +
                 "  ) AS p \n" +
                 "  WHERE store.lat\n" +
-                "\t\t     BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
+                "         BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
                 "         AND p.latpoint  + (p.radius / p.distance_unit)\n" +
                 "     AND store.lng\n" +
-                "\t\t     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "     AND store.store_type LIKE :storeType\n" +
+                "     AND store.business_status = 1\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
                 " LIMIT 10";
@@ -82,12 +83,13 @@ public class JdbcStoreRepository {
                 "                :radius  AS radius,    111.045 AS distance_unit\n" +
                 "  ) AS p \n" +
                 "  WHERE store.lat\n" +
-                "\t\t     BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
+                "         BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
                 "         AND p.latpoint  + (p.radius / p.distance_unit)\n" +
                 "     AND store.lng\n" +
-                "\t\t     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "     AND store.name LIKE :storeName\n" +
+                "     AND store.business_status = 1\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
                 " LIMIT 10";
@@ -107,26 +109,27 @@ public class JdbcStoreRepository {
     public Map<Long, Double> getNearStoreIdsByItemName(Double lat, Double lng, Double radius, String itemName) {
         String sql = "  SELECT DISTINCT(store.store_id) AS store_id, distance\n" +
                 "  FROM (\n" +
-                "\t SELECT store.*,\n" +
-                "\t\t\tp.radius,\n" +
-                "\t\t\tp.distance_unit\n" +
-                "\t\t\t\t\t * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
-                "\t\t\t\t\t * COS(RADIANS(store.lat))\n" +
-                "\t\t\t\t\t * COS(RADIANS(p.longpoint - store.lng))\n" +
-                "\t\t\t\t\t + SIN(RADIANS(p.latpoint))\n" +
-                "\t\t\t\t\t * SIN(RADIANS(store.lat))))) AS distance\n" +
-                "\t  FROM store\n" +
-                "\t  INNER JOIN (   /* these are the query parameters */\n" +
-                "\t\t\tSELECT  :lat  AS latpoint,  :lng AS longpoint,\n" +
-                "\t\t\t\t\t:radius AS radius,      111.045 AS distance_unit\n" +
-                "\t  ) AS p\n" +
-                "\t  WHERE store.lat\n" +
-                "\t\t BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
-                "\t\t\t AND p.latpoint  + (p.radius / p.distance_unit)\n" +
-                "\t\tAND store.lng\n" +
-                "\t\t BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "\t\t\t AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "\t ) AS store\n" +
+                "   SELECT store.*,\n" +
+                "      p.radius,\n" +
+                "      p.distance_unit\n" +
+                "           * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
+                "           * COS(RADIANS(store.lat))\n" +
+                "           * COS(RADIANS(p.longpoint - store.lng))\n" +
+                "           + SIN(RADIANS(p.latpoint))\n" +
+                "           * SIN(RADIANS(store.lat))))) AS distance\n" +
+                "    FROM store\n" +
+                "    INNER JOIN (   /* these are the query parameters */\n" +
+                "      SELECT  :lat  AS latpoint,  :lng AS longpoint,\n" +
+                "          :radius AS radius,      111.045 AS distance_unit\n" +
+                "    ) AS p\n" +
+                "    WHERE store.lat\n" +
+                "     BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
+                "       AND p.latpoint  + (p.radius / p.distance_unit)\n" +
+                "    AND store.lng\n" +
+                "     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "       AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "    AND store.business_status = 1\n" +
+                "   ) AS store\n" +
                 " INNER JOIN item i\n" +
                 "   ON i.store_id = store.store_id AND i.name LIKE :itemName\n" +
                 " WHERE distance <= radius\n" +
