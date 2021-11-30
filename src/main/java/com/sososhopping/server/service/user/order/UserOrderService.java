@@ -50,6 +50,10 @@ public class UserOrderService {
         Store findStore = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
+        if (!findStore.isOpen()) {
+            throw new Api400Exception("영업중이 아닙니다");
+        }
+
         // 물품 검증
         List<Long> itemIds = dto.getOrderItems()
                 .stream()

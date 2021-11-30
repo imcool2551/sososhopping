@@ -4,12 +4,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderStatus;
+import com.sososhopping.server.entity.orders.OrderType;
 import com.sososhopping.server.entity.store.Store;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
 import static com.sososhopping.server.entity.orders.OrderType.*;
 import static com.sososhopping.server.entity.orders.QOrder.*;
 
@@ -26,30 +28,68 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
         return queryFactory
                 .select(order)
                 .from(order)
-                .where(storeEq(store), pending())
+                .where(storeEq(store), statusEq(PENDING))
                 .orderBy(order.createdAt.asc())
                 .fetch();
     }
 
     @Override
-    public List<Order> findOrdersByStoreAndDate(Store store, LocalDate date) {
+    public List<Order> findPickupOrdersByStore(Store store) {
         return queryFactory
                 .select(order)
                 .from(order)
-                .where(storeEq(store), dateEq(date))
+                .where(
+                        storeEq(store),
+                        orderTypeEq(ONSITE),
+                        statusEq(APPROVE).or(statusEq(READY))
+                )
+                .orderBy(order.visitDate.asc())
                 .fetch();
     }
 
-    private BooleanExpression pending() {
-        return order.orderStatus.eq(OrderStatus.PENDING);
+
+    @Override
+    public List<Order> findDeliveryOrdersByStore(Store store) {
+        return queryFactory
+                .select(order)
+                .from(order)
+                .where(
+                        storeEq(store),
+                        orderTypeEq(DELIVERY),
+                        statusEq(APPROVE).or(statusEq(READY))
+                )
+                .orderBy(order.createdAt.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<Order> findDoneOrdersByStoreAndDate(Store store, LocalDate date) {
+        return queryFactory
+                .select(order)
+                .from(order)
+                .where(
+                        storeEq(store),
+                        dateEq(date),
+                        statusEq(DONE)
+                )
+                .orderBy(order.createdAt.asc())
+                .fetch();
     }
 
     private BooleanExpression storeEq(Store store) {
         return order.store.eq(store);
     }
 
+    private BooleanExpression statusEq(OrderStatus status) {
+        return order.orderStatus.eq(status);
+    }
+
+    private BooleanExpression orderTypeEq(OrderType type) {
+        return order.orderType.eq(type);
+    }
+
     private BooleanExpression dateEq(LocalDate date) {
-        BooleanExpression todayVisit = order.orderType.eq(ONSITE)
+        BooleanExpression visitDateEq = orderTypeEq(ONSITE)
                 .and(
                         order.visitDate.between(
                                 date.atStartOfDay(),
@@ -57,7 +97,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                         )
                 );
 
-        BooleanExpression todayDelivery = order.orderType.eq(DELIVERY)
+        BooleanExpression deliveryDateEq = orderTypeEq(DELIVERY)
                 .and(
                         order.createdAt.between(
                                 date.atStartOfDay(),
@@ -65,6 +105,6 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                         )
                 );
 
-        return todayVisit.and(todayDelivery);
+        return visitDateEq.and(deliveryDateEq);
     }
 }

@@ -1,6 +1,7 @@
 package com.sososhopping.server.controller.owner;
 
 import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.owner.request.OrderSearchType;
 import com.sososhopping.server.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.server.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.server.common.error.Api400Exception;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.sososhopping.server.common.dto.owner.request.OrderSearchType.*;
 import static com.sososhopping.server.entity.orders.OrderStatus.*;
 import static org.springframework.format.annotation.DateTimeFormat.*;
 
@@ -30,30 +32,44 @@ public class StoreOrderController {
     public ApiListResponse<OrderDetailDto> getOrders(
             Authentication authentication,
             @PathVariable Long storeId,
-            @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) OrderSearchType type,
             @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate at
     ) {
         Long ownerId = Long.parseLong(authentication.getName());
+        List<Order> orders = null;
+        List<OrderDetailDto> dtos = null;
 
-        if (status == PENDING) {
-            List<Order> pendingOrders = storeOrderService.getPendingOrders(ownerId, storeId);
+        if (type == OrderSearchType.PENDING) {
+            orders = storeOrderService.findPendingOrders(ownerId, storeId);
 
-            List<OrderDetailDto> dtos = pendingOrders.stream()
+            dtos = orders.stream()
                     .map(pendingOrder -> new OrderDetailDto(pendingOrder))
                     .collect(Collectors.toList());
 
-            return new ApiListResponse<>(dtos);
+        } else if (type == PICKUP) {
+            orders = storeOrderService.findPickupOrders(ownerId, storeId);
+
+            dtos = orders.stream()
+                    .map(pickupOrder -> new OrderDetailDto(pickupOrder))
+                    .collect(Collectors.toList());
+
+        } else if (type == DELIVERY) {
+            orders = storeOrderService.findDeliveryOrders(ownerId, storeId);
+
+            dtos = orders.stream()
+                    .map(deliveryOrder -> new OrderDetailDto(deliveryOrder))
+                    .collect(Collectors.toList());
         } else if (at != null) {
-            List<Order> pendingOrders = storeOrderService.getOrdersByDate(ownerId, storeId, at);
+            orders = storeOrderService.findDoneOrdersByDate(ownerId, storeId, at);
 
-            List<OrderDetailDto> dtos = pendingOrders.stream()
-                    .map(pendingOrder -> new OrderDetailDto(pendingOrder))
+            dtos = orders.stream()
+                    .map(doneOrder -> new OrderDetailDto(doneOrder))
                     .collect(Collectors.toList());
-
-            return new ApiListResponse<>(dtos);
         } else {
             throw new Api400Exception("알 수 없는 요청입니다");
         }
+
+        return new ApiListResponse<>(dtos);
     }
 
     @PostMapping("/api/v1/owner/store/{storeId}/orders/{orderId}")
@@ -64,6 +80,13 @@ public class StoreOrderController {
             @RequestBody @Valid ChangeOrderStatusDto dto
     ) {
         Long ownerId = Long.parseLong(authentication.getName());
-        storeOrderService.handleOrder(ownerId, storeId, orderId, dto.getAction());
+
+        OrderStatus action = dto.getAction();
+
+        if (action != APPROVE || action != REJECT || action != READY) {
+            throw new Api400Exception("알 수 없는 요청입니다");
+        }
+
+        storeOrderService.handleOrder(ownerId, storeId, orderId, action);
     }
 }

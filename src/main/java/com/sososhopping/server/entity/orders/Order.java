@@ -122,7 +122,7 @@ public class Order extends BaseTimeEntity {
 
     // Business Logic
     public boolean canBeCancelledByUser() {
-        return orderStatus == APPROVE || orderStatus == PENDING;
+        return orderStatus == PENDING;
     }
 
     public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
@@ -136,7 +136,7 @@ public class Order extends BaseTimeEntity {
     }
 
     public boolean canBeConfirmedByUser() {
-        return orderStatus == APPROVE || orderStatus == READY;
+        return orderStatus == READY;
     }
 
     public void confirm(UserPoint userPoint) {
@@ -154,7 +154,7 @@ public class Order extends BaseTimeEntity {
     }
 
     public void reject(UserPoint userPoint, UserCoupon userCoupon) {
-        if (orderStatus != PENDING) {
+        if (orderStatus == DONE || orderStatus == CANCEL) {
             throw new Api400Exception("잘못된 요청입니다");
         }
 

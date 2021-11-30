@@ -1,7 +1,6 @@
 package com.sososhopping.server.service.owner;
 
 import com.sososhopping.server.common.error.Api400Exception;
-import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api403Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
@@ -37,7 +36,7 @@ public class StoreOrderService {
     private final UserCouponRepository userCouponRepository;
 
     @Transactional
-    public List<Order> getPendingOrders(Long ownerId, Long storeId) {
+    public List<Order> findPendingOrders(Long ownerId, Long storeId) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
                 new Api404Exception("존재하지 않는 점주입니다"));
 
@@ -52,7 +51,7 @@ public class StoreOrderService {
     }
 
     @Transactional
-    public List<Order> getOrdersByDate(Long ownerId, Long storeId, LocalDate date) {
+    public List<Order> findPickupOrders(Long ownerId, Long storeId) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
                 new Api404Exception("존재하지 않는 점주입니다"));
 
@@ -63,7 +62,37 @@ public class StoreOrderService {
             throw new Api403Exception("다른 점주의 점포입니다");
         }
 
-        return orderRepository.findOrdersByStoreAndDate(store, date);
+        return orderRepository.findPickupOrdersByStore(store);
+    }
+
+    @Transactional
+    public List<Order> findDeliveryOrders(Long ownerId, Long storeId) {
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
+                new Api404Exception("존재하지 않는 점주입니다"));
+
+        Store store = storeRepository.findById(storeId).orElseThrow(() ->
+                new Api404Exception("존재하지 않는 점포입니다"));
+
+        if (store.getOwner() != owner) {
+            throw new Api403Exception("다른 점주의 점포입니다");
+        }
+
+        return orderRepository.findDeliveryOrdersByStore(store);
+    }
+
+    @Transactional
+    public List<Order> findDoneOrdersByDate(Long ownerId, Long storeId, LocalDate date) {
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
+                new Api404Exception("존재하지 않는 점주입니다"));
+
+        Store store = storeRepository.findById(storeId).orElseThrow(() ->
+                new Api404Exception("존재하지 않는 점포입니다"));
+
+        if (store.getOwner() != owner) {
+            throw new Api403Exception("다른 점주의 점포입니다");
+        }
+
+        return orderRepository.findDoneOrdersByStoreAndDate(store, date);
     }
 
     @Transactional
@@ -111,10 +140,7 @@ public class StoreOrderService {
                     .orElse(null);
         }
 
-        if (action == CANCEL) {
-            order.cancel(userPoint, userCoupon);
-            return;
-        } else if (action == REJECT) {
+        if (action == REJECT) {
             order.reject(userPoint, userCoupon);
             return;
         }
