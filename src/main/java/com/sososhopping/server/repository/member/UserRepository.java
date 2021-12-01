@@ -23,4 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // 핸드폰 중복 확인
     boolean existsByPhone(String phone);
+
+    Optional<User> findByNameAndPhone(String name, String phone);
+
+    Optional<User> findByEmailAndNameAndPhone(String email, String name, String phone);
 }
