@@ -8,6 +8,7 @@ import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Admin;
 import com.sososhopping.server.entity.member.Owner;
@@ -144,6 +145,27 @@ public class AuthService {
         return new AuthToken(apiToken, firebaseToken);
     }
 
+    @Transactional
+    public String findUserEmail(UserFindEmailDto dto) {
+        User user = userRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        return user.getEmail();
+    }
+
+    @Transactional
+    public void findUserPassword(UserFindPasswordDto dto) {
+       userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+    }
+
+    @Transactional
+    public void changeUserPassword(UserChangePasswordDto dto) {
+        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        user.updatePassword(passwordEncoder.encode(dto.getPassword()));
+    }
     /**
      * 관리자 관련 인증
      */
@@ -175,6 +197,7 @@ public class AuthService {
         return jwtTokenProvider.createToken("A", admin.getId());
     }
 
+
     //Firebase 사용자 생성 및 저장
     private void createFirebaseAccount(String uid, String email, String name) {
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
@@ -204,4 +227,7 @@ public class AuthService {
 
         return firebaseToken;
     }
+
+
+
 }
