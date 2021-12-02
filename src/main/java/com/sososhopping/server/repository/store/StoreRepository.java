@@ -5,6 +5,7 @@ import com.sososhopping.server.entity.member.Owner;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreStatus;
 import com.sososhopping.server.entity.store.StoreType;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
