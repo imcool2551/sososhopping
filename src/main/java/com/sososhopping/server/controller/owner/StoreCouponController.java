@@ -23,7 +23,7 @@ public class StoreCouponController {
     //쿠폰 리스트 조회 -> 발행중인 쿠폰/발행 예정 쿠폰 구분
     @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon")
     public ResponseEntity readCouponList(@PathVariable(value = "storeId") Long storeId) {
-        List<StoreCouponResponseDto> excepted = storeCouponService.readExceptedCouponList(storeId)
+        List<StoreCouponResponseDto> expected = storeCouponService.readExceptedCouponList(storeId)
                 .stream()
                 .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
                 .collect(Collectors.toList());
@@ -34,7 +34,7 @@ public class StoreCouponController {
                 .collect(Collectors.toList());
 
         StoreCouponListResponseDto dto = StoreCouponListResponseDto.builder()
-                .excepted(excepted)
+                .expected(expected)
                 .being(being)
                 .build();
 
