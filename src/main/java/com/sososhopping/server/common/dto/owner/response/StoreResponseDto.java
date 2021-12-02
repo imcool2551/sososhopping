@@ -23,6 +23,7 @@ public class StoreResponseDto {
     private Boolean businessStatus;
     private Boolean localCurrencyStatus;
     private Boolean deliveryStatus;
+    private Integer deliveryCharge;
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayResponseDto> storeBusinessDays;
@@ -41,6 +42,7 @@ public class StoreResponseDto {
         this.businessStatus = store.getBusinessStatus();
         this.localCurrencyStatus = store.getLocalCurrencyStatus();
         this.deliveryStatus = store.getDeliveryStatus();
+        this.deliveryCharge = store.getDeliveryCharge();
         this.streetAddress = store.getStreetAddress();
         this.detailedAddress = store.getDetailedAddress();
         this.storeBusinessDays = store.getStoreBusinessDays()

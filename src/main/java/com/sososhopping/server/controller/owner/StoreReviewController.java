@@ -35,8 +35,8 @@ public class StoreReviewController {
                 averageScore = averageScore.add(review.getScore());
             }
 
-            averageScore = averageScore.divide(new BigDecimal(String.valueOf(reviews.size())))
-                    .setScale(2, RoundingMode.HALF_UP);
+            averageScore = averageScore
+                    .divide(new BigDecimal(String.valueOf(reviews.size())), 2, RoundingMode.HALF_UP);
         }
 
         return ResponseEntity

@@ -78,6 +78,8 @@ public class Store extends BaseTimeEntity {
             ,name = "pickup_status")
     private Boolean pickupStatus = true;
 
+    private Integer deliveryCharge = null;
+
     @NotNull
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1
             , name = "delivery_status")
@@ -153,6 +155,7 @@ public class Store extends BaseTimeEntity {
         this.storeStatus = StoreStatus.PENDING;
         this.localCurrencyStatus = dto.getLocalCurrencyStatus();
         this.deliveryStatus = dto.getDeliveryStatus();
+        this.deliveryCharge = dto.getDeliveryCharge();
         this.streetAddress = dto.getStreetAddress();
         this.detailedAddress = dto.getDetailedAddress();
         this.lat = new BigDecimal(dto.getLat());
@@ -168,6 +171,7 @@ public class Store extends BaseTimeEntity {
         this.phone = dto.getPhone();
         this.localCurrencyStatus = dto.getLocalCurrencyStatus();
         this.deliveryStatus = dto.getDeliveryStatus();
+        this.deliveryCharge = dto.getDeliveryCharge();
 
         List<StoreBusinessDayRequestDto> storeBusinessDays = dto.getStoreBusinessDays();
 

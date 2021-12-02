@@ -4,6 +4,7 @@ import com.sososhopping.server.common.dto.owner.request.UserCouponUsageRequestDt
 import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.server.common.dto.owner.response.StoreCouponListResponseDto;
 import com.sososhopping.server.common.dto.owner.response.StoreCouponResponseDto;
+import com.sososhopping.server.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.service.owner.StoreCouponService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class StoreCouponController {
     //쿠폰 리스트 조회 -> 발행중인 쿠폰/발행 예정 쿠폰 구분
     @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon")
     public ResponseEntity readCouponList(@PathVariable(value = "storeId") Long storeId) {
-        List<StoreCouponResponseDto> excepted = storeCouponService.readExceptedCouponList(storeId)
+        List<StoreCouponResponseDto> expected = storeCouponService.readExceptedCouponList(storeId)
                 .stream()
                 .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
                 .collect(Collectors.toList());
@@ -34,7 +35,7 @@ public class StoreCouponController {
                 .collect(Collectors.toList());
 
         StoreCouponListResponseDto dto = StoreCouponListResponseDto.builder()
-                .excepted(excepted)
+                .expected(expected)
                 .being(being)
                 .build();
 
@@ -80,6 +81,18 @@ public class StoreCouponController {
         storeCouponService.deleteCoupon(storeId, couponId);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    //고객 쿠폰 중도 조회
+    @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
+    public ResponseEntity readUserCoupon(@PathVariable(value = "storeId") Long storeId
+            , @RequestParam("phone") String phone
+            , @RequestParam("couponCode") String couponCode) {
+        UserCouponResponseDto dto = storeCouponService.readUserCoupon(storeId, phone, couponCode);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dto);
     }
 
     //고객 쿠폰 직접 삭제
