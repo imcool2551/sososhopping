@@ -1,6 +1,7 @@
 package com.sososhopping.server.service.owner;
 
 import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
+import com.sososhopping.server.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.entity.coupon.*;
 import com.sososhopping.server.entity.member.User;
@@ -97,6 +98,22 @@ public class StoreCouponService {
         } else {
             throw new Api400Exception("아직 삭제할 수 없는 쿠폰입니다");
         }
+    }
+
+    @Transactional
+    public UserCouponResponseDto readUserCoupon(Long storeId, String phone, String couponCode) {
+        User user = userRepository.findByPhone(phone).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 고객입니다"));
+
+        Coupon coupon = couponRepository.findByCouponCode(couponCode).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 쿠폰입니다"));
+
+        if (coupon.getStore().getId() != storeId)
+            throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
+
+        UserCouponResponseDto dto = new UserCouponResponseDto(user, coupon);
+
+        return dto;
     }
 
     @Transactional

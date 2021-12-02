@@ -4,6 +4,7 @@ import com.sososhopping.server.common.dto.owner.request.UserCouponUsageRequestDt
 import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.server.common.dto.owner.response.StoreCouponListResponseDto;
 import com.sososhopping.server.common.dto.owner.response.StoreCouponResponseDto;
+import com.sososhopping.server.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.service.owner.StoreCouponService;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,18 @@ public class StoreCouponController {
         storeCouponService.deleteCoupon(storeId, couponId);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    //고객 쿠폰 중도 조회
+    @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
+    public ResponseEntity readUserCoupon(@PathVariable(value = "storeId") Long storeId
+            , @RequestParam("phone") String phone
+            , @RequestParam("couponCode") String couponCode) {
+        UserCouponResponseDto dto = storeCouponService.readUserCoupon(storeId, phone, couponCode);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dto);
     }
 
     //고객 쿠폰 직접 삭제
