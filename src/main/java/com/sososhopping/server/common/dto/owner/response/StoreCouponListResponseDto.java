@@ -9,6 +9,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StoreCouponListResponseDto {
-    List<StoreCouponResponseDto> excepted;
+    List<StoreCouponResponseDto> expected;
     List<StoreCouponResponseDto> being;
 }
