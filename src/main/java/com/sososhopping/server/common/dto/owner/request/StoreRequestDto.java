@@ -17,6 +17,7 @@ public class StoreRequestDto {
     private String extraBusinessDay;
     private Boolean localCurrencyStatus;
     private Boolean deliveryStatus;
+    private Integer deliveryCharge;
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayRequestDto> storeBusinessDays;
