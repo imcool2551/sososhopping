@@ -92,12 +92,12 @@ public class AuthController {
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
-    @GetMapping("/api/v1/users/auth/findEmail")
+    @PostMapping("/api/v1/users/auth/findEmail")
     public String findUserEmail(@RequestBody UserFindEmailDto dto) {
         return authService.findUserEmail(dto);
     }
 
-    @GetMapping("/api/v1/users/auth/findPassword")
+    @PostMapping("/api/v1/users/auth/findPassword")
     public void findUserPassword(@RequestBody UserFindPasswordDto dto) {
         authService.findUserPassword(dto);
     }
