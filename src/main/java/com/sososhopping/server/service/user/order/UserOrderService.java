@@ -12,6 +12,7 @@ import com.sososhopping.server.entity.member.UserPoint;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderItem;
 import com.sososhopping.server.entity.orders.OrderStatus;
+import com.sososhopping.server.entity.orders.OrderType;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
@@ -32,6 +33,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.sososhopping.server.entity.orders.OrderStatus.*;
+import static com.sososhopping.server.entity.orders.OrderType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +126,13 @@ public class UserOrderService {
 
         // 최종 가격 계산
         int finalPrice = orderPrice - usedPoint - couponDiscountPrice;
+        int deliveryCharge = 0;
+        OrderType orderType = dto.getOrderType();
+
+        if (orderType == DELIVERY) {
+            deliveryCharge = findStore.getDeliveryCharge();
+            finalPrice += deliveryCharge;
+        }
 
         if (finalPrice < 0) {
             throw new Api400Exception("최종금액은 0원 이상이어야 합니다");
@@ -138,10 +147,11 @@ public class UserOrderService {
                 .user(user)
                 .ordererName(dto.getOrdererName())
                 .ordererPhone(dto.getOrdererPhone())
-                .orderType(dto.getOrderType())
+                .orderType(orderType)
                 .visitDate(dto.getVisitDate())
                 .store(findStore)
                 .storeName(findStore.getName())
+                .deliveryCharge(deliveryCharge)
                 .deliveryStreetAddress(dto.getDeliveryStreetAddress())
                 .deliveryDetailedAddress(dto.getDeliveryDetailedAddress())
                 .paymentType(dto.getPaymentType())

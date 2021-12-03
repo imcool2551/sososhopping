@@ -11,8 +11,10 @@ import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderStatus;
 import com.sososhopping.server.repository.member.UserRepository;
+import com.sososhopping.server.repository.order.OrderRepository;
 import com.sososhopping.server.service.user.order.UserOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,7 @@ public class UserOrderController {
 
     private final UserOrderService userOrderService;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     @PostMapping("/api/v1/users/orders")
     public ResponseEntity createOrder(
@@ -83,6 +86,26 @@ public class UserOrderController {
         List<OrderListDto> dtos = userOrderService.getOrders(user, statuses);
 
         return new ApiListResponse<OrderListDto>(dtos);
+    }
+
+    @GetMapping("/api/v2/users/my/orders")
+    public Page<OrderListDto> getOrdersPageable(
+            Authentication authentication,
+            @RequestParam List<OrderStatus> statuses,
+            Pageable pageable
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        OrderStatus[] statusArray =
+                statuses.toArray(new OrderStatus[statuses.size()]);
+
+        PageRequest pageRequest =
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "createdAt");
+
+        return orderRepository.findOrdersByUserAndOrderStatus(user, pageRequest, statusArray)
+                .map(OrderListDto::new);
     }
 
     @GetMapping("/api/v1/users/my/orders/{orderId}")

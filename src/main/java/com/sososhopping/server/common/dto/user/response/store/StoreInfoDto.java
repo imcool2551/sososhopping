@@ -23,6 +23,7 @@ public class StoreInfoDto {
     private Boolean localCurrencyStatus;
     private Boolean pickupStatus;
     private Boolean deliveryStatus;
+    private Integer deliveryCharge;
     private BigDecimal saveRate;
     private String streetAddress;
     private String detailedAddress;
@@ -46,6 +47,7 @@ public class StoreInfoDto {
         localCurrencyStatus = store.getLocalCurrencyStatus();
         pickupStatus = store.getPickupStatus();
         deliveryStatus = store.getDeliveryStatus();
+        deliveryCharge = store.getDeliveryCharge();
         saveRate = store.getSaveRate();
         streetAddress = store.getStreetAddress();
         detailedAddress = store.getDetailedAddress();

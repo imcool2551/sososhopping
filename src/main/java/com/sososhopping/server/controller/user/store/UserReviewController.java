@@ -1,14 +1,22 @@
 package com.sososhopping.server.controller.user.store;
 
 import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.owner.response.StoreReviewListResponseDto;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.dto.user.response.store.UserReviewDto;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.common.error.Api409Exception;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.store.ReviewRepository;
+import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +32,7 @@ import java.util.stream.Collectors;
 public class UserReviewController {
 
     private final UserReviewService userReviewService;
+    private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews")
@@ -31,6 +40,22 @@ public class UserReviewController {
 
         List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
         return new ApiListResponse<StoreReviewDto>(storeReviews);
+    }
+
+    @GetMapping("/api/v2/users/stores/{storeId}/reviews")
+    public Slice<StoreReviewDto> getStoreReviewsPageable(
+            @PathVariable Long storeId,
+            Pageable pageable
+    ) {
+        Store findStore = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        PageRequest pageRequest =
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "createdAt");
+
+        return reviewRepository.findReviewsByStore(findStore, pageRequest)
+                .map(StoreReviewDto::new);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")
