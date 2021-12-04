@@ -166,6 +166,19 @@ public class AuthService {
 
         user.updatePassword(passwordEncoder.encode(dto.getPassword()));
     }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.withdrawable()) {
+            throw new Api400Exception("진행중인 주문이 있습니다");
+        }
+
+        user.withdraw();
+    }
+
     /**
      * 관리자 관련 인증
      */

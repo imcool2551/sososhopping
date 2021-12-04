@@ -35,7 +35,6 @@ public class Order extends BaseTimeEntity {
     @Column(name = "order_id")
     private Long id;
 
-    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -172,5 +171,9 @@ public class Order extends BaseTimeEntity {
             throw new Api400Exception("잚못된 요청입니다");
         }
         orderStatus = READY;
+    }
+
+    public void nullifyUser() {
+        user = null;
     }
 }
