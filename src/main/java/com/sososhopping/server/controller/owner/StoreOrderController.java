@@ -28,7 +28,7 @@ public class StoreOrderController {
 
     private final StoreOrderService storeOrderService;
 
-    @GetMapping("/api/v1/owner/store/store/{storeId}/orders")
+    @GetMapping("/api/v1/owner/store/{storeId}/orders")
     public ApiListResponse<OrderDetailDto> getOrders(
             Authentication authentication,
             @PathVariable Long storeId,
