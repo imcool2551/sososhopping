@@ -41,7 +41,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .where(
                         storeEq(store),
                         orderTypeEq(ONSITE),
-                        statusEq(APPROVE).or(statusEq(READY))
+                        statusEq(APPROVE)
                 )
                 .orderBy(order.visitDate.asc())
                 .fetch();
@@ -56,7 +56,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .where(
                         storeEq(store),
                         orderTypeEq(DELIVERY),
-                        statusEq(APPROVE).or(statusEq(READY))
+                        statusEq(APPROVE)
                 )
                 .orderBy(order.createdAt.asc())
                 .fetch();

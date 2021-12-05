@@ -83,7 +83,7 @@ public class StoreOrderController {
 
         OrderStatus action = dto.getAction();
 
-        if (action != APPROVE || action != REJECT || action != READY) {
+        if (action != APPROVE && action != REJECT && action != READY) {
             throw new Api400Exception("알 수 없는 요청입니다");
         }
 
