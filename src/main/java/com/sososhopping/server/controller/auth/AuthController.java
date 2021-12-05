@@ -8,6 +8,7 @@ import com.sososhopping.server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -105,6 +106,12 @@ public class AuthController {
     @PostMapping("/api/v1/users/auth/changePassword")
     public void changeUserPassword(@RequestBody UserChangePasswordDto dto) {
         authService.changeUserPassword(dto);
+    }
+
+    @DeleteMapping("/api/v1/users")
+    public void deleteUser(Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getName());
+        authService.deleteUser(userId);
     }
 
     /**

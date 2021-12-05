@@ -28,7 +28,7 @@ public class StoreOrderController {
 
     private final StoreOrderService storeOrderService;
 
-    @GetMapping("/api/v1/owner/store/store/{storeId}/orders")
+    @GetMapping("/api/v1/owner/store/{storeId}/orders")
     public ApiListResponse<OrderDetailDto> getOrders(
             Authentication authentication,
             @PathVariable Long storeId,
@@ -83,7 +83,7 @@ public class StoreOrderController {
 
         OrderStatus action = dto.getAction();
 
-        if (action != APPROVE || action != REJECT || action != READY) {
+        if (action != APPROVE && action != REJECT && action != READY) {
             throw new Api400Exception("알 수 없는 요청입니다");
         }
 

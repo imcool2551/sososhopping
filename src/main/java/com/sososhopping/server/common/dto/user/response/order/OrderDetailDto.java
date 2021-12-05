@@ -17,6 +17,7 @@ public class OrderDetailDto {
     private Long userId;
     private Long ownerId;
     private Long storeId;
+    private OrderStatus orderStatus;
     private PaymentType paymentType;
     private String phone;
     private List<OrderItemDto> orderItems;
@@ -32,7 +33,6 @@ public class OrderDetailDto {
     private Integer usedPoint;
     private Integer couponDiscountPrice;
     private Integer finalPrice;
-    private OrderStatus orderStatus;
     private String createdAt;
 
     public OrderDetailDto(Order order) {
@@ -40,6 +40,7 @@ public class OrderDetailDto {
         userId = order.getUser().getId();
         ownerId = order.getStore().getOwner().getId();
         storeId = order.getStore().getId();
+        orderStatus = order.getOrderStatus();
         paymentType = order.getPaymentType();
         phone = order.getStore().getPhone();
         orderItems = order.getOrderItems().stream()
@@ -61,7 +62,6 @@ public class OrderDetailDto {
                 .map(coupon -> coupon.getDiscountPrice(orderPrice))
                 .orElse(null);
         finalPrice = order.getFinalPrice();
-        orderStatus = order.getOrderStatus();
         createdAt = order.getCreatedAt()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }

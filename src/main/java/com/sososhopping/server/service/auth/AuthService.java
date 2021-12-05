@@ -139,6 +139,10 @@ public class AuthService {
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
         String apiToken = jwtTokenProvider.createToken("U", user.getId());
         String firebaseToken = createFirebaseToken("U" + user.getId());
 
@@ -150,13 +154,21 @@ public class AuthService {
         User user = userRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
 
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
         return user.getEmail();
     }
 
     @Transactional
     public void findUserPassword(UserFindPasswordDto dto) {
-       userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
+        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
     }
 
     @Transactional
@@ -164,8 +176,25 @@ public class AuthService {
         User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
 
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
         user.updatePassword(passwordEncoder.encode(dto.getPassword()));
     }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.withdrawable()) {
+            throw new Api400Exception("진행중인 주문이 있습니다");
+        }
+
+        user.withdraw();
+    }
+
     /**
      * 관리자 관련 인증
      */

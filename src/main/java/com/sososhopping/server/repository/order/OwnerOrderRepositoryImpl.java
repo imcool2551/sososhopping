@@ -40,7 +40,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .from(order)
                 .where(
                         storeEq(store),
-                        orderTypeEq(ONSITE),
+                        pickupDateEq(LocalDate.now()),
                         statusEq(APPROVE).or(statusEq(READY))
                 )
                 .orderBy(order.visitDate.asc())
@@ -55,22 +55,21 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .from(order)
                 .where(
                         storeEq(store),
-                        orderTypeEq(DELIVERY),
-                        statusEq(APPROVE).or(statusEq(READY))
+                        statusEq(APPROVE)
                 )
                 .orderBy(order.createdAt.asc())
                 .fetch();
     }
 
     @Override
-    public List<Order> findDoneOrdersByStoreAndDate(Store store, LocalDate date) {
+    public List<Order> findOrdersByStoreAndDate(Store store, LocalDate date) {
         return queryFactory
                 .select(order)
                 .from(order)
                 .where(
                         storeEq(store),
-                        dateEq(date),
-                        statusEq(DONE)
+                        pickupDateEq(date).or(deliveryDateEq(date)),
+                        order.orderStatus.notIn(PENDING)
                 )
                 .orderBy(order.createdAt.asc())
                 .fetch();
@@ -88,23 +87,23 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
         return order.orderType.eq(type);
     }
 
-    private BooleanExpression dateEq(LocalDate date) {
-        BooleanExpression visitDateEq = orderTypeEq(ONSITE)
+    private BooleanExpression pickupDateEq(LocalDate date) {
+        return orderTypeEq(ONSITE)
                 .and(
                         order.visitDate.between(
                                 date.atStartOfDay(),
                                 date.atStartOfDay().plusDays(1)
                         )
                 );
+    }
 
-        BooleanExpression deliveryDateEq = orderTypeEq(DELIVERY)
+    private BooleanExpression deliveryDateEq(LocalDate date) {
+        return orderTypeEq(DELIVERY)
                 .and(
                         order.createdAt.between(
                                 date.atStartOfDay(),
                                 date.atStartOfDay().plusDays(1)
                         )
                 );
-
-        return visitDateEq.and(deliveryDateEq);
     }
 }

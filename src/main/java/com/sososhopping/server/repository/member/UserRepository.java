@@ -1,9 +1,12 @@
 package com.sososhopping.server.repository.member;
 
+import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,4 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByNameAndPhone(String name, String phone);
 
     Optional<User> findByEmailAndNameAndPhone(String email, String name, String phone);
+
+    @EntityGraph(attributePaths = "orders", type = EntityGraph.EntityGraphType.FETCH)
+    List<User> findByActive(AccountStatus status);
 }
