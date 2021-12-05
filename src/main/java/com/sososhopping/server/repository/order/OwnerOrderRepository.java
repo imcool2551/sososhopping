@@ -14,5 +14,5 @@ public interface OwnerOrderRepository {
 
     List<Order> findDeliveryOrdersByStore(Store store);
 
-    List<Order> findDoneOrdersByStoreAndDate(Store store, LocalDate at);
+    List<Order> findOrdersByStoreAndDate(Store store, LocalDate at);
 }
