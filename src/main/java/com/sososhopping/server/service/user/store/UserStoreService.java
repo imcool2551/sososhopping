@@ -18,9 +18,7 @@ import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.JdbcStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,7 +111,7 @@ public class UserStoreService {
     }
 
     @Transactional
-    public Page<StoreListDto> getStoresByCategoryPageable(
+    public Slice<StoreListDto> getStoresByCategoryPageable(
             Long userId,
             GetStoreByCategoryDto dto
     ) {
@@ -125,7 +123,7 @@ public class UserStoreService {
 
         List<Store> stores = storeRepository.findByIdIn(storeIds);
 
-        List<StoreListDto> content = null;
+        List<StoreListDto> content;
 
         if (userId == null) {
             content = stores.stream()
@@ -138,9 +136,14 @@ public class UserStoreService {
                     .collect(Collectors.toList());
         }
 
-        Long size = jdbcStoreRepository.getNearStoreCountByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType());
-        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
-        return new PageImpl<>(content, pageable, size);
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     @Transactional
