@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sososhopping.server.entity.member.AccountStatus.*;
 import static javax.persistence.CascadeType.*;
 
 @Builder
@@ -77,7 +78,7 @@ public class User extends BaseTimeEntity {
 
     // Business Logic
     public void suspend() {
-        active = AccountStatus.SUSPEND;
+        active = SUSPEND;
     }
 
     public void updateUserInfo(
@@ -107,6 +108,10 @@ public class User extends BaseTimeEntity {
     }
 
     public void withdraw() {
-        active = AccountStatus.WITHDRAW;
+        active = WITHDRAW;
+    }
+
+    public boolean isActive() {
+        return active == ACTIVE;
     }
 }

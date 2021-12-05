@@ -16,7 +16,7 @@ public class CronJob {
     private final UserRepository userRepository;
 
     @Transactional
-    @Scheduled(cron = "* * 5 * * *")
+    @Scheduled(cron = "0 0 5 * * *")
     public void deleteUser() {
         userRepository.findByActive(AccountStatus.WITHDRAW)
                 .forEach(user -> {

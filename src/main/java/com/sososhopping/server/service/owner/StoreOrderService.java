@@ -92,7 +92,7 @@ public class StoreOrderService {
             throw new Api403Exception("다른 점주의 점포입니다");
         }
 
-        return orderRepository.findDoneOrdersByStoreAndDate(store, date);
+        return orderRepository.findOrdersByStoreAndDate(store, date);
     }
 
     @Transactional
