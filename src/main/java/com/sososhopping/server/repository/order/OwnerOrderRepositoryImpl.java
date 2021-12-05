@@ -55,7 +55,6 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .from(order)
                 .where(
                         storeEq(store),
-                        deliveryDateEq(LocalDate.now()),
                         statusEq(APPROVE)
                 )
                 .orderBy(order.createdAt.asc())

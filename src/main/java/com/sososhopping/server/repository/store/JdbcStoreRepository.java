@@ -30,8 +30,43 @@ public class JdbcStoreRepository {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Map<Long, Double> getNearStoreIdsByCategory(Double lat, Double lng, Double radius, StoreType storeType) {
-        String sql = "SELECT  store.store_id AS store_id,\n" +
+    public Long getNearStoreCountByCategory(Double lat, Double lng, Double radius, StoreType storeType) {
+        String sql = "SELECT COUNT(*) \n" +
+                " FROM ( " +
+                "       SELECT p.radius AS radius,\n" +
+                "               p.distance_unit\n" +
+                "                        * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
+                "                        * COS(RADIANS(store.lat))\n" +
+                "                        * COS(RADIANS(p.longpoint - store.lng))\n" +
+                "                        + SIN(RADIANS(p.latpoint))\n" +
+                "                        * SIN(RADIANS(store.lat))))) AS distance\n" +
+                "         FROM store\n" +
+                "         JOIN (   /* these are the query parameters */\n" +
+                "               SELECT  :lat  AS latpoint, :lng AS longpoint,\n" +
+                "                       :radius  AS radius,    111.045 AS distance_unit\n" +
+                "         ) AS p \n" +
+                "         WHERE store.lat\n" +
+                "                BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
+                "                AND p.latpoint  + (p.radius / p.distance_unit)\n" +
+                "            AND store.lng\n" +
+                "                BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "                AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "            AND store.store_type LIKE :storeType\n" +
+                "            AND store.business_status = 1\n" +
+                "        HAVING distance <= radius\n" +
+                ") AS near_store \n";
+
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("lat", lat)
+                .addValue("lng", lng)
+                .addValue("radius", radius)
+                .addValue("storeType", storeType.toString());
+
+        return jdbcTemplate.queryForObject(sql, parameters, Long.class);
+    }
+
+    public Map<Long, Double> getNearStoreIdsByCategory(Double lat, Double lng, Double radius, StoreType storeType, Integer offset) {
+        String sql = "SELECT store.store_id AS store_id,\n" +
                 "        p.radius AS radius,\n" +
                 "        p.distance_unit\n" +
                 "                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
@@ -54,13 +89,14 @@ public class JdbcStoreRepository {
                 "     AND store.business_status = 1\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
-                " LIMIT 10";
+                " LIMIT 10 OFFSET :offset";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("lat", lat)
                 .addValue("lng", lng)
                 .addValue("radius", radius)
-                .addValue("storeType", storeType.toString());
+                .addValue("storeType", storeType.toString())
+                .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
         return list.stream()
