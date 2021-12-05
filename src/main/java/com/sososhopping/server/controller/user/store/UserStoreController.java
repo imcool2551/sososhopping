@@ -44,7 +44,7 @@ public class UserStoreController {
     }
 
     @GetMapping("/api/v1/users/stores/page")
-    public Page<StoreListDto> getStoresByCategoryPageable(
+    public Slice<StoreListDto> getStoresByCategoryPageable(
             Authentication authentication,
             @ModelAttribute @Valid GetStoreByCategoryDto dto
     ) {
