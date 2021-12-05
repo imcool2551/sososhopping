@@ -19,4 +19,6 @@ public class GetStoreByCategoryDto {
 
     @NotNull
     private StoreType type;
+
+    private Integer offset = 0;
 }

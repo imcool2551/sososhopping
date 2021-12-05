@@ -9,6 +9,8 @@ import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.service.user.store.UserStoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -39,6 +41,19 @@ public class UserStoreController {
                 .getStoresByCategory(userId, dto);
 
         return new ApiListResponse<>(dtos);
+    }
+
+    @GetMapping("/api/v1/users/stores/page")
+    public Page<StoreListDto> getStoresByCategoryPageable(
+            Authentication authentication,
+            @ModelAttribute @Valid GetStoreByCategoryDto dto
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        return userStoreService
+                .getStoresByCategoryPageable(userId, dto);
     }
 
     @GetMapping("/api/v1/users/search")

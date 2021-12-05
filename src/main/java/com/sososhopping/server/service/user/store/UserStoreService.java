@@ -1,5 +1,6 @@
 package com.sososhopping.server.service.user.store;
 
+import com.sososhopping.server.common.OffsetBasedPageRequest;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.StoreSearchType;
@@ -17,9 +18,13 @@ import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.repository.store.JdbcStoreRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +55,7 @@ public class UserStoreService {
         interestStoreRepository
                 .findByUserAndStore(user, store)
                 .ifPresentOrElse(
-                        existingStoreLike -> interestStoreRepository.delete(existingStoreLike),
+                        interestStoreRepository::delete,
                         () -> interestStoreRepository.save(new InterestStore(user, store))
                 );
     }
@@ -89,10 +94,9 @@ public class UserStoreService {
     ) {
 
         Map<Long, Double> nearStoreIdsByCategory = jdbcStoreRepository
-                .getNearStoreIdsByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType());
+                .getNearStoreIdsByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType(), dto.getOffset());
 
-        List<Long> storeIds = nearStoreIdsByCategory.keySet().stream()
-                .collect(Collectors.toList());
+        List<Long> storeIds = new ArrayList<>(nearStoreIdsByCategory.keySet());
 
         List<Store> stores = storeRepository.findByIdIn(storeIds);
 
@@ -109,6 +113,37 @@ public class UserStoreService {
     }
 
     @Transactional
+    public Page<StoreListDto> getStoresByCategoryPageable(
+            Long userId,
+            GetStoreByCategoryDto dto
+    ) {
+
+        Map<Long, Double> nearStoreIdsByCategory = jdbcStoreRepository
+                .getNearStoreIdsByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType(), dto.getOffset());
+
+        List<Long> storeIds = new ArrayList<>(nearStoreIdsByCategory.keySet());
+
+        List<Store> stores = storeRepository.findByIdIn(storeIds);
+
+        List<StoreListDto> content = null;
+
+        if (userId == null) {
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsByCategory))
+                    .collect(Collectors.toList());
+        } else {
+            List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
+                    .collect(Collectors.toList());
+        }
+
+        Long size = jdbcStoreRepository.getNearStoreCountByCategory(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getType());
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
+        return new PageImpl<>(content, pageable, size);
+    }
+
+    @Transactional
     public List<StoreListDto> getStoreBySearch(Long userId, GetStoreBySearchDto dto) {
         Map<Long, Double> nearStoreIdsBySearch;
         StoreSearchType searchType = dto.getType();
@@ -120,8 +155,7 @@ public class UserStoreService {
                     .getNearStoreIdsByItemName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
         }
 
-        List<Long> storeIds = nearStoreIdsBySearch.keySet().stream()
-                .collect(Collectors.toList());
+        List<Long> storeIds = new ArrayList<>(nearStoreIdsBySearch.keySet());
 
         List<Store> stores = storeRepository.findByIdIn(storeIds);
 
@@ -136,4 +170,6 @@ public class UserStoreService {
                 .map(store -> new StoreListDto(store, interestStores, nearStoreIdsBySearch))
                 .collect(Collectors.toList());
     }
+
+
 }
