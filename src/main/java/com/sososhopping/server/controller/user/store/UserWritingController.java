@@ -54,7 +54,7 @@ public class UserWritingController {
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
 
-        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
+        Pageable pageable = new OffsetBasedPageRequest(offset, 10);
         return writingRepository.findByStore(findStore, pageable)
                 .map(WritingListDto::new);
     }

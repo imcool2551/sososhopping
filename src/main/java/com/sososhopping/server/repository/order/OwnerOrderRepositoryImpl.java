@@ -92,7 +92,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .and(
                         order.visitDate.between(
                                 date.atStartOfDay(),
-                                date.atStartOfDay().plusDays(1)
+                                date.atStartOfDay().plusDays(1).minusMinutes(1)
                         )
                 );
     }
@@ -102,7 +102,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
                 .and(
                         order.createdAt.between(
                                 date.atStartOfDay(),
-                                date.atStartOfDay().plusDays(1)
+                                date.atStartOfDay().plusDays(1).minusMinutes(1)
                         )
                 );
     }

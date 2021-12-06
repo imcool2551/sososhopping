@@ -52,7 +52,7 @@ public class UserReviewController {
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
+        Pageable pageable = new OffsetBasedPageRequest(offset, 10);
 
         return reviewRepository.findReviewsByStore(findStore, pageable)
                 .map(StoreReviewDto::new);
