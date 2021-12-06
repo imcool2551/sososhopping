@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.user.store;
 
+import com.sososhopping.server.common.OffsetBasedPageRequest;
 import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.owner.response.StoreReviewListResponseDto;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
@@ -42,19 +43,18 @@ public class UserReviewController {
         return new ApiListResponse<StoreReviewDto>(storeReviews);
     }
 
-    @GetMapping("/api/v2/users/stores/{storeId}/reviews")
+    @GetMapping("/api/v1/users/stores/{storeId}/reviews/page")
     public Slice<StoreReviewDto> getStoreReviewsPageable(
             @PathVariable Long storeId,
-            Pageable pageable
+            @RequestParam Integer offset
     ) {
         Store findStore = storeRepository
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        PageRequest pageRequest =
-                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "createdAt");
+        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
 
-        return reviewRepository.findReviewsByStore(findStore, pageRequest)
+        return reviewRepository.findReviewsByStore(findStore, pageable)
                 .map(StoreReviewDto::new);
     }
 

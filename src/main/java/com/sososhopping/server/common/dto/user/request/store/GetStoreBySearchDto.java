@@ -22,4 +22,6 @@ public class GetStoreBySearchDto {
 
     @NotNull
     private String q;
+
+    private Integer offset = 0;
 }

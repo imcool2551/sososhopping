@@ -6,10 +6,7 @@ import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderStatus;
 import com.sososhopping.server.entity.orders.QOrderItem;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -45,7 +42,7 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
     }
 
     @Override
-    public Page<Order> findOrdersByUserAndOrderStatus(User user, Pageable pageable, OrderStatus... status) {
+    public Slice<Order> findOrdersByUserAndOrderStatus(User user, Pageable pageable, OrderStatus... status) {
         BooleanExpression orderStatusMatch = orderStatusEq(status[0]);
         for (int i = 1; i < status.length; i++) {
             orderStatusMatch = orderStatusMatch.or(orderStatusEq(status[i]));
@@ -58,17 +55,16 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
                 .where(userEq(user), orderStatusMatch)
                 .orderBy(order.createdAt.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        int size = queryFactory
-                .select(order)
-                .from(order)
-                .where(userEq(user), orderStatusMatch)
-                .fetch()
-                .size();
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
 
-        return new PageImpl<>(content, pageable, size);
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     private BooleanExpression userEq(User user) {

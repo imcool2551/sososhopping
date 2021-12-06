@@ -71,6 +71,19 @@ public class UserStoreController {
         return new ApiListResponse<>(dtos);
     }
 
+    @GetMapping("/api/v1/users/search/page")
+    public Slice<StoreListDto> getStoresBySearchPageable(
+            Authentication authentication,
+            @ModelAttribute @Valid GetStoreBySearchDto dto
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        return userStoreService
+                .getStoreBySearchPageable(userId, dto);
+    }
+
     @GetMapping("/api/v1/users/stores/{storeId}")
     public StoreInfoDto getStoreInfo(
             Authentication authentication,

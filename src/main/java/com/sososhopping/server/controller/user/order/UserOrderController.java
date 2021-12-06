@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.user.order;
 
+import com.sososhopping.server.common.OffsetBasedPageRequest;
 import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
@@ -88,11 +89,11 @@ public class UserOrderController {
         return new ApiListResponse<OrderListDto>(dtos);
     }
 
-    @GetMapping("/api/v2/users/my/orders")
-    public Page<OrderListDto> getOrdersPageable(
+    @GetMapping("/api/v1/users/my/orders/page")
+    public Slice<OrderListDto> getOrdersPageable(
             Authentication authentication,
             @RequestParam List<OrderStatus> statuses,
-            Pageable pageable
+            @RequestParam Integer offset
     ) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId)
@@ -101,10 +102,9 @@ public class UserOrderController {
         OrderStatus[] statusArray =
                 statuses.toArray(new OrderStatus[statuses.size()]);
 
-        PageRequest pageRequest =
-                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "createdAt");
+        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
 
-        return orderRepository.findOrdersByUserAndOrderStatus(user, pageRequest, statusArray)
+        return orderRepository.findOrdersByUserAndOrderStatus(user, pageable, statusArray)
                 .map(OrderListDto::new);
     }
 

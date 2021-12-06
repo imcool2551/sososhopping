@@ -13,5 +13,5 @@ import java.util.List;
 public interface UserOrderRepository {
     List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus ... type);
 
-    Page<Order> findOrdersByUserAndOrderStatus(User user, Pageable pageable, OrderStatus... status);
+    Slice<Order> findOrdersByUserAndOrderStatus(User user, Pageable pageable, OrderStatus... status);
 }
