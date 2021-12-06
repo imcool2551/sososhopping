@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.user.store;
 
+import com.sososhopping.server.common.OffsetBasedPageRequest;
 import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.response.store.WritingDto;
 import com.sososhopping.server.common.dto.user.response.store.WritingListDto;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,21 +43,20 @@ public class UserWritingController {
         return new ApiListResponse<WritingListDto>(writingListDto);
     }
 
-    @GetMapping("/api/v2/users/stores/{storeId}/writings")
+    @GetMapping("/api/v1/users/stores/{storeId}/writings/page")
     public Slice<WritingListDto> getStoreWritingsPageable(
             @PathVariable Long storeId,
-            Pageable pageable
-    ) {
+            @RequestParam Integer offset
+            ) {
 
         Store findStore = storeRepository
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        PageRequest pageRequest =
-                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "createdAt");
 
-        return writingRepository.findByStore(findStore, pageRequest)
-                .map(writing -> new WritingListDto(writing));
+        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
+        return writingRepository.findByStore(findStore, pageable)
+                .map(WritingListDto::new);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/writings/{writingId}")
