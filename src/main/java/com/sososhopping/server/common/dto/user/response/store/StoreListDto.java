@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 @Getter
-public class StoreListDto {
+public class StoreListDto implements Comparable<StoreListDto> {
 
     private final Long storeId;
     private final String storeType;
@@ -82,6 +82,15 @@ public class StoreListDto {
                 .orElse(0);
         isInterestStore = true;
         distance = null;
+    }
+
+    @Override
+    public int compareTo(StoreListDto o) {
+        if (this.distance > o.distance) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 
     @Getter
