@@ -137,7 +137,7 @@ public class UserStoreService {
                     .collect(Collectors.toList());
         }
 
-        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
@@ -203,7 +203,7 @@ public class UserStoreService {
                     .collect(Collectors.toList());
         }
 
-        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
