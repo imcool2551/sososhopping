@@ -31,7 +31,13 @@ public class JdbcStoreRepository {
     }
 
     // 커서 기반 페이징 limit 개수인 5개 에 1 더한 6개 가져옴
-    public Map<Long, Double> getNearStoreIdsByCategory(Double lat, Double lng, Double radius, StoreType storeType, Integer offset) {
+    public Map<Long, Double> getNearStoreIdsByCategory(
+            Double lat,
+            Double lng,
+            Double radius,
+            StoreType storeType,
+            Integer offset
+    ) {
         String sql = "SELECT store.store_id AS store_id,\n" +
                 "        p.radius AS radius,\n" +
                 "        p.distance_unit\n" +
@@ -71,7 +77,13 @@ public class JdbcStoreRepository {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public Map<Long, Double> getNearStoreIdsByStoreName(Double lat, Double lng, Double radius, String storeName) {
+    public Map<Long, Double> getNearStoreIdsByStoreName(
+            Double lat,
+            Double lng,
+            Double radius,
+            String storeName,
+            Integer offset
+    ) {
         String sql = "SELECT  store.store_id AS store_id,\n" +
                 "        p.radius AS radius,\n" +
                 "        p.distance_unit\n" +
@@ -95,13 +107,15 @@ public class JdbcStoreRepository {
                 "     AND store.business_status = 1\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
-                " LIMIT 10";
+                " LIMIT :limit OFFSET :offset";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("lat", lat)
                 .addValue("lng", lng)
                 .addValue("radius", radius)
-                .addValue("storeName", "%" + storeName + "%");
+                .addValue("storeName", "%" + storeName + "%")
+                .addValue("limit", 5 + 1)
+                .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
         return list.stream()
@@ -109,7 +123,13 @@ public class JdbcStoreRepository {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public Map<Long, Double> getNearStoreIdsByItemName(Double lat, Double lng, Double radius, String itemName) {
+    public Map<Long, Double> getNearStoreIdsByItemName(
+            Double lat,
+            Double lng,
+            Double radius,
+            String itemName,
+            Integer offset
+    ) {
         String sql = "  SELECT DISTINCT(store.store_id) AS store_id, distance\n" +
                 "  FROM (\n" +
                 "   SELECT store.*,\n" +
@@ -137,13 +157,15 @@ public class JdbcStoreRepository {
                 "   ON i.store_id = store.store_id AND i.name LIKE :itemName\n" +
                 " WHERE distance <= radius\n" +
                 " ORDER BY distance\n" +
-                " LIMIT 10;";
+                " LIMIT :limit OFFSET :offset";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("lat", lat)
                 .addValue("lng", lng)
                 .addValue("radius", radius)
-                .addValue("itemName", "%" + itemName + "%");
+                .addValue("itemName", "%" + itemName + "%")
+                .addValue("limit", 5 + 1)
+                .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
         return list.stream()

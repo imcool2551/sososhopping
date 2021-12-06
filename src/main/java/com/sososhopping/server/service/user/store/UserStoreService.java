@@ -1,6 +1,7 @@
 package com.sososhopping.server.service.user.store;
 
 import com.sososhopping.server.common.OffsetBasedPageRequest;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.StoreSearchType;
@@ -152,10 +153,10 @@ public class UserStoreService {
         StoreSearchType searchType = dto.getType();
         if (searchType.equals(StoreSearchType.STORE)) {
             nearStoreIdsBySearch = jdbcStoreRepository
-                    .getNearStoreIdsByStoreName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
+                    .getNearStoreIdsByStoreName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ(), dto.getOffset());
         } else {
             nearStoreIdsBySearch = jdbcStoreRepository
-                    .getNearStoreIdsByItemName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ());
+                    .getNearStoreIdsByItemName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ(), dto.getOffset());
         }
 
         List<Long> storeIds = new ArrayList<>(nearStoreIdsBySearch.keySet());
@@ -174,5 +175,42 @@ public class UserStoreService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public Slice<StoreListDto> getStoreBySearchPageable(Long userId, GetStoreBySearchDto dto) {
+        Map<Long, Double> nearStoreIdsBySearch;
+        StoreSearchType searchType = dto.getType();
+        if (searchType.equals(StoreSearchType.STORE)) {
+            nearStoreIdsBySearch = jdbcStoreRepository
+                    .getNearStoreIdsByStoreName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ(), dto.getOffset());
+        } else {
+            nearStoreIdsBySearch = jdbcStoreRepository
+                    .getNearStoreIdsByItemName(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getQ(), dto.getOffset());
+        }
 
+        List<Long> storeIds = new ArrayList<>(nearStoreIdsBySearch.keySet());
+
+        List<Store> stores = storeRepository.findByIdIn(storeIds);
+        List<StoreListDto> content;
+
+        if (userId == null) {
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsBySearch))
+                    .collect(Collectors.toList());
+        } else {
+            List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, interestStores, nearStoreIdsBySearch))
+                    .collect(Collectors.toList());
+        }
+
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
 }
