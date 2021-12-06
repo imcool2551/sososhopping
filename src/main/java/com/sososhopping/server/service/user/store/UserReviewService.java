@@ -4,6 +4,7 @@ import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
+import com.sososhopping.server.common.error.Api409Exception;
 import com.sososhopping.server.entity.member.Review;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class UserReviewService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
+    private final EntityManager em;
 
     @Transactional
     public List<StoreReviewDto> getStoreReviews(Long storeId) {
@@ -54,11 +57,17 @@ public class UserReviewService {
                 .content(dto.getContent())
                 .score(dto.getScore())
                 .imgUrl(dto.getImgUrl())
+                .user(user)
+                .store(store)
                 .build();
 
-        review.setUser(user);
-        review.setStore(store);
-        reviewRepository.save(review);
+        reviewRepository.findByUserAndStore(user, store)
+                .ifPresentOrElse(
+                        (r) -> {
+                            throw new Api409Exception("이미 작성한 리뷱 존재합니다");
+                        },
+                        () -> reviewRepository.save(review)
+                );
     }
 
     @Transactional

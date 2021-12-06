@@ -68,7 +68,7 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("storeType", storeType.toString())
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
@@ -114,7 +114,7 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("storeName", "%" + storeName + "%")
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
@@ -164,7 +164,7 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("itemName", "%" + itemName + "%")
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
