@@ -15,6 +15,7 @@ import java.util.Objects;
 public class StoreListDto implements Comparable<StoreListDto> {
 
     private final Long storeId;
+    private final Long ownerId;
     private final String storeType;
     private final String name;
     private final String description;
@@ -35,6 +36,7 @@ public class StoreListDto implements Comparable<StoreListDto> {
             Map<Long, Double> idToDistanceMap
     ) {
         storeId = store.getId();
+        ownerId = store.getOwner().getId();
         storeType = store.getStoreType().getKrType();
         name = store.getName();
         description = store.getDescription();
@@ -62,6 +64,7 @@ public class StoreListDto implements Comparable<StoreListDto> {
 
     public StoreListDto (InterestStore interestStore) {
         storeId = interestStore.getStore().getId();
+        ownerId = interestStore.getStore().getOwner().getId();
         storeType = interestStore.getStore().getStoreType().getKrType();
         name = interestStore.getStore().getName();
         description = interestStore.getStore().getDescription();
