@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 public class StoreInfoDto {
     private Long storeId;
+    private Long ownerId;
     private String storeType;
     private String name;
     private String imgUrl;
@@ -22,6 +23,7 @@ public class StoreInfoDto {
     private Boolean localCurrencyStatus;
     private Boolean pickupStatus;
     private Boolean deliveryStatus;
+    private Integer deliveryCharge;
     private BigDecimal saveRate;
     private String streetAddress;
     private String detailedAddress;
@@ -30,9 +32,11 @@ public class StoreInfoDto {
     private Coordinate location;
     private Double score;
     private Boolean isInterestStore;
+    private Integer myPoint;
 
-    public StoreInfoDto(Store store, boolean isInterestStore) {
+    public StoreInfoDto(Store store, boolean isInterestStore, Integer myPoint) {
         storeId = store.getId();
+        ownerId = store.getOwner().getId();
         storeType = store.getStoreType().getKrType();
         name = store.getName();
         imgUrl = store.getImgUrl();
@@ -43,6 +47,7 @@ public class StoreInfoDto {
         localCurrencyStatus = store.getLocalCurrencyStatus();
         pickupStatus = store.getPickupStatus();
         deliveryStatus = store.getDeliveryStatus();
+        deliveryCharge = store.getDeliveryCharge();
         saveRate = store.getSaveRate();
         streetAddress = store.getStreetAddress();
         detailedAddress = store.getDetailedAddress();
@@ -64,6 +69,7 @@ public class StoreInfoDto {
                 .average()
                 .orElse(0);
         this.isInterestStore = isInterestStore;
+        this.myPoint = myPoint;
     }
 
     @Getter

@@ -1,11 +1,9 @@
 package com.sososhopping.server.controller.user.store;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.response.store.ItemDto;
 import com.sososhopping.server.common.error.Api404Exception;
-import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
-import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,7 @@ UserItemController {
     private final StoreRepository storeRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/items")
-    public ApiResponse<ItemDto> getStoreItems(@PathVariable Long storeId) {
+    public ApiListResponse<ItemDto> getStoreItems(@PathVariable Long storeId) {
 
         Store findStore = storeRepository
                 .findById(storeId)
@@ -34,6 +32,6 @@ UserItemController {
                 .map(item -> new ItemDto(item))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<ItemDto>(itemDtoList);
+        return new ApiListResponse<ItemDto>(itemDtoList);
     }
 }

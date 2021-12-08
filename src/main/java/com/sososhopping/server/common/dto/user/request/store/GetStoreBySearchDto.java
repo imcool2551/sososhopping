@@ -21,6 +21,7 @@ public class GetStoreBySearchDto {
     private StoreSearchType type;
 
     @NotNull
-    @Size(min = 2, max = 20)
     private String q;
+
+    private Integer offset = 0;
 }

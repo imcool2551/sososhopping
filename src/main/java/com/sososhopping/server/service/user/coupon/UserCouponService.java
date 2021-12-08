@@ -1,15 +1,21 @@
 package com.sososhopping.server.service.user.coupon;
 
+import com.sososhopping.server.common.dto.user.response.store.CouponDto;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.common.error.Api409Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.coupon.UserCouponRepository;
+import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +23,7 @@ public class UserCouponService {
 
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
+    private final StoreRepository storeRepository;
 
     @Transactional
     public void registerCouponByCouponId(User user, Long couponId) {
@@ -41,5 +48,23 @@ public class UserCouponService {
         }
 
         userCouponRepository.save(UserCoupon.buildUserCoupon(user, findCoupon));
+    }
+
+    @Transactional
+    public List<UserCoupon> getMyCoupons(User user, Long storeId) {
+
+        List<UserCoupon> userCoupons = userCouponRepository.findUsableCouponsByUser(user);
+
+        if (storeId != null) {
+            Store findStore = storeRepository
+                    .findById(storeId)
+                    .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+            userCoupons = userCoupons.stream()
+                    .filter(userCoupon -> userCoupon.getCoupon().getStore() == findStore)
+                    .collect(Collectors.toList());
+        }
+
+        return userCoupons;
     }
 }

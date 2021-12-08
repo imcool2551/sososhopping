@@ -195,8 +195,8 @@ public class Store extends BaseTimeEntity {
         this.saveRate = dto.getSaveRate();
     }
 
-    public boolean hasPointPolicy() {
-        return pointPolicyStatus;
+    public boolean isOpen() {
+        return businessStatus;
     }
 
     public void updateBusinessStatus(boolean businessStatus) {

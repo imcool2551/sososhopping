@@ -3,10 +3,12 @@ package com.sososhopping.server.controller.auth;
 import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
+import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,6 +44,7 @@ public class AuthController {
                 .status(HttpStatus.OK)
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
+
 
     /**
      * 고객 관련 인증
@@ -88,6 +91,27 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
+    }
+
+    @PostMapping("/api/v1/users/auth/findEmail")
+    public String findUserEmail(@RequestBody UserFindEmailDto dto) {
+        return authService.findUserEmail(dto);
+    }
+
+    @PostMapping("/api/v1/users/auth/findPassword")
+    public void findUserPassword(@RequestBody UserFindPasswordDto dto) {
+        authService.findUserPassword(dto);
+    }
+
+    @PostMapping("/api/v1/users/auth/changePassword")
+    public void changeUserPassword(@RequestBody UserChangePasswordDto dto) {
+        authService.changeUserPassword(dto);
+    }
+
+    @DeleteMapping("/api/v1/users")
+    public void deleteUser(Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getName());
+        authService.deleteUser(userId);
     }
 
     /**

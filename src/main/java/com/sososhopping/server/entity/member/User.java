@@ -3,16 +3,17 @@ package com.sososhopping.server.entity.member;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.orders.Order;
+import com.sososhopping.server.entity.orders.OrderStatus;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sososhopping.server.entity.member.AccountStatus.*;
+import static javax.persistence.CascadeType.*;
 
 @Builder
 @Entity
@@ -56,38 +57,39 @@ public class User extends BaseTimeEntity {
     private AccountStatus active;
 
     //List
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<UserPoint> userPoints = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<InterestStore> interestStores = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    private List<Cart> cart = new ArrayList<>();
+
 
     // Business Logic
     public void suspend() {
-        active = AccountStatus.SUSPEND;
+        active = SUSPEND;
     }
 
     public void updateUserInfo(
             String name,
             String phone,
-            String email,
             String nickname,
             String streetAddress,
             String detailedAddress
     ) {
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.nickname = nickname;
         this.streetAddress = streetAddress;
         this.detailedAddress = detailedAddress;
@@ -95,5 +97,21 @@ public class User extends BaseTimeEntity {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public boolean withdrawable() {
+        return orders.stream().noneMatch(order ->
+            order.getOrderStatus() == OrderStatus.READY ||
+            order.getOrderStatus() == OrderStatus.APPROVE ||
+            order.getOrderStatus() == OrderStatus.PENDING
+        );
+    }
+
+    public void withdraw() {
+        active = WITHDRAW;
+    }
+
+    public boolean isActive() {
+        return active == ACTIVE;
     }
 }

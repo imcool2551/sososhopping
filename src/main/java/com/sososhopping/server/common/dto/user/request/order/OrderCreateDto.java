@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -16,8 +17,7 @@ import java.util.List;
 
 @Getter
 @ToString
-public class
-OrderCreateDto {
+public class OrderCreateDto {
 
     @NotNull
     private Long storeId;
@@ -29,12 +29,16 @@ OrderCreateDto {
     @NotNull
     private OrderType orderType;
 
+    @NotNull
     private PaymentType paymentType;
 
     @NotNull
     private Integer usedPoint;
 
     private Long couponId;
+
+    @NotNull
+    private Integer finalPrice;
 
     @NotNull
     private String ordererName;
@@ -49,4 +53,14 @@ OrderCreateDto {
     private String deliveryStreetAddress;
 
     private String deliveryDetailedAddress;
+
+    @Data
+    public static class OrderItemDto {
+
+        @NotNull
+        private Long itemId;
+
+        @Min(1)
+        private Integer quantity;
+    }
 }

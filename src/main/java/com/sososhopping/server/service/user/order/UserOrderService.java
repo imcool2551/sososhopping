@@ -1,6 +1,7 @@
 package com.sososhopping.server.service.user.order;
 
 import com.sososhopping.server.common.dto.user.request.order.OrderCreateDto;
+import com.sososhopping.server.common.dto.user.response.order.OrderListDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
@@ -8,7 +9,6 @@ import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.member.UserPoint;
-import com.sososhopping.server.entity.member.UserPointLog;
 import com.sososhopping.server.entity.orders.Order;
 import com.sososhopping.server.entity.orders.OrderItem;
 import com.sososhopping.server.entity.orders.OrderStatus;
@@ -18,6 +18,7 @@ import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.coupon.UserCouponRepository;
 import com.sososhopping.server.repository.member.UserPointRepository;
+import com.sososhopping.server.repository.order.CartRepository;
 import com.sososhopping.server.repository.order.OrderRepository;
 import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
@@ -26,9 +27,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
+import static com.sososhopping.server.entity.orders.OrderType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +45,7 @@ public class UserOrderService {
     private final UserCouponRepository userCouponRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
     private final EntityManager em;
 
     @Transactional
@@ -47,6 +53,10 @@ public class UserOrderService {
 
         Store findStore = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        if (!findStore.isOpen()) {
+            throw new Api400Exception("영업중이 아닙니다");
+        }
 
         // 물품 검증
         List<Long> itemIds = dto.getOrderItems()
@@ -111,14 +121,25 @@ public class UserOrderService {
             UserCoupon userCoupon = userCouponRepository
                     .findByUserAndCoupon(user, findCoupon)
                     .orElseThrow(() -> new Api404Exception("유저에게 쿠폰이 없습니다"));
-            userCoupon.useCoupon();
+            userCoupon.use();
         }
 
         // 최종 가격 계산
         int finalPrice = orderPrice - usedPoint - couponDiscountPrice;
+        int deliveryCharge = 0;
+        OrderType orderType = dto.getOrderType();
+
+        if (orderType == DELIVERY) {
+            deliveryCharge = findStore.getDeliveryCharge();
+            finalPrice += deliveryCharge;
+        }
 
         if (finalPrice < 0) {
             throw new Api400Exception("최종금액은 0원 이상이어야 합니다");
+        }
+
+        if (finalPrice != dto.getFinalPrice()) {
+            throw new Api400Exception("가격이 맞지 않습니다");
         }
 
         // 주문 완료
@@ -126,10 +147,11 @@ public class UserOrderService {
                 .user(user)
                 .ordererName(dto.getOrdererName())
                 .ordererPhone(dto.getOrdererPhone())
-                .orderType(dto.getOrderType())
+                .orderType(orderType)
                 .visitDate(dto.getVisitDate())
                 .store(findStore)
                 .storeName(findStore.getName())
+                .deliveryCharge(deliveryCharge)
                 .deliveryStreetAddress(dto.getDeliveryStreetAddress())
                 .deliveryDetailedAddress(dto.getDeliveryDetailedAddress())
                 .paymentType(dto.getPaymentType())
@@ -137,7 +159,7 @@ public class UserOrderService {
                 .usedPoint(usedPoint)
                 .coupon(findCoupon)
                 .finalPrice(finalPrice)
-                .orderStatus(OrderStatus.PENDING)
+                .orderStatus(PENDING)
                 .build();
 
         dto.getOrderItems()
@@ -150,27 +172,29 @@ public class UserOrderService {
                             .totalPrice(item.getPrice() * orderItemDto.getQuantity())
                             .build();
 
+                    cartRepository.findByUserAndItem(user, item)
+                                    .ifPresent(cart -> em.remove(cart));
+
                     orderItem.setOrder(order);
                 });
 
         em.persist(order);
-
-        // TODO: 포인트 추가 (사장 족으로 이동)
-//        if (findStore.hasPointPolicy()) {
-//            userPoint = userPointRepository.findByUserAndStore(user, findStore)
-//                    .orElse(new UserPoint(user, findStore, 0));
-//
-//            int savedPoint = (int)(findStore.getSaveRate().doubleValue() / 100 * finalPrice);
-//            userPoint.savePoint(savedPoint);
-//            em.persist(userPoint);
-//        }
-
     }
 
-    public List<Order> getOrders(User user, OrderStatus status) {
-        return orderRepository.findOrderListByUserAndOrderStatus(user, status);
+    @Transactional
+    public List<OrderListDto> getOrders(User user, List<OrderStatus> statuses) {
+        OrderStatus[] statusArray =
+                statuses.toArray(new OrderStatus[statuses.size()]);
+        List<Order> orders = orderRepository.findOrderListByUserAndOrderStatus(user, statusArray);
+
+        List<OrderListDto> list = new ArrayList<>();
+        orders.forEach(order -> {
+            list.add(new OrderListDto(order));
+        });
+        return list;
     }
 
+    @Transactional
     public Order getOrderDetail(User user, Long orderId) {
 
         Order order = orderRepository.findById(orderId)
@@ -180,5 +204,64 @@ public class UserOrderService {
             throw new Api401Exception("다른 고객의 주문입니다");
         }
         return order;
+    }
+
+    @Transactional
+    public void cancelOrder(User user, Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 주문입니다"));
+
+        Store store = order.getStore();
+
+        if (order.getUser() != user) {
+            throw new Api401Exception("다른 고객의 주문입니다");
+        }
+
+        if (!order.canBeCancelledByUser()) {
+            throw new Api400Exception("취소할 수 없는 주문입니다");
+        }
+
+        UserPoint userPoint = userPointRepository.findByUserAndStore(user, store)
+                .orElse(null);
+
+        Coupon usedCoupon = order.getCoupon();
+
+        UserCoupon userCoupon = null;
+        if (usedCoupon != null) {
+            userCoupon = userCouponRepository
+                    .findByUserAndCoupon(user, usedCoupon)
+                    .orElse(null);
+        }
+
+        order.cancel(userPoint, userCoupon);
+    }
+
+    @Transactional
+    public void confirmOrder(User user, Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 주문입니다"));
+
+        Store store = order.getStore();
+
+        if (order.getUser() != user) {
+            throw new Api401Exception("다른 고객의 주문입니다");
+        }
+
+        if (!order.canBeConfirmedByUser()) {
+            throw new Api400Exception("완료할 수 없는 주문입니다");
+        }
+
+        userPointRepository.findByUserAndStore(user, store)
+                .ifPresentOrElse(
+                        userPoint -> {
+                            order.confirm(userPoint);
+                        },
+                        () -> {
+                            UserPoint userPoint = new UserPoint(user, store, 0);
+                            em.persist(userPoint);
+                            order.confirm(userPoint);
+                        }
+                );
     }
 }

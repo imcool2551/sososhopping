@@ -8,6 +8,7 @@ import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Admin;
 import com.sososhopping.server.entity.member.Owner;
@@ -138,10 +139,60 @@ public class AuthService {
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new Api401Exception("올바르지 않은 비밀번호입니다");
 
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
         String apiToken = jwtTokenProvider.createToken("U", user.getId());
         String firebaseToken = createFirebaseToken("U" + user.getId());
 
         return new AuthToken(apiToken, firebaseToken);
+    }
+
+    @Transactional
+    public String findUserEmail(UserFindEmailDto dto) {
+        User user = userRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
+        return user.getEmail();
+    }
+
+    @Transactional
+    public void findUserPassword(UserFindPasswordDto dto) {
+        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+    }
+
+    @Transactional
+    public void changeUserPassword(UserChangePasswordDto dto) {
+        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.isActive()) {
+            throw new Api401Exception("이용이 정지된 사용자입니다");
+        }
+
+        user.updatePassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
+
+        if (!user.withdrawable()) {
+            throw new Api400Exception("진행중인 주문이 있습니다");
+        }
+
+        user.withdraw();
     }
 
     /**
@@ -175,6 +226,7 @@ public class AuthService {
         return jwtTokenProvider.createToken("A", admin.getId());
     }
 
+
     //Firebase 사용자 생성 및 저장
     private void createFirebaseAccount(String uid, String email, String name) {
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
@@ -204,4 +256,7 @@ public class AuthService {
 
         return firebaseToken;
     }
+
+
+
 }

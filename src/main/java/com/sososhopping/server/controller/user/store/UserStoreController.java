@@ -4,11 +4,13 @@ import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryD
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreListDto;
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.dto.ApiListResponse;
 import com.sososhopping.server.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.server.repository.store.InterestStoreRepository;
 import com.sososhopping.server.service.user.store.UserStoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,7 +29,7 @@ public class UserStoreController {
     private final InterestStoreRepository interestStoreRepository;
 
     @GetMapping("/api/v1/users/stores")
-    public ApiResponse<StoreListDto> getStoresByCategory(
+    public ApiListResponse<StoreListDto> getStoresByCategory(
             Authentication authentication,
             @ModelAttribute @Valid GetStoreByCategoryDto dto
     ) {
@@ -38,11 +40,24 @@ public class UserStoreController {
         List<StoreListDto> dtos = userStoreService
                 .getStoresByCategory(userId, dto);
 
-        return new ApiResponse<>(dtos);
+        return new ApiListResponse<>(dtos);
+    }
+
+    @GetMapping("/api/v1/users/stores/page")
+    public Slice<StoreListDto> getStoresByCategoryPageable(
+            Authentication authentication,
+            @ModelAttribute @Valid GetStoreByCategoryDto dto
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        return userStoreService
+                .getStoresByCategoryPageable(userId, dto);
     }
 
     @GetMapping("/api/v1/users/search")
-    public ApiResponse<StoreListDto> getStoresBySearch(
+    public ApiListResponse<StoreListDto> getStoresBySearch(
             Authentication authentication,
             @ModelAttribute @Valid GetStoreBySearchDto dto
     ) {
@@ -53,7 +68,20 @@ public class UserStoreController {
         List<StoreListDto> dtos = userStoreService
                 .getStoreBySearch(userId, dto);
 
-        return new ApiResponse<>(dtos);
+        return new ApiListResponse<>(dtos);
+    }
+
+    @GetMapping("/api/v1/users/search/page")
+    public Slice<StoreListDto> getStoresBySearchPageable(
+            Authentication authentication,
+            @ModelAttribute @Valid GetStoreBySearchDto dto
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        return userStoreService
+                .getStoreBySearchPageable(userId, dto);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}")
@@ -84,7 +112,7 @@ public class UserStoreController {
     }
 
     @GetMapping("/api/v1/users/my/interest_store")
-    public ApiResponse<StoreListDto> getInterestStores(Authentication authentication) {
+    public ApiListResponse<StoreListDto> getInterestStores(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
 
@@ -93,7 +121,7 @@ public class UserStoreController {
                 .map((interestStore) -> new StoreListDto(interestStore))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<StoreListDto>(dtos);
+        return new ApiListResponse<StoreListDto>(dtos);
     }
 
 }

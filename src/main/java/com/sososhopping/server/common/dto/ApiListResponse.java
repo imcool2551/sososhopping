@@ -7,14 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ApiResponse<T> {
-    private List<T> results = new ArrayList<>();
+public class ApiListResponse<T> {
+    private List<T> results;
 
-    public ApiResponse(List<T> results) {
+    public ApiListResponse(List<T> results) {
         this.results = results;
-    }
-
-    public ApiResponse(T result) {
-        results.add(result);
     }
 }

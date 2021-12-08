@@ -1,8 +1,12 @@
 package com.sososhopping.server.entity.orders;
 
+import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.entity.BaseTimeEntity;
 import com.sososhopping.server.entity.coupon.Coupon;
+import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
+import com.sososhopping.server.entity.member.UserPoint;
 import com.sososhopping.server.entity.store.Store;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sososhopping.server.entity.orders.OrderStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
@@ -30,7 +35,6 @@ public class Order extends BaseTimeEntity {
     @Column(name = "order_id")
     private Long id;
 
-    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -113,5 +117,63 @@ public class Order extends BaseTimeEntity {
         this.finalPrice = finalPrice;
         this.orderStatus = orderStatus;
         this.payment = payment;
+    }
+
+    // Business Logic
+    public boolean canBeCancelledByUser() {
+        return orderStatus == PENDING;
+    }
+
+    public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
+        orderStatus = CANCEL;
+        if (userPoint != null) {
+            userPoint.restorePoint(this);
+        }
+        if (userCoupon != null) {
+            userCoupon.restore();
+        }
+    }
+
+    public boolean canBeConfirmedByUser() {
+        return orderStatus == READY;
+    }
+
+    public void confirm(UserPoint userPoint) {
+        orderStatus = DONE;
+        if (userPoint != null) {
+            userPoint.savePoint(this);
+        }
+    }
+
+    public void approve() {
+        if (orderStatus != PENDING) {
+            throw new Api400Exception("잘못된 요청입니다");
+        }
+        orderStatus = APPROVE;
+    }
+
+    public void reject(UserPoint userPoint, UserCoupon userCoupon) {
+        if (orderStatus == DONE || orderStatus == CANCEL) {
+            throw new Api400Exception("잘못된 요청입니다");
+        }
+
+        orderStatus = REJECT;
+        if (userPoint != null) {
+            userPoint.restorePoint(this);
+        }
+        if (userCoupon != null) {
+            userCoupon.restore();
+        }
+    }
+
+    public void ready() {
+        if (orderStatus != APPROVE) {
+            throw new Api400Exception("잚못된 요청입니다");
+        }
+        orderStatus = READY;
+    }
+
+    public void nullifyUser() {
+        user = null;
     }
 }

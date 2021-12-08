@@ -1,16 +1,23 @@
 package com.sososhopping.server.controller.user.store;
 
-import com.sososhopping.server.common.dto.ApiResponse;
+import com.sososhopping.server.common.OffsetBasedPageRequest;
+import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.owner.response.StoreReviewListResponseDto;
 import com.sososhopping.server.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.server.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.server.common.dto.user.response.store.UserReviewDto;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.common.error.Api409Exception;
-import com.sososhopping.server.repository.member.UserRepository;
+import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.store.ReviewRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,13 +33,29 @@ import java.util.stream.Collectors;
 public class UserReviewController {
 
     private final UserReviewService userReviewService;
+    private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews")
-    public ApiResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
+    public ApiListResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
 
         List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
-        return new ApiResponse<StoreReviewDto>(storeReviews);
+        return new ApiListResponse<StoreReviewDto>(storeReviews);
+    }
+
+    @GetMapping("/api/v1/users/stores/{storeId}/reviews/page")
+    public Slice<StoreReviewDto> getStoreReviewsPageable(
+            @PathVariable Long storeId,
+            @RequestParam Integer offset
+    ) {
+        Store findStore = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+
+        Pageable pageable = new OffsetBasedPageRequest(offset, 10);
+
+        return reviewRepository.findReviewsByStore(findStore, pageable)
+                .map(StoreReviewDto::new);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")
@@ -94,7 +117,7 @@ public class UserReviewController {
     }
 
     @GetMapping("/api/v1/users/my/reviews")
-    public ApiResponse<UserReviewDto> getMyReviews(Authentication authentication) {
+    public ApiListResponse<UserReviewDto> getMyReviews(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
 
@@ -103,7 +126,7 @@ public class UserReviewController {
                 .map(review -> new UserReviewDto(review))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<UserReviewDto>(dtos);
+        return new ApiListResponse<UserReviewDto>(dtos);
     }
 
 
