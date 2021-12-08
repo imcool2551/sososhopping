@@ -102,12 +102,14 @@ public class UserStoreService {
         if (userId == null) {
             return stores.stream()
                     .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsByCategory))
+                    .sorted()
                     .collect(Collectors.toList());
         }
 
         List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
         return stores.stream()
                 .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -129,15 +131,17 @@ public class UserStoreService {
         if (userId == null) {
             content = stores.stream()
                     .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsByCategory))
+                    .sorted()
                     .collect(Collectors.toList());
         } else {
             List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
             content = stores.stream()
                     .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
+                    .sorted()
                     .collect(Collectors.toList());
         }
 
-        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
@@ -166,12 +170,14 @@ public class UserStoreService {
         if (userId == null) {
             return stores.stream()
                     .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsBySearch))
+                    .sorted()
                     .collect(Collectors.toList());
         }
 
         List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
         return stores.stream()
                 .map(store -> new StoreListDto(store, interestStores, nearStoreIdsBySearch))
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -195,19 +201,21 @@ public class UserStoreService {
         if (userId == null) {
             content = stores.stream()
                     .map(store -> new StoreListDto(store, Collections.emptyList(), nearStoreIdsBySearch))
+                    .sorted()
                     .collect(Collectors.toList());
         } else {
             List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
             content = stores.stream()
                     .map(store -> new StoreListDto(store, interestStores, nearStoreIdsBySearch))
+                    .sorted()
                     .collect(Collectors.toList());
         }
 
-        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 5);
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
-            content.remove(pageable.getPageSize());
+            content.remove(content.size() - 1);
             hasNext = true;
         }
 

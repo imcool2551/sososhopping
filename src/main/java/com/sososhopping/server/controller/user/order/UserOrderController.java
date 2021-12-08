@@ -102,7 +102,7 @@ public class UserOrderController {
         OrderStatus[] statusArray =
                 statuses.toArray(new OrderStatus[statuses.size()]);
 
-        Pageable pageable = new OffsetBasedPageRequest(offset, 5);
+        Pageable pageable = new OffsetBasedPageRequest(offset, 10);
 
         return orderRepository.findOrdersByUserAndOrderStatus(user, pageable, statusArray)
                 .map(OrderListDto::new);

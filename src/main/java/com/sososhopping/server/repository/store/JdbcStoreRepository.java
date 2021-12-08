@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +31,6 @@ public class JdbcStoreRepository {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    // 커서 기반 페이징 limit 개수인 5개 에 1 더한 6개 가져옴
     public Map<Long, Double> getNearStoreIdsByCategory(
             Double lat,
             Double lng,
@@ -58,7 +58,8 @@ public class JdbcStoreRepository {
                 "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "     AND store.store_type LIKE :storeType\n" +
-                "     AND store.business_status = 1\n" +
+                "     AND store.business_status = 1" +
+                "    AND store.store_status LIKE \"ACTIVE\"\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
                 " LIMIT :limit OFFSET :offset";
@@ -68,7 +69,7 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("storeType", storeType.toString())
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
@@ -104,17 +105,18 @@ public class JdbcStoreRepository {
                 "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "     AND store.name LIKE :storeName\n" +
+                "    AND store.store_status LIKE \"ACTIVE\" \n" +
                 "     AND store.business_status = 1\n" +
                 " HAVING distance <= radius\n" +
                 " ORDER BY distance\n" +
-                " LIMIT :limit OFFSET :offset";
+                " LIMIT :offset, :limit";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("lat", lat)
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("storeName", "%" + storeName + "%")
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
@@ -151,6 +153,7 @@ public class JdbcStoreRepository {
                 "    AND store.lng\n" +
                 "     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
                 "       AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
+                "    AND store.store_status LIKE \"ACTIVE\" \n" +
                 "    AND store.business_status = 1\n" +
                 "   ) AS store\n" +
                 " INNER JOIN item i\n" +
@@ -164,10 +167,10 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("itemName", "%" + itemName + "%")
-                .addValue("limit", 5 + 1)
+                .addValue("limit", 10 + 1)
                 .addValue("offset", offset);
-        List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 
+        List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
         return list.stream()
                 .flatMap(map -> map.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -176,7 +179,7 @@ public class JdbcStoreRepository {
     static class StoreMapper implements RowMapper {
         @Override
         public Map<Long, Double> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            HashMap<Long, Double> mapRet = new HashMap<>();
+            LinkedHashMap<Long, Double> mapRet = new LinkedHashMap<>();
             Long storeId = rs.getLong("store_id");
             Double distance = rs.getDouble("distance");
             mapRet.put(storeId, distance);
