@@ -11,33 +11,31 @@
 <body>
 <nav>
     <div class="nav-links">
-        <a th:href="@{~/admin}" class="nav-link">소소한 장보기</a>
-        <a th:href="@{~/admin/storeRegister}" class="nav-link">점포 등록</a>
-        <a th:href="@{~/admin/userReport}" class="nav-link">사용자 신고</a>
-        <a th:href="@{~/admin/storeReport}" class="nav-link">점포 신고</a>
+        <a href="#" class="nav-link nav-main">소소한 장보기</a>
         <button class="btn-logout">로그아웃</button>
     </div>
 </nav>
 <main>
     <div class="container">
-        <a th:href="@{~/admin/storeRegister}" class="menu">
+        <a href="#" onclick="" class="menu menu-store-register">
             <i class="fas fa-address-card fa-5x"></i>
             <div class="menu-text">점포 등록 신청 내역</div>
         </a>
-        <a th:href="@{~/admin/userReport}" class="menu">
+        <a href="#" class="menu menu-user-report">
             <i class="fas fa-ban fa-5x"></i>
             <div class="menu-text">사용자 신고 처리</div>
         </a>
-        <a th:href="@{~/admin/storeReport}" class="menu">
+        <a href="#" class="menu menu-store-report">
             <i class="fas fa-store fa-5x"></i>
             <div class="menu-text">점포 신고 처리</div>
         </a>
     </div>
 </main>
+</body>
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-</body>
+<script type="text/javascript" th:src="@{/js/redirect.js}"></script>
+<script type="text/javascript" th:src="@{/js/navigation.js}"></script>
 </html>

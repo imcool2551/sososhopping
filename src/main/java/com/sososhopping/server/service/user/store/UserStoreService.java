@@ -2,6 +2,7 @@ package com.sososhopping.server.service.user.store;
 
 import com.sososhopping.server.common.OffsetBasedPageRequest;
 import com.sososhopping.server.common.dto.ApiListResponse;
+import com.sososhopping.server.common.dto.user.request.store.GetLocalCurrencyStoreDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.StoreSearchType;
@@ -137,6 +138,40 @@ public class UserStoreService {
             List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
             content = stores.stream()
                     .map(store -> new StoreListDto(store, interestStores, nearStoreIdsByCategory))
+                    .sorted()
+                    .collect(Collectors.toList());
+        }
+
+        Pageable pageable = new OffsetBasedPageRequest(dto.getOffset(), 10);
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    @Transactional
+    public Slice<StoreListDto> getLocalCurrencyStores(Long userId, GetLocalCurrencyStoreDto dto) {
+        Map<Long, Double> nearLocalCurrencyStoreIds =
+                jdbcStoreRepository.getLocalCurrencyStores(dto.getLat(), dto.getLng(), dto.getRadius(), dto.getOffset());
+
+        List<Long> storeIds = new ArrayList<>(nearLocalCurrencyStoreIds.keySet());
+
+        List<Store> stores = storeRepository.findByIdIn(storeIds);
+
+        List<StoreListDto> content;
+
+        if (userId == null) {
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, Collections.emptyList(), nearLocalCurrencyStoreIds))
+                    .sorted()
+                    .collect(Collectors.toList());
+        } else {
+            List<InterestStore> interestStores = interestStoreRepository.findAllByUserId(userId);
+            content = stores.stream()
+                    .map(store -> new StoreListDto(store, interestStores, nearLocalCurrencyStoreIds))
                     .sorted()
                     .collect(Collectors.toList());
         }

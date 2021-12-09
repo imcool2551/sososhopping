@@ -13,10 +13,7 @@
 <body>
 <nav>
     <div class="nav-links">
-        <a th:href="@{~/admin}" class="nav-link">소소한 장보기</a>
-        <a th:href="@{~/admin/storeRegister}" class="nav-link">점포 등록</a>
-        <a th:href="@{~/admin/userReport}" class="nav-link">사용자 신고</a>
-        <a th:href="@{~/admin/storeReport}" class="nav-link">점포 신고</a>
+        <a href="#" class="nav-link nav-main">소소한 장보기</a>
         <button class="btn-logout">로그아웃</button>
     </div>
 </nav>
@@ -62,8 +59,8 @@
                                 <input type="hidden" name="reportId" th:value="${report.id}">
                                 <input type="hidden" name="userId" th:value="${report.user.id}">
                                 <input type="hidden" name="description" th:value="${report.content}">
-                                <button type="submit" name="action" value="reject" class="btn btn-blue">보류</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-red">정지</button>
+                                <button type="submit" name="action" value="reject" class="btn btn-submit btn-blue">보류</button>
+                                <button type="submit" name="action" value="approve" class="btn btn-submit btn-red">정지</button>
                             </form>
                         </div>
                     </div>
@@ -73,4 +70,11 @@
     </div>
 </main>
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/redirect.js}"></script>
+<script type="text/javascript" th:src="@{/js/navigation.js}"></script>
+<script type="text/javascript" th:src="@{/js/userReport.js}"></script>
 </html>

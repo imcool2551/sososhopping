@@ -31,19 +31,14 @@ public class AdminController {
     private final UserReportRepository userReportRepository;
     private final StoreReportRepository storeReportRepository;
 
-    @GetMapping("/admin")
-    private String main() {
-        return "admin/main";
-    }
-
     @GetMapping("/admin/login")
     private String loginForm(@ModelAttribute("adminVO") AdminAuthRequestDto adminVO) {
         return "admin/login";
     }
 
-    @PostMapping("/admin/login")
-    private String login() {
-        return "admin/login";
+    @GetMapping("/admin/main")
+    private String main() {
+        return "admin/main";
     }
 
     @GetMapping("/admin/storeRegister")
@@ -74,8 +69,8 @@ public class AdminController {
     private String handleUserReport(
             @RequestParam Long reportId,
             @RequestParam Long userId,
-            @RequestParam String action,
             @RequestParam String description,
+            @RequestParam String action,
             RedirectAttributes redirectAttributes
     ) {
         adminService.handleUserReport(reportId, userId, action, description);
@@ -100,7 +95,6 @@ public class AdminController {
         adminService.handleStoreReport(reportId, storeId, action, description);
         return "redirect:/admin/storeReport";
     }
-
 
     @PostMapping("/admin/logout")
     private String logout() {

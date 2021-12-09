@@ -6,14 +6,14 @@ $('.btn-submit').on('click', function(e) {
 
     $.ajax({
         method: "POST",
-        url: "/admin/storeRegister",
+        url: "/admin/storeReport",
         data: formData,
         beforeSend: function(xhr) {
             xhr.setRequestHeader("token", window.localStorage.getItem("token"));
         }
     })
     .done(function() {
-        redirect("/admin/storeRegister");
+        redirect("/admin/storeReport");
     })
     .fail(function(xhr) {
         if (xhr.status === 400) {
