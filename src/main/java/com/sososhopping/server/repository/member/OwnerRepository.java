@@ -22,4 +22,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     @EntityGraph(attributePaths = "stores", type = EntityGraph.EntityGraphType.FETCH)
     Optional<Owner> findOwnerStoresById(Long id);
 
+    Optional<Owner> findByNameAndPhone(String name, String phone);
+
+    Optional<Owner> findByPhone(String phone);
 }

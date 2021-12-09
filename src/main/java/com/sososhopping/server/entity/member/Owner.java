@@ -39,17 +39,33 @@ public class Owner extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus active;
 
-    // 생성자
-//    @Builder
-//    public Owner(String email, String password, String name, String phone, AccountStatus active) {
-//        this.email = email;
-//        this.password = password;
-//        this.name = name;
-//        this.phone = phone;
-//        this.active = active;
-//    }
 
     //List
     @OneToMany(mappedBy = "owner")
     private List<Store> stores = new ArrayList<>();
+
+    public boolean isActive() {
+        return active == AccountStatus.ACTIVE;
+    }
+
+    public boolean credentialsMatch(String name, String phone) {
+        return this.name.equals(name) && this.phone.equals(phone);
+    }
+
+    public boolean passwordMatch(String password) {
+        return this.password.equals(password);
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateInfo(String name, String phone) {
+        this.name = name;
+        this.phone = phone;
+    }
+
+    public void updatePassword(String newPassword) {
+        password = newPassword;
+    }
 }
