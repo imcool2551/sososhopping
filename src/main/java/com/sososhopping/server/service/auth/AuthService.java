@@ -6,9 +6,13 @@ import com.google.firebase.auth.UserRecord;
 import com.sososhopping.server.auth.JwtTokenProvider;
 import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
+import com.sososhopping.server.common.dto.auth.request.OwnerFindEmailRequestDto;
+import com.sososhopping.server.common.dto.auth.request.OwnerFindPasswordRequestDto;
+import com.sososhopping.server.common.dto.auth.response.OwnerFindEmailResponseDto;
 import com.sososhopping.server.common.error.Api400Exception;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
+import com.sososhopping.server.common.error.Api409Exception;
 import com.sososhopping.server.entity.member.AccountStatus;
 import com.sososhopping.server.entity.member.Admin;
 import com.sososhopping.server.entity.member.Owner;
@@ -41,10 +45,7 @@ public class AuthService {
     //점주 이메일 중복 확인
     @Transactional
     public boolean ownerSignUpValidation(String email){
-        if(ownerRepository.existsByEmail(email))
-            return false;
-        else
-            return true;
+        return !ownerRepository.existsByEmail(email);
     }
 
     //점주 회원가입
@@ -83,16 +84,85 @@ public class AuthService {
         return new AuthToken(apiToken, firebaseToken);
     }
 
+    @Transactional
+    public OwnerFindEmailResponseDto findOwnerEmail(OwnerFindEmailRequestDto dto) {
+        Owner owner = ownerRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
+                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
+
+        if(owner.isActive()) {
+            throw new Api400Exception("비활성화 계정입니다");
+        }
+
+        return new OwnerFindEmailResponseDto(owner.getEmail());
+    }
+
+    @Transactional
+    public void findOwnerPassword(OwnerFindPasswordRequestDto dto) {
+        Owner owner = ownerRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
+
+        if (!owner.credentialsMatch(dto.getName(), dto.getPhone())) {
+            throw new Api404Exception("개인정보가 일치하지 않습니다");
+        }
+
+        if (!owner.isActive()) {
+            throw new Api404Exception("비활성화 계정입니다");
+        }
+    }
+
+    @Transactional
+    public void changeOwnerPassword(OwnerChangePasswordRequestDto dto) {
+        Owner owner = ownerRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
+
+        if (!owner.isActive()) {
+            throw new Api404Exception("비활성화 계정입니다");
+        }
+
+        owner.changePassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    @Transactional
+    public void updateOwnerInfo(Long ownerId, OwnerUpdateInfoRequestDto dto) {
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
+
+        ownerRepository.findByPhone(dto.getPhone())
+                .ifPresent(
+                        existingOwner -> {
+                            if (owner != existingOwner) {
+                                throw new Api409Exception("이미 사용중인 번호입니다");
+                            }
+                        }
+                );
+
+        if (!passwordEncoder.matches(dto.getPassword(), owner.getPassword())) {
+            throw new Api401Exception("비밀번호가 일치하지 않습니다");
+        }
+
+        owner.updateInfo(dto.getName(), dto.getPhone());
+    }
+
+    @Transactional
+    public void updateOwnerPassword(Long ownerId, OwnerUpdatePasswordRequest dto) {
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
+
+        if (!passwordEncoder.matches(dto.getPassword(), owner.getPassword())) {
+            throw new Api401Exception("비밀번호가 일치하지 않습니다");
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(dto.getNewPassword());
+        owner.updatePassword(encodedNewPassword);
+    }
+
     /**
      * 고객 관련 인증
      */
     //고객 이메일 중복 확인
     @Transactional
     public boolean userSignUpValidation(String email) {
-        if(userRepository.existsByEmail(email))
-            return false;
-        else
-            return true;
+        return !userRepository.existsByEmail(email);
     }
 
     //고객 닉네임 중복 확인

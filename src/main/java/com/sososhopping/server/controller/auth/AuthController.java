@@ -3,7 +3,12 @@ package com.sososhopping.server.controller.auth;
 import com.sososhopping.server.common.dto.AuthToken;
 import com.sososhopping.server.common.dto.auth.request.*;
 import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
-import com.sososhopping.server.repository.member.UserRepository;
+import com.sososhopping.server.common.dto.auth.request.OwnerFindEmailRequestDto;
+import com.sososhopping.server.common.dto.auth.request.OwnerFindPasswordRequestDto;
+import com.sososhopping.server.common.dto.auth.response.OwnerFindEmailResponseDto;
+import com.sososhopping.server.common.dto.auth.response.OwnerInfoResponseDto;
+import com.sososhopping.server.entity.member.Owner;
+import com.sososhopping.server.repository.member.OwnerRepository;
 import com.sososhopping.server.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,11 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+    private final OwnerRepository ownerRepository;
 
     /**
      * 점주 관련 인증
@@ -45,6 +54,50 @@ public class AuthController {
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
+    // 점주 이메일 찾기
+    @PostMapping("/api/v1/owner/auth/findEmail")
+    public OwnerFindEmailResponseDto findOwnerEmail(@RequestBody @Valid OwnerFindEmailRequestDto dto) {
+        return authService.findOwnerEmail(dto);
+    }
+
+    // 점주 비밀번호 찾기
+    @PostMapping("/api/v1/owner/auth/findPassword")
+    public void findOwnerPassword(@RequestBody @Valid OwnerFindPasswordRequestDto dto) {
+        authService.findOwnerPassword(dto);
+    }
+
+    // 점주 비밀번호 변경
+    @PostMapping("/api/v1/owner/auth/changePassword")
+    public void changeOwnerPassword(@RequestBody @Valid OwnerChangePasswordRequestDto dto) {
+        authService.changeOwnerPassword(dto);
+    }
+
+    @GetMapping("/api/v1/owner/auth/info")
+    public OwnerInfoResponseDto ownerInfo(
+            Authentication authentication
+    ) {
+        Long ownerId = Long.parseLong(authentication.getName());
+        Owner owner = ownerRepository.findById(ownerId).get();
+        return new OwnerInfoResponseDto(owner);
+    }
+
+    @PatchMapping("/api/v1/owner/auth/info")
+    public void updateOwnerInfo(
+            Authentication authentication,
+            @RequestBody @Valid OwnerUpdateInfoRequestDto dto
+    ) {
+        Long ownerId = Long.parseLong(authentication.getName());
+        authService.updateOwnerInfo(ownerId, dto);
+    }
+
+    @PatchMapping("/api/v1/owner/auth/info/password")
+    public void updateOwnerPassword(
+            Authentication authentication,
+            @RequestBody @Valid OwnerUpdatePasswordRequest dto
+    ) {
+        Long ownerId = Long.parseLong(authentication.getName());
+        authService.updateOwnerPassword(ownerId, dto);
+    }
 
     /**
      * 고객 관련 인증
@@ -93,21 +146,25 @@ public class AuthController {
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
+    // 고객 이메일 찾기
     @PostMapping("/api/v1/users/auth/findEmail")
-    public String findUserEmail(@RequestBody UserFindEmailDto dto) {
+    public String findUserEmail(@RequestBody @Valid UserFindEmailDto dto) {
         return authService.findUserEmail(dto);
     }
 
+    // 고객 비밀번호 찾기
     @PostMapping("/api/v1/users/auth/findPassword")
-    public void findUserPassword(@RequestBody UserFindPasswordDto dto) {
+    public void findUserPassword(@RequestBody @Valid UserFindPasswordDto dto) {
         authService.findUserPassword(dto);
     }
 
+    // 고객 비밀번호 변경
     @PostMapping("/api/v1/users/auth/changePassword")
-    public void changeUserPassword(@RequestBody UserChangePasswordDto dto) {
+    public void changeUserPassword(@RequestBody @Valid UserChangePasswordDto dto) {
         authService.changeUserPassword(dto);
     }
 
+    // 고객 회원탈퇴
     @DeleteMapping("/api/v1/users")
     public void deleteUser(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
