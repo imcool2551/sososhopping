@@ -1,28 +1,38 @@
-$('form').submit(function(e) {
+function adminLoginRequest() {
+     const nickname = $("#nickname").val();
+     const password = $("#password").val();
+     const dto = {
+         nickname,
+         password
+     };
+
+     return new Promise((resolve, reject) => {
+         $.ajax({
+             method: "POST",
+             url: "/api/v1/admin/auth/login",
+             data: dto,
+             dataType: "json"
+         })
+         .done(function(json) {
+             window.localStorage.setItem("token", json.token);
+             resolve();
+         })
+         .fail(function(xhr) {
+              if (xhr.status === 401) {
+                  reject('로그인 실패');
+              } else if (xhr.status === 500) {
+                  reject('서버 에러');
+              }
+          })
+     })
+}
+
+$('.form-group').submit(function(e) {
     e.preventDefault();
-    const nickname = $("#nickname").val();
-    const password = $("#password").val();
 
-    const dto = {
-        nickname,
-        password
-    }
-
-    $.ajax({
-        url: "/api/v1/admin/auth/login",
-        data: dto,
-        method: "POST",
-        dataType: "json"
+    adminLoginRequest()
+    .then(() => {
+        return redirect("/admin/main");
     })
-    .done(function(json) {
-        window.localStorage.setItem("token", json.token);
-        location.href="/admin";
-    })
-    .fail(function(xhr, status, error) {
-        if (xhr.status === 401) {
-            alert('로그인 실패');
-        } else if (xhr.status === 500) {
-            alert('서버 에러');
-        }
-    })
+    .catch(alert)
 });

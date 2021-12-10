@@ -13,10 +13,7 @@
 <body>
 <nav>
     <div class="nav-links">
-        <a th:href="@{~/admin}" class="nav-link">소소한 장보기</a>
-        <a th:href="@{~/admin/storeRegister}" class="nav-link">점포 등록</a>
-        <a th:href="@{~/admin/userReport}" class="nav-link">사용자 신고</a>
-        <a th:href="@{~/admin/storeReport}" class="nav-link">점포 신고</a>
+        <a href="#" class="nav-link nav-main">소소한 장보기</a>
         <button class="btn-logout">로그아웃</button>
     </div>
 </nav>
@@ -75,10 +72,10 @@
                                 <div th:text="|${store.streetAddress} ${store.detailedAddress}|" class="address-content">서울시 xx구 xx동 A동 102호</div>
                             </div>
                             <div class="form-submit">
-                                <form action="/admin/storeRegister" method="post">
+                                <form action="#">
                                     <input type="hidden" name="storeId" th:value="${store.id}">
-                                    <button type="submit" name="action" value="approve" class="btn btn-blue">승인</button>
-                                    <button type="submit" name="action" value="reject" class="btn btn-red">반려</button>
+                                    <button type="button" name="action" value="approve" class="btn btn-submit btn-blue">승인</button>
+                                    <button type="submit" name="action" value="reject" class="btn btn-submit btn-red">반려</button>
                                 </form>
                             </div>
                         </div>
@@ -87,10 +84,12 @@
             </div>
     </div>
 </main>
+</body>
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/redirect.js}"></script>
+<script type="text/javascript" th:src="@{/js/navigation.js}"></script>
 <script type="text/javascript" th:src="@{/js/storeRegister.js}"></script>
-</body>
 </html>

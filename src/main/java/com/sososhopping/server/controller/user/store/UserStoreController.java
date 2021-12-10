@@ -1,5 +1,6 @@
 package com.sososhopping.server.controller.user.store;
 
+import com.sososhopping.server.common.dto.user.request.store.GetLocalCurrencyStoreDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.server.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.server.common.dto.user.request.store.ToggleStoreLikeDto;
@@ -54,6 +55,19 @@ public class UserStoreController {
 
         return userStoreService
                 .getStoresByCategoryPageable(userId, dto);
+    }
+
+    @GetMapping("/api/v1/users/stores/local")
+    public Slice<StoreListDto> getLocalCurrencyStores(
+            Authentication authentication,
+            @ModelAttribute @Valid GetLocalCurrencyStoreDto dto
+    ) {
+        Long userId = null;
+
+        if (authentication != null) userId = Long.parseLong(authentication.getName());
+
+        return userStoreService
+                .getLocalCurrencyStores(userId, dto);
     }
 
     @GetMapping("/api/v1/users/search")
