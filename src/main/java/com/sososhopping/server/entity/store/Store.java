@@ -95,7 +95,6 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String streetAddress;
 
-    @NotNull
     private String detailedAddress;
 
     @OneToOne(mappedBy = "store", cascade = ALL,
