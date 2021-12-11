@@ -83,9 +83,7 @@ public class StoreCouponService {
         Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
-        if (coupon.getIssuedStartDate().isAfter(LocalDateTime.now())) {
-            coupon.update(dto);
-        }
+        coupon.update(dto);
     }
 
     @Transactional
