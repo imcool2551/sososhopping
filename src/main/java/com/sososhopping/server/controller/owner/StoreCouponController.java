@@ -96,7 +96,7 @@ public class StoreCouponController {
     }
 
     //고객 쿠폰 직접 삭제
-    @DeleteMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
+    @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
     public ResponseEntity deleteCouponDirectly(
             @PathVariable(value = "storeId") Long storeId
             , @RequestBody UserCouponUsageRequestDto dto) {
