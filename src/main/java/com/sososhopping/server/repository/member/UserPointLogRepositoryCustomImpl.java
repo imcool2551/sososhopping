@@ -38,9 +38,12 @@ public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryC
     }
 
     private BooleanExpression monthEq(LocalDateTime at) {
+        LocalDateTime startOfMonth = LocalDateTime.of(at.getYear(), at.getMonth(), 1, 00, 00, 00);
+        LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusMinutes(1);
+
         return userPointLog.createdAt.between(
-                LocalDateTime.of(at.getYear(), at.getMonth(), 1, 00,00),
-                LocalDateTime.of(at.getYear(), at.getMonth().plus(1), 1, 00,00)
+                startOfMonth,
+                endOfMonth
         );
     }
 }

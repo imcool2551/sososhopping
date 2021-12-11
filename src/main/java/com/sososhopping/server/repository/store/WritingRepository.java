@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface WritingRepository extends JpaRepository<Writing, Long> {
 
-    Slice<Writing> findByStore(Store store, Pageable pageable);
+    Slice<Writing> findByStoreOrderByCreatedAtDesc(Store store, Pageable pageable);
 }
