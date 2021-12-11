@@ -123,6 +123,10 @@ public abstract class Coupon extends BaseTimeEntity {
         return this;
     }
 
+    public void addStock(int quantity) {
+        stockQuantity += quantity;
+    }
+
     public boolean belongsTo(Store store) {
         return this.store == store;
     }

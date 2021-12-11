@@ -1,6 +1,5 @@
 package com.sososhopping.server.service.user.coupon;
 
-import com.sososhopping.server.common.dto.user.response.store.CouponDto;
 import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.common.error.Api409Exception;
@@ -83,6 +82,7 @@ public class UserCouponService {
         userCouponRepository.findByUserAndCoupon(user, findCoupon)
                 .ifPresentOrElse(userCoupon -> {
                     userCouponRepository.delete(userCoupon);
+                    findCoupon.addStock(1);
                 }, () -> {
                     throw new Api404Exception("존재하지 않는 쿠폰입니다");
                 });
