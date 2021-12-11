@@ -55,7 +55,7 @@ public class UserWritingController {
 
 
         Pageable pageable = new OffsetBasedPageRequest(offset, 10);
-        return writingRepository.findByStore(findStore, pageable)
+        return writingRepository.findByStoreOrderByCreatedAtDesc(findStore, pageable)
                 .map(WritingListDto::new);
     }
 

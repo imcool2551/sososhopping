@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface UserReviewRepository {
 
-    List<Review> findReviewsByStoreId(Long storeId);
+    List<Review> findReviewsByStoreIdOrderByCreatedAtDesc(Long storeId);
     List<Review> findReviewsByUserId(Long userId);
 }
