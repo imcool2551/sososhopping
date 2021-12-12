@@ -165,7 +165,7 @@ public class AuthController {
     }
 
     // 고객 회원탈퇴
-    @DeleteMapping("/api/v1/users")
+    @DeleteMapping("/api/v1/users/quit")
     public void deleteUser(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
         authService.deleteUser(userId);
