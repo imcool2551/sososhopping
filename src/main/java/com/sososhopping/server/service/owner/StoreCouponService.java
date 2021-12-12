@@ -108,7 +108,7 @@ public class StoreCouponService {
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
         if (!Objects.equals(coupon.getStore().getId(), storeId))
-            throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
+            throw new Api404Exception("올바르지 않은 점포의 쿠폰입니다");
 
         UserCouponResponseDto dto = new UserCouponResponseDto(user, coupon, storeId);
 
