@@ -96,9 +96,9 @@ public class StorePointService {
         Optional<UserPoint> result = userPointRepository.findByUserAndStore(user, store);
 
         if (result.isEmpty()) {
-            return new StoreUserPointResponseDto(user.getName(), 0);
+            return new StoreUserPointResponseDto(user.getNickname(), 0);
         } else {
-            return new StoreUserPointResponseDto(user.getName(), result.get().getPoint());
+            return new StoreUserPointResponseDto(user.getNickname(), result.get().getPoint());
         }
     }
 
