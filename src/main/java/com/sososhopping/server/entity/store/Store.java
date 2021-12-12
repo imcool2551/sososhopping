@@ -95,7 +95,6 @@ public class Store extends BaseTimeEntity {
     @NotNull
     private String streetAddress;
 
-    @NotNull
     private String detailedAddress;
 
     @OneToOne(mappedBy = "store", cascade = ALL,
@@ -164,7 +163,7 @@ public class Store extends BaseTimeEntity {
 
     //가게 정보 업데이트
     public void update(StoreRequestDto dto) {
-        this.storeType = StoreType.valueOf(dto.getStoreType());
+        this.storeType = StoreType.nameOf(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();

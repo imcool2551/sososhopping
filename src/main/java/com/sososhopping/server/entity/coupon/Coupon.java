@@ -103,11 +103,7 @@ public abstract class Coupon extends BaseTimeEntity {
     }
 
     public void update(StoreCouponRequestDto dto) {
-        this.issuedStartDate = LocalDateTime.parse(dto.getIssuedStartDate() + " 00:00:00",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         this.issuedDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.expiryDate = LocalDateTime.parse(dto.getExpiryDate() + " 23:59:59",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }
 

@@ -89,7 +89,7 @@ public class AuthService {
         Owner owner = ownerRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
                 .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
 
-        if(owner.isActive()) {
+        if(!owner.isActive()) {
             throw new Api400Exception("비활성화 계정입니다");
         }
 

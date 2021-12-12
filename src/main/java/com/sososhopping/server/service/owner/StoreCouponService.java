@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -82,9 +83,7 @@ public class StoreCouponService {
         Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
-        if (coupon.getIssuedStartDate().isAfter(LocalDateTime.now())) {
-            coupon.update(dto);
-        }
+        coupon.update(dto);
     }
 
     @Transactional
@@ -108,10 +107,10 @@ public class StoreCouponService {
         Coupon coupon = couponRepository.findByCouponCode(couponCode).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
-        if (coupon.getStore().getId() != storeId)
+        if (!Objects.equals(coupon.getStore().getId(), storeId))
             throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
 
-        UserCouponResponseDto dto = new UserCouponResponseDto(user, coupon);
+        UserCouponResponseDto dto = new UserCouponResponseDto(user, coupon, storeId);
 
         return dto;
     }
@@ -124,7 +123,7 @@ public class StoreCouponService {
         Coupon coupon = couponRepository.findByCouponCode(couponCode).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
-        if (coupon.getStore().getId() != storeId)
+        if (!Objects.equals(coupon.getStore().getId(), storeId))
             throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
 
         UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
