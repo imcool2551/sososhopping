@@ -3,6 +3,8 @@ package com.sososhopping.server.service.owner;
 import com.sososhopping.server.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.server.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api403Exception;
+import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.entity.coupon.*;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
@@ -124,13 +126,13 @@ public class StoreCouponService {
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
         if (!Objects.equals(coupon.getStore().getId(), storeId))
-            throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
+            throw new Api404Exception("올바르지 않은 점포의 쿠폰입니다");
 
         UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
-                new Api400Exception("고객이 쿠폰을 받은 기록이 없습니다"));
+                new Api404Exception("고객이 쿠폰을 받은 기록이 없습니다"));
 
         if (userCoupon.getUsed() == true) {
-            throw new Api400Exception("이미 해당 고객이 사용한 쿠폰입니다");
+            throw new Api403Exception("이미 해당 고객이 사용한 쿠폰입니다");
         } else {
             userCoupon.setUsed(true);
         }

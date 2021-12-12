@@ -4,6 +4,7 @@ import com.sososhopping.server.common.dto.owner.request.StorePointPolicyRequestD
 import com.sososhopping.server.common.dto.owner.request.UserPointUpdateRequestDto;
 import com.sososhopping.server.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api403Exception;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.member.UserPoint;
 import com.sososhopping.server.entity.member.UserPointId;
@@ -52,10 +53,6 @@ public class StorePointService {
         User user = userRepository.findByPhone(dto.getUserPhone()).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 고객입니다"));
 
-        if (store.getPointPolicyStatus() == false) {
-            throw new Api400Exception("현재 점포의 포인트 제도는 없습니다.");
-        }
-
         Optional<UserPoint> result = userPointRepository.findById(new UserPointId(user.getId(), store.getId()));
 
         if (result.isEmpty()) {
@@ -66,7 +63,7 @@ public class StorePointService {
                 UserPointLog userPointLog = new UserPointLog(userPoint, dto.getPointAmount(), dto.getPointAmount());
                 userPointLogRepository.save(userPointLog);
             } else {//소모인 경우
-                throw new Api400Exception("포인트 내역이 존재하지 않습니다");
+                throw new Api403Exception("포인트 내역이 존재하지 않습니다");
             }
         } else {
             UserPoint userPoint = result.get();
@@ -76,14 +73,14 @@ public class StorePointService {
                 userPointLogRepository.save(userPointLog);
             } else if (dto.getIsSave() == false) {//소모인 경우
                 if (userPoint.getPoint() < dto.getPointAmount()) {
-                    throw new Api400Exception("해당 고객의 보유 포인트가 " + userPoint.getPoint() + "포인트뿐입니다");
+                    throw new Api403Exception("해당 고객의 보유 포인트가 " + userPoint.getPoint() + "포인트뿐입니다");
                 } else {
                     userPoint.updatePoint(dto.getPointAmount() * -1);
                     UserPointLog userPointLog = new UserPointLog(userPoint, dto.getPointAmount() * -1, userPoint.getPoint());
                     userPointLogRepository.save(userPointLog);
                 }
             } else {
-                throw new Api400Exception("포인트 처리 입력이 명확하지 않습니다");
+                throw new Api403Exception("포인트 처리 입력이 명확하지 않습니다");
             }
         }
     }
@@ -99,9 +96,9 @@ public class StorePointService {
         Optional<UserPoint> result = userPointRepository.findByUserAndStore(user, store);
 
         if (result.isEmpty()) {
-            return new StoreUserPointResponseDto(user.getName(), 0);
+            return new StoreUserPointResponseDto(user.getNickname(), 0);
         } else {
-            return new StoreUserPointResponseDto(user.getName(), result.get().getPoint());
+            return new StoreUserPointResponseDto(user.getNickname(), result.get().getPoint());
         }
     }
 
