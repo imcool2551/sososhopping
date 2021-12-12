@@ -22,7 +22,7 @@ public class UserReviewRepositoryImpl implements UserReviewRepository {
     }
 
     @Override
-    public List<Review> findReviewsByStoreId(Long storeId) {
+    public List<Review> findReviewsByStoreIdOrderByCreatedAtDesc(Long storeId) {
         return queryFactory
                 .select(review)
                 .from(review)

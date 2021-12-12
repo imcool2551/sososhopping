@@ -1,6 +1,6 @@
 package com.sososhopping.server.service.user.coupon;
 
-import com.sososhopping.server.common.dto.user.response.store.CouponDto;
+import com.sososhopping.server.common.error.Api401Exception;
 import com.sososhopping.server.common.error.Api404Exception;
 import com.sososhopping.server.common.error.Api409Exception;
 import com.sososhopping.server.entity.coupon.Coupon;
@@ -9,6 +9,7 @@ import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
 import com.sososhopping.server.repository.coupon.UserCouponRepository;
+import com.sososhopping.server.repository.member.UserRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserCouponService {
 
+    private final UserRepository userRepository;
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
     private final StoreRepository storeRepository;
@@ -66,5 +68,23 @@ public class UserCouponService {
         }
 
         return userCoupons;
+    }
+
+    @Transactional
+    public void deleteMyCoupon(Long userId, Long couponId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+
+        Coupon findCoupon = couponRepository.findById(couponId)
+                .orElseThrow(() -> new Api404Exception("쿠폰을 찾을 수 없습니다"));
+
+        userCouponRepository.findByUserAndCoupon(user, findCoupon)
+                .ifPresentOrElse(userCoupon -> {
+                    userCouponRepository.delete(userCoupon);
+                    findCoupon.addStock(1);
+                }, () -> {
+                    throw new Api404Exception("존재하지 않는 쿠폰입니다");
+                });
     }
 }

@@ -9,10 +9,7 @@ import com.sososhopping.server.entity.coupon.Coupon;
 import com.sososhopping.server.entity.coupon.UserCoupon;
 import com.sososhopping.server.entity.member.User;
 import com.sososhopping.server.entity.member.UserPoint;
-import com.sososhopping.server.entity.orders.Order;
-import com.sososhopping.server.entity.orders.OrderItem;
-import com.sososhopping.server.entity.orders.OrderStatus;
-import com.sososhopping.server.entity.orders.OrderType;
+import com.sososhopping.server.entity.orders.*;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.repository.coupon.CouponRepository;
@@ -34,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static com.sososhopping.server.entity.orders.OrderStatus.*;
 import static com.sososhopping.server.entity.orders.OrderType.*;
+import static com.sososhopping.server.entity.orders.PaymentType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +46,7 @@ public class UserOrderService {
     private final CartRepository cartRepository;
     private final EntityManager em;
 
+    // TODO: 절차지향적인 주문 비즈니스로직 객체지향적으로 리팩토링하기
     @Transactional
     public void createOrder(User user, OrderCreateDto dto) {
 
@@ -56,6 +55,11 @@ public class UserOrderService {
 
         if (!findStore.isOpen()) {
             throw new Api400Exception("영업중이 아닙니다");
+        }
+
+        // 배송 + 현장결제 거절
+        if (dto.getOrderType() == DELIVERY && dto.getPaymentType() == CASH) {
+            throw new Api400Exception("배송주문은 현장결제가 불가능합니다");
         }
 
         // 물품 검증
@@ -74,7 +78,7 @@ public class UserOrderService {
             throw new Api400Exception("구매할 수 없는 물품이 포함되어있습니다");
         }
 
-        // 주문 가격
+        // 물품 가격
         int orderPrice = dto.getOrderItems()
                 .stream()
                 .mapToInt(orderItemDto ->
@@ -88,6 +92,11 @@ public class UserOrderService {
         Integer usedPoint = Optional
                 .ofNullable(dto.getUsedPoint())
                 .orElse(0);
+
+        if (usedPoint > orderPrice) {
+            throw new Api400Exception("물품금액보다 포인트를 더 많이 사용할 수 없습니다");
+        }
+
         if (usedPoint > 0) {
             userPoint = userPointRepository
                     .findByUserAndStore(user, findStore)

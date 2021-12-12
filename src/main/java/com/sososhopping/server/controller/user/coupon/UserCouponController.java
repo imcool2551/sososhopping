@@ -92,5 +92,15 @@ public class UserCouponController {
 
         return new ApiListResponse<CouponDto>(dtos);
     }
+
+    @DeleteMapping("/api/v1/users/my/coupons/{couponId}")
+    public void deleteMyCoupon(
+            Authentication authentication,
+            @PathVariable Long couponId
+    ) {
+        Long userId = Long.parseLong(authentication.getName());
+
+        userCouponService.deleteMyCoupon(userId, couponId);
+    }
 }
 
