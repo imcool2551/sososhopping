@@ -11,6 +11,7 @@ import com.sososhopping.server.entity.store.Store;
 import com.sososhopping.server.entity.store.StoreBusinessDay;
 import com.sososhopping.server.entity.store.StoreMetaData;
 import com.sososhopping.server.repository.member.OwnerRepository;
+import com.sososhopping.server.repository.store.StoreMetaDataRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.common.S3Service;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class OwnerStoreService {
 
     private final OwnerRepository ownerRepository;
     private final StoreRepository storeRepository;
+    private final StoreMetaDataRepository storeMetaDataRepository;
     private final EntityManager em;
     private final S3Service s3Service;
 
@@ -57,6 +59,10 @@ public class OwnerStoreService {
     public void createStore(StoreRequestDto dto, Long ownerId, MultipartFile image) {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점주입니다"));
+
+        if (storeMetaDataRepository.existsByBusinessNumber(dto.getStoreMetaDataRequestDto().getBusinessNumber())) {
+            throw new Api400Exception("이미 존재하는 사업자 번호입니다");
+        }
 
         Store store = new Store(owner, dto);
         em.persist(store);
