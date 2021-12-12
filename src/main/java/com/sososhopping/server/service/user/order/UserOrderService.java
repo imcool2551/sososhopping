@@ -46,6 +46,7 @@ public class UserOrderService {
     private final CartRepository cartRepository;
     private final EntityManager em;
 
+    // TODO: 절차지향적인 주문 비즈니스로직 객체지향적으로 리팩토링하기
     @Transactional
     public void createOrder(User user, OrderCreateDto dto) {
 
