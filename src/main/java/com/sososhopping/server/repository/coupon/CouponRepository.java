@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface CouponRepository extends JpaRepository<Coupon, Long> {
+public interface CouponRepository extends JpaRepository<Coupon, Long>, CouponRepositoryCustom {
 
     //발행 예정 쿠폰 read
     List<Coupon> findExceptedByStoreAndIssuedStartDateAfter(Store store, LocalDateTime start);
