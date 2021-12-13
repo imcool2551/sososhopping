@@ -131,10 +131,10 @@ public class StoreCouponService {
         UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
                 new Api404Exception("고객이 쿠폰을 받은 기록이 없습니다"));
 
-        if (userCoupon.getUsed() == true) {
-            throw new Api403Exception("이미 해당 고객이 사용한 쿠폰입니다");
-        } else {
-            userCoupon.setUsed(true);
+        try {
+            userCoupon.use();
+        } catch (Api400Exception e) {
+            throw new Api403Exception("사용할 수 없는 쿠폰입니다");
         }
     }
 
