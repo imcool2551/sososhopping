@@ -41,10 +41,9 @@ public class UserCouponController {
                 .findById(storeId)
                 .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-
         LocalDateTime now = LocalDateTime.now();
         List<Coupon> coupons = couponRepository
-                .findBeingByStoreAndIssuedStartDateBeforeAndIssuedDueDateAfter(findStore, now, now);
+                .findDownloadableByStore(findStore, now);
 
         List<CouponDto> couponListDto = coupons
                 .stream()

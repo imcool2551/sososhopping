@@ -110,7 +110,7 @@ public class StoreCouponService {
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
         if (!Objects.equals(coupon.getStore().getId(), storeId))
-            throw new Api400Exception("올바르지 않은 점포의 쿠폰입니다");
+            throw new Api404Exception("올바르지 않은 점포의 쿠폰입니다");
 
         UserCouponResponseDto dto = new UserCouponResponseDto(user, coupon, storeId);
 
@@ -131,10 +131,10 @@ public class StoreCouponService {
         UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
                 new Api404Exception("고객이 쿠폰을 받은 기록이 없습니다"));
 
-        if (userCoupon.getUsed() == true) {
-            throw new Api403Exception("이미 해당 고객이 사용한 쿠폰입니다");
-        } else {
-            userCoupon.setUsed(true);
+        try {
+            userCoupon.use();
+        } catch (Api400Exception e) {
+            throw new Api403Exception("사용할 수 없는 쿠폰입니다");
         }
     }
 
