@@ -6,6 +6,7 @@ import com.sososhopping.server.common.error.Api403Exception;
 import com.sososhopping.server.common.error.Api500Exception;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
+import com.sososhopping.server.repository.order.CartRepository;
 import com.sososhopping.server.repository.order.OrderItemRepository;
 import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
@@ -26,6 +27,7 @@ public class StoreItemService {
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CartRepository cartRepository;
     private final S3Service s3Service;
     private final EntityManager em;
 
@@ -97,6 +99,10 @@ public class StoreItemService {
 
         if (orderItemRepository.existsByItem(item)) {
             throw new Api403Exception("현재 고객의 주문 목록 중에 해당 물품이 존재합니다");
+        }
+
+        if (cartRepository.existsByItem(item)) {
+            cartRepository.deleteByItem(item);
         }
 
         itemRepository.deleteById(itemId);
