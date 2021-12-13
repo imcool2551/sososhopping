@@ -2,9 +2,11 @@ package com.sososhopping.server.service.owner;
 
 import com.sososhopping.server.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.server.common.error.Api400Exception;
+import com.sososhopping.server.common.error.Api403Exception;
 import com.sososhopping.server.common.error.Api500Exception;
 import com.sososhopping.server.entity.store.Item;
 import com.sososhopping.server.entity.store.Store;
+import com.sososhopping.server.repository.order.OrderItemRepository;
 import com.sososhopping.server.repository.store.ItemRepository;
 import com.sososhopping.server.repository.store.StoreRepository;
 import com.sososhopping.server.service.common.S3Service;
@@ -23,6 +25,7 @@ public class StoreItemService {
 
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
+    private final OrderItemRepository orderItemRepository;
     private final S3Service s3Service;
     private final EntityManager em;
 
@@ -89,6 +92,13 @@ public class StoreItemService {
 
     @Transactional
     public void deleteItem(Long storeId, Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() ->
+                new Api400Exception("존재하지 않는 물품입니다"));
+
+        if (orderItemRepository.existsByItem(item)) {
+            throw new Api403Exception("현재 고객의 주문 목록 중에 해당 물품이 존재합니다");
+        }
+
         itemRepository.deleteById(itemId);
     }
 }
