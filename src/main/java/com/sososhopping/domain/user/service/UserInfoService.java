@@ -1,10 +1,10 @@
 package com.sososhopping.domain.user.service;
 
-import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
-import com.sososhopping.common.error.Api401Exception;
+import com.sososhopping.domain.user.dto.request.UserInfoUpdateDto;
 import com.sososhopping.common.error.Api409Exception;
-import com.sososhopping.entity.user.User;
+import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class UserInfoService {
     @Transactional
     public User updateUserInfo(Long userId, UserInfoUpdateDto dto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+                .orElseThrow(UnAuthorizedException::new);
 
         String phone = dto.getPhone();
         String password = dto.getPassword();

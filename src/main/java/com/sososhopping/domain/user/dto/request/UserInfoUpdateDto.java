@@ -1,4 +1,4 @@
-package com.sososhopping.common.dto.user.request.info;
+package com.sososhopping.domain.user.dto.request;
 
 import lombok.Getter;
 

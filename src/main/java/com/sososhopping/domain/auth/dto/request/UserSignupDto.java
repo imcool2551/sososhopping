@@ -14,23 +14,27 @@ public class UserSignupDto {
     @Email(message = "이메일 형식 오류")
     private String email;
 
-    @NotBlank(message = "비밀번호 필수")
-    @Length(min = 8, message = "비밀번호 8자 이상")
+    @NotNull(message = "비밀번호 필수")
+    @Length(min = 8, max = 20, message = "비밀번호 8자 이상 20자 이하")
     private String password;
 
-    @NotBlank(message = "이름 필수")
-    @Length(min = 2, message = "이름 2자 이상")
+    @NotNull(message = "이름 필수")
+    @Length(min = 2, max = 10, message = "이름 2자 이상 10자 이하")
     private String name;
 
-    @NotBlank(message = "핸드폰 필수")
+    @NotNull(message = "핸드폰 필수")
+    @Length(min = 11, max = 11, message = "핸드폰 번호 11자")
     private String phone;
 
+    @NotNull(message = "닉네임 필수")
     @NotBlank(message = "닉네임 필수")
     private String nickname;
 
+    @NotNull(message = "도로 주소 필수")
     @NotBlank(message = "도로 주소 필수")
     private String street;
 
+    @NotNull(message = "상세 주소 필수")
     @NotBlank(message = "상세 주소 필수")
     private String detail;
 }

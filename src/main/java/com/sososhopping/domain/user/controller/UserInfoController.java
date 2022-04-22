@@ -1,6 +1,6 @@
 package com.sososhopping.domain.user.controller;
 
-import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
+import com.sososhopping.domain.user.dto.request.UserInfoUpdateDto;
 import com.sososhopping.domain.user.dto.response.UserInfoResponse;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.user.repository.UserRepository;
@@ -33,13 +33,10 @@ public class UserInfoController {
     }
 
     @PutMapping("/users/info")
-    public UserInfoResponse updateUserInfo(
-            Authentication authentication,
-            @RequestBody @Valid UserInfoUpdateDto dto
-    ) {
-        Long userId = Long.parseLong(authentication.getName());
+    public void updateUserInfo(Authentication authentication,
+                               @RequestBody @Valid UserInfoUpdateDto dto) {
 
-        User user = userInfoService.updateUserInfo(userId, dto);
-        return new UserInfoResponse(user);
+        Long userId = Long.parseLong(authentication.getName());
+        userInfoService.updateUserInfo(userId, dto);
     }
 }

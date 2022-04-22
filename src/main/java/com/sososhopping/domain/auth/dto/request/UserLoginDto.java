@@ -1,10 +1,9 @@
 package com.sososhopping.domain.auth.dto.request;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -14,7 +13,7 @@ public class UserLoginDto {
     @Email(message = "이메일 형식 오류")
     private String email;
 
-    @NotBlank(message = "비밀번호 필수")
-    @Length(min = 8, message = "비밀번호 8자 이상")
+    @NotNull(message = "비밀번호 필수")
+    @Length(min = 8, max = 20, message = "비밀번호 8자 이상 20자 이하")
     private String password;
 }
