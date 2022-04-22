@@ -3,7 +3,7 @@ package com.sososhopping.service.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
+import com.sososhopping.auth.dto.request.UserSignupRequestDto;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
@@ -179,7 +179,7 @@ public class AuthService {
 
     // 고객 회원가입
     @Transactional
-    public void userSignUp(UserSignUpRequestDto dto) {
+    public void userSignUp(UserSignupRequestDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new Api400Exception("중복된 아이디입니다");
         }

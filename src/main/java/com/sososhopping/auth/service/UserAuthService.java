@@ -1,6 +1,6 @@
 package com.sososhopping.auth.service;
 
-import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
+import com.sososhopping.auth.dto.request.UserSignupRequestDto;
 import com.sososhopping.auth.exception.DuplicateMemberException;
 import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.entity.member.AccountStatus;
@@ -21,7 +21,7 @@ public class UserAuthService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void userSignUp(UserSignUpRequestDto dto) {
+    public void userSignUp(UserSignupRequestDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new DuplicateMemberException("email already in use");
         }

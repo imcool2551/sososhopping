@@ -1,6 +1,6 @@
 package com.sososhopping.controller.auth;
 
-import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
+import com.sososhopping.auth.dto.request.UserSignupRequestDto;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
@@ -103,17 +103,11 @@ public class AuthController {
      * 고객 관련 인증
      */
     //고객 이메일 중복 확인
-    @PostMapping(value = "/api/v1/users/auth/signup/validation")
-    public ResponseEntity userSignUpValidation(@RequestBody UserSignUpRequestDto dto) {
-        if(authService.userSignUpValidation(dto.getEmail()))
-            return new ResponseEntity(HttpStatus.OK);
-        else
-            return new ResponseEntity(HttpStatus.CONFLICT);
-    }
+
 
     //고객 닉네임 중복 확인
     @PostMapping(value = "/api/v1/users/auth/signup/nickname")
-    public ResponseEntity isDuplicateNickname(@RequestBody UserSignUpRequestDto dto) {
+    public ResponseEntity isDuplicateNickname(@RequestBody UserSignupRequestDto dto) {
         if(authService.isDuplicateNickname(dto.getNickname()))
             return new ResponseEntity(HttpStatus.CONFLICT);
         else
@@ -122,7 +116,7 @@ public class AuthController {
 
     //고객 핸드폰 중복 확인
     @PostMapping(value = "/api/v1/users/auth/signup/phone")
-    public ResponseEntity isDuplicatePhone(@RequestBody UserSignUpRequestDto dto) {
+    public ResponseEntity isDuplicatePhone(@RequestBody UserSignupRequestDto dto) {
         if(authService.isDuplicatePhone(dto.getPhone()))
             return new ResponseEntity(HttpStatus.CONFLICT);
         else
@@ -132,7 +126,7 @@ public class AuthController {
 
     //고객 회원가입
     @PostMapping(value = "/api/v1/users/auth/signup")
-    public ResponseEntity userSignUp(@RequestBody UserSignUpRequestDto dto) {
+    public ResponseEntity userSignUp(@RequestBody UserSignupRequestDto dto) {
         authService.userSignUp(dto);
         return new ResponseEntity(HttpStatus.CREATED);
     }
