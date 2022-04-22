@@ -7,13 +7,12 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.sososhopping.entity.member.AccountStatus.*;
+import static javax.persistence.GenerationType.IDENTITY;
 
-@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -22,33 +21,24 @@ import static com.sososhopping.entity.member.AccountStatus.*;
 @Table(name = "users")
 public class User extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
-    @NotNull
     @Column(unique = true)
     private String email;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String name;
 
-    @NotNull
     private String nickname;
 
-    @NotNull
-    @Column(unique = true, columnDefinition = "char")
+    @Column(unique = true, columnDefinition = "char", length = 11)
     private String phone;
 
-    @NotNull
-    @Column(name = "street_address")
     private String streetAddress;
 
-    @NotNull
-    @Column(name = "detailed_address")
     private String detailedAddress;
 
     @Enumerated(EnumType.STRING)
@@ -57,18 +47,37 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @Builder
+    public User(String email,
+                String password,
+                String name,
+                String nickname,
+                String phone,
+                String streetAddress,
+                String detailedAddress,
+                AccountStatus active) {
+
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.streetAddress = streetAddress;
+        this.detailedAddress = detailedAddress;
+        this.active = active;
+    }
+
     // Business Logic
     public void suspend() {
         active = SUSPEND;
     }
 
-    public void updateUserInfo(
-            String name,
-            String phone,
-            String nickname,
-            String streetAddress,
-            String detailedAddress
-    ) {
+    public void updateUserInfo(String name,
+                               String phone,
+                               String nickname,
+                               String streetAddress,
+                               String detailedAddress) {
+
         this.name = name;
         this.phone = phone;
         this.nickname = nickname;

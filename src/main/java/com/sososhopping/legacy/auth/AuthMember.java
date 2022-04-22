@@ -1,4 +1,4 @@
-package com.sososhopping.auth;
+package com.sososhopping.legacy.auth;
 
 import com.sososhopping.entity.member.AccountStatus;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,7 @@ package com.sososhopping.service.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.sososhopping.auth.JwtTokenProvider;
+import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
@@ -15,10 +15,12 @@ import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.member.User;
+import com.sososhopping.legacy.auth.JwtTokenProvider;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -174,14 +177,13 @@ public class AuthService {
         return userRepository.existsByPhone(phone);
     }
 
-    //고객 회원가입
+    // 고객 회원가입
     @Transactional
     public void userSignUp(UserSignUpRequestDto dto) {
-        if(userRepository.existsByEmail(dto.getEmail())){
+        if (userRepository.existsByEmail(dto.getEmail())) {
             throw new Api400Exception("중복된 아이디입니다");
         }
 
-        //계정 저장
         User user = User.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))

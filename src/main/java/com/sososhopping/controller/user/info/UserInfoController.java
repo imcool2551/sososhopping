@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
 import com.sososhopping.common.dto.user.response.info.UserInfoDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.entity.member.User;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.service.user.info.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

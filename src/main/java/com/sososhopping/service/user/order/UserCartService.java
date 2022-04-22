@@ -9,7 +9,7 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.Cart;
 import com.sososhopping.entity.member.User;
 import com.sososhopping.entity.store.Item;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.store.ItemRepository;
 import lombok.RequiredArgsConstructor;

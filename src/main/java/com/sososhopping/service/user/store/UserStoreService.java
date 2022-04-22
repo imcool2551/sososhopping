@@ -14,7 +14,7 @@ import com.sososhopping.entity.member.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.member.UserPointRepository;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
 import com.sososhopping.repository.store.JdbcStoreRepository;
 import com.sososhopping.repository.store.StoreRepository;

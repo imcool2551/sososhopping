@@ -11,7 +11,7 @@ import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.entity.member.User;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.service.user.order.UserOrderService;
 import lombok.RequiredArgsConstructor;

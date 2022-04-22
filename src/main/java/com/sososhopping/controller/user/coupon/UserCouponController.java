@@ -11,7 +11,7 @@ import com.sososhopping.entity.member.User;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import com.sososhopping.service.user.coupon.UserCouponService;
 import lombok.RequiredArgsConstructor;

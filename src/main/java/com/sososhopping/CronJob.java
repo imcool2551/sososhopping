@@ -1,7 +1,7 @@
 package com.sososhopping;
 
 import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

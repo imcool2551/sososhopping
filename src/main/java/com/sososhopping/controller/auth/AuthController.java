@@ -1,6 +1,8 @@
 package com.sososhopping.controller.auth;
 
+import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
 import com.sososhopping.common.dto.AuthToken;
+import com.sososhopping.common.dto.ErrorResponse;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
 import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
@@ -9,6 +11,7 @@ import com.sososhopping.entity.member.Owner;
 import com.sososhopping.repository.member.OwnerRepository;
 import com.sososhopping.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,12 +19,25 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController
+import java.sql.SQLException;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+@Slf4j
+// @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
     private final OwnerRepository ownerRepository;
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ErrorResponse> DataAccessException(SQLException e) {
+        log.error("DataAccessException", e);
+        return ResponseEntity
+                .status(INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("database error"));
+    }
 
     /**
      * 점주 관련 인증

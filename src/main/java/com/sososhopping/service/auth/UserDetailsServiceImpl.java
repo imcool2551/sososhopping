@@ -1,6 +1,6 @@
 package com.sososhopping.service.auth;
 
-import com.sososhopping.auth.AuthMember;
+import com.sososhopping.legacy.auth.AuthMember;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.entity.member.Admin;
@@ -8,7 +8,7 @@ import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.member.User;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
-import com.sososhopping.repository.member.UserRepository;
+import com.sososhopping.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
