@@ -1,6 +1,6 @@
 package com.sososhopping.service.auth;
 
-import com.sososhopping.legacy.auth.AuthMember;
+import com.sososhopping.security.auth.AuthMember;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.entity.member.Admin;

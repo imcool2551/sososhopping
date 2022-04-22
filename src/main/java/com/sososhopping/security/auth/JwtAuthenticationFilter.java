@@ -1,4 +1,4 @@
-package com.sososhopping.legacy.auth;
+package com.sososhopping.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

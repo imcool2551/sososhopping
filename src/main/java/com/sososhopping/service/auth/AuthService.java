@@ -3,7 +3,8 @@ package com.sososhopping.service.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.sososhopping.auth.dto.request.UserSignupRequestDto;
+import com.sososhopping.auth.dto.request.UserLoginRequestDto;
+import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
@@ -15,10 +16,9 @@ import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.legacy.auth.JwtTokenProvider;
+import com.sososhopping.security.auth.JwtTokenProvider;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
-import com.sososhopping.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -160,45 +160,6 @@ public class AuthService {
     /**
      * 고객 관련 인증
      */
-    //고객 이메일 중복 확인
-    @Transactional
-    public boolean userSignUpValidation(String email) {
-        return !userRepository.existsByEmail(email);
-    }
-
-    //고객 닉네임 중복 확인
-    @Transactional
-    public boolean isDuplicateNickname(String nickname) {
-        return userRepository.existsByNickname(nickname);
-    }
-
-    @Transactional
-    public boolean isDuplicatePhone(String phone) {
-        return userRepository.existsByPhone(phone);
-    }
-
-    // 고객 회원가입
-    @Transactional
-    public void userSignUp(UserSignupRequestDto dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new Api400Exception("중복된 아이디입니다");
-        }
-
-        User user = User.builder()
-                .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .name(dto.getName())
-                .phone(dto.getPhone())
-                .nickname(dto.getNickname())
-                .streetAddress(dto.getStreet())
-                .detailedAddress(dto.getDetail())
-                .active(AccountStatus.ACTIVE)
-                .build();
-
-        userRepository.save(user);
-
-        createFirebaseAccount("U" + user.getId(), user.getEmail(), user.getName());
-    }
 
     //고객 로그인
     @Transactional

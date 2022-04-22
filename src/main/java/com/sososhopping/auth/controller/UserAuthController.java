@@ -4,9 +4,11 @@ import com.sososhopping.auth.dto.request.UserEmailCheckRequestDto;
 import com.sososhopping.auth.dto.request.UserNicknameCheckRequestDto;
 import com.sososhopping.auth.dto.request.UserPhoneCheckRequestDto;
 import com.sososhopping.auth.dto.request.UserSignupRequestDto;
+import com.sososhopping.auth.dto.response.LoginResponseDto;
 import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.auth.service.UserAuthService;
 import com.sososhopping.common.ApiResponse;
+import com.sososhopping.auth.dto.request.UserLoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +66,13 @@ public class UserAuthController {
         }
 
         return new ResponseEntity<>(new ApiResponse("phone number is ok to use"), OK);
+    }
+
+    @PostMapping("/users/auth/login")
+    public ResponseEntity<LoginResponseDto> userLogin(
+            @RequestBody @Valid UserLoginRequestDto dto) {
+
+        LoginResponseDto response = authService.userLogin(dto.getEmail(), dto.getPassword());
+        return new ResponseEntity<>(response, OK);
     }
 }

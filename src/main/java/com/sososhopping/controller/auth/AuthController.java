@@ -1,6 +1,6 @@
 package com.sososhopping.controller.auth;
 
-import com.sososhopping.auth.dto.request.UserSignupRequestDto;
+import com.sososhopping.auth.dto.request.UserLoginRequestDto;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
@@ -102,23 +102,6 @@ public class AuthController {
     /**
      * 고객 관련 인증
      */
-
-    //고객 핸드폰 중복 확인
-    @PostMapping(value = "/api/v1/users/auth/signup/phone")
-    public ResponseEntity isDuplicatePhone(@RequestBody UserSignupRequestDto dto) {
-        if(authService.isDuplicatePhone(dto.getPhone()))
-            return new ResponseEntity(HttpStatus.CONFLICT);
-        else
-            return new ResponseEntity(HttpStatus.OK);
-    }
-
-
-    //고객 회원가입
-    @PostMapping(value = "/api/v1/users/auth/signup")
-    public ResponseEntity userSignUp(@RequestBody UserSignupRequestDto dto) {
-        authService.userSignUp(dto);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
 
     //고객 로그인
     @PostMapping(value = "/api/v1/users/auth/login")
