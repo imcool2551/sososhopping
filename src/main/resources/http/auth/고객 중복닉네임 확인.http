@@ -1,3 +1,4 @@
+### 중복 닉네임 조회
 POST http://localhost:8080/api/v1/users/auth/signup/nickname
 Content-Type: application/json
 
@@ -5,3 +6,10 @@ Content-Type: application/json
   "nickname": "tester"
 }
 
+### 닉네임 사용 가능
+POST http://localhost:8080/api/v1/users/auth/signup/nickname
+Content-Type: application/json
+
+{
+  "nickname": "qjrnbiwrajkdsnf"
+}

@@ -27,8 +27,8 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.secret-key}")
     private String secretKey;
 
-    //토큰 기한 1일
-    private long tokenValidTime = 1000L * 60 * 60 * 24;
+    //토큰 기한 1년
+    private long tokenValidTime = 1000L * 60 * 60 * 24 * 365;
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -72,12 +72,21 @@ public class JwtTokenProvider {
 
     //토큰에서 회원 id 추출
     public String getMemberPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     //토큰에서 회원 타입 추출
     public String getMemberType(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberType").toString();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("memberType")
+                .toString();
     }
 
     //요청의 헤더에서 token 값 가져오기
@@ -88,8 +97,12 @@ public class JwtTokenProvider {
     //토큰 유효성 확인 메소드
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token);
+            return !claims.getBody()
+                    .getExpiration()
+                    .before(new Date());
         } catch (Exception e) {
             return false;
         }

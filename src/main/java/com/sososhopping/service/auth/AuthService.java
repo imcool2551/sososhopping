@@ -162,23 +162,6 @@ public class AuthService {
      */
 
     //고객 로그인
-    @Transactional
-    public AuthToken userLogin(UserLoginRequestDto dto) {
-        User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(() ->
-                new Api401Exception("올바르지 않은 아이디입니다"));
-
-        if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
-            throw new Api401Exception("올바르지 않은 비밀번호입니다");
-
-        if (!user.isActive()) {
-            throw new Api401Exception("이용이 정지된 사용자입니다");
-        }
-
-        String apiToken = jwtTokenProvider.createToken("U", user.getId());
-        String firebaseToken = createFirebaseToken("U" + user.getId());
-
-        return new AuthToken(apiToken, firebaseToken);
-    }
 
     @Transactional
     public String findUserEmail(UserFindEmailDto dto) {

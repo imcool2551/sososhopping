@@ -1,6 +1,5 @@
 package com.sososhopping.controller.auth;
 
-import com.sososhopping.auth.dto.request.UserLoginRequestDto;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
@@ -104,13 +103,6 @@ public class AuthController {
      */
 
     //고객 로그인
-    @PostMapping(value = "/api/v1/users/auth/login")
-    public ResponseEntity userLogin(@RequestBody UserLoginRequestDto dto) {
-        AuthToken authToken = authService.userLogin(dto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
-    }
 
     // 고객 이메일 찾기
     @PostMapping("/api/v1/users/auth/findEmail")

@@ -37,7 +37,6 @@ public class AuthMember implements UserDetails {
         } else if(this.memberType.equals("O")){
             authority = new SimpleGrantedAuthority("ROLE_OWNER");
         } else {
-            //임시 오류
             throw new RuntimeException();
         }
 
@@ -62,13 +61,13 @@ public class AuthMember implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        if(accountStatus!=null){//accountStatus가 존재하는 고객/점주라면
-            if(accountStatus==AccountStatus.ACTIVE)
+        if (accountStatus != null){
+            if( accountStatus == AccountStatus.ACTIVE) {
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
-        return true;//accountStatus가 없는 관리자
+        return true;
     }
 
     @Override

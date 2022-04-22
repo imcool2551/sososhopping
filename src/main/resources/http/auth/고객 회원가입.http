@@ -5,8 +5,8 @@ Content-Type: application/json
      "email": "aaa1238@gmail.com",
      "password": "password",
      "name": "gildong",
-     "phone": "01012341237",
-     "nickname": "길동이",
+     "phone": "01012312341",
+     "nickname": "길동이123",
      "street": "서울시 xx구 xx동 xx대로",
      "detail": "xx아파트 xx동 xx호"
 }
