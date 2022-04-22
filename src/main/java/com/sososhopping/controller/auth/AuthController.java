@@ -98,36 +98,10 @@ public class AuthController {
         authService.updateOwnerPassword(ownerId, dto);
     }
 
-    /**
-     * 고객 관련 인증
-     */
 
-    //고객 로그인
 
-    // 고객 이메일 찾기
-    @PostMapping("/api/v1/users/auth/findEmail")
-    public String findUserEmail(@RequestBody @Valid UserFindEmailDto dto) {
-        return authService.findUserEmail(dto);
-    }
 
-    // 고객 비밀번호 찾기
-    @PostMapping("/api/v1/users/auth/findPassword")
-    public void findUserPassword(@RequestBody @Valid UserFindPasswordDto dto) {
-        authService.findUserPassword(dto);
-    }
 
-    // 고객 비밀번호 변경
-    @PostMapping("/api/v1/users/auth/changePassword")
-    public void changeUserPassword(@RequestBody @Valid UserChangePasswordDto dto) {
-        authService.changeUserPassword(dto);
-    }
-
-    // 고객 회원탈퇴
-    @DeleteMapping("/api/v1/users/quit")
-    public void deleteUser(Authentication authentication) {
-        Long userId = Long.parseLong(authentication.getName());
-        authService.deleteUser(userId);
-    }
 
     /**
      * 관리자 관련 인증

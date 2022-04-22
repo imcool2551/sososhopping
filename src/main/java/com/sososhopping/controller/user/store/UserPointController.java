@@ -10,7 +10,7 @@ import com.sososhopping.entity.member.UserPointLog;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.member.UserPointLogRepository;
 import com.sososhopping.repository.member.UserPointRepository;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import static org.springframework.format.annotation.DateTimeFormat.*;
 @RequiredArgsConstructor
 public class UserPointController {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final InterestStoreRepository interestStoreRepository;
     private final UserPointRepository userPointRepository;

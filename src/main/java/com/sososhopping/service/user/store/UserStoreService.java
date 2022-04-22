@@ -14,7 +14,7 @@ import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.member.UserPointRepository;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
 import com.sososhopping.repository.store.JdbcStoreRepository;
 import com.sososhopping.repository.store.StoreRepository;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class UserStoreService {
 
     private final InterestStoreRepository interestStoreRepository;
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final UserPointRepository userPointRepository;
     private final JdbcStoreRepository jdbcStoreRepository;

@@ -1,11 +1,11 @@
-package com.sososhopping.auth.service;
+package com.sososhopping.domain.auth.service;
 
-import com.sososhopping.auth.dto.request.UserSignupRequestDto;
-import com.sososhopping.auth.dto.response.LoginResponseDto;
-import com.sososhopping.auth.exception.DuplicateMemberException;
-import com.sososhopping.auth.exception.InvalidCredentialsException;
-import com.sososhopping.auth.exception.NotAuthorizedException;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.dto.request.UserSignupDto;
+import com.sososhopping.domain.auth.dto.response.LoginResponse;
+import com.sososhopping.domain.auth.exception.DuplicateMemberException;
+import com.sososhopping.domain.auth.exception.InvalidCredentialsException;
+import com.sososhopping.common.exception.UnAuthorizedException;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.security.auth.JwtTokenProvider;
@@ -21,12 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserAuthService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
 
-    public void userSignUp(UserSignupRequestDto dto) {
+    public void userSignUp(UserSignupDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new DuplicateMemberException("email already in use");
         }
@@ -35,8 +35,8 @@ public class UserAuthService {
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
-                .phone(dto.getPhone())
                 .nickname(dto.getNickname())
+                .phone(dto.getPhone())
                 .streetAddress(dto.getStreet())
                 .detailedAddress(dto.getDetail())
                 .active(AccountStatus.ACTIVE)
@@ -45,20 +45,20 @@ public class UserAuthService {
         userRepository.save(user);
     }
 
-    public LoginResponseDto userLogin(String email, String password) {
+    public LoginResponse userLogin(String email, String password) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new InvalidCredentialsException("wrong credentials"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidCredentialsException("wrong credentials");
+            throw new InvalidCredentialsException();
         }
 
         if (!user.isActive()) {
-            throw new NotAuthorizedException("account is not active");
+            throw new UnAuthorizedException("account is not active");
         }
 
         String token = jwtTokenProvider.createToken("U", user.getId());
-        return new LoginResponseDto(token);
+        return new LoginResponse(token);
     }
 }

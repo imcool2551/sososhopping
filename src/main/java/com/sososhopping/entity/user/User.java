@@ -2,23 +2,22 @@ package com.sososhopping.entity.user;
 
 import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.entity.orders.Order;
-import com.sososhopping.entity.orders.OrderStatus;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static com.sososhopping.entity.member.AccountStatus.*;
+import static com.sososhopping.entity.member.AccountStatus.ACTIVE;
+import static com.sososhopping.entity.member.AccountStatus.SUSPEND;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "users")
 public class User extends BaseTimeEntity {
 
@@ -44,9 +43,6 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private AccountStatus active;
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders = new ArrayList<>();
 
     @Builder
     public User(String email,
@@ -88,18 +84,6 @@ public class User extends BaseTimeEntity {
 
     public void updatePassword(String password) {
         this.password = password;
-    }
-
-    public boolean withdrawable() {
-        return orders.stream().noneMatch(order ->
-                order.getOrderStatus() == OrderStatus.READY ||
-                        order.getOrderStatus() == OrderStatus.APPROVE ||
-                        order.getOrderStatus() == OrderStatus.PENDING
-        );
-    }
-
-    public void withdraw() {
-        active = WITHDRAW;
     }
 
     public boolean isActive() {

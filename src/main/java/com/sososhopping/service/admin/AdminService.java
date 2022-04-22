@@ -10,7 +10,7 @@ import com.sososhopping.entity.report.UserReport;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreLog;
 import com.sososhopping.entity.store.StoreStatus;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.report.UserLogRepository;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreLogRepository;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final UserReportRepository userReportRepository;
     private final UserLogRepository userLogRepository;
     private final StoreRepository storeRepository;

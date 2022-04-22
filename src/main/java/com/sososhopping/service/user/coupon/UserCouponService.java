@@ -9,7 +9,7 @@ import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserCouponService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
     private final StoreRepository storeRepository;

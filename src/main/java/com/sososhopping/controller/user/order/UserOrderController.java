@@ -11,7 +11,7 @@ import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.service.user.order.UserOrderService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import static com.sososhopping.entity.orders.OrderStatus.DONE;
 public class UserOrderController {
 
     private final UserOrderService userOrderService;
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final OrderRepository orderRepository;
 
     @PostMapping("/api/v1/users/orders")

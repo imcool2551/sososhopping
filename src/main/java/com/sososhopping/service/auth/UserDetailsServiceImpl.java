@@ -8,7 +8,7 @@ import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final OwnerRepository ownerRepository;
     private final AdminRepository adminRepository;
 

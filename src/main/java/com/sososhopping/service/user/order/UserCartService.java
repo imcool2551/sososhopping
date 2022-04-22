@@ -9,7 +9,7 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.Cart;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Item;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.store.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserCartService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
     private final EntityManager em;

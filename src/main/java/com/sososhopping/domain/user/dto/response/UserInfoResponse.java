@@ -1,10 +1,10 @@
-package com.sososhopping.common.dto.user.response.info;
+package com.sososhopping.domain.user.dto.response;
 
 import com.sososhopping.entity.user.User;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-public class UserInfoDto {
+@Data
+public class UserInfoResponse {
 
     private String name;
     private String phone;
@@ -13,7 +13,7 @@ public class UserInfoDto {
     private String streetAddress;
     private String detailedAddress;
 
-    public UserInfoDto(User user) {
+    public UserInfoResponse(User user) {
         this.name = user.getName();
         this.phone = user.getPhone();
         this.email = user.getEmail();

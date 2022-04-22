@@ -1,14 +1,14 @@
-package com.sososhopping.auth.controller;
+package com.sososhopping.domain.auth.controller;
 
-import com.sososhopping.auth.dto.request.UserEmailCheckRequestDto;
-import com.sososhopping.auth.dto.request.UserNicknameCheckRequestDto;
-import com.sososhopping.auth.dto.request.UserPhoneCheckRequestDto;
-import com.sososhopping.auth.dto.request.UserSignupRequestDto;
-import com.sososhopping.auth.dto.response.LoginResponseDto;
-import com.sososhopping.auth.repository.UserRepository;
-import com.sososhopping.auth.service.UserAuthService;
+import com.sososhopping.domain.auth.dto.request.UserEmailCheckDto;
+import com.sososhopping.domain.auth.dto.request.UserNicknameCheckDto;
+import com.sososhopping.domain.auth.dto.request.UserPhoneCheckDto;
+import com.sososhopping.domain.auth.dto.request.UserSignupDto;
+import com.sososhopping.domain.auth.dto.response.LoginResponse;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.auth.service.UserAuthService;
 import com.sososhopping.common.ApiResponse;
-import com.sososhopping.auth.dto.request.UserLoginRequestDto;
+import com.sososhopping.domain.auth.dto.request.UserLoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +26,18 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class UserAuthController {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final UserAuthService authService;
 
     @ResponseStatus(CREATED)
     @PostMapping("/users/auth/signup")
-    public void userSignup(@RequestBody @Valid UserSignupRequestDto dto) {
+    public void userSignup(@RequestBody @Valid UserSignupDto dto) {
         authService.userSignUp(dto);
     }
 
     @PostMapping("/users/auth/signup/validation")
     public ResponseEntity<ApiResponse> userCheckDuplicateEmail(
-            @RequestBody @Valid UserEmailCheckRequestDto dto) {
+            @RequestBody @Valid UserEmailCheckDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             return new ResponseEntity<>(new ApiResponse("email already in use"), CONFLICT);
@@ -48,7 +48,7 @@ public class UserAuthController {
 
     @PostMapping("/users/auth/signup/nickname")
     public ResponseEntity<ApiResponse> userCheckDuplicateNickname(
-            @RequestBody @Valid UserNicknameCheckRequestDto dto) {
+            @RequestBody @Valid UserNicknameCheckDto dto) {
 
         if (userRepository.existsByNickname(dto.getNickname())) {
             return new ResponseEntity<>(new ApiResponse("nickname already in use"), CONFLICT);
@@ -59,7 +59,7 @@ public class UserAuthController {
 
     @PostMapping("/users/auth/signup/phone")
     public ResponseEntity<ApiResponse> userCheckDuplicatePhone(
-            @RequestBody @Valid UserPhoneCheckRequestDto dto) {
+            @RequestBody @Valid UserPhoneCheckDto dto) {
 
         if (userRepository.existsByPhone(dto.getPhone())) {
             return new ResponseEntity<>(new ApiResponse("phone number already in use"), CONFLICT);
@@ -69,10 +69,10 @@ public class UserAuthController {
     }
 
     @PostMapping("/users/auth/login")
-    public ResponseEntity<LoginResponseDto> userLogin(
-            @RequestBody @Valid UserLoginRequestDto dto) {
+    public ResponseEntity<LoginResponse> userLogin(
+            @RequestBody @Valid UserLoginDto dto) {
 
-        LoginResponseDto response = authService.userLogin(dto.getEmail(), dto.getPassword());
+        LoginResponse response = authService.userLogin(dto.getEmail(), dto.getPassword());
         return new ResponseEntity<>(response, OK);
     }
 }

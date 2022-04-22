@@ -1,4 +1,4 @@
-package com.sososhopping.auth.exception;
+package com.sososhopping.domain.auth.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidCredentialsException extends RuntimeException {
 
     public InvalidCredentialsException() {
+        this("invalid credentials");
     }
 
     public InvalidCredentialsException(String message) {

@@ -8,7 +8,7 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.Review;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.ReviewRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserReviewService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
     private final EntityManager em;

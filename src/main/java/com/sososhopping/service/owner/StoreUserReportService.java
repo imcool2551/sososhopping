@@ -5,7 +5,7 @@ import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.report.UserReport;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StoreUserReportService {
 
     private final StoreRepository storeRepository;
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final UserReportRepository userReportRepository;
 
     //유저 신고

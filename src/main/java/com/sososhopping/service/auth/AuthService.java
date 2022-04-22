@@ -3,8 +3,7 @@ package com.sososhopping.service.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.sososhopping.auth.dto.request.UserLoginRequestDto;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.*;
 import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
@@ -15,10 +14,9 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
-import com.sososhopping.entity.user.User;
-import com.sososhopping.security.auth.JwtTokenProvider;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
+import com.sososhopping.security.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +31,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final OwnerRepository ownerRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -157,57 +155,6 @@ public class AuthService {
         owner.updatePassword(encodedNewPassword);
     }
 
-    /**
-     * 고객 관련 인증
-     */
-
-    //고객 로그인
-
-    @Transactional
-    public String findUserEmail(UserFindEmailDto dto) {
-        User user = userRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
-
-        if (!user.isActive()) {
-            throw new Api401Exception("이용이 정지된 사용자입니다");
-        }
-
-        return user.getEmail();
-    }
-
-    @Transactional
-    public void findUserPassword(UserFindPasswordDto dto) {
-        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
-
-        if (!user.isActive()) {
-            throw new Api401Exception("이용이 정지된 사용자입니다");
-        }
-    }
-
-    @Transactional
-    public void changeUserPassword(UserChangePasswordDto dto) {
-        User user = userRepository.findByEmailAndNameAndPhone(dto.getEmail(), dto.getName(), dto.getPhone())
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
-
-        if (!user.isActive()) {
-            throw new Api401Exception("이용이 정지된 사용자입니다");
-        }
-
-        user.updatePassword(passwordEncoder.encode(dto.getPassword()));
-    }
-
-    @Transactional
-    public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 유저입니다"));
-
-        if (!user.withdrawable()) {
-            throw new Api400Exception("진행중인 주문이 있습니다");
-        }
-
-        user.withdraw();
-    }
 
     /**
      * 관리자 관련 인증

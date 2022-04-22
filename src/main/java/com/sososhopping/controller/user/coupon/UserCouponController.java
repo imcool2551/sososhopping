@@ -11,7 +11,7 @@ import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import com.sososhopping.service.user.coupon.UserCouponService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class UserCouponController {
 
     private final UserCouponService userCouponService;
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;

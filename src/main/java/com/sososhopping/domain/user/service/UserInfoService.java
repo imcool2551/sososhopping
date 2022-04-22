@@ -1,10 +1,10 @@
-package com.sososhopping.service.user.info;
+package com.sososhopping.domain.user.service;
 
 import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.auth.repository.UserRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserInfoService {
 
-    private final UserRepository userRepository;
+    private final UserAuthRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional

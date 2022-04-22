@@ -1,11 +1,11 @@
-package com.sososhopping.controller.user.info;
+package com.sososhopping.domain.user.controller;
 
 import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
-import com.sososhopping.common.dto.user.response.info.UserInfoDto;
-import com.sososhopping.common.error.Api401Exception;
+import com.sososhopping.domain.user.dto.response.UserInfoResponse;
+import com.sososhopping.common.exception.UnAuthorizedException;
+import com.sososhopping.domain.user.repository.UserRepository;
+import com.sososhopping.domain.user.service.UserInfoService;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.auth.repository.UserRepository;
-import com.sososhopping.service.user.info.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,24 +22,24 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
     private final UserRepository userRepository;
 
-    @GetMapping("/api/v1/users/info")
-    public UserInfoDto getUserInfo(Authentication authentication) {
+    @GetMapping("/users/info")
+    public UserInfoResponse getUserInfo(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+                .orElseThrow(UnAuthorizedException::new);
 
-       return new UserInfoDto(user);
+        return new UserInfoResponse(user);
     }
 
-    @PutMapping("/api/v1/users/info")
-    public UserInfoDto updateUserInfo(
+    @PutMapping("/users/info")
+    public UserInfoResponse updateUserInfo(
             Authentication authentication,
             @RequestBody @Valid UserInfoUpdateDto dto
     ) {
         Long userId = Long.parseLong(authentication.getName());
 
         User user = userInfoService.updateUserInfo(userId, dto);
-        return new UserInfoDto(user);
+        return new UserInfoResponse(user);
     }
 }

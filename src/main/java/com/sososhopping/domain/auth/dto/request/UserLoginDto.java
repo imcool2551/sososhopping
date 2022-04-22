@@ -1,4 +1,4 @@
-package com.sososhopping.auth.dto.request;
+package com.sososhopping.domain.auth.dto.request;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserLoginRequestDto {
+public class UserLoginDto {
 
     @NotNull(message = "이메일 필수")
     @Email(message = "이메일 형식 오류")
