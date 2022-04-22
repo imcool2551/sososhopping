@@ -47,11 +47,6 @@ public class Review extends BaseTimeEntity {
         this.store.getReviews().add(this);
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.user.getReviews().add(this);
-    }
-
     // Business Logic
     public void updateReview(String content, String imgUrl, BigDecimal score) {
         this.content = content;

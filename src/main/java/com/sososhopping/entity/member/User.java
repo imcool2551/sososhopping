@@ -1,7 +1,6 @@
 package com.sososhopping.entity.member;
 
 import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import lombok.*;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sososhopping.entity.member.AccountStatus.*;
-import static javax.persistence.CascadeType.*;
 
 @Builder
 @Entity
@@ -56,25 +54,8 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus active;
 
-    //List
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserPoint> userPoints = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<InterestStore> interestStores = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserCoupon> userCoupons = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<Cart> cart = new ArrayList<>();
-
 
     // Business Logic
     public void suspend() {

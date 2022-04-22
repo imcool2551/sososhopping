@@ -41,12 +41,6 @@ public class Cart extends BaseTimeEntity {
         this.quantity = quantity;
     }
 
-    // 연관 관계 편의 메서드
-    public void setUser(User user) {
-        this.user = user;
-        this.user.getCart().add(this);
-    }
-
     // Business Logic
     public void updateQuantity(int quantity) {
         this.quantity = quantity;
