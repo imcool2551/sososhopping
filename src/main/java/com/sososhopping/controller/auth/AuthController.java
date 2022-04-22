@@ -102,17 +102,6 @@ public class AuthController {
     /**
      * 고객 관련 인증
      */
-    //고객 이메일 중복 확인
-
-
-    //고객 닉네임 중복 확인
-    @PostMapping(value = "/api/v1/users/auth/signup/nickname")
-    public ResponseEntity isDuplicateNickname(@RequestBody UserSignupRequestDto dto) {
-        if(authService.isDuplicateNickname(dto.getNickname()))
-            return new ResponseEntity(HttpStatus.CONFLICT);
-        else
-            return new ResponseEntity(HttpStatus.OK);
-    }
 
     //고객 핸드폰 중복 확인
     @PostMapping(value = "/api/v1/users/auth/signup/phone")

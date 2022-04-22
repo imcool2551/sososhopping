@@ -1,6 +1,8 @@
 package com.sososhopping.auth.controller;
 
 import com.sososhopping.auth.dto.request.UserEmailCheckRequestDto;
+import com.sososhopping.auth.dto.request.UserNicknameCheckRequestDto;
+import com.sososhopping.auth.dto.request.UserPhoneCheckRequestDto;
 import com.sososhopping.auth.dto.request.UserSignupRequestDto;
 import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.auth.service.UserAuthService;
@@ -32,14 +34,35 @@ public class UserAuthController {
     }
 
     @PostMapping("/users/auth/signup/validation")
-    public ResponseEntity<ApiResponse> userSignUpValidation(
+    public ResponseEntity<ApiResponse> userCheckDuplicateEmail(
             @RequestBody @Valid UserEmailCheckRequestDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
-            return new ResponseEntity(new ApiResponse("email already in use"), CONFLICT);
+            return new ResponseEntity<>(new ApiResponse("email already in use"), CONFLICT);
         }
 
-        return new ResponseEntity(new ApiResponse("email is ok to use"), OK);
+        return new ResponseEntity<>(new ApiResponse("email is ok to use"), OK);
     }
 
+    @PostMapping("/users/auth/signup/nickname")
+    public ResponseEntity<ApiResponse> userCheckDuplicateNickname(
+            @RequestBody @Valid UserNicknameCheckRequestDto dto) {
+
+        if (userRepository.existsByNickname(dto.getNickname())) {
+            return new ResponseEntity<>(new ApiResponse("nickname already in use"), CONFLICT);
+        }
+
+        return new ResponseEntity<>(new ApiResponse("nickname is ok to use"), OK);
+    }
+
+    @PostMapping("/users/auth/signup/phone")
+    public ResponseEntity<ApiResponse> userCheckDuplicatePhone(
+            @RequestBody @Valid UserPhoneCheckRequestDto dto) {
+
+        if (userRepository.existsByPhone(dto.getPhone())) {
+            return new ResponseEntity<>(new ApiResponse("phone number already in use"), CONFLICT);
+        }
+
+        return new ResponseEntity<>(new ApiResponse("phone number is ok to use"), OK);
+    }
 }
