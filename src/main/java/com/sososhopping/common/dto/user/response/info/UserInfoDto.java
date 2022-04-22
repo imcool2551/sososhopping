@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.info;
 
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import lombok.Getter;
 
 @Getter

@@ -8,7 +8,7 @@ import com.sososhopping.common.dto.user.response.order.OrderDetailDto;
 import com.sososhopping.common.dto.user.response.order.OrderListDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api401Exception;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import com.sososhopping.auth.repository.UserRepository;

@@ -1,7 +1,7 @@
 package com.sososhopping.auth.repository;
 
 import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

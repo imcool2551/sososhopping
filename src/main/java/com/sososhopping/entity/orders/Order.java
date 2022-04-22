@@ -5,7 +5,7 @@ import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

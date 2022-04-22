@@ -1,7 +1,9 @@
 package com.sososhopping.common.error;
 
+import com.sososhopping.auth.exception.DuplicateMemberException;
 import com.sososhopping.common.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,7 +13,7 @@ import java.sql.SQLException;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Slf4j
-@RestControllerAdvice("com.sososhopping")
+@RestControllerAdvice
 public class ApiExceptionHandler {
 
     @ExceptionHandler(SQLException.class)
@@ -22,14 +24,23 @@ public class ApiExceptionHandler {
                 .body(new ErrorResponse("database error"));
     }
 
-//    @ExceptionHandler(Api400Exception.class)
-//    public ResponseEntity api400Exception(HttpServletRequest request, final Api400Exception e) {
-//        e.printStackTrace();
-//        return ResponseEntity
-//                .status(HttpStatus.BAD_REQUEST)
-//                .body(new ErrorResponse(e.getMessage()));
-//    }
-//
+    @ExceptionHandler({DuplicateMemberException.class})
+    public ResponseEntity<ErrorResponse> duplicateMemberException(DuplicateMemberException e) {
+        log.error("[DuplicateMemberException]", e);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(Api400Exception.class)
+    public ResponseEntity api400Exception(final Api400Exception e) {
+        e.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
 //    @ExceptionHandler(Api401Exception.class)
 //    public ResponseEntity api401Exception(HttpServletRequest request, final Api401Exception e) {
 //        e.printStackTrace();

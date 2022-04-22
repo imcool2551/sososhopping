@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.user.response.point.UserPointListDto;
 import com.sososhopping.common.dto.user.response.point.UserPointLogDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.member.UserPointLog;
 import com.sososhopping.entity.store.Store;

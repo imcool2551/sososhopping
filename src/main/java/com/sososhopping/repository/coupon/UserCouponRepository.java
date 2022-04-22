@@ -3,7 +3,7 @@ package com.sososhopping.repository.coupon;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.coupon.UserCouponId;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -3,7 +3,7 @@ package com.sososhopping.repository.order;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sososhopping.entity.member.Cart;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 
 import javax.persistence.EntityManager;
 import java.util.List;

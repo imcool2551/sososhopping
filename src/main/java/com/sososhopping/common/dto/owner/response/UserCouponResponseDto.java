@@ -1,7 +1,7 @@
 package com.sososhopping.common.dto.owner.response;
 
 import com.sososhopping.entity.coupon.Coupon;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import lombok.*;
 
 @Getter @Setter

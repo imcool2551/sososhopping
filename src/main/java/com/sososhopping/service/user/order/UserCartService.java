@@ -7,7 +7,7 @@ import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.Cart;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Item;
 import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.repository.order.CartRepository;

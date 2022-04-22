@@ -2,7 +2,7 @@ package com.sososhopping.repository.store;
 
 import com.sososhopping.entity.member.Review;
 import com.sososhopping.entity.member.ReviewId;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -5,7 +5,7 @@ import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;
 import com.sososhopping.auth.repository.UserRepository;

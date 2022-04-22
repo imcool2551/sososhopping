@@ -14,7 +14,7 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.legacy.auth.JwtTokenProvider;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.repository.member.OwnerRepository;

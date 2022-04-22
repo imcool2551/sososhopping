@@ -2,7 +2,7 @@ package com.sososhopping.service.user.store;
 
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.report.StoreReport;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.auth.repository.UserRepository;

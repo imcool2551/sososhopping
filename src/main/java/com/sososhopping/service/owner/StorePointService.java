@@ -5,7 +5,7 @@ import com.sososhopping.common.dto.owner.request.UserPointUpdateRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api403Exception;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.member.UserPointId;
 import com.sososhopping.entity.member.UserPointLog;

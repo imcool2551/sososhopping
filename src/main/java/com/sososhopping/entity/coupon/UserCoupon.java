@@ -2,7 +2,7 @@ package com.sososhopping.entity.coupon;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

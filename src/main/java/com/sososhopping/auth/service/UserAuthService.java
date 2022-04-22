@@ -1,10 +1,10 @@
 package com.sososhopping.auth.service;
 
 import com.sososhopping.auth.dto.request.UserSignUpRequestDto;
-import com.sososhopping.auth.exception.exception.DuplicateMemberException;
+import com.sososhopping.auth.exception.DuplicateMemberException;
 import com.sososhopping.auth.repository.UserRepository;
 import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

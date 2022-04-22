@@ -1,6 +1,7 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.user;
 
 import com.sososhopping.entity.BaseTimeEntity;
+import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import lombok.*;
@@ -91,9 +92,9 @@ public class User extends BaseTimeEntity {
 
     public boolean withdrawable() {
         return orders.stream().noneMatch(order ->
-            order.getOrderStatus() == OrderStatus.READY ||
-            order.getOrderStatus() == OrderStatus.APPROVE ||
-            order.getOrderStatus() == OrderStatus.PENDING
+                order.getOrderStatus() == OrderStatus.READY ||
+                        order.getOrderStatus() == OrderStatus.APPROVE ||
+                        order.getOrderStatus() == OrderStatus.PENDING
         );
     }
 
@@ -105,3 +106,4 @@ public class User extends BaseTimeEntity {
         return active == ACTIVE;
     }
 }
+

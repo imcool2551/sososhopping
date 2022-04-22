@@ -3,7 +3,7 @@ package com.sososhopping.service.user.info;
 import com.sososhopping.common.dto.user.request.info.UserInfoUpdateDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api409Exception;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -3,7 +3,7 @@ package com.sososhopping.service.admin;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserLog;
 import com.sososhopping.entity.report.StoreReport;
 import com.sososhopping.entity.report.UserReport;

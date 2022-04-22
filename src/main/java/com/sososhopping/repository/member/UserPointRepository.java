@@ -1,6 +1,6 @@
 package com.sososhopping.repository.member;
 
-import com.sososhopping.entity.member.User;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.member.UserPointId;
 import com.sososhopping.entity.store.Store;
