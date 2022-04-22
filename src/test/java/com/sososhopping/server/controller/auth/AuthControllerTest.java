@@ -1,12 +1,13 @@
 package com.sososhopping.server.controller.auth;
 
-import com.sososhopping.server.common.error.Api400Exception;
-import com.sososhopping.server.common.error.Api401Exception;
-import com.sososhopping.server.entity.member.Owner;
-import com.sososhopping.server.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.server.common.dto.auth.request.OwnerSignUpRequestDto;
-import com.sososhopping.server.common.dto.auth.response.LoginResponseDto;
-import com.sososhopping.server.repository.member.OwnerRepository;
+import com.sososhopping.common.error.Api400Exception;
+import com.sososhopping.common.error.Api401Exception;
+import com.sososhopping.controller.auth.AuthController;
+import com.sososhopping.entity.member.Owner;
+import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerSignUpRequestDto;
+import com.sososhopping.common.dto.auth.response.LoginResponseDto;
+import com.sososhopping.repository.member.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,8 @@ import static org.assertj.core.api.Assertions.*;
 class AuthControllerTest {
 
     @Autowired EntityManager em;
-    @Autowired AuthController authController;
+    @Autowired
+    AuthController authController;
     @Autowired OwnerRepository ownerRepository;
 
     @Test
