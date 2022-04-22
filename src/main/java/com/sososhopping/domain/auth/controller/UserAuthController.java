@@ -1,14 +1,13 @@
 package com.sososhopping.domain.auth.controller;
 
+import com.sososhopping.common.ApiResponse;
 import com.sososhopping.domain.auth.dto.request.UserEmailCheckDto;
-import com.sososhopping.domain.auth.dto.request.UserNicknameCheckDto;
+import com.sososhopping.domain.auth.dto.request.UserLoginDto;
 import com.sososhopping.domain.auth.dto.request.UserPhoneCheckDto;
 import com.sososhopping.domain.auth.dto.request.UserSignupDto;
 import com.sososhopping.domain.auth.dto.response.LoginResponse;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.domain.auth.service.UserAuthService;
-import com.sososhopping.common.ApiResponse;
-import com.sososhopping.domain.auth.dto.request.UserLoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -44,17 +43,6 @@ public class UserAuthController {
         }
 
         return new ResponseEntity<>(new ApiResponse("email is ok to use"), OK);
-    }
-
-    @PostMapping("/users/auth/signup/nickname")
-    public ResponseEntity<ApiResponse> userCheckDuplicateNickname(
-            @RequestBody @Valid UserNicknameCheckDto dto) {
-
-        if (userRepository.existsByNickname(dto.getNickname())) {
-            return new ResponseEntity<>(new ApiResponse("nickname already in use"), CONFLICT);
-        }
-
-        return new ResponseEntity<>(new ApiResponse("nickname is ok to use"), OK);
     }
 
     @PostMapping("/users/auth/signup/phone")

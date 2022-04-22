@@ -82,10 +82,6 @@ public class User extends BaseTimeEntity {
         this.detailedAddress = detailedAddress;
     }
 
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
     public boolean isActive() {
         return active == ACTIVE;
     }

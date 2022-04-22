@@ -1,10 +1,9 @@
 package com.sososhopping.domain.auth.service;
 
+import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.auth.dto.request.UserSignupDto;
 import com.sososhopping.domain.auth.dto.response.LoginResponse;
-import com.sososhopping.domain.auth.exception.DuplicateMemberException;
 import com.sososhopping.domain.auth.exception.InvalidCredentialsException;
-import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.user.User;
@@ -27,10 +26,6 @@ public class UserAuthService {
 
 
     public void userSignUp(UserSignupDto dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new DuplicateMemberException("email already in use");
-        }
-
         User user = User.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))

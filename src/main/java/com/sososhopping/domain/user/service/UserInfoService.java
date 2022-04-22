@@ -1,9 +1,9 @@
 package com.sososhopping.domain.user.service;
 
-import com.sososhopping.domain.user.dto.request.UserInfoUpdateDto;
-import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.common.exception.UnAuthorizedException;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.user.dto.request.UserInfoUpdateDto;
+import com.sososhopping.domain.user.exception.DuplicatePhoneException;
+import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,32 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserInfoService {
 
-    private final UserAuthRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User updateUserInfo(Long userId, UserInfoUpdateDto dto) {
+    public Long updateUserInfo(Long userId, UserInfoUpdateDto dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
 
-        String phone = dto.getPhone();
-        String password = dto.getPassword();
+        userRepository.findByPhone(dto.getPhone())
+                .ifPresent(existingUser -> {
+                            if (user != existingUser) {
+                                throw new DuplicatePhoneException();
+                            }
+                });
 
-        userRepository.findByPhone(phone)
-                .ifPresent(
-                        existingUser -> {
-                            if (user != existingUser)
-                                throw new Api409Exception("이미 존재하는 번호입니다");
-                        }
-                );
-
-        user.updateUserInfo(dto.getName(), phone, dto.getNickname(), dto.getStreetAddress(), dto.getDetailedAddress());
-
-        if (password != null) {
-            String encodedPassword = passwordEncoder.encode(password);
-            user.updatePassword(encodedPassword);
-        }
-
-        return user;
+        user.updateUserInfo(dto.getName(), dto.getPhone(), dto.getNickname(), dto.getStreetAddress(), dto.getDetailedAddress());
+        return user.getId();
     }
 }
