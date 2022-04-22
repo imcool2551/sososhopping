@@ -1,4 +1,12 @@
-### 중복 이메일 조회
+### 이메일 사용가능 (200)
+POST http://localhost:8080/api/v1/users/auth/signup/validation
+Content-Type: application/json
+
+{
+  "email": "akndvian@gmail.com"
+}
+
+### 중복 이메일 조회 (409)
 POST http://localhost:8080/api/v1/users/auth/signup/validation
 Content-Type: application/json
 
@@ -6,10 +14,3 @@ Content-Type: application/json
   "email": "aaa@gmail.com"
 }
 
-### 이메일 사용가능
-POST http://localhost:8080/api/v1/users/auth/signup/validation
-Content-Type: application/json
-
-{
-  "email": "akndvian@gmail.com"
-}

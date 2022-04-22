@@ -2,10 +2,10 @@ POST http://localhost:8080/api/v1/users/auth/signup
 Content-Type: application/json
 
 {
-     "email": "aaa1@gmail.com",
+     "email": "aaa1324@gmail.com",
      "password": "password",
      "name": "gil",
-     "phone": "01011111112",
+     "phone": "01058585859",
      "nickname": "길동이123",
      "street": "서울시 xx구 xx동 xx대로",
      "detail": "xx동 xx호"

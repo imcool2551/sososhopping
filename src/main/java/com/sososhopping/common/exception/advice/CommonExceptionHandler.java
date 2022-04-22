@@ -1,6 +1,7 @@
-package com.sososhopping.common.exception;
+package com.sososhopping.common.exception.advice;
 
 import com.sososhopping.common.ErrorResponse;
+import com.sososhopping.common.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -17,8 +19,10 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class CommonExceptionHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<ErrorResponse> validationException(MethodArgumentNotValidException e) {
-        log.error("[MethodArgumentNotValidException]", e);
+    public ResponseEntity<ErrorResponse> validationException(
+            HttpServletRequest request, MethodArgumentNotValidException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
 
         String errorMessage = e.getBindingResult()
                 .getAllErrors()
@@ -30,12 +34,24 @@ public class CommonExceptionHandler {
                 .body(new ErrorResponse(errorMessage));
     }
 
+    @ExceptionHandler({UnAuthorizedException.class})
+    public ResponseEntity<ErrorResponse> unAuthorizedException(
+            HttpServletRequest request, UnAuthorizedException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
     @ExceptionHandler({SQLException.class})
-    public ResponseEntity<ErrorResponse> sqlException(SQLException e) {
-        log.error("[SQLException]", e);
+    public ResponseEntity<ErrorResponse> sqlException(HttpServletRequest request, SQLException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
 
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("database error"));
+                .body(new ErrorResponse("something went wrong"));
     }
 }

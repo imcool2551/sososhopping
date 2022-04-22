@@ -28,12 +28,6 @@ public class UserAuthController {
     private final UserAuthRepository userRepository;
     private final UserAuthService authService;
 
-    @ResponseStatus(CREATED)
-    @PostMapping("/users/auth/signup")
-    public void userSignup(@RequestBody @Valid UserSignupDto dto) {
-        authService.userSignUp(dto);
-    }
-
     @PostMapping("/users/auth/signup/validation")
     public ResponseEntity<ApiResponse> userCheckDuplicateEmail(
             @RequestBody @Valid UserEmailCheckDto dto) {
@@ -54,6 +48,12 @@ public class UserAuthController {
         }
 
         return new ResponseEntity<>(new ApiResponse("phone number is ok to use"), OK);
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/users/auth/signup")
+    public void userSignup(@RequestBody @Valid UserSignupDto dto) {
+        authService.userSignUp(dto);
     }
 
     @PostMapping("/users/auth/login")
