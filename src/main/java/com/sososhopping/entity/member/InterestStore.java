@@ -3,28 +3,33 @@ package com.sososhopping.entity.member;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@IdClass(InterestStoreId.class)
 public class InterestStore {
-    @Id @NotNull
+
+    @Id @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "interest_store_id")
+    private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Id @NotNull
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "user_id")
     private Store store;
+
+    public InterestStore(User user, Store store) {
+        this.user = user;
+        this.store = store;
+    }
 }
