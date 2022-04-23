@@ -1,6 +1,6 @@
 package com.sososhopping.controller.admin;
 
-import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
+import com.sososhopping.domain.auth.dto.request.AdminLoginDto;
 import com.sososhopping.entity.report.StoreReport;
 import com.sososhopping.entity.report.UserReport;
 import com.sososhopping.entity.store.Store;
@@ -32,7 +32,7 @@ public class AdminController {
     private final StoreReportRepository storeReportRepository;
 
     @GetMapping("/admin/login")
-    private String loginForm(@ModelAttribute("adminVO") AdminAuthRequestDto adminVO) {
+    private String loginForm(@ModelAttribute("adminVO") AdminLoginDto adminVO) {
         return "admin/login";
     }
 

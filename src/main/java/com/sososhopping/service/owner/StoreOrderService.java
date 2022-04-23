@@ -5,7 +5,7 @@ import com.sososhopping.common.error.Api403Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.member.UserPoint;
 import com.sososhopping.entity.orders.Order;

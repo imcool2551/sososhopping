@@ -1,6 +1,6 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.entity.store.StoreType;

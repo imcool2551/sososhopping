@@ -1,6 +1,7 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.owner;
 
 import com.sososhopping.entity.BaseTimeEntity;
+import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Builder;

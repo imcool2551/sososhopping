@@ -7,7 +7,7 @@ import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.member.InterestStore;
 import com.sososhopping.entity.member.Review;
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

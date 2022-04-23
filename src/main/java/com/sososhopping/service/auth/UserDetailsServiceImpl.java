@@ -4,9 +4,9 @@ import com.sososhopping.security.AuthMember;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.entity.member.Admin;
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.member.AdminRepository;
+import com.sososhopping.domain.auth.repository.AdminAuthRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserAuthRepository userRepository;
     private final OwnerAuthRepository ownerRepository;
-    private final AdminRepository adminRepository;
+    private final AdminAuthRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {

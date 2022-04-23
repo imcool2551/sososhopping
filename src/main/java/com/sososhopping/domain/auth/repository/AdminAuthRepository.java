@@ -1,4 +1,4 @@
-package com.sososhopping.repository.member;
+package com.sososhopping.domain.auth.repository;
 
 import com.sososhopping.entity.member.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,11 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long> {
+public interface AdminAuthRepository extends JpaRepository<Admin, Long> {
 
-    //닉네임 찾기
     Optional<Admin> findByNickname(String nickname);
-
-    //닉네임 중복 방지
-    boolean existsByNickname(String nickname);
 }

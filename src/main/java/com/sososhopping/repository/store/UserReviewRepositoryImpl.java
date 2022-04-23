@@ -8,8 +8,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.sososhopping.entity.member.QReview.review;
-import static com.sososhopping.entity.member.QUser.user;
 import static com.sososhopping.entity.store.QStore.store;
+import static com.sososhopping.entity.user.QUser.user;
 
 
 public class UserReviewRepositoryImpl implements UserReviewRepository {

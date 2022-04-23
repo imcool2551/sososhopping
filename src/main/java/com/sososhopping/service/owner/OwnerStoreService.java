@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import com.sososhopping.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreBusinessDay;
 import com.sososhopping.entity.store.StoreMetaData;

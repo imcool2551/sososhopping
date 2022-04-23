@@ -1,6 +1,6 @@
 package com.sososhopping.domain.owner.dto.response;
 
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import lombok.Data;
 
 @Data

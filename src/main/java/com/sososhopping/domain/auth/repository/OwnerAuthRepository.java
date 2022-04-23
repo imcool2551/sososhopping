@@ -1,6 +1,6 @@
 package com.sososhopping.domain.auth.repository;
 
-import com.sososhopping.entity.member.Owner;
+import com.sososhopping.entity.owner.Owner;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
