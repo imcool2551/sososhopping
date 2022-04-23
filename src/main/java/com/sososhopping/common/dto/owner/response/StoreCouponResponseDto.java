@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 public class StoreCouponResponseDto {
     private Long storeId;
     private Long id;
-    private String storeName;
     private String couponName;
     private Integer stockQuantity;
     private String couponCode;
@@ -31,16 +30,15 @@ public class StoreCouponResponseDto {
     public StoreCouponResponseDto(Coupon coupon, Long storeId) {
         this.storeId = storeId;
         this.id = coupon.getId();
-        this.storeName = coupon.getStoreName();
         this.couponName = coupon.getCouponName();
         this.stockQuantity = coupon.getStockQuantity();
         this.couponCode = coupon.getCouponCode();
         this.minimumOrderPrice = coupon.getMinimumOrderPrice();
-        this.issuedStartDate = coupon.getIssuedStartDate()
+        this.issuedStartDate = coupon.getIssueStartDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        this.issuedDueDate = coupon.getIssuedDueDate()
+        this.issuedDueDate = coupon.getIssueDueDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        this.expiryDate = coupon.getExpiryDate()
+        this.expiryDate = coupon.getExpiresAt()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         this.couponType = coupon.getCouponType();
 

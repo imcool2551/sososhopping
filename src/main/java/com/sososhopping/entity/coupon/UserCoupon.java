@@ -47,7 +47,7 @@ public class UserCoupon extends BaseTimeEntity {
         if (used == true) {
             throw new Api400Exception("이미 사용한 쿠폰입니다");
         }
-        if (coupon.expiryDate.isBefore(LocalDateTime.now())) {
+        if (coupon.expiresAt.isBefore(LocalDateTime.now())) {
             throw new Api400Exception("사용기한이 지났습니다");
         }
         used = true;

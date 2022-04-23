@@ -31,11 +31,11 @@ public class CouponDto {
         stockQuantity = coupon.getStockQuantity();
         couponCode = coupon.getCouponCode();
         minimumOrderPrice = coupon.getMinimumOrderPrice();
-        issuedStartDate = coupon.getIssuedStartDate()
+        issuedStartDate = coupon.getIssueStartDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        issuedDueDate = coupon.getIssuedDueDate()
+        issuedDueDate = coupon.getIssueDueDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        expiryDate = coupon.getExpiryDate()
+        expiryDate = coupon.getExpiresAt()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         couponType = coupon.getCouponType();
         if (coupon instanceof FixCoupon) {

@@ -4,16 +4,16 @@ import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -27,55 +27,33 @@ public abstract class Coupon extends BaseTimeEntity {
     @Column(name = "coupon_id")
     private Long id;
 
-    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     protected Store store;
 
-    @NotNull
-    protected String storeName;
-
-    @Column(name = "coupon_name")
     protected String couponName;
 
-    @NotNull
-    protected Integer stockQuantity;
+    protected int stockQuantity;
 
-    @NotNull
-    @Column(unique = true, columnDefinition = "char")
     protected String couponCode;
 
-    @NotNull
-    protected Integer minimumOrderPrice;
+    protected int minimumOrderPrice;
 
-    @NotNull
-    protected LocalDateTime issuedStartDate;
+    protected LocalDateTime issueStartDate;
 
-    @NotNull
-    protected LocalDateTime issuedDueDate;
+    protected LocalDateTime issueDueDate;
 
-    @NotNull
-    protected LocalDateTime expiryDate;
+    protected LocalDateTime expireDate;
 
-    @Column(name = "coupon_type", insertable = false, updatable = false)
     protected String couponType;
 
-    public Coupon(
-            String storeName,
-            String couponName,
-            Integer stockQuantity,
-            String couponCode,
-            Integer minimumOrderPrice,
-            LocalDateTime startDate,
-            LocalDateTime dueDate
-    ) {
-        this.storeName = storeName;
+    public Coupon(String couponName, Integer stockQuantity, String couponCode, Integer minimumOrderPrice, LocalDateTime startDate, LocalDateTime dueDate) {
         this.couponName = couponName;
         this.stockQuantity = stockQuantity;
         this.couponCode = couponCode;
         this.minimumOrderPrice = minimumOrderPrice;
-        this.issuedStartDate = startDate;
-        this.issuedDueDate = dueDate;
+        this.issueStartDate = startDate;
+        this.issueDueDate = dueDate;
     }
 
     abstract public int getDiscountPrice(int orderPrice);
@@ -83,25 +61,23 @@ public abstract class Coupon extends BaseTimeEntity {
 
     public Coupon(Store store, StoreCouponRequestDto dto, String couponCode) {
         this.store = store;
-        this.storeName = store.getName();
         this.couponName = dto.getCouponName();
         this.stockQuantity = dto.getStockQuantity();
         this.minimumOrderPrice = dto.getMinimumOrderPrice();
-        this.issuedStartDate = LocalDateTime.parse(dto.getIssuedStartDate() + " 00:00:00",
+        this.issueStartDate = LocalDateTime.parse(dto.getIssuedStartDate() + " 00:00:00",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.issuedDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
+        this.issueDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.expiryDate = LocalDateTime.parse(dto.getExpiryDate() + " 23:59:59",
+        this.expireDate = LocalDateTime.parse(dto.getExpiryDate() + " 23:59:59",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         this.couponCode = couponCode;
     }
 
     public void update(StoreCouponRequestDto dto) {
-        this.issuedDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
+        this.issueDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }
 
-    // Business Logic
     public Coupon issueCoupon() {
         if (!hasStock()) {
             throw new Api400Exception("쿠폰 재고가 없습니다");
@@ -130,6 +106,6 @@ public abstract class Coupon extends BaseTimeEntity {
     }
 
     private boolean isBeingIssuedAt(LocalDateTime at) {
-        return at.isAfter(issuedStartDate) && at.isBefore(issuedDueDate);
+        return at.isAfter(issueStartDate) && at.isBefore(issueDueDate);
     }
 }

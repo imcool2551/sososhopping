@@ -93,8 +93,8 @@ public class StoreCouponService {
         Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 쿠폰입니다"));
 
-        if (coupon.getExpiryDate().isBefore(LocalDateTime.now())
-                || coupon.getIssuedStartDate().isAfter(LocalDateTime.now())) {
+        if (coupon.getExpiresAt().isBefore(LocalDateTime.now())
+                || coupon.getIssueStartDate().isAfter(LocalDateTime.now())) {
             couponRepository.delete(coupon);
         } else {
             throw new Api400Exception("아직 삭제할 수 없는 쿠폰입니다");
