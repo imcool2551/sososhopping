@@ -3,39 +3,42 @@ package com.sososhopping.entity.coupon;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.user.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Getter @Setter
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@IdClass(UserCouponId.class)
 public class UserCoupon extends BaseTimeEntity {
 
-    @Id
-    @NotNull
+    @Id @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "user_coupon_id")
+    private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Id
-    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 
-    @NotNull
-    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
-    private Boolean used;
+    private boolean used;
+
+    public UserCoupon(User user, Coupon coupon, boolean used) {
+        this.user = user;
+        this.coupon = coupon;
+        this.used = used;
+    }
 
     public static UserCoupon buildUserCoupon(User user, Coupon coupon) {
         coupon.issueCoupon();
@@ -47,7 +50,7 @@ public class UserCoupon extends BaseTimeEntity {
         if (used == true) {
             throw new Api400Exception("이미 사용한 쿠폰입니다");
         }
-        if (coupon.expiresAt.isBefore(LocalDateTime.now())) {
+        if (coupon.expireDate.isBefore(LocalDateTime.now())) {
             throw new Api400Exception("사용기한이 지났습니다");
         }
         used = true;

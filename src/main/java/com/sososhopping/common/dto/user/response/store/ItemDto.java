@@ -12,7 +12,7 @@ public class ItemDto {
     private String purchaseUnit;
     private String imgUrl;
     private Integer price;
-    private Boolean saleStatus;
+    private boolean saleStatus;
 
     public ItemDto(Item item) {
         itemId = item.getId();
@@ -21,6 +21,6 @@ public class ItemDto {
         purchaseUnit = item.getPurchaseUnit();
         imgUrl = item.getImgUrl();
         price = item.getPrice();
-        saleStatus = item.getSaleStatus();
+        saleStatus = item.isOnSale();
     }
 }

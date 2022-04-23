@@ -22,7 +22,6 @@ public class RateCoupon extends Coupon {
 
     @Builder
     public RateCoupon(
-            String storeName,
             String couponName,
             Integer stockQuantity,
             String couponCode,
@@ -31,7 +30,7 @@ public class RateCoupon extends Coupon {
             LocalDateTime dueDate,
             BigDecimal rateAmount
     ) {
-        super(storeName, couponName, stockQuantity, couponCode, minimumOrderPrice, startDate, dueDate);
+        super(couponName, stockQuantity, couponCode, minimumOrderPrice, startDate, dueDate);
         this.rateAmount = rateAmount;
     }
 

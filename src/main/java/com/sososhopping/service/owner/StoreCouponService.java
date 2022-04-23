@@ -88,18 +88,18 @@ public class StoreCouponService {
         coupon.update(dto);
     }
 
-    @Transactional
-    public void deleteCoupon(Long storeId, Long couponId) {
-        Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 쿠폰입니다"));
-
-        if (coupon.getExpiresAt().isBefore(LocalDateTime.now())
-                || coupon.getIssueStartDate().isAfter(LocalDateTime.now())) {
-            couponRepository.delete(coupon);
-        } else {
-            throw new Api400Exception("아직 삭제할 수 없는 쿠폰입니다");
-        }
-    }
+//    @Transactional
+//    public void deleteCoupon(Long storeId, Long couponId) {
+//        Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
+//                new Api400Exception("존재하지 않는 쿠폰입니다"));
+//
+//        if (coupon.getExpiresAt().isBefore(LocalDateTime.now())
+//                || coupon.getIssueStartDate().isAfter(LocalDateTime.now())) {
+//            couponRepository.delete(coupon);
+//        } else {
+//            throw new Api400Exception("아직 삭제할 수 없는 쿠폰입니다");
+//        }
+//    }
 
     @Transactional
     public UserCouponResponseDto readUserCoupon(Long storeId, String phone, String couponCode) {
@@ -118,25 +118,25 @@ public class StoreCouponService {
     }
 
     @Transactional
-    public void deleteCouponDirectly(Long storeId, String phone, String couponCode) {
-        User user = userRepository.findByPhone(phone).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 고객입니다"));
-
-        Coupon coupon = couponRepository.findByCouponCode(couponCode).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 쿠폰입니다"));
-
-        if (!Objects.equals(coupon.getStore().getId(), storeId))
-            throw new Api404Exception("올바르지 않은 점포의 쿠폰입니다");
-
-        UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
-                new Api404Exception("고객이 쿠폰을 받은 기록이 없습니다"));
-
-        try {
-            userCoupon.use();
-        } catch (Api400Exception e) {
-            throw new Api403Exception("사용할 수 없는 쿠폰입니다");
-        }
-    }
+//    public void deleteCouponDirectly(Long storeId, String phone, String couponCode) {
+//        User user = userRepository.findByPhone(phone).orElseThrow(() ->
+//                new Api400Exception("존재하지 않는 고객입니다"));
+//
+//        Coupon coupon = couponRepository.findByCouponCode(couponCode).orElseThrow(() ->
+//                new Api400Exception("존재하지 않는 쿠폰입니다"));
+//
+//        if (!Objects.equals(coupon.getStore().getId(), storeId))
+//            throw new Api404Exception("올바르지 않은 점포의 쿠폰입니다");
+//
+//        UserCoupon userCoupon = userCouponRepository.findById(new UserCouponId(user.getId(), coupon.getId())).orElseThrow(() ->
+//                new Api404Exception("고객이 쿠폰을 받은 기록이 없습니다"));
+//
+//        try {
+//            userCoupon.use();
+//        } catch (Api400Exception e) {
+//            throw new Api403Exception("사용할 수 없는 쿠폰입니다");
+//        }
+//    }
 
     private String createCode() {
         final char[] codeCharacters = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'

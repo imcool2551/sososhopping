@@ -1,7 +1,6 @@
 package com.sososhopping.repository.store;
 
 import com.sososhopping.entity.member.Review;
-import com.sososhopping.entity.member.ReviewId;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ReviewRepository extends JpaRepository<Review, ReviewId>, UserReviewRepository {
+public interface ReviewRepository extends JpaRepository<Review, Long>, UserReviewRepository {
 
     boolean existsByUserAndStore(User user, Store store);
 

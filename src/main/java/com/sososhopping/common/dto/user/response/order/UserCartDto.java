@@ -44,7 +44,7 @@ public class UserCartDto {
             imgUrl = item.getImgUrl();
             description = item.getDescription();
             price = item.getPrice();
-            saleStatus = item.getSaleStatus();
+            saleStatus = item.isOnSale();
             num = n;
         }
     }

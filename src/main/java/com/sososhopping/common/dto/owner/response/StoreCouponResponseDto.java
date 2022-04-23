@@ -38,8 +38,6 @@ public class StoreCouponResponseDto {
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         this.issuedDueDate = coupon.getIssueDueDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        this.expiryDate = coupon.getExpiresAt()
-                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         this.couponType = coupon.getCouponType();
 
         if (coupon instanceof FixCoupon) {

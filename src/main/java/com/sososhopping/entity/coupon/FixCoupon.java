@@ -26,7 +26,6 @@ public class FixCoupon extends Coupon {
 
     @Builder
     public FixCoupon(
-            String storeName,
             String couponName,
             Integer stockQuantity,
             String couponCode,
@@ -35,7 +34,7 @@ public class FixCoupon extends Coupon {
             LocalDateTime dueDate,
             Integer fixAmount
     ) {
-        super(storeName, couponName, stockQuantity, couponCode, minimumOrderPrice, startDate, dueDate);
+        super(couponName, stockQuantity, couponCode, minimumOrderPrice, startDate, dueDate);
         this.fixAmount = fixAmount;
     }
 

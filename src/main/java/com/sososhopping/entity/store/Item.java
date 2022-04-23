@@ -2,34 +2,30 @@ package com.sososhopping.entity.store;
 
 import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.entity.BaseTimeEntity;
-import lombok.*;
-import org.hibernate.annotations.Type;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
-@Builder
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Item extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
 
-    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @NotNull
     private String name;
 
     private String description;
@@ -38,20 +34,22 @@ public class Item extends BaseTimeEntity {
 
     private String imgUrl;
 
-    @NotNull
-    private Integer price;
+    private int price;
 
-    @NotNull
-    @Type(type = "numeric_boolean")
-    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
-    private Boolean saleStatus;
+    private boolean onSale;
 
-    // 연관 관계 편의 메서드
-    public void setStore(Store store) {
+    @Builder
+    public Item(Store store, String name, String description, String purchaseUnit, String imgUrl, int price, boolean onSale) {
         this.store = store;
-        this.store.getItems().add(this);
+        this.name = name;
+        this.description = description;
+        this.purchaseUnit = purchaseUnit;
+        this.imgUrl = imgUrl;
+        this.price = price;
+        this.onSale = onSale;
     }
 
+    // 연관 관계 편의 메서드
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
@@ -61,11 +59,11 @@ public class Item extends BaseTimeEntity {
         this.description = dto.getDescription();
         this.purchaseUnit = dto.getPurchaseUnit();
         this.price = dto.getPrice();
-        this.saleStatus = dto.getSaleStatus();
+        this.onSale = dto.getSaleStatus();
     }
 
     // Business Logic
     public boolean canBeProvidedBy(Store store) {
-        return this.store == store && saleStatus;
+        return this.store == store && onSale;
     }
 }

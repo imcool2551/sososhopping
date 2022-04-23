@@ -25,6 +25,6 @@ public class StoreItemResponseDto {
         this.purchaseUnit = item.getPurchaseUnit();
         this.imgUrl = item.getImgUrl();
         this.price = item.getPrice();
-        this.saleStatus = item.getSaleStatus();
+        this.saleStatus = item.isOnSale();
     }
 }

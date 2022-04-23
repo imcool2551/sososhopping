@@ -1,6 +1,5 @@
 package com.sososhopping.controller.owner;
 
-import com.sososhopping.common.dto.owner.request.UserCouponUsageRequestDto;
 import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreCouponListResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreCouponResponseDto;
@@ -75,13 +74,13 @@ public class StoreCouponController {
     }
     
     //쿠폰 삭제
-    @DeleteMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")
-    public ResponseEntity deleteCoupon(@PathVariable(value = "storeId") Long storeId
-            , @PathVariable(value = "couponId") Long couponId) {
-        storeCouponService.deleteCoupon(storeId, couponId);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @DeleteMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")
+//    public ResponseEntity deleteCoupon(@PathVariable(value = "storeId") Long storeId
+//            , @PathVariable(value = "couponId") Long couponId) {
+//        storeCouponService.deleteCoupon(storeId, couponId);
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
     //고객 쿠폰 중도 조회
     @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
@@ -96,12 +95,12 @@ public class StoreCouponController {
     }
 
     //고객 쿠폰 직접 삭제
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
-    public ResponseEntity deleteCouponDirectly(
-            @PathVariable(value = "storeId") Long storeId
-            , @RequestBody UserCouponUsageRequestDto dto) {
-        storeCouponService.deleteCouponDirectly(storeId, dto.getPhone(), dto.getCouponCode());
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon/local")
+//    public ResponseEntity deleteCouponDirectly(
+//            @PathVariable(value = "storeId") Long storeId
+//            , @RequestBody UserCouponUsageRequestDto dto) {
+//        storeCouponService.deleteCouponDirectly(storeId, dto.getPhone(), dto.getCouponCode());
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 }

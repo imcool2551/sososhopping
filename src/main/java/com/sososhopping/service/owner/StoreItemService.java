@@ -51,7 +51,7 @@ public class StoreItemService {
                 .description(dto.getDescription())
                 .purchaseUnit(dto.getPurchaseUnit())
                 .price(dto.getPrice())
-                .saleStatus(dto.getSaleStatus())
+                .onSale(dto.getSaleStatus())
                 .build();
 
         em.persist(item);

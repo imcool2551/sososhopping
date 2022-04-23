@@ -26,7 +26,6 @@ public class CouponDto {
 
     public CouponDto(Coupon coupon) {
         couponId = coupon.getId();
-        storeName = coupon.getStoreName();
         couponName = coupon.getCouponName();
         stockQuantity = coupon.getStockQuantity();
         couponCode = coupon.getCouponCode();
@@ -34,8 +33,6 @@ public class CouponDto {
         issuedStartDate = coupon.getIssueStartDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         issuedDueDate = coupon.getIssueDueDate()
-                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        expiryDate = coupon.getExpiresAt()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         couponType = coupon.getCouponType();
         if (coupon instanceof FixCoupon) {

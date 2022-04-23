@@ -6,7 +6,7 @@ CREATE TABLE item (
     purchase_unit VARCHAR(20),
     img_url VARCHAR(512),
     price INT NOT NULL,
-    sale_status TINYINT(1) NOT NULL,
+    on_sale TINYINT NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (item_id)
