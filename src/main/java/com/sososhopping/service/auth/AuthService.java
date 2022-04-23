@@ -3,19 +3,21 @@ package com.sososhopping.service.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.common.dto.AuthToken;
-import com.sososhopping.common.dto.auth.request.*;
-import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
+import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerSignUpRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.repository.member.AdminRepository;
-import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,14 +40,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final FirebaseAuth firebaseAuth;
 
-    /**
-     * 점주 관련 인증
-     */
-    //점주 이메일 중복 확인
-    @Transactional
-    public boolean ownerSignUpValidation(String email){
-        return !ownerRepository.existsByEmail(email);
-    }
 
     //점주 회원가입
     @Transactional
@@ -81,32 +75,6 @@ public class AuthService {
         String firebaseToken = createFirebaseToken("O" + owner.getId());
 
         return new AuthToken(apiToken, firebaseToken);
-    }
-
-    @Transactional
-    public OwnerFindEmailResponseDto findOwnerEmail(OwnerFindEmailRequestDto dto) {
-        Owner owner = ownerRepository.findByNameAndPhone(dto.getName(), dto.getPhone())
-                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
-
-        if(!owner.isActive()) {
-            throw new Api400Exception("비활성화 계정입니다");
-        }
-
-        return new OwnerFindEmailResponseDto(owner.getEmail());
-    }
-
-    @Transactional
-    public void findOwnerPassword(OwnerFindPasswordRequestDto dto) {
-        Owner owner = ownerRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
-
-        if (!owner.credentialsMatch(dto.getName(), dto.getPhone())) {
-            throw new Api404Exception("개인정보가 일치하지 않습니다");
-        }
-
-        if (!owner.isActive()) {
-            throw new Api404Exception("비활성화 계정입니다");
-        }
     }
 
     @Transactional

@@ -2,43 +2,55 @@ package com.sososhopping.entity.member;
 
 import com.sososhopping.entity.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
+import static javax.persistence.EnumType.*;
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Owner extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "owner_id")
     private Long id;
 
-    @NotNull
     @Column(unique = true)
     private String email;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String name;
 
-    @NotNull
-    @Column(unique = true, columnDefinition = "char")
+    @Column(unique = true, columnDefinition = "char", length = 11)
     private String phone;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private AccountStatus active;
 
+    @Builder
+    public Owner(String email,
+                 String password,
+                 String name,
+                 String phone,
+                 AccountStatus active) {
+
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.active = active;
+    }
 
     //List
     @OneToMany(mappedBy = "owner")
@@ -48,24 +60,8 @@ public class Owner extends BaseTimeEntity {
         return active == AccountStatus.ACTIVE;
     }
 
-    public boolean credentialsMatch(String name, String phone) {
-        return this.name.equals(name) && this.phone.equals(phone);
-    }
-
-    public boolean passwordMatch(String password) {
-        return this.password.equals(password);
-    }
-
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
     public void updateInfo(String name, String phone) {
         this.name = name;
         this.phone = phone;
-    }
-
-    public void updatePassword(String newPassword) {
-        password = newPassword;
     }
 }

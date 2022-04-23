@@ -30,14 +30,6 @@ public class AuthController {
     /**
      * 점주 관련 인증
      */
-    //점주 이메일 중복 확인
-    @PostMapping(value = "/api/v1/owner/auth/signup/validation")
-    public ResponseEntity ownerSignUpValidation(@RequestBody OwnerSignUpRequestDto dto) {
-        if(authService.ownerSignUpValidation(dto.getEmail()))
-            return new ResponseEntity(HttpStatus.OK);
-        else
-            return new ResponseEntity(HttpStatus.CONFLICT);
-    }
 
     //점주 회원가입
     @PostMapping(value = "/api/v1/owner/auth/signup")

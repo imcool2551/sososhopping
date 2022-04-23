@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 import static com.sososhopping.entity.member.AccountStatus.ACTIVE;
 import static com.sososhopping.entity.member.AccountStatus.SUSPEND;
+import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -41,7 +42,7 @@ public class User extends BaseTimeEntity {
 
     private String detailedAddress;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private AccountStatus active;
 
     @Builder
@@ -64,7 +65,6 @@ public class User extends BaseTimeEntity {
         this.active = active;
     }
 
-    // Business Logic
     public void suspend() {
         active = SUSPEND;
     }
