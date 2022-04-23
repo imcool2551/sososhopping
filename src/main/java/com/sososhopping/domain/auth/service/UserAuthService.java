@@ -25,7 +25,7 @@ public class UserAuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
 
-    public void userSignUp(UserSignupDto dto) {
+    public void signup(UserSignupDto dto) {
         User user = User.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -40,7 +40,7 @@ public class UserAuthService {
         userRepository.save(user);
     }
 
-    public LoginResponse userLogin(String email, String password) {
+    public LoginResponse login(String email, String password) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(InvalidCredentialsException::new);

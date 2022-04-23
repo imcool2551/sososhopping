@@ -6,7 +6,6 @@ import com.google.firebase.auth.UserRecord;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
 import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api401Exception;
@@ -14,7 +13,6 @@ import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.repository.member.AdminRepository;
@@ -40,27 +38,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final FirebaseAuth firebaseAuth;
 
-
-    //점주 회원가입
-    @Transactional
-    public void ownerSignUp(OwnerSignUpDto dto) {
-        if(ownerRepository.existsByEmail(dto.getEmail())){
-            throw new Api400Exception("중복된 아이디입니다");
-        }
-
-        //계정 저장
-        Owner owner = Owner.builder()
-                .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .name(dto.getName())
-                .phone(dto.getPhone())
-                .active(AccountStatus.ACTIVE)
-                .build();
-
-        ownerRepository.save(owner);
-
-        createFirebaseAccount("O" + owner.getId(), owner.getEmail(), owner.getName());
-    }
 
     //점주 로그인
     @Transactional

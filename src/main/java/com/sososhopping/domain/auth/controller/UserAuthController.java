@@ -53,14 +53,11 @@ public class UserAuthController {
     @ResponseStatus(CREATED)
     @PostMapping("/users/auth/signup")
     public void userSignup(@RequestBody @Valid UserSignupDto dto) {
-        authService.userSignUp(dto);
+        authService.signup(dto);
     }
 
     @PostMapping("/users/auth/login")
-    public ResponseEntity<LoginResponse> userLogin(
-            @RequestBody @Valid UserLoginDto dto) {
-
-        LoginResponse response = authService.userLogin(dto.getEmail(), dto.getPassword());
-        return new ResponseEntity<>(response, OK);
+    public LoginResponse userLogin(@RequestBody @Valid UserLoginDto dto) {
+        return authService.login(dto.getEmail(), dto.getPassword());
     }
 }
