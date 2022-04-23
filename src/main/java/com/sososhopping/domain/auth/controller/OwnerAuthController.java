@@ -1,17 +1,21 @@
 package com.sososhopping.domain.auth.controller;
 
 import com.sososhopping.common.ApiResponse;
-import com.sososhopping.domain.auth.dto.request.OwnerEmailCheckDto;
+import com.sososhopping.domain.auth.dto.request.DuplicateEmailCheckDto;
+import com.sososhopping.domain.auth.dto.request.DuplicatePhoneCheckDto;
+import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestController
@@ -20,14 +24,32 @@ public class OwnerAuthController {
 
     private final OwnerAuthRepository ownerRepository;
 
-    @PostMapping("/owner/auth/signup/validation")
+    @PostMapping("/owner/auth/signup/validation/email")
     public ResponseEntity<ApiResponse> ownerCheckDuplicateEmail(
-            @RequestBody @Valid OwnerEmailCheckDto dto) {
+            @RequestBody @Valid DuplicateEmailCheckDto dto) {
 
         if (ownerRepository.existsByEmail(dto.getEmail())) {
-            return new ResponseEntity<>(new ApiResponse("email already in use"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ApiResponse("email already in use"), CONFLICT);
         }
 
-        return new ResponseEntity<>(new ApiResponse("email is ok to use"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("email is ok to use"), OK);
+    }
+
+    @PostMapping("/owner/auth/signup/validation/phone")
+    public ResponseEntity<ApiResponse> ownerCheckDuplicatePhone(
+            @RequestBody @Valid DuplicatePhoneCheckDto dto) {
+
+        if (ownerRepository.existsByPhone(dto.getPhone())) {
+            return new ResponseEntity<>(new ApiResponse("phone already in use"), CONFLICT);
+        }
+
+        return new ResponseEntity<>(new ApiResponse("phone is ok to use"), OK);
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/owner/auth/signup")
+    public void ownerSignup(@RequestBody @Valid OwnerSignUpDto dto) {
+
+
     }
 }

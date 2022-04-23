@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserPhoneCheckDto {
+public class DuplicatePhoneCheckDto {
 
     @NotNull(message = "핸드폰 필수")
     @NotBlank(message = "핸드폰 필수")

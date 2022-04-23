@@ -1,5 +1,5 @@
 ### 핸드폰 사용 가능 (200)
-POST http://localhost:8080/api/v1/users/auth/signup/phone
+POST http://localhost:8080/api/v1/users/auth/signup/validation/phone
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 중복 핸드폰 조회 (409)
-POST http://localhost:8080/api/v1/users/auth/signup/phone
+POST http://localhost:8080/api/v1/users/auth/signup/validation/phone
 Content-Type: application/json
 
 {

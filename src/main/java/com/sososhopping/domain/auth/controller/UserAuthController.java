@@ -1,9 +1,9 @@
 package com.sososhopping.domain.auth.controller;
 
 import com.sososhopping.common.ApiResponse;
-import com.sososhopping.domain.auth.dto.request.UserEmailCheckDto;
+import com.sososhopping.domain.auth.dto.request.DuplicateEmailCheckDto;
 import com.sososhopping.domain.auth.dto.request.UserLoginDto;
-import com.sososhopping.domain.auth.dto.request.UserPhoneCheckDto;
+import com.sososhopping.domain.auth.dto.request.DuplicatePhoneCheckDto;
 import com.sososhopping.domain.auth.dto.request.UserSignupDto;
 import com.sososhopping.domain.auth.dto.response.LoginResponse;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
@@ -28,9 +28,9 @@ public class UserAuthController {
     private final UserAuthRepository userRepository;
     private final UserAuthService authService;
 
-    @PostMapping("/users/auth/signup/validation")
+    @PostMapping("/users/auth/signup/validation/email")
     public ResponseEntity<ApiResponse> userCheckDuplicateEmail(
-            @RequestBody @Valid UserEmailCheckDto dto) {
+            @RequestBody @Valid DuplicateEmailCheckDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             return new ResponseEntity<>(new ApiResponse("email already in use"), CONFLICT);
@@ -39,9 +39,9 @@ public class UserAuthController {
         return new ResponseEntity<>(new ApiResponse("email is ok to use"), OK);
     }
 
-    @PostMapping("/users/auth/signup/phone")
+    @PostMapping("/users/auth/signup/validation/phone")
     public ResponseEntity<ApiResponse> userCheckDuplicatePhone(
-            @RequestBody @Valid UserPhoneCheckDto dto) {
+            @RequestBody @Valid DuplicatePhoneCheckDto dto) {
 
         if (userRepository.existsByPhone(dto.getPhone())) {
             return new ResponseEntity<>(new ApiResponse("phone number already in use"), CONFLICT);

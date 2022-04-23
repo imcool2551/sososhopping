@@ -14,11 +14,11 @@ public interface OwnerAuthRepository extends JpaRepository<Owner, Long> {
 
     boolean existsByEmail(String email);
 
+    boolean existsByPhone(String phone);
+
     //조인을 통해 가게도 동시에
     @EntityGraph(attributePaths = "stores", type = EntityGraph.EntityGraphType.FETCH)
     Optional<Owner> findOwnerStoresById(Long id);
-
-    Optional<Owner> findByNameAndPhone(String name, String phone);
 
     Optional<Owner> findByPhone(String phone);
 }

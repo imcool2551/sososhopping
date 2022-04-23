@@ -6,7 +6,7 @@ import com.google.firebase.auth.UserRecord;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
 import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.common.dto.auth.request.OwnerSignUpRequestDto;
+import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api401Exception;
@@ -43,7 +43,7 @@ public class AuthService {
 
     //점주 회원가입
     @Transactional
-    public void ownerSignUp(OwnerSignUpRequestDto dto) {
+    public void ownerSignUp(OwnerSignUpDto dto) {
         if(ownerRepository.existsByEmail(dto.getEmail())){
             throw new Api400Exception("중복된 아이디입니다");
         }
