@@ -10,7 +10,7 @@ import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.order.OrderItemRepository;
 import com.sososhopping.repository.store.ItemRepository;
 import com.sososhopping.repository.store.StoreRepository;
-import com.sososhopping.service.common.S3Service;
+import com.sososhopping.common.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

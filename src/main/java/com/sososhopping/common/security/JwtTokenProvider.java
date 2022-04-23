@@ -1,7 +1,7 @@
-package com.sososhopping.security;
+package com.sososhopping.common.security;
 
 import com.sososhopping.common.error.Api500Exception;
-import com.sososhopping.service.auth.UserDetailsServiceImpl;
+import com.sososhopping.domain.auth.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -27,14 +27,15 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.secret-key}")
     private String secretKey;
 
-    //토큰 기한 1년
+    // 토큰 기한 1년
     private long tokenValidTime = 1000L * 60 * 60 * 24 * 365;
 
     private final UserDetailsServiceImpl userDetailsService;
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        secretKey = Base64.getEncoder()
+                .encodeToString(secretKey.getBytes());
     }
 
     public String createToken(String memberType, Long pk) {

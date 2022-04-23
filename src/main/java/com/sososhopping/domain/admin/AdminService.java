@@ -1,4 +1,4 @@
-package com.sososhopping.service.admin;
+package com.sososhopping.domain.admin;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;

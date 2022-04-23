@@ -7,7 +7,7 @@ import com.sososhopping.domain.auth.exception.InvalidCredentialsException;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.owner.Owner;
-import com.sososhopping.security.JwtTokenProvider;
+import com.sososhopping.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

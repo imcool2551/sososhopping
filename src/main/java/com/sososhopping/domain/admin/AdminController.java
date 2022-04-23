@@ -1,4 +1,4 @@
-package com.sososhopping.controller.admin;
+package com.sososhopping.domain.admin;
 
 import com.sososhopping.domain.auth.dto.request.AdminLoginDto;
 import com.sososhopping.entity.report.StoreReport;
@@ -8,7 +8,6 @@ import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreReportRepository;
 import com.sososhopping.repository.store.StoreRepository;
-import com.sososhopping.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

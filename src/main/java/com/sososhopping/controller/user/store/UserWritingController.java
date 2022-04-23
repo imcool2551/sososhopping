@@ -1,6 +1,6 @@
 package com.sososhopping.controller.user.store;
 
-import com.sososhopping.common.OffsetBasedPageRequest;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.user.response.store.WritingDto;
 import com.sososhopping.common.dto.user.response.store.WritingListDto;

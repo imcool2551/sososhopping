@@ -7,7 +7,7 @@ import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.Writing;
 import com.sososhopping.repository.store.StoreRepository;
 import com.sososhopping.repository.store.WritingRepository;
-import com.sososhopping.service.common.S3Service;
+import com.sososhopping.common.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

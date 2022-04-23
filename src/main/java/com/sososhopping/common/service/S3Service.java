@@ -1,4 +1,4 @@
-package com.sososhopping.service.common;
+package com.sososhopping.common.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

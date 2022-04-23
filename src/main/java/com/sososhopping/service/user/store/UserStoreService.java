@@ -1,6 +1,6 @@
 package com.sososhopping.service.user.store;
 
-import com.sososhopping.common.OffsetBasedPageRequest;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.user.request.store.GetLocalCurrencyStoreDto;
 import com.sososhopping.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.common.dto.user.request.store.GetStoreBySearchDto;

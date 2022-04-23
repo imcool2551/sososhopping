@@ -1,4 +1,4 @@
-package com.sososhopping.security;
+package com.sososhopping.common.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

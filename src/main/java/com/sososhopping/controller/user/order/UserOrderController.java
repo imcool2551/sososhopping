@@ -1,6 +1,6 @@
 package com.sososhopping.controller.user.order;
 
-import com.sososhopping.common.OffsetBasedPageRequest;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.user.request.order.ChangeOrderStatusDto;
 import com.sososhopping.common.dto.user.request.order.OrderCreateDto;

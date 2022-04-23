@@ -11,7 +11,7 @@ import com.sososhopping.entity.store.StoreMetaData;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.store.StoreMetaDataRepository;
 import com.sososhopping.repository.store.StoreRepository;
-import com.sososhopping.service.common.S3Service;
+import com.sososhopping.common.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

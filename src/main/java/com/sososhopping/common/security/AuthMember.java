@@ -1,9 +1,7 @@
-package com.sososhopping.security;
+package com.sososhopping.common.security;
 
 import com.sososhopping.entity.member.AccountStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,16 +12,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Component
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
-@Getter @Builder
 public class AuthMember implements UserDetails {
 
     private String memberType;
     private Long id;
     private AccountStatus accountStatus;
     private String password;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,9 +30,9 @@ public class AuthMember implements UserDetails {
 
         if (this.memberType.equals("A")) {
             authority = new SimpleGrantedAuthority("ROLE_ADMIN");
-        } else if(this.memberType.equals("U")){
+        } else if (this.memberType.equals("U")) {
             authority = new SimpleGrantedAuthority("ROLE_USER");
-        } else if(this.memberType.equals("O")){
+        } else if (this.memberType.equals("O")) {
             authority = new SimpleGrantedAuthority("ROLE_OWNER");
         } else {
             throw new RuntimeException();

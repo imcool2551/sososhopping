@@ -1,6 +1,6 @@
 package com.sososhopping.domain.auth.exception.advice;
 
-import com.sososhopping.common.ErrorResponse;
+import com.sososhopping.common.dto.ErrorResponse;
 import com.sososhopping.domain.auth.exception.InvalidCredentialsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

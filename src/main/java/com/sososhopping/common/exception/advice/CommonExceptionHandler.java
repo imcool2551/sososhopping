@@ -1,6 +1,6 @@
 package com.sososhopping.common.exception.advice;
 
-import com.sososhopping.common.ErrorResponse;
+import com.sososhopping.common.dto.ErrorResponse;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
