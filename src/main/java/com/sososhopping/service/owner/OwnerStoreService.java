@@ -74,7 +74,7 @@ public class OwnerStoreService {
          */
         if (image != null && !image.isEmpty()) {
             try {
-                String imgUrl = s3Service.upload(image, "store/" + store.getId());
+                String imgUrl = s3Service.upload("store/" + store.getId(), image);
                 store.setImgUrl(imgUrl);
             } catch (IOException e) {
                 throw new Api500Exception("이미지 저장에 실패했습니다");
@@ -92,7 +92,7 @@ public class OwnerStoreService {
 
         if (image != null && !image.isEmpty()) {
             try {//이미지 저장 후 url 교체
-                String newImgUrl = s3Service.upload(image, "store/" + store.getId());
+                String newImgUrl = s3Service.upload("store/" + store.getId(), image);
 //                String deleteImgUrl = store.getImgUrl().substring(store.getImgUrl().lastIndexOf("/"));
 //                s3Service.delete("store/" + store.getId() + "/" + deleteImgUrl);
                 store.setImgUrl(newImgUrl);

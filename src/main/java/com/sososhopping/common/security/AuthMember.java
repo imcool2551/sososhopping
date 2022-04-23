@@ -59,8 +59,8 @@ public class AuthMember implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        if (accountStatus != null){
-            if( accountStatus == AccountStatus.ACTIVE) {
+        if (accountStatus != null) {
+            if (accountStatus == AccountStatus.ACTIVE) {
                 return true;
             }
             return false;

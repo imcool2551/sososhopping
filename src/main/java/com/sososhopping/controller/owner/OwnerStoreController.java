@@ -36,9 +36,10 @@ public class OwnerStoreController {
     }
 
     @PostMapping(value = "/api/v1/owner/store")
-    public ResponseEntity createStore(Authentication authentication
-            , @RequestPart(value = "dto") StoreRequestDto dto
-            , @RequestPart(value = "img", required = false) MultipartFile image) {
+    public ResponseEntity createStore(Authentication authentication,
+                                      @RequestPart StoreRequestDto dto,
+                                      @RequestPart MultipartFile image) {
+
         ownerStoreService.createStore(dto, Long.parseLong(authentication.getName()), image);
 
         return new ResponseEntity(HttpStatus.CREATED);

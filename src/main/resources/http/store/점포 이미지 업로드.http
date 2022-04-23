@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/v1/owner/my/store/image
+Content-Type: multipart/form-data; boundary=boundary
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5NCIsIm1lbWJlclR5cGUiOiJPIiwicm9sZXMiOlsiUk9MRV9PV05FUiJdLCJpYXQiOjE2NTA2OTA0NTcsImV4cCI6MTY4MjIyNjQ1N30.OT0g1mzfW-p7kVcxJd7CJs11A5RfBJ7uPtuqSLsLplQ
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="sample.img"
+
+< ../../static/img/sample.jpg
+--boundary
+
+

@@ -20,7 +20,7 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
     private final UserRepository userRepository;
 
-    @GetMapping("/users/info")
+    @GetMapping("/users/my/info")
     public UserInfoResponse getUserInfo(Authentication authentication) {
 
         Long userId = Long.parseLong(authentication.getName());
@@ -30,7 +30,7 @@ public class UserInfoController {
         return new UserInfoResponse(user);
     }
 
-    @PatchMapping("/users/info")
+    @PatchMapping("/users/my/info")
     public void updateUserInfo(Authentication authentication,
                                @RequestBody @Valid UserInfoUpdateDto dto) {
 

@@ -58,7 +58,7 @@ public class StoreItemService {
 
         if (image != null && !image.isEmpty()) {
             try {
-                String imgUrl = s3Service.upload(image, "store/" + storeId + "/item/" + item.getId());
+                String imgUrl = s3Service.upload("store/" + storeId + "/item/" + item.getId(), image);
                 item.setImgUrl(imgUrl);
                 // 이전 url 삭제 기능 미구현
             } catch (IOException e) {
@@ -83,7 +83,7 @@ public class StoreItemService {
 
         if (image != null && !image.isEmpty()) {
             try {
-                String newImgUrl = s3Service.upload(image, "store/" + storeId + "/item/" + item.getId());
+                String newImgUrl = s3Service.upload("store/" + storeId + "/item/" + item.getId(), image);
                 item.setImgUrl(newImgUrl);
                 // 이전 url 삭제 기능 미구현
             } catch (IOException e) {
