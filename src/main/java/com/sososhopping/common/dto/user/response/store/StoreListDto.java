@@ -42,7 +42,6 @@ public class StoreListDto implements Comparable<StoreListDto> {
         phone = store.getPhone();
         imgUrl = store.getImgUrl();
         businessStatus = store.getBusinessStatus();
-        localCurrencyStatus = store.getLocalCurrencyStatus();
         pickupStatus = store.getPickupStatus() ;
         deliveryStatus = store.getDeliveryStatus();
         location = new Coordinate(
@@ -70,7 +69,6 @@ public class StoreListDto implements Comparable<StoreListDto> {
         phone = interestStore.getStore().getPhone();
         imgUrl = interestStore.getStore().getImgUrl();
         businessStatus = interestStore.getStore().getBusinessStatus();
-        localCurrencyStatus = interestStore.getStore().getLocalCurrencyStatus();
         pickupStatus = interestStore.getStore().getPickupStatus();
         deliveryStatus = interestStore.getStore().getDeliveryStatus();
         location = new Coordinate(

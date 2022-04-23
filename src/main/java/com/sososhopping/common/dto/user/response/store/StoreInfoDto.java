@@ -43,7 +43,6 @@ public class StoreInfoDto {
         extraBusinessDay = store.getExtraBusinessDay();
         phone = store.getPhone();
         businessStatus = store.getBusinessStatus();
-        localCurrencyStatus = store.getLocalCurrencyStatus();
         pickupStatus = store.getPickupStatus();
         deliveryStatus = store.getDeliveryStatus();
         deliveryCharge = store.getDeliveryCharge();

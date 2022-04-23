@@ -35,15 +35,6 @@ public class OwnerStoreController {
                 .body(stores);
     }
 
-    @PostMapping(value = "/api/v1/owner/store")
-    public ResponseEntity createStore(Authentication authentication,
-                                      @RequestPart StoreRequestDto dto) {
-
-        ownerStoreService.createStore(dto, Long.parseLong(authentication.getName()), image);
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
     @GetMapping(value = "/api/v1/owner/store/{storeId}")
     public ResponseEntity readStore(Authentication authentication, @PathVariable(name = "storeId") Long storeId) {
         Store store = ownerStoreService.readStore(storeId);

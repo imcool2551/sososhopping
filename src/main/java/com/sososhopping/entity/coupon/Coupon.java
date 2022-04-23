@@ -80,11 +80,6 @@ public abstract class Coupon extends BaseTimeEntity {
 
     abstract public int getDiscountPrice(int orderPrice);
 
-    // 연관 관계 편의 메서드
-    public void setStore(Store store) {
-        this.store = store;
-        this.store.getCoupons().add(this);
-    }
 
     public Coupon(Store store, StoreCouponRequestDto dto, String couponCode) {
         this.store = store;

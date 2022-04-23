@@ -20,15 +20,11 @@ public class StoreResponseDto {
     private String storeType;
     private String storeStatus;
     private String extraBusinessDay;
-    private Boolean businessStatus;
-    private Boolean localCurrencyStatus;
-    private Boolean deliveryStatus;
     private Integer deliveryCharge;
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayResponseDto> storeBusinessDays;
     private List<StoreImageResponseDto> storeImages;
-    private StoreMetaDataResponseDto storeMetaDataResponseDto;
 
     public StoreResponseDto(Store store) {
         this.id = store.getId();
@@ -39,9 +35,6 @@ public class StoreResponseDto {
         this.storeType = store.getStoreType().getKrType();
         this.storeStatus = store.getStoreStatus().name();
         this.extraBusinessDay = store.getExtraBusinessDay();
-        this.businessStatus = store.getBusinessStatus();
-        this.localCurrencyStatus = store.getLocalCurrencyStatus();
-        this.deliveryStatus = store.getDeliveryStatus();
         this.deliveryCharge = store.getDeliveryCharge();
         this.streetAddress = store.getStreetAddress();
         this.detailedAddress = store.getDetailedAddress();
@@ -53,6 +46,5 @@ public class StoreResponseDto {
                 .stream()
                 .map(storeImage -> new StoreImageResponseDto(storeImage))
                 .collect(Collectors.toList());
-        this.storeMetaDataResponseDto = new StoreMetaDataResponseDto(store.getStoreMetaData());
     }
 }

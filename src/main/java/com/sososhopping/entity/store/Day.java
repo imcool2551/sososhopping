@@ -1,5 +1,8 @@
 package com.sososhopping.entity.store;
 
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
 public enum Day {
     MONDAY("월"),
     TUESDAY("화"),
@@ -7,24 +10,23 @@ public enum Day {
     THURSDAY("목"),
     FRIDAY("금"),
     SATURDAY("토"),
-    SUNDAY("일")
-    ;
+    SUNDAY("일");
 
-    final private String krDay;
+    private String krDay;
 
     Day(String krDay) {
         this.krDay = krDay;
     }
 
-    public String getKrDay() { return krDay; }
+    public static Day krDayOf(String krDay) {
+        return Arrays.stream(Day.values())
+                .filter(day -> day.getKrDay().equals(krDay))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
 
-    public static Day nameOf(String krDay) {
-        for (Day day : Day.values()) {
-            if (day.getKrDay().equals(krDay)) {
-                return day;
-            }
-        }
+    }
 
-        return null;
+    public String getKrDay() {
+        return krDay;
     }
 }

@@ -10,12 +10,10 @@ import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
-@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class UserLog extends BaseTimeEntity {
 
     @Id
@@ -34,4 +32,11 @@ public class UserLog extends BaseTimeEntity {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Builder
+    public UserLog(User user, AccountStatus active, String description) {
+        this.user = user;
+        this.active = active;
+        this.description = description;
+    }
 }
