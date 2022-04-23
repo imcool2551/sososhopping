@@ -8,10 +8,7 @@ import com.sososhopping.domain.user.service.UserInfoService;
 import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -32,7 +29,7 @@ public class UserInfoController {
         return new UserInfoResponse(user);
     }
 
-    @PutMapping("/users/info")
+    @PatchMapping("/users/info")
     public void updateUserInfo(Authentication authentication,
                                @RequestBody @Valid UserInfoUpdateDto dto) {
 

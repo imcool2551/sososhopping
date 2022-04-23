@@ -1,22 +1,16 @@
 package com.sososhopping.controller.auth;
 
-import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
-import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
-import com.sososhopping.common.dto.auth.response.OwnerInfoResponseDto;
-import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
-import com.sososhopping.entity.member.Owner;
 import com.sososhopping.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -24,37 +18,6 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final OwnerAuthRepository ownerRepository;
-
-
-    //점주 로그인
-    @PostMapping(value = "/api/v1/owner/auth/login")
-    public ResponseEntity ownerLogin(@RequestBody OwnerLoginRequestDto dto) {
-        AuthToken authToken = authService.ownerLogin(dto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
-    }
-
-    @GetMapping("/api/v1/owner/auth/info")
-    public OwnerInfoResponseDto ownerInfo(
-            Authentication authentication
-    ) {
-        Long ownerId = Long.parseLong(authentication.getName());
-        Owner owner = ownerRepository.findById(ownerId).get();
-        return new OwnerInfoResponseDto(owner);
-    }
-
-    @PatchMapping("/api/v1/owner/auth/info")
-    public void updateOwnerInfo(
-            Authentication authentication,
-            @RequestBody @Valid OwnerUpdateInfoRequestDto dto
-    ) {
-        Long ownerId = Long.parseLong(authentication.getName());
-        authService.updateOwnerInfo(ownerId, dto);
-    }
-
-
 
     /**
      * 관리자 관련 인증

@@ -60,8 +60,7 @@ public class Owner extends BaseTimeEntity {
         return active == AccountStatus.ACTIVE;
     }
 
-    public void updateInfo(String name, String phone) {
+    public void updateName(String name) {
         this.name = name;
-        this.phone = phone;
     }
 }

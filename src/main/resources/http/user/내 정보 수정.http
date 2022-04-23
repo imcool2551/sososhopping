@@ -1,5 +1,5 @@
 ### 수정 성공 (200)
-PUT http://localhost:8080/api/v1/users/info
+PATCH http://localhost:8080/api/v1/users/info
 Content-Type: application/json
 token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwNjQ0OTg4LCJleHAiOjE2ODIxODA5ODh9.DDoPbAUtJjnsLCX3BqEAJngJo9wcRVndCUE5YmqjIQE
 
@@ -12,7 +12,7 @@ token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJS
 }
 
 ### 수정 실패 by 번호 중복 (409)
-PUT http://localhost:8080/api/v1/users/info
+PATCH http://localhost:8080/api/v1/users/info
 Content-Type: application/json
 token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwNjQ0OTg4LCJleHAiOjE2ODIxODA5ODh9.DDoPbAUtJjnsLCX3BqEAJngJo9wcRVndCUE5YmqjIQE
 

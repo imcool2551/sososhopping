@@ -1,20 +1,9 @@
 package com.sososhopping.service.auth;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
-import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
-import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api401Exception;
-import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.common.error.Api409Exception;
-import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.member.Admin;
-import com.sososhopping.entity.member.Owner;
 import com.sososhopping.repository.member.AdminRepository;
 import com.sososhopping.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,58 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserAuthRepository userRepository;
-    private final OwnerAuthRepository ownerRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
-    private final FirebaseAuth firebaseAuth;
-
-
-    //점주 로그인
-    @Transactional
-    public AuthToken ownerLogin(OwnerLoginRequestDto dto) {
-        Owner owner = ownerRepository.findByEmail(dto.getEmail()).orElseThrow(() ->
-                new Api401Exception("올바르지 않은 아이디입니다"));
-
-        if(!passwordEncoder.matches(dto.getPassword(), owner.getPassword()))
-            throw new Api401Exception("올바르지 않은 비밀번호입니다");
-
-        String apiToken = jwtTokenProvider.createToken("O", owner.getId());
-        String firebaseToken = createFirebaseToken("O" + owner.getId());
-
-        return new AuthToken(apiToken, firebaseToken);
-    }
-
-    @Transactional
-    public void updateOwnerInfo(Long ownerId, OwnerUpdateInfoRequestDto dto) {
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
-
-        ownerRepository.findByPhone(dto.getPhone())
-                .ifPresent(
-                        existingOwner -> {
-                            if (owner != existingOwner) {
-                                throw new Api409Exception("이미 사용중인 번호입니다");
-                            }
-                        }
-                );
-
-        if (!passwordEncoder.matches(dto.getPassword(), owner.getPassword())) {
-            throw new Api401Exception("비밀번호가 일치하지 않습니다");
-        }
-
-        owner.updateInfo(dto.getName(), dto.getPhone());
-    }
-
 
 
     /**
@@ -107,38 +52,5 @@ public class AuthService {
 
         return jwtTokenProvider.createToken("A", admin.getId());
     }
-
-
-    //Firebase 사용자 생성 및 저장
-    private void createFirebaseAccount(String uid, String email, String name) {
-        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setUid(uid)
-                .setEmail(email)
-                .setDisplayName(name);
-
-        try {
-            firebaseAuth.createUser(request);
-        }catch (FirebaseAuthException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Firebase 커스텀 토큰 생성 및 반환
-    private String createFirebaseToken(String uid) {
-        String firebaseToken = "";
-
-        Map<String, Object> additionalClaims = new HashMap<>();
-        additionalClaims.put("from", "sososhopApi");
-
-        try {
-            firebaseToken = firebaseAuth.createCustomToken(uid, additionalClaims);
-        } catch (FirebaseAuthException e) {
-            e.printStackTrace();
-        }
-
-        return firebaseToken;
-    }
-
-
 
 }

@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(DELETE,
                         "/api/v1/owner/auth").hasRole("OWNER")
                 .antMatchers(
-                        "/api/v1/owner/auth/info/**").hasRole("OWNER")
+                        "/api/v1/owner/info/**").hasRole("OWNER")
                 .antMatchers(
                         "/api/v1/owner/auth/**"
                         , "/api/v1/owner/auth"
