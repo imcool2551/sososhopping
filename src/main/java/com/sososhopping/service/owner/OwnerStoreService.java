@@ -121,7 +121,7 @@ public class OwnerStoreService {
         Store store = storeRepository.findStoreInforById(storeId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점포입니다"));
 
-        return store.getBusinessStatus();
+        return store.isOpen();
     }
 
     //해당 점포의 영업 여부 변경
@@ -130,9 +130,9 @@ public class OwnerStoreService {
         Store store = storeRepository.findStoreInforById(storeId).orElseThrow(() ->
                 new Api400Exception("존재하지 않는 점포입니다"));
 
-        store.updateBusinessStatus(!store.getBusinessStatus());
+        store.updateBusinessStatus(!store.isOpen());
 
-        return store.getBusinessStatus();
+        return store.isOpen();
     }
 }
 

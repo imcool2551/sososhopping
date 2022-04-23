@@ -24,7 +24,6 @@ public class StoreResponseDto {
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayResponseDto> storeBusinessDays;
-    private List<StoreImageResponseDto> storeImages;
 
     public StoreResponseDto(Store store) {
         this.id = store.getId();
@@ -41,10 +40,6 @@ public class StoreResponseDto {
         this.storeBusinessDays = store.getStoreBusinessDays()
                 .stream()
                 .map(sbd -> new StoreBusinessDayResponseDto(sbd))
-                .collect(Collectors.toList());
-        this.storeImages = store.getStoreImages()
-                .stream()
-                .map(storeImage -> new StoreImageResponseDto(storeImage))
                 .collect(Collectors.toList());
     }
 }

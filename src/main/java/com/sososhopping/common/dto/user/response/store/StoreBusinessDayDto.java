@@ -13,7 +13,6 @@ public class StoreBusinessDayDto {
 
     public StoreBusinessDayDto(StoreBusinessDay storeBusinessDay) {
         day = storeBusinessDay.getDay().getKrDay();
-        isOpen = storeBusinessDay.getIsOpen();
         openTime = storeBusinessDay.getOpenTime();
         closeTime = storeBusinessDay.getCloseTime();
     }

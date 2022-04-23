@@ -14,7 +14,6 @@ public class StorePointPolicyResponseDto {
     private BigDecimal saveRate;
 
     public StorePointPolicyResponseDto(Store store) {
-        this.pointPolicyStatus = store.getPointPolicyStatus();
         this.saveRate = store.getSaveRate();
     }
 }

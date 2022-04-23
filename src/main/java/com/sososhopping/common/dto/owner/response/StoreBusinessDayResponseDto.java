@@ -18,7 +18,6 @@ public class StoreBusinessDayResponseDto {
     public StoreBusinessDayResponseDto(StoreBusinessDay storeBusinessDay) {
         this.id = storeBusinessDay.getId();
         this.day = storeBusinessDay.getDay().getKrDay();
-        this.isOpen = storeBusinessDay.getIsOpen();
         this.openTime = storeBusinessDay.getOpenTime();
         this.closeTime = storeBusinessDay.getCloseTime();
     }

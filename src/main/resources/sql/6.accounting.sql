@@ -3,6 +3,7 @@ CREATE TABLE accounting (
     store_id BIGINT NOT NULL,
     amount INT NOT NULL,
     description TEXT,
+    date DATETIME(6) NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (accounting_id)

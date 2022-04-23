@@ -27,7 +27,6 @@ public class StoreInfoDto {
     private String streetAddress;
     private String detailedAddress;
     private List<StoreBusinessDayDto> businessDays;
-    private List<StoreImageDto> storeImages;
     private Coordinate location;
     private Double score;
     private Boolean isInterestStore;
@@ -42,9 +41,6 @@ public class StoreInfoDto {
         description = store.getDescription();
         extraBusinessDay = store.getExtraBusinessDay();
         phone = store.getPhone();
-        businessStatus = store.getBusinessStatus();
-        pickupStatus = store.getPickupStatus();
-        deliveryStatus = store.getDeliveryStatus();
         deliveryCharge = store.getDeliveryCharge();
         saveRate = store.getSaveRate();
         streetAddress = store.getStreetAddress();
@@ -52,10 +48,6 @@ public class StoreInfoDto {
         businessDays = store.getStoreBusinessDays()
                 .stream()
                 .map(storeBusinessDay -> new StoreBusinessDayDto(storeBusinessDay))
-                .collect(Collectors.toList());
-        storeImages = store.getStoreImages()
-                .stream()
-                .map(storeImage -> new StoreImageDto(storeImage))
                 .collect(Collectors.toList());
         location = new Coordinate(
                 store.getLat().doubleValue(),

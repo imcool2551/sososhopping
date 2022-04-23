@@ -79,9 +79,6 @@ public class Store extends BaseTimeEntity {
     @OrderBy("id asc")
     private List<StoreBusinessDay> storeBusinessDays = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = ALL, orphanRemoval = true)
-    private List<StoreImage> storeImages = new ArrayList<>();
-
     @OneToMany(mappedBy = "store")
     @OrderBy("createdAt desc")
     private List<Writing> writings = new ArrayList<>();
@@ -147,8 +144,8 @@ public class Store extends BaseTimeEntity {
         return isOpen;
     }
 
-    public void updateBusinessStatus(boolean businessStatus) {
-        this.isOpen = businessStatus;
+    public void updateBusinessStatus(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 }
 
