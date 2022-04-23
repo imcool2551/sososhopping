@@ -1,12 +1,14 @@
 package com.sososhopping.controller.auth;
 
 import com.sososhopping.common.dto.AuthToken;
-import com.sososhopping.common.dto.auth.request.*;
+import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerSignUpRequestDto;
+import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
-import com.sososhopping.common.dto.auth.response.OwnerFindEmailResponseDto;
 import com.sososhopping.common.dto.auth.response.OwnerInfoResponseDto;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.entity.member.Owner;
-import com.sososhopping.repository.member.OwnerRepository;
 import com.sososhopping.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final OwnerRepository ownerRepository;
+    private final OwnerAuthRepository ownerRepository;
 
     /**
      * 점주 관련 인증
@@ -53,24 +55,6 @@ public class AuthController {
                 .body(new LoginResponseDto(authToken.getApiToken(), authToken.getFirebaseToken()));
     }
 
-    // 점주 이메일 찾기
-    @PostMapping("/api/v1/owner/auth/findEmail")
-    public OwnerFindEmailResponseDto findOwnerEmail(@RequestBody @Valid OwnerFindEmailRequestDto dto) {
-        return authService.findOwnerEmail(dto);
-    }
-
-    // 점주 비밀번호 찾기
-    @PostMapping("/api/v1/owner/auth/findPassword")
-    public void findOwnerPassword(@RequestBody @Valid OwnerFindPasswordRequestDto dto) {
-        authService.findOwnerPassword(dto);
-    }
-
-    // 점주 비밀번호 변경
-    @PostMapping("/api/v1/owner/auth/changePassword")
-    public void changeOwnerPassword(@RequestBody @Valid OwnerChangePasswordRequestDto dto) {
-        authService.changeOwnerPassword(dto);
-    }
-
     @GetMapping("/api/v1/owner/auth/info")
     public OwnerInfoResponseDto ownerInfo(
             Authentication authentication
@@ -88,18 +72,6 @@ public class AuthController {
         Long ownerId = Long.parseLong(authentication.getName());
         authService.updateOwnerInfo(ownerId, dto);
     }
-
-    @PatchMapping("/api/v1/owner/auth/info/password")
-    public void updateOwnerPassword(
-            Authentication authentication,
-            @RequestBody @Valid OwnerUpdatePasswordRequest dto
-    ) {
-        Long ownerId = Long.parseLong(authentication.getName());
-        authService.updateOwnerPassword(ownerId, dto);
-    }
-
-
-
 
 
 

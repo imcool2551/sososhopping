@@ -1,13 +1,13 @@
 package com.sososhopping.service.auth;
 
-import com.sososhopping.security.auth.AuthMember;
+import com.sososhopping.security.AuthMember;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.member.AdminRepository;
-import com.sososhopping.repository.member.OwnerRepository;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserAuthRepository userRepository;
-    private final OwnerRepository ownerRepository;
+    private final OwnerAuthRepository ownerRepository;
     private final AdminRepository adminRepository;
 
     @Override

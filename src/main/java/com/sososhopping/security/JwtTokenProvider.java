@@ -1,4 +1,4 @@
-package com.sososhopping.security.auth;
+package com.sososhopping.security;
 
 import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.service.auth.UserDetailsServiceImpl;

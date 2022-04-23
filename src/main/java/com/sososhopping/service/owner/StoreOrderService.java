@@ -12,7 +12,7 @@ import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.coupon.UserCouponRepository;
-import com.sososhopping.repository.member.OwnerRepository;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.repository.store.StoreRepository;
@@ -29,7 +29,7 @@ import static com.sososhopping.entity.orders.OrderStatus.*;
 @RequiredArgsConstructor
 public class StoreOrderService {
 
-    private final OwnerRepository ownerRepository;
+    private final OwnerAuthRepository ownerRepository;
     private final StoreRepository storeRepository;
     private final OrderRepository orderRepository;
     private final UserPointRepository userPointRepository;

@@ -1,7 +1,5 @@
-package com.sososhopping.common.config;
+package com.sososhopping.security;
 
-import com.sososhopping.security.auth.JwtAuthenticationFilter;
-import com.sososhopping.security.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

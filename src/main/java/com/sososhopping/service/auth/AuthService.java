@@ -15,8 +15,8 @@ import com.sososhopping.entity.member.AccountStatus;
 import com.sososhopping.entity.member.Admin;
 import com.sososhopping.entity.member.Owner;
 import com.sososhopping.repository.member.AdminRepository;
-import com.sososhopping.repository.member.OwnerRepository;
-import com.sososhopping.security.auth.JwtTokenProvider;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
+import com.sososhopping.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class AuthService {
 
     private final UserAuthRepository userRepository;
-    private final OwnerRepository ownerRepository;
+    private final OwnerAuthRepository ownerRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -110,18 +110,6 @@ public class AuthService {
     }
 
     @Transactional
-    public void changeOwnerPassword(OwnerChangePasswordRequestDto dto) {
-        Owner owner = ownerRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
-
-        if (!owner.isActive()) {
-            throw new Api404Exception("비활성화 계정입니다");
-        }
-
-        owner.changePassword(passwordEncoder.encode(dto.getPassword()));
-    }
-
-    @Transactional
     public void updateOwnerInfo(Long ownerId, OwnerUpdateInfoRequestDto dto) {
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
@@ -142,18 +130,6 @@ public class AuthService {
         owner.updateInfo(dto.getName(), dto.getPhone());
     }
 
-    @Transactional
-    public void updateOwnerPassword(Long ownerId, OwnerUpdatePasswordRequest dto) {
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new Api404Exception("일치하는 계정이 없습니다"));
-
-        if (!passwordEncoder.matches(dto.getPassword(), owner.getPassword())) {
-            throw new Api401Exception("비밀번호가 일치하지 않습니다");
-        }
-
-        String encodedNewPassword = passwordEncoder.encode(dto.getNewPassword());
-        owner.updatePassword(encodedNewPassword);
-    }
 
 
     /**

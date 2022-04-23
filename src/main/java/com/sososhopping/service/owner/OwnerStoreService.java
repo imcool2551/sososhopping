@@ -8,7 +8,7 @@ import com.sososhopping.entity.member.Owner;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreBusinessDay;
 import com.sososhopping.entity.store.StoreMetaData;
-import com.sososhopping.repository.member.OwnerRepository;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.store.StoreMetaDataRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import com.sososhopping.service.common.S3Service;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OwnerStoreService {
 
-    private final OwnerRepository ownerRepository;
+    private final OwnerAuthRepository ownerRepository;
     private final StoreRepository storeRepository;
     private final StoreMetaDataRepository storeMetaDataRepository;
     private final EntityManager em;
