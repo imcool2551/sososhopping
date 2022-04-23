@@ -145,7 +145,7 @@ public class Store extends BaseTimeEntity {
 
     public Store(Owner owner, StoreRequestDto dto) {
         this.owner = owner;
-        this.storeType = StoreType.nameOf(dto.getStoreType());
+        this.storeType = StoreType.krTypeOf(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();
@@ -163,7 +163,7 @@ public class Store extends BaseTimeEntity {
 
     //가게 정보 업데이트
     public void update(StoreRequestDto dto) {
-        this.storeType = StoreType.nameOf(dto.getStoreType());
+        this.storeType = StoreType.krTypeOf(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();

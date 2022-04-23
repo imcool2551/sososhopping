@@ -3,6 +3,7 @@ package com.sososhopping.domain.store.service;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.common.service.S3Service;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
+import com.sososhopping.domain.store.exception.MissingFileException;
 import com.sososhopping.entity.owner.Owner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,15 @@ public class StoreService {
     private final OwnerRepository ownerRepository;
     private final S3Service s3Service;
 
-    public String uploadImage(Long ownerId, MultipartFile image) throws IOException {
-        if (image == null || image.isEmpty()) {
-            throw new IllegalArgumentException("missing image");
+    public String upload(Long ownerId, MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty()) {
+            throw new MissingFileException("missing file");
         }
 
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(UnAuthorizedException::new);
 
         String dirPath = owner.getId().toString();
-        return s3Service.upload(dirPath, image);
+        return s3Service.upload(dirPath, file);
     }
 }

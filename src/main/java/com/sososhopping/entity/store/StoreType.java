@@ -20,14 +20,18 @@ public enum StoreType {
 
     private final String krType;
 
-    StoreType(String krType) { this.krType = krType; }
+    StoreType(String krType) {
+        this.krType = krType;
+    }
 
-    public String getKrType() { return krType; }
-
-    static public StoreType nameOf(String krType) {
+    public static StoreType krTypeOf(String krType) {
         return Arrays.stream(StoreType.values())
                 .filter(storeType -> storeType.getKrType().equals(krType))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public String getKrType() {
+        return krType;
     }
 }

@@ -30,6 +30,8 @@ sososhop 애플리케이션의 api서버입니다.
 
 * 커맨드와 쿼리 분리
 
+* 이미지 업로드(multipart/form-data)와 JSON 업로드(application/json) 분리 
+
 * 이미지 업로드할 때 prefix, suffix 구분해서 suffix 만 DB에 저장
 
 
