@@ -1,5 +1,5 @@
 CREATE TABLE interest_store (
-    interest_store_id BIGINT NOT NULL AUTO INCREMENT,
+    interest_store_id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     store_id BIGINT NOT NULL,
     primary key (interest_store_id)

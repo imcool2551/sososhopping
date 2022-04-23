@@ -25,7 +25,7 @@ public class InterestStore {
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "store_id")
     private Store store;
 
     public InterestStore(User user, Store store) {

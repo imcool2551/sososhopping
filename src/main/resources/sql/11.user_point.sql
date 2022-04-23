@@ -1,5 +1,5 @@
 CREATE TABLE user_point (
-    user_point_id BIGINT NOT NULL AUTO INCREMENT,
+    user_point_id BIGINT NOT NULL AUTO_INCREMENT,
 	user_id BIGINT NOT NULL,
 	store_id BIGINT NOT NULL,
 	point INT NOT NULL,
@@ -18,4 +18,4 @@ FOREIGN KEY (store_id) REFERENCES store (store_id);
 
 ALTER TABLE user_point
 ADD CONSTRAINT uk_user_point
-UNIQUE (user_id, store_id) REFERENCES store (store_id);
+UNIQUE (user_id, store_id);

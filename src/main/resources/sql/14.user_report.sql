@@ -3,6 +3,7 @@ CREATE TABLE user_report (
   store_id BIGINT NOT NULL,
   user_id BIGINT NOT NULL,
   content TEXT NOT NULL,
+  handled TINYINT NOT NULL,
   created_at DATETIME(6) NOT NULL,
   updated_at DATETIME(6) NOT NULL,
   PRIMARY KEY (user_report_id)
