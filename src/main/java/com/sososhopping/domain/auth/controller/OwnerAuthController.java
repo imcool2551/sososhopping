@@ -5,6 +5,7 @@ import com.sososhopping.domain.auth.dto.request.DuplicateEmailCheckDto;
 import com.sososhopping.domain.auth.dto.request.DuplicatePhoneCheckDto;
 import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
+import com.sososhopping.domain.auth.service.OwnerAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class OwnerAuthController {
 
+    private final OwnerAuthService ownerAuthService;
     private final OwnerAuthRepository ownerRepository;
 
     @PostMapping("/owner/auth/signup/validation/email")
@@ -49,7 +51,6 @@ public class OwnerAuthController {
     @ResponseStatus(CREATED)
     @PostMapping("/owner/auth/signup")
     public void ownerSignup(@RequestBody @Valid OwnerSignUpDto dto) {
-
-
+        ownerAuthService.ownerSignup(dto);
     }
 }

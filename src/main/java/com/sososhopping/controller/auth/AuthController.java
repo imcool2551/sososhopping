@@ -3,7 +3,6 @@ package com.sososhopping.controller.auth;
 import com.sososhopping.common.dto.AuthToken;
 import com.sososhopping.common.dto.auth.request.AdminAuthRequestDto;
 import com.sososhopping.common.dto.auth.request.OwnerLoginRequestDto;
-import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.common.dto.auth.request.OwnerUpdateInfoRequestDto;
 import com.sososhopping.common.dto.auth.response.LoginResponseDto;
 import com.sososhopping.common.dto.auth.response.OwnerInfoResponseDto;
@@ -27,16 +26,6 @@ public class AuthController {
     private final AuthService authService;
     private final OwnerAuthRepository ownerRepository;
 
-    /**
-     * 점주 관련 인증
-     */
-
-    //점주 회원가입
-    @PostMapping(value = "/api/v1/owner/auth/signup")
-    public ResponseEntity ownerSignUp(@RequestBody OwnerSignUpDto dto) {
-        authService.ownerSignUp(dto);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
 
     //점주 로그인
     @PostMapping(value = "/api/v1/owner/auth/login")
