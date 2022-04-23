@@ -1,7 +1,6 @@
 package com.sososhopping.controller.owner;
 
 import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
-import com.sososhopping.common.dto.owner.request.UserPointUpdateRequestDto;
 import com.sososhopping.common.dto.owner.response.StorePointPolicyResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.entity.store.Store;
@@ -37,14 +36,14 @@ public class StorePointController {
     }
 
     //고객 포인트 직접 변경
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/point/local")
-    public ResponseEntity updateUserPointDirectly(
-            @PathVariable(value = "storeId") Long storeId
-            , @RequestBody UserPointUpdateRequestDto dto) {
-        storePointService.updateUserPointDirectly(storeId, dto);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @PostMapping(value = "/api/v1/owner/store/{storeId}/point/local")
+//    public ResponseEntity updateUserPointDirectly(
+//            @PathVariable(value = "storeId") Long storeId
+//            , @RequestBody UserPointUpdateRequestDto dto) {
+//        storePointService.updateUserPointDirectly(storeId, dto);
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
     //고객 포인트 중도 조회
     @GetMapping(value = "/api/v1/owner/store/{storeId}/point/local")

@@ -5,40 +5,36 @@ import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@IdClass(UserPointId.class)
 public class UserPoint extends BaseTimeEntity {
 
-    @Id @NotNull
+    @Id @GeneratedValue
+    @Column(name = "user_point_id")
+    private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Id @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @NotNull
     private Integer point;
 
     //List
