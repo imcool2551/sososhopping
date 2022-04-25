@@ -45,6 +45,7 @@ public abstract class Coupon extends BaseTimeEntity {
 
     protected LocalDateTime expireDate;
 
+    @Column(name = "coupon_type", insertable = false, updatable = false)
     protected String couponType;
 
     public Coupon(String couponName, Integer stockQuantity, String couponCode, Integer minimumOrderPrice, LocalDateTime startDate, LocalDateTime dueDate) {

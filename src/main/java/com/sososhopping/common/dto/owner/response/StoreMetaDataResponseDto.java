@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.owner.response;
 
-import com.sososhopping.entity.store.StoreMetaData;
+import com.sososhopping.entity.store.StoreMetadata;
 import lombok.*;
 
 @Builder
@@ -12,12 +12,10 @@ public class StoreMetaDataResponseDto {
     private String businessNumber;
     private String representativeName;
     private String businessName;
-    private String openingDate;
 
-    public StoreMetaDataResponseDto(StoreMetaData storeMetaData) {
-        this.businessNumber = storeMetaData.getBusinessNumber();
-        this.representativeName = storeMetaData.getRepresentativeName();
-        this.businessName = storeMetaData.getBusinessName();
-        this.openingDate = storeMetaData.getOpeningDate();
+    public StoreMetaDataResponseDto(StoreMetadata storeMetadata) {
+        this.businessNumber = storeMetadata.getBusinessNumber();
+        this.representativeName = storeMetadata.getRepresentativeName();
+        this.businessName = storeMetadata.getBusinessName();
     }
 }

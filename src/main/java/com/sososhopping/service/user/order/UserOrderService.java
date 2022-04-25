@@ -162,7 +162,6 @@ public class UserOrderService {
                 .orderType(orderType)
                 .visitDate(dto.getVisitDate())
                 .store(findStore)
-                .storeName(findStore.getName())
                 .deliveryCharge(deliveryCharge)
                 .deliveryStreetAddress(dto.getDeliveryStreetAddress())
                 .deliveryDetailedAddress(dto.getDeliveryDetailedAddress())

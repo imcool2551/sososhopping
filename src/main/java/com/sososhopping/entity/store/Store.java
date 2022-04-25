@@ -33,8 +33,8 @@ public class Store extends BaseTimeEntity {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-
     private String name;
+
     @Enumerated(EnumType.STRING)
     private StoreType storeType;
 
@@ -73,7 +73,7 @@ public class Store extends BaseTimeEntity {
     private Integer deliveryCharge;
 
     @OneToOne(mappedBy = "store", cascade = ALL, orphanRemoval = true)
-    private StoreMetaData storeMetaData;
+    private StoreMetadata storeMetadata;
 
     @OneToMany(mappedBy = "store", cascade = ALL, orphanRemoval = true)
     @OrderBy("id asc")

@@ -1,17 +1,14 @@
 package com.sososhopping.service.owner;
 
-import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import com.sososhopping.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api500Exception;
+import com.sososhopping.common.service.S3Service;
+import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.store.StoreBusinessDay;
-import com.sososhopping.entity.store.StoreMetaData;
-import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.store.StoreMetaDataRepository;
 import com.sososhopping.repository.store.StoreRepository;
-import com.sososhopping.common.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,38 +46,38 @@ public class OwnerStoreService {
 
 
     //점주의 점포 생성
-    @Transactional
-    public void createStore(StoreRequestDto dto, Long ownerId, MultipartFile image) {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점주입니다"));
-
-        if (storeMetaDataRepository.existsByBusinessNumber(dto.getStoreMetaDataRequestDto().getBusinessNumber())) {
-            throw new Api400Exception("이미 존재하는 사업자 번호입니다");
-        }
-
-        Store store = new Store(owner, dto);
-        em.persist(store);
-
-        StoreMetaData storeMetaData = new StoreMetaData(store, dto.getStoreMetaDataRequestDto());
-        em.persist(storeMetaData);
-
-        List<StoreBusinessDayRequestDto> days = dto.getStoreBusinessDays();
-        for (StoreBusinessDayRequestDto day : days) {
-            em.persist(new StoreBusinessDay(store, day));
-        }
-
-        /**
-         * 이미지 저장
-         */
-        if (image != null && !image.isEmpty()) {
-            try {
-                String imgUrl = s3Service.upload("store/" + store.getId(), image);
-                store.setImgUrl(imgUrl);
-            } catch (IOException e) {
-                throw new Api500Exception("이미지 저장에 실패했습니다");
-            }
-        }
-    }
+//    @Transactional
+//    public void createStore(StoreRequestDto dto, Long ownerId, MultipartFile image) {
+//        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
+//                new Api400Exception("존재하지 않는 점주입니다"));
+//
+//        if (storeMetaDataRepository.existsByBusinessNumber(dto.getStoreMetaDataRequestDto().getBusinessNumber())) {
+//            throw new Api400Exception("이미 존재하는 사업자 번호입니다");
+//        }
+//
+//        Store store = new Store(owner, dto);
+//        em.persist(store);
+//
+//        StoreMetadata storeMetadata = new StoreMetadata(store, dto.getStoreMetaDataRequestDto());
+//        em.persist(storeMetadata);
+//
+//        List<StoreBusinessDayRequestDto> days = dto.getStoreBusinessDays();
+//        for (StoreBusinessDayRequestDto day : days) {
+//            em.persist(new StoreBusinessDay(store, day));
+//        }
+//
+//        /**
+//         * 이미지 저장
+//         */
+//        if (image != null && !image.isEmpty()) {
+//            try {
+//                String imgUrl = s3Service.upload("store/" + store.getId(), image);
+//                store.setImgUrl(imgUrl);
+//            } catch (IOException e) {
+//                throw new Api500Exception("이미지 저장에 실패했습니다");
+//            }
+//        }
+//    }
 
     //점포 수정
     @Transactional

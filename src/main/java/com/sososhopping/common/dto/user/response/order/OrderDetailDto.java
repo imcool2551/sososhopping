@@ -52,7 +52,6 @@ public class OrderDetailDto {
         visitDate = Optional.ofNullable(order.getVisitDate())
                 .map(visitDate -> visitDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))
                 .orElse(null);
-        storeName = order.getStoreName();
         deliveryCharge = order.getDeliveryCharge();
         deliveryStreetAddress = order.getDeliveryStreetAddress();
         deliveryDetailedAddress = order.getDeliveryDetailedAddress();
