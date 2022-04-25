@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -32,8 +31,7 @@ public class Cart extends BaseTimeEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @NotNull
-    private Integer quantity;
+    private int quantity;
 
     @Builder
     public Cart(User user, Item item, Integer quantity) {

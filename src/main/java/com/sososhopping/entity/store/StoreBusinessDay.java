@@ -30,6 +30,7 @@ public class StoreBusinessDay {
     @Enumerated(EnumType.STRING)
     private Day day;
 
+    @Column(columnDefinition = "tinyint")
     private boolean isOpen;
 
     @Column(columnDefinition = "char", length = 4)

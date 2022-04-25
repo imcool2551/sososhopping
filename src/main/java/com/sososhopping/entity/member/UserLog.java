@@ -30,7 +30,7 @@ public class UserLog extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus active;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String description;
 
     @Builder

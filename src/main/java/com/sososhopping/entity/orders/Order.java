@@ -42,6 +42,7 @@ public class Order extends BaseTimeEntity {
 
     private String ordererName;
 
+    @Column(columnDefinition = "char", length = 11)
     private String ordererPhone;
 
     @Enumerated(EnumType.STRING)
@@ -75,11 +76,9 @@ public class Order extends BaseTimeEntity {
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY, mappedBy = "order")
-    private Payment payment;
 
     @Builder
-    public Order(User user, String ordererName, String ordererPhone, OrderType orderType, LocalDateTime visitDate, Store store, Integer deliveryCharge, String deliveryStreetAddress, String deliveryDetailedAddress, PaymentType paymentType, Integer orderPrice, Integer usedPoint, Coupon coupon, Integer finalPrice, OrderStatus orderStatus, Payment payment) {
+    public Order(User user, String ordererName, String ordererPhone, OrderType orderType, LocalDateTime visitDate, Store store, Integer deliveryCharge, String deliveryStreetAddress, String deliveryDetailedAddress, PaymentType paymentType, Integer orderPrice, Integer usedPoint, Coupon coupon, Integer finalPrice, OrderStatus orderStatus) {
         this.user = user;
         this.ordererName = ordererName;
         this.ordererPhone = ordererPhone;
@@ -95,7 +94,6 @@ public class Order extends BaseTimeEntity {
         this.coupon = coupon;
         this.finalPrice = finalPrice;
         this.orderStatus = orderStatus;
-        this.payment = payment;
     }
 
     // Business Logic

@@ -29,7 +29,7 @@ public class CouponRepositoryCustomImpl implements CouponRepositoryCustom {
     }
 
     private BooleanExpression beingIssued(LocalDateTime at) {
-        return coupon.issuedStartDate.before(at).and(coupon.issuedDueDate.after(at));
+        return coupon.issueStartDate.before(at).and(coupon.issueDueDate.after(at));
     }
 
     private BooleanExpression inStock() {

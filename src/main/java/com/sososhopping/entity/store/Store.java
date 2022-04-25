@@ -52,16 +52,21 @@ public class Store extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
 
+    @Column(columnDefinition = "tinyint")
     private boolean isOpen;
 
+    @Column(columnDefinition = "tinyint")
     private boolean pickupStatus;
 
+    @Column(columnDefinition = "tinyint")
     private boolean deliveryStatus;
 
+    @Column(columnDefinition = "tinyint")
     private boolean pointPolicyStatus;
 
     private String imgUrl;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     private String extraBusinessDay;

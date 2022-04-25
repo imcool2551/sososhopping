@@ -1,16 +1,16 @@
 ### 이메일 사용가능 (200)
-POST http://localhost:8080/api/v1/owner/auth/signup/validation
+POST http://localhost:8080/api/v1/owner/auth/signup/validation/email
 Content-Type: application/json
 
 {
-  "email": "test@gmail.com"
+  "email": "new@test.com"
 }
 
 ### 중복 이메일 조회 (409)
-POST http://localhost:8080/api/v1/owner/auth/signup/validation
+POST http://localhost:8080/api/v1/owner/auth/signup/validation/email
 Content-Type: application/json
 
 {
-  "email": "test2@test.com"
+  "email": "test@test.com"
 }
 

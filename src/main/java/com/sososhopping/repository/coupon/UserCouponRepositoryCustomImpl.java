@@ -35,7 +35,7 @@ public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCusto
     }
 
     private BooleanExpression beforeExpiration() {
-        return userCoupon.coupon.expiryDate.after(LocalDateTime.now());
+        return userCoupon.coupon.expireDate.after(LocalDateTime.now());
     }
 
     private BooleanExpression userEq(User user) {

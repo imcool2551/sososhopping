@@ -32,6 +32,7 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(columnDefinition = "text")
     private String content;
 
     private String imgUrl;

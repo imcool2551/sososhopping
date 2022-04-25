@@ -29,6 +29,7 @@ public class StoreLog extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     @Builder

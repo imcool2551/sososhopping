@@ -30,7 +30,7 @@ public class Accounting extends BaseTimeEntity {
 
     private int amount;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String description;
 
     private LocalDateTime date;

@@ -32,9 +32,10 @@ public class StoreReport extends BaseTimeEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String content;
 
+    @Column(columnDefinition = "tinyint")
     private boolean handled;
 
     @Builder

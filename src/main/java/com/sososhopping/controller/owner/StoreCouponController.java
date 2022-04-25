@@ -1,7 +1,6 @@
 package com.sososhopping.controller.owner;
 
 import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
-import com.sososhopping.common.dto.owner.response.StoreCouponListResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreCouponResponseDto;
 import com.sososhopping.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.entity.coupon.Coupon;
@@ -11,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequiredArgsConstructor
 public class StoreCouponController {
@@ -21,27 +17,27 @@ public class StoreCouponController {
     private final StoreCouponService storeCouponService;
     
     //쿠폰 리스트 조회 -> 발행중인 쿠폰/발행 예정 쿠폰 구분
-    @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon")
-    public ResponseEntity readCouponList(@PathVariable(value = "storeId") Long storeId) {
-        List<StoreCouponResponseDto> expected = storeCouponService.readExceptedCouponList(storeId)
-                .stream()
-                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
-                .collect(Collectors.toList());
-
-        List<StoreCouponResponseDto> being = storeCouponService.readBeingCouponList(storeId)
-                .stream()
-                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
-                .collect(Collectors.toList());
-
-        StoreCouponListResponseDto dto = StoreCouponListResponseDto.builder()
-                .expected(expected)
-                .being(being)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(dto);
-    }
+//    @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon")
+//    public ResponseEntity readCouponList(@PathVariable(value = "storeId") Long storeId) {
+//        List<StoreCouponResponseDto> expected = storeCouponService.readExceptedCouponList(storeId)
+//                .stream()
+//                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
+//                .collect(Collectors.toList());
+//
+//        List<StoreCouponResponseDto> being = storeCouponService.readBeingCouponList(storeId)
+//                .stream()
+//                .map(coupon -> new StoreCouponResponseDto(coupon, storeId))
+//                .collect(Collectors.toList());
+//
+//        StoreCouponListResponseDto dto = StoreCouponListResponseDto.builder()
+//                .expected(expected)
+//                .being(being)
+//                .build();
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(dto);
+//    }
     
     //쿠폰 생성
     @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon")

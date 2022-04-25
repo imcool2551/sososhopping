@@ -32,6 +32,7 @@ public class UserCoupon extends BaseTimeEntity {
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 
+    @Column(columnDefinition = "tinyint")
     private boolean used;
 
     public UserCoupon(User user, Coupon coupon, boolean used) {

@@ -26,7 +26,7 @@ public class Writing extends BaseTimeEntity {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String content;
 
     @Enumerated(EnumType.STRING)

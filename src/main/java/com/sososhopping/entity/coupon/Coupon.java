@@ -35,6 +35,7 @@ public abstract class Coupon extends BaseTimeEntity {
 
     protected int stockQuantity;
 
+    @Column(columnDefinition = "char", length = 10)
     protected String couponCode;
 
     protected int minimumOrderPrice;

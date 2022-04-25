@@ -36,6 +36,7 @@ public class Item extends BaseTimeEntity {
 
     private int price;
 
+    @Column(columnDefinition = "tinyint")
     private boolean onSale;
 
     @Builder
