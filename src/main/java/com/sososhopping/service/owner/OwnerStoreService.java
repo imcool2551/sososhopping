@@ -6,7 +6,7 @@ import com.sososhopping.common.error.Api500Exception;
 import com.sososhopping.common.service.S3Service;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.entity.owner.Owner;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 import com.sososhopping.repository.store.StoreMetaDataRepository;
 import com.sososhopping.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;

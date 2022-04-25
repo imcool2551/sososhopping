@@ -2,13 +2,14 @@ package com.sososhopping.repository.store;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sososhopping.entity.member.InterestStore;
+import com.sososhopping.entity.user.InterestStore;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.sososhopping.entity.member.QInterestStore.interestStore;
-import static com.sososhopping.entity.store.QStore.store;
+import static com.sososhopping.entity.owner.QStore.store;
+import static com.sososhopping.entity.user.QInterestStore.interestStore;
+
 
 public class UserInterestStoreRepositoryImpl implements UserInterestStoreRepository {
 

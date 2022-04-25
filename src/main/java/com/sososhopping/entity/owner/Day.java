@@ -1,4 +1,4 @@
-package com.sososhopping.entity.store;
+package com.sososhopping.entity.owner;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

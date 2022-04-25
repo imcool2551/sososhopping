@@ -5,7 +5,7 @@ import com.sososhopping.domain.auth.dto.request.OwnerSignUpDto;
 import com.sososhopping.domain.auth.dto.response.LoginResponse;
 import com.sososhopping.domain.auth.exception.InvalidCredentialsException;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
-import com.sososhopping.entity.member.AccountStatus;
+import com.sososhopping.entity.common.AccountStatus;
 import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

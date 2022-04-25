@@ -1,7 +1,7 @@
 package com.sososhopping.repository.order;
 
 import com.sososhopping.entity.orders.Order;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -2,14 +2,15 @@ package com.sososhopping.repository.order;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sososhopping.entity.member.Cart;
+import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.user.User;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.sososhopping.entity.member.QCart.cart;
-import static com.sososhopping.entity.store.QItem.item;
+import static com.sososhopping.entity.orders.QItem.item;
+import static com.sososhopping.entity.user.QCart.cart;
+
 
 public class UserCartRepositoryImpl implements UserCartRepository {
 

@@ -3,7 +3,7 @@ package com.sososhopping.controller.owner;
 import com.sososhopping.common.dto.owner.request.StoreWritingRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreWritingListResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreWritingResponseDto;
-import com.sososhopping.entity.store.Writing;
+import com.sososhopping.entity.owner.Writing;
 import com.sososhopping.service.owner.StoreWritingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,10 @@
 package com.sososhopping.domain.admin;
 
 import com.sososhopping.domain.auth.dto.request.AdminLoginDto;
-import com.sososhopping.entity.report.StoreReport;
-import com.sososhopping.entity.report.UserReport;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.store.StoreStatus;
+import com.sososhopping.entity.admin.StoreReport;
+import com.sososhopping.entity.admin.UserReport;
+import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.owner.StoreStatus;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreReportRepository;
 import com.sososhopping.repository.store.StoreRepository;

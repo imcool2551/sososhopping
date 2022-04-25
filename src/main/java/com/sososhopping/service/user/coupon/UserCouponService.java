@@ -6,7 +6,7 @@ import com.sososhopping.common.error.Api409Exception;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;

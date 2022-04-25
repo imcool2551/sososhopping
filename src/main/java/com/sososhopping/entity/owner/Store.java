@@ -1,11 +1,11 @@
-package com.sososhopping.entity.store;
+package com.sososhopping.entity.owner;
 
 import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.common.dto.owner.request.StoreRequestDto;
-import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.member.Review;
-import com.sososhopping.entity.owner.Owner;
+import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.user.Review;
+import com.sososhopping.entity.orders.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

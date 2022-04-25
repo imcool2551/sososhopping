@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.store;
 
-import com.sososhopping.entity.member.Review;
+import com.sososhopping.entity.user.Review;
 import lombok.Getter;
 
 import java.math.BigDecimal;

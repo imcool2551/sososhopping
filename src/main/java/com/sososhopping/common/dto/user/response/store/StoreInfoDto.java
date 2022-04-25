@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.store;
 
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

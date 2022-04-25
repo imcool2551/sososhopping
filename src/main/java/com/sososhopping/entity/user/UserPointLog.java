@@ -1,6 +1,6 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.user;
 
-import com.sososhopping.entity.BaseTimeEntity;
+import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

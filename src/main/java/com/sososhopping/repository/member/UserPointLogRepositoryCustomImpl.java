@@ -2,14 +2,14 @@ package com.sososhopping.repository.member;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sososhopping.entity.member.UserPoint;
-import com.sososhopping.entity.member.UserPointLog;
+import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.user.UserPointLog;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.sososhopping.entity.member.QUserPointLog.userPointLog;
+import static com.sososhopping.entity.user.QUserPointLog.userPointLog;
 
 
 public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryCustom {

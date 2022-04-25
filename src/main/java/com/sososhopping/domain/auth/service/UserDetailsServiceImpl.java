@@ -6,7 +6,7 @@ import com.sososhopping.common.security.AuthMember;
 import com.sososhopping.domain.auth.repository.AdminAuthRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.entity.member.Admin;
+import com.sososhopping.entity.admin.Admin;
 import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;

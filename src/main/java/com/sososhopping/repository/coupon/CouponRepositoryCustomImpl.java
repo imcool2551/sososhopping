@@ -3,7 +3,7 @@ package com.sososhopping.repository.coupon;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sososhopping.entity.coupon.Coupon;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;

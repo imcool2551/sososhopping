@@ -1,6 +1,6 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.report.StoreReport;
+import com.sososhopping.entity.admin.StoreReport;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

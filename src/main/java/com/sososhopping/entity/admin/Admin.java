@@ -1,4 +1,4 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.admin;
 
 import lombok.AccessLevel;
 import lombok.Getter;

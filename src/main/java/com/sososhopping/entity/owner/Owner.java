@@ -1,8 +1,7 @@
 package com.sososhopping.entity.owner;
 
-import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.member.AccountStatus;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.common.AccountStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.EnumType.*;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity

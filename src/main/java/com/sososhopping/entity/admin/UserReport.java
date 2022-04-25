@@ -1,7 +1,7 @@
-package com.sososhopping.entity.report;
+package com.sososhopping.entity.admin;
 
-import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.owner.Store;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;

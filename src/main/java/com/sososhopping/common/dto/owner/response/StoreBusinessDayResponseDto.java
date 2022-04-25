@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.owner.response;
 
-import com.sososhopping.entity.store.StoreBusinessDay;
+import com.sososhopping.entity.owner.StoreBusinessDay;
 import lombok.*;
 
 @Builder

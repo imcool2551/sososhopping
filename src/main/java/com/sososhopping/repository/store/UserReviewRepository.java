@@ -1,6 +1,6 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.member.Review;
+import com.sososhopping.entity.user.Review;
 
 import java.util.List;
 

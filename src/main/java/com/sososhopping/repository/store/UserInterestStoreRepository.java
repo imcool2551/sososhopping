@@ -1,6 +1,6 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.member.InterestStore;
+import com.sososhopping.entity.user.InterestStore;
 
 import java.util.List;
 

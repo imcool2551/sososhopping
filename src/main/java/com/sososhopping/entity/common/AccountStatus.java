@@ -1,4 +1,4 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.common;
 
 public enum AccountStatus {
     ACTIVE, SUSPEND, WITHDRAW

@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreBusinessStatusResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreListResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreResponseDto;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 import com.sososhopping.service.owner.OwnerStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

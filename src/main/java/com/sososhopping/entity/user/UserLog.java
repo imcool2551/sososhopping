@@ -1,7 +1,7 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.user;
 
-import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.user.User;
+import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.common.AccountStatus;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

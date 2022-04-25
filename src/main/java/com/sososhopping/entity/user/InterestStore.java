@@ -1,7 +1,6 @@
-package com.sososhopping.entity.member;
+package com.sososhopping.entity.user;
 
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.user.User;
+import com.sososhopping.entity.owner.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

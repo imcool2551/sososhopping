@@ -1,7 +1,7 @@
 package com.sososhopping.entity.coupon;
 
 import com.sososhopping.common.error.Api400Exception;
-import com.sososhopping.entity.BaseTimeEntity;
+import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;

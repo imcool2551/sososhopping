@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.owner.response;
 
-import com.sososhopping.entity.store.Accounting;
+import com.sososhopping.entity.owner.Accounting;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;

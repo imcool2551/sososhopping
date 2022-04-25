@@ -1,7 +1,7 @@
 package com.sososhopping.entity.user;
 
-import com.sososhopping.entity.BaseTimeEntity;
-import com.sososhopping.entity.member.AccountStatus;
+import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.common.AccountStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-import static com.sososhopping.entity.member.AccountStatus.ACTIVE;
-import static com.sososhopping.entity.member.AccountStatus.SUSPEND;
+import static com.sososhopping.entity.common.AccountStatus.ACTIVE;
+import static com.sososhopping.entity.common.AccountStatus.SUSPEND;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 

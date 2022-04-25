@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.sososhopping.entity.orders.QOrder.order;
-import static com.sososhopping.entity.store.QStore.store;
+import static com.sososhopping.entity.owner.QStore.store;
 
 public class UserOrderRepositoryImpl implements UserOrderRepository {
 

@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.owner.response;
 
-import com.sososhopping.entity.store.StoreMetadata;
+import com.sososhopping.entity.owner.StoreMetadata;
 import lombok.*;
 
 @Builder

@@ -1,8 +1,8 @@
 package com.sososhopping.common.dto.user.response.order;
 
-import com.sososhopping.entity.member.Cart;
-import com.sososhopping.entity.store.Item;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.Cart;
+import com.sososhopping.entity.orders.Item;
+import com.sososhopping.entity.owner.Store;
 import lombok.Data;
 
 import java.util.ArrayList;

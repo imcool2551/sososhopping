@@ -1,6 +1,6 @@
-package com.sososhopping.entity.store;
+package com.sososhopping.entity.owner;
 
-import com.sososhopping.entity.BaseTimeEntity;
+import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

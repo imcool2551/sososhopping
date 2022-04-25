@@ -2,7 +2,7 @@ package com.sososhopping.controller.owner;
 
 import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreItemResponseDto;
-import com.sososhopping.entity.store.Item;
+import com.sososhopping.entity.orders.Item;
 import com.sososhopping.service.owner.StoreItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

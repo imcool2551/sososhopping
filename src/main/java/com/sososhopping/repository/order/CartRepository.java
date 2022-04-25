@@ -1,8 +1,8 @@
 package com.sososhopping.repository.order;
 
-import com.sososhopping.entity.member.Cart;
+import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Item;
+import com.sososhopping.entity.orders.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

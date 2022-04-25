@@ -1,7 +1,7 @@
 package com.sososhopping.common.dto.user.response.point;
 
-import com.sososhopping.entity.member.UserPointLog;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.UserPointLog;
+import com.sososhopping.entity.owner.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

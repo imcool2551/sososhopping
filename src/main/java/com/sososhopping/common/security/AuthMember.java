@@ -1,6 +1,6 @@
 package com.sososhopping.common.security;
 
-import com.sososhopping.entity.member.AccountStatus;
+import com.sososhopping.entity.common.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

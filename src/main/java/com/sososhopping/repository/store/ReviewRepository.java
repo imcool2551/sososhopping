@@ -1,8 +1,8 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.member.Review;
+import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;

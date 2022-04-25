@@ -2,13 +2,13 @@ package com.sososhopping.repository.store;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sososhopping.entity.member.Review;
+import com.sososhopping.entity.user.Review;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.sososhopping.entity.member.QReview.review;
-import static com.sososhopping.entity.store.QStore.store;
+import static com.sososhopping.entity.owner.QStore.store;
+import static com.sososhopping.entity.user.QReview.review;
 import static com.sososhopping.entity.user.QUser.user;
 
 

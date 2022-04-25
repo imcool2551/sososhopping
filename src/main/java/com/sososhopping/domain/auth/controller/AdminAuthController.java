@@ -4,7 +4,7 @@ import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.auth.dto.request.AdminLoginDto;
 import com.sososhopping.domain.auth.dto.response.LoginResponse;
 import com.sososhopping.domain.auth.repository.AdminAuthRepository;
-import com.sososhopping.entity.member.Admin;
+import com.sososhopping.entity.admin.Admin;
 import com.sososhopping.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

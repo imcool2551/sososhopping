@@ -1,4 +1,4 @@
-package com.sososhopping.entity.store;
+package com.sososhopping.entity.owner;
 
 import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import lombok.AccessLevel;

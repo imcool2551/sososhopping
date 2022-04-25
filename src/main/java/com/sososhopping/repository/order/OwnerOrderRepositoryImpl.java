@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import com.sososhopping.entity.orders.OrderType;
-import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.owner.Store;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
