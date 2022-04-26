@@ -34,14 +34,6 @@ public class StoreAccountingController {
                 .body(accountings);
     }
 
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/accounting")
-    public ResponseEntity createAccounting(
-            @PathVariable(value = "storeId") Long storeId,
-            @RequestBody StoreAccountingRequestDto dto) {
-        storeAccountingService.createAccounting(storeId, dto);
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
 
     //상세 조회
     @GetMapping(value = "/api/v1/owner/store/{storeId}/accounting/{accountingId}")

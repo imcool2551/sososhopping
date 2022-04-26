@@ -20,12 +20,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final OwnerValidationService ownerValidationService;
     private final StoreService storeService;
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
 
     public Long createItem(Long ownerId, Long storeId, CreateItemDto dto) {
-        Store store = storeService.validateStoreOwner(ownerId, storeId);
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         Item item = dto.toEntity(store);
         itemRepository.save(item);
         return item.getId();

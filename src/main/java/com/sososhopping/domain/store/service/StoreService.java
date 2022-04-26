@@ -1,7 +1,5 @@
 package com.sososhopping.domain.store.service;
 
-import com.sososhopping.common.exception.ForbiddenException;
-import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
 import com.sososhopping.domain.store.dto.request.CreateStoreDto;
@@ -27,6 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StoreService {
 
+    private final OwnerValidationService ownerValidationService;
     private final OwnerRepository ownerRepository;
     private final StoreRepository storeRepository;
     private final StoreMetaDataRepository storeMetaDataRepository;
@@ -62,27 +61,14 @@ public class StoreService {
     }
 
     public StoreResponse findStore(Long ownerId, Long storeId) {
-        Store store = validateStoreOwner(ownerId, storeId);
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         return new StoreResponse(store);
     }
 
     public boolean setOpen(Long ownerId, Long storeId, boolean open) {
-        Store store = validateStoreOwner(ownerId, storeId);
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         store.updateOpen(open);
         return store.isOpen();
     }
 
-    public Store validateStoreOwner(Long ownerId, Long storeId) {
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(UnAuthorizedException::new);
-
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
-
-        if (!store.belongsTo(owner)) {
-            throw new ForbiddenException("Store does not belong to owner");
-        }
-
-        return store;
-    }
 }

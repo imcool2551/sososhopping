@@ -33,23 +33,7 @@ public class StoreAccountingService {
 
        return accountingRepository.findAccountingsByStoreAndPeriod(store, start, end);
     }
-
-    @Transactional
-    public void createAccounting(Long storeId, StoreAccountingRequestDto dto) {
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
-
-        Accounting accounting = Accounting.builder()
-                .store(store)
-                .date(LocalDateTime.parse(dto.getDate() + ":00",
-                        DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))
-                .amount(dto.getAmount())
-                .description(dto.getDescription())
-                .build();
-
-        accountingRepository.save(accounting);
-    }
-
+    
     @Transactional
     public Accounting readAccounting(Long storeId, Long accountingId) {
         Accounting accounting = accountingRepository.findById(accountingId).orElseThrow(() ->

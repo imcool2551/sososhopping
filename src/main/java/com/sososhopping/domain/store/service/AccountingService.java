@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AccountingService {
 
-    private final StoreService storeService;
+    private final OwnerValidationService ownerValidationService;
     private final AccountingRepository accountingRepository;
 
     public Long createAccounting(Long ownerId, Long storeId, CreateAccountingDto dto) {
-        Store store = storeService.validateStoreOwner(ownerId, storeId);
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         Accounting accounting = accountingRepository.save(dto.toEntity(store));
         return accounting.getId();
     }
