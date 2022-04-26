@@ -97,7 +97,7 @@ public class StoreController {
         return new ApiResponse(isOpen);
     }
 
-    @GetMapping("/owner/store/{storeId}/open")
+    @GetMapping("/store/{storeId}/open")
     public ApiResponse isOpen(@PathVariable Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));

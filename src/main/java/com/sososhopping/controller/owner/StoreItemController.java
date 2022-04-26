@@ -1,8 +1,6 @@
 package com.sososhopping.controller.owner;
 
 import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
-import com.sososhopping.common.dto.owner.response.StoreItemResponseDto;
-import com.sososhopping.entity.store.Item;
 import com.sososhopping.service.owner.StoreItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,38 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequiredArgsConstructor
 public class StoreItemController {
     private final StoreItemService storeItemService;
 
-    @GetMapping(value = "/api/v1/owner/store/{storeId}/item")
-    public ResponseEntity readItemList(
-            @PathVariable(value = "storeId") Long storeId) {
-        List<StoreItemResponseDto> items
-                = storeItemService.readItemList(storeId)
-                .stream()
-                .map(item -> new StoreItemResponseDto(item, storeId))
-                .collect(Collectors.toList());
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(items);
-    }
-
-    @GetMapping(value = "/api/v1/owner/store/{storeId}/item/{itemId}")
-    public ResponseEntity readItem(
-            @PathVariable(value = "storeId") Long storeId
-            , @PathVariable(value = "itemId") Long itemId) {
-        Item item = storeItemService.readItem(storeId, itemId);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new StoreItemResponseDto(item, storeId));
-    }
 
     @PostMapping(value = "/api/v1/owner/store/{storeId}/item")
     public ResponseEntity createItem(

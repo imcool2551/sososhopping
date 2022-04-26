@@ -4,13 +4,13 @@ import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api403Exception;
 import com.sososhopping.common.error.Api500Exception;
+import com.sososhopping.common.service.S3Service;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.store.Item;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.order.OrderItemRepository;
-import com.sososhopping.repository.store.ItemRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
-import com.sososhopping.common.service.S3Service;
+import com.sososhopping.domain.store.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +30,6 @@ public class StoreItemService {
     private final S3Service s3Service;
     private final EntityManager em;
 
-    @Transactional
-    public List<Item> readItemList(Long storeId) {
-        Store store = storeRepository.findStoreWithItemById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
-
-        return store.getItems();
-    }
 
     @Transactional
     public void createItem(Long storeId, StoreItemRequestDto dto
@@ -65,12 +57,6 @@ public class StoreItemService {
                 throw new Api500Exception("이미지 저장에 실패했습니다");
             }
         }
-    }
-
-    @Transactional
-    public Item readItem(Long storeId, Long itemId) {
-        return itemRepository.findById(itemId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 물품입니다"));
     }
 
     @Transactional

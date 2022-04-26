@@ -11,7 +11,7 @@ import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Item;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.order.CartRepository;
-import com.sososhopping.repository.store.ItemRepository;
+import com.sososhopping.domain.store.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

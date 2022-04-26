@@ -50,7 +50,6 @@ public class Item extends BaseTimeEntity {
         this.onSale = onSale;
     }
 
-    // 연관 관계 편의 메서드
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
@@ -63,8 +62,11 @@ public class Item extends BaseTimeEntity {
         this.onSale = dto.getSaleStatus();
     }
 
-    // Business Logic
     public boolean canBeProvidedBy(Store store) {
-        return this.store == store && onSale;
+        return belongsTo(store) && onSale;
+    }
+
+    public boolean belongsTo(Store store) {
+        return this.store == store;
     }
 }

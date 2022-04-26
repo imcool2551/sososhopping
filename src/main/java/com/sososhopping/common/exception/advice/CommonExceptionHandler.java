@@ -1,10 +1,7 @@
 package com.sososhopping.common.exception.advice;
 
 import com.sososhopping.common.dto.ErrorResponse;
-import com.sososhopping.common.exception.BindingException;
-import com.sososhopping.common.exception.ForbiddenException;
-import com.sososhopping.common.exception.NotFoundException;
-import com.sososhopping.common.exception.UnAuthorizedException;
+import com.sososhopping.common.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +35,7 @@ public class CommonExceptionHandler {
                 .body(new ErrorResponse(errorMessage));
     }
 
-    @ExceptionHandler({BindingException.class, NoSuchElementException.class})
+    @ExceptionHandler({BindingException.class, NoSuchElementException.class, BadRequestException.class})
     public ResponseEntity<ErrorResponse> validationException(
             HttpServletRequest request, Exception e) {
 
