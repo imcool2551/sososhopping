@@ -1,6 +1,5 @@
 CREATE TABLE store_metadata (
     store_metadata_id BIGINT NOT NULL AUTO_INCREMENT,
-    store_id BIGINT NOT NULL,
     business_number CHAR(10) NOT NULL,
     representative_name VARCHAR(20) NOT NULL,
     business_name VARCHAR(20) NOT NULL,
@@ -14,7 +13,4 @@ ALTER TABLE store_metadata
 ADD CONSTRAINT uk__store_metadata__business_number
 UNIQUE (business_number);
 
-ALTER TABLE item
-ADD CONSTRAINT fk__store_metadata__store_id
-FOREIGN KEY (store_id) REFERENCES store (store_id);
 

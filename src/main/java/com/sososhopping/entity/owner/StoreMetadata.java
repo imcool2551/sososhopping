@@ -21,10 +21,6 @@ public class StoreMetadata extends BaseTimeEntity {
     @Column(name = "store_metadata_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
-
     @Column(unique = true, columnDefinition = "char", length = 10)
     private String businessNumber;
 
@@ -35,10 +31,9 @@ public class StoreMetadata extends BaseTimeEntity {
     private LocalDateTime openingDate;
 
     @Builder
-    public StoreMetadata(Store store, String businessNumber, String representativeName,
+    public StoreMetadata(String businessNumber, String representativeName,
                          String businessName, LocalDateTime openingDate) {
 
-        this.store = store;
         this.businessNumber = businessNumber;
         this.representativeName = representativeName;
         this.businessName = businessName;

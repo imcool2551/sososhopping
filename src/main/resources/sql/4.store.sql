@@ -1,5 +1,6 @@
 CREATE TABLE store (
     store_id BIGINT NOT NULL AUTO_INCREMENT,
+    store_metadata_id BIGINT NOT NULL,
     owner_id BIGINT NOT NULL,
     name VARCHAR(40) NOT NULL,
     store_type VARCHAR(20) NOT NULL,
@@ -27,3 +28,7 @@ CREATE TABLE store (
 ALTER TABLE store
 ADD CONSTRAINT fk__store__owner_id
 FOREIGN KEY (owner_id) REFERENCES owner (owner_id);
+
+ALTER TABLE store
+ADD CONSTRAINT fk__store__metadata_id
+FOREIGN KEY (store_metadata_id) REFERENCES store_metadata (store_metadata_id);

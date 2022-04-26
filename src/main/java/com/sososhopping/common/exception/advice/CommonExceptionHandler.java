@@ -2,6 +2,8 @@ package com.sososhopping.common.exception.advice;
 
 import com.sososhopping.common.dto.ErrorResponse;
 import com.sososhopping.common.exception.BindingException;
+import com.sososhopping.common.exception.ForbiddenException;
+import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,6 +59,28 @@ public class CommonExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler({ForbiddenException.class})
+    public ResponseEntity<ErrorResponse> forbiddenException(
+            HttpServletRequest request, ForbiddenException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<ErrorResponse> notFoundException(
+            HttpServletRequest request, NotFoundException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(e.getMessage()));
     }
 

@@ -1,9 +1,13 @@
 package com.sososhopping.domain.store.service;
 
+import com.sososhopping.common.exception.ForbiddenException;
+import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.common.service.S3Service;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
 import com.sososhopping.domain.store.dto.request.CreateStoreDto;
+import com.sososhopping.domain.store.dto.response.StoreResponse;
+import com.sososhopping.domain.store.dto.response.StoresResponse;
 import com.sososhopping.domain.store.exception.DuplicateBusinessNumberException;
 import com.sososhopping.domain.store.exception.MissingFileException;
 import com.sososhopping.domain.store.repository.StoreBusinessDayRepository;
@@ -20,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,17 +56,43 @@ public class StoreService {
             throw new DuplicateBusinessNumberException("businessNumber already in use: " + businessNumber);
         }
 
+
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(UnAuthorizedException::new);
-        Store store = dto.toStore(owner);
-        StoreMetadata storeMetadata = dto.toStoreMetadata(store);
+        StoreMetadata storeMetadata = dto.toStoreMetadata();
+        Store store = dto.toStore(owner, storeMetadata);
         List<StoreBusinessDay> storeBusinessDays = dto.toStoreBusinessDays(store);
-        storeRepository.save(store);
+
         storeMetaDataRepository.save(storeMetadata);
+        storeRepository.save(store);
         for (StoreBusinessDay storeBusinessDay : storeBusinessDays) {
             storeBusinessDayRepository.save(storeBusinessDay);
         }
 
         return store.getId();
+    }
+
+    public List<StoresResponse> findStores(Long ownerId) {
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(UnAuthorizedException::new);
+        List<Store> stores = storeRepository.findByOwner(owner);
+
+        return stores.stream()
+                .map(StoresResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public StoreResponse findStore(Long ownerId, Long storeId) {
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(UnAuthorizedException::new);
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
+
+        if (!store.belongsTo(owner)) {
+            throw new ForbiddenException("Store does not belong to owner");
+        }
+
+        return new StoreResponse(store);
     }
 }

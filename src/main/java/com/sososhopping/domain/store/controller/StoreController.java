@@ -3,10 +3,11 @@ package com.sososhopping.domain.store.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.domain.store.dto.request.CreateStoreDto;
+import com.sososhopping.domain.store.dto.response.StoreResponse;
+import com.sososhopping.domain.store.dto.response.StoresResponse;
 import com.sososhopping.domain.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
 @RestController
@@ -25,24 +30,23 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping("/owner/my/store/upload")
-    public ResponseEntity<ApiResponse> upload(
-            Authentication authentication,
-            @RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<ApiResponse> upload(Authentication authentication,
+                                              @RequestParam MultipartFile file) throws IOException {
 
         Long ownerId = Long.parseLong(authentication.getName());
         String imgUrl = storeService.upload(ownerId, file);
-        return new ResponseEntity<>(new ApiResponse(imgUrl), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse(imgUrl), CREATED);
     }
 
     @PostMapping("/owner/my/store")
     public ResponseEntity<ApiResponse> createStore(Authentication authentication,
-                            @RequestBody @Valid CreateStoreDto dto,
-                            BindingResult bindingResult) {
+                                                   @RequestBody @Valid CreateStoreDto dto,
+                                                   BindingResult bindingResult) {
 
         validateCreateStoreDto(dto, bindingResult);
         Long ownerId = Long.parseLong(authentication.getName());
         Long storeId = storeService.createStore(ownerId, dto);
-        return new ResponseEntity<>(new ApiResponse(storeId.toString()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse(storeId), CREATED);
     }
 
     private void validateCreateStoreDto(CreateStoreDto dto, BindingResult bindingResult) {
@@ -65,5 +69,21 @@ public class StoreController {
 
             throw new BindingException(errorMessage);
         }
+    }
+
+    @GetMapping("/owner/my/store")
+    public ResponseEntity<ApiResponse> findStores(Authentication authentication) {
+        Long ownerId = Long.parseLong(authentication.getName());
+        List<StoresResponse> stores = storeService.findStores(ownerId);
+        return new ResponseEntity<>(new ApiResponse(stores), OK);
+    }
+
+    @GetMapping("/owner/my/store/{storeId}")
+    public ResponseEntity<StoreResponse> findStoreById(Authentication authentication,
+                                                       @PathVariable Long storeId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        StoreResponse store = storeService.findStore(ownerId, storeId);
+        return new ResponseEntity<>(store, OK);
     }
 }

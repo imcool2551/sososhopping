@@ -2,9 +2,9 @@ POST http://localhost:8080/api/v1/owner/auth/signup
 Content-Type: application/json
 
 {
-     "email": "test@test.com",
+     "email": "test2@test.com",
      "password": "password",
      "name": "gil",
-     "phone": "01058585859"
+     "phone": "01058585850"
 }
 

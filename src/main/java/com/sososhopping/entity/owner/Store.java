@@ -30,6 +30,10 @@ public class Store extends BaseTimeEntity {
     @Column(name = "store_id")
     private Long id;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "store_metadata_id")
+    private StoreMetadata storeMetadata;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
@@ -78,9 +82,6 @@ public class Store extends BaseTimeEntity {
 
     private Integer deliveryCharge;
 
-    @OneToOne(mappedBy = "store", cascade = ALL, orphanRemoval = true)
-    private StoreMetadata storeMetadata;
-
     @OneToMany(mappedBy = "store", cascade = ALL, orphanRemoval = true)
     @OrderBy("id asc")
     private List<StoreBusinessDay> storeBusinessDays = new ArrayList<>();
@@ -97,7 +98,7 @@ public class Store extends BaseTimeEntity {
     private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public Store(Owner owner, String name, StoreType storeType, String phone,
+    public Store(Owner owner, StoreMetadata storeMetadata, String name, StoreType storeType, String phone,
                  BigDecimal lat, BigDecimal lng, String streetAddress,
                  String detailedAddress, StoreStatus storeStatus,
                  boolean isOpen, boolean pickupStatus, boolean deliveryStatus,
@@ -106,6 +107,7 @@ public class Store extends BaseTimeEntity {
                  BigDecimal saveRate, Integer deliveryCharge) {
 
         this.owner = owner;
+        this.storeMetadata = storeMetadata;
         this.name = name;
         this.storeType = storeType;
         this.phone = phone;
@@ -164,6 +166,10 @@ public class Store extends BaseTimeEntity {
 
     public void updateBusinessStatus(boolean isOpen) {
         this.isOpen = isOpen;
+    }
+
+    public boolean belongsTo(Owner owner) {
+        return this.owner == owner;
     }
 }
 

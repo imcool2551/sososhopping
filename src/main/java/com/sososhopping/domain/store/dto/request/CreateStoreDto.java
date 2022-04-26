@@ -17,6 +17,40 @@ import java.util.stream.Collectors;
 @Data
 public class CreateStoreDto {
 
+    @Data
+    static class StoreMetadataDto {
+
+        @NotNull(message = "사업자 번호 필수")
+        @Length(min = 10, max = 10, message = "사업자 번호는 10자리")
+        private String businessNumber;
+
+        @NotNull(message = "대표자 이름 필수")
+        @NotBlank(message = "대표자 이름 필수")
+        private String representativeName;
+
+        @NotNull(message = "상호명 필수")
+        @NotBlank(message = "상호명 필수")
+        private String businessName;
+
+        @NotNull
+        private LocalDateTime openingDate;
+    }
+
+    @Data
+    static class StoreBusinessDayDto {
+        @NotNull(message = "요일 필수")
+        @NotBlank(message = "요일 필수")
+        private String day;
+
+        @NotNull(message = "영업 여부 필수")
+        private Boolean isOpen;
+
+        private String openTime;
+
+        private String closeTime;
+    }
+
+
     @NotNull(message = "이름 필수")
     @NotBlank(message = "이름 필수")
     private String name;
@@ -75,9 +109,19 @@ public class CreateStoreDto {
     @Size(min = 7, max = 7, message = "모든 요일 영업 여부 필수")
     private List<StoreBusinessDayDto> days;
 
-    public Store toStore(Owner owner) {
+    public StoreMetadata toStoreMetadata() {
+        return StoreMetadata.builder()
+                .businessNumber(this.getMetadata().getBusinessNumber())
+                .representativeName(this.getMetadata().getRepresentativeName())
+                .businessName(this.getMetadata().getBusinessName())
+                .openingDate(this.getMetadata().getOpeningDate())
+                .build();
+    }
+
+    public Store toStore(Owner owner, StoreMetadata storeMetadata) {
         return Store.builder()
                 .owner(owner)
+                .storeMetadata(storeMetadata)
                 .name(this.getName())
                 .storeType(StoreType.ofKrName(this.getStoreType()))
                 .phone(this.getPhone())
@@ -99,16 +143,6 @@ public class CreateStoreDto {
                 .build();
     }
 
-    public StoreMetadata toStoreMetadata(Store store) {
-        return StoreMetadata.builder()
-                .store(store)
-                .businessNumber(this.getMetadata().getBusinessNumber())
-                .representativeName(this.getMetadata().getRepresentativeName())
-                .businessName(this.getMetadata().getBusinessName())
-                .openingDate(this.getMetadata().getOpeningDate())
-                .build();
-    }
-
     public List<StoreBusinessDay> toStoreBusinessDays(Store store) {
         return days.stream()
                 .map(day -> StoreBusinessDay.builder()
@@ -124,38 +158,4 @@ public class CreateStoreDto {
     public String getBusinessNumber() {
         return metadata.getBusinessNumber();
     }
-
-    @Data
-    static class StoreMetadataDto {
-
-        @NotNull(message = "사업자 번호 필수")
-        @Length(min = 10, max = 10, message = "사업자 번호는 10자리")
-        private String businessNumber;
-
-        @NotNull(message = "대표자 이름 필수")
-        @NotBlank(message = "대표자 이름 필수")
-        private String representativeName;
-
-        @NotNull(message = "상호명 필수")
-        @NotBlank(message = "상호명 필수")
-        private String businessName;
-
-        @NotNull
-        private LocalDateTime openingDate;
-    }
-
-    @Data
-    static class StoreBusinessDayDto {
-        @NotNull(message = "요일 필수")
-        @NotBlank(message = "요일 필수")
-        private String day;
-
-        @NotNull(message = "영업 여부 필수")
-        private Boolean isOpen;
-
-        private String openTime;
-
-        private String closeTime;
-    }
-
 }
