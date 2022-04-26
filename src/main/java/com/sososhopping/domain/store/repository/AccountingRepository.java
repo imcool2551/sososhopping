@@ -1,4 +1,4 @@
-package com.sososhopping.repository.store;
+package com.sososhopping.domain.store.repository;
 
 import com.sososhopping.entity.store.Accounting;
 import com.sososhopping.entity.store.Store;
@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface AccountingRepository extends JpaRepository<Accounting, Long> {
 
@@ -17,5 +16,4 @@ public interface AccountingRepository extends JpaRepository<Accounting, Long> {
     List<Accounting> findAccountingsByStoreAndPeriod(@Param("store") Store store
             , @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    Optional<Accounting> findByStoreAndId(Store store, Long accountingId);
 }

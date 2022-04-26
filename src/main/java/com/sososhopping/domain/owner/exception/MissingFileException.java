@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.exception;
+package com.sososhopping.domain.owner.exception;
 
 public class MissingFileException extends RuntimeException {
 

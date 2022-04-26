@@ -3,7 +3,7 @@ package com.sososhopping.domain.owner.service;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.common.service.S3Service;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
-import com.sososhopping.domain.store.exception.MissingFileException;
+import com.sososhopping.domain.owner.exception.MissingFileException;
 import com.sososhopping.entity.owner.Owner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

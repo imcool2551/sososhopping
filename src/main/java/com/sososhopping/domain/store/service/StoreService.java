@@ -46,9 +46,7 @@ public class StoreService {
 
         storeMetaDataRepository.save(storeMetadata);
         storeRepository.save(store);
-        for (StoreBusinessDay storeBusinessDay : storeBusinessDays) {
-            storeBusinessDayRepository.save(storeBusinessDay);
-        }
+        storeBusinessDays.forEach(storeBusinessDayRepository::save);
 
         return store.getId();
     }

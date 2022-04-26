@@ -1,6 +1,5 @@
 package com.sososhopping.entity.store;
 
-import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,18 +47,6 @@ public class Item extends BaseTimeEntity {
         this.imgUrl = imgUrl;
         this.price = price;
         this.onSale = onSale;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public void update(StoreItemRequestDto dto) {
-        this.name = dto.getName();
-        this.description = dto.getDescription();
-        this.purchaseUnit = dto.getPurchaseUnit();
-        this.price = dto.getPrice();
-        this.onSale = dto.getSaleStatus();
     }
 
     public boolean canBeProvidedBy(Store store) {
