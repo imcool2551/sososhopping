@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.store;
 
-import com.sososhopping.entity.owner.StoreBusinessDay;
+import com.sososhopping.entity.store.StoreBusinessDay;
 import lombok.Getter;
 
 @Getter

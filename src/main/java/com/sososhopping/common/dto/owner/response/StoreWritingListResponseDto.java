@@ -1,7 +1,7 @@
 package com.sososhopping.common.dto.owner.response;
 
-import com.sososhopping.entity.owner.Writing;
-import com.sososhopping.entity.owner.WritingType;
+import com.sososhopping.entity.store.Writing;
+import com.sososhopping.entity.store.WritingType;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;

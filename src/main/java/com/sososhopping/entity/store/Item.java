@@ -1,8 +1,7 @@
-package com.sososhopping.entity.orders;
+package com.sososhopping.entity.store;
 
 import com.sososhopping.common.dto.owner.request.StoreItemRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
-import com.sososhopping.entity.owner.Store;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

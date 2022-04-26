@@ -10,7 +10,7 @@ import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.user.UserPoint;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.coupon.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.member.UserPointRepository;

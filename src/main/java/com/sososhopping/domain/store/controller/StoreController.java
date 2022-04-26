@@ -8,7 +8,7 @@ import com.sososhopping.domain.store.dto.response.StoreResponse;
 import com.sososhopping.domain.store.dto.response.StoresResponse;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.domain.store.service.StoreService;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

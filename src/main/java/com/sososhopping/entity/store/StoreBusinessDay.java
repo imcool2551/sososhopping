@@ -1,6 +1,5 @@
-package com.sososhopping.entity.owner;
+package com.sososhopping.entity.store;
 
-import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,11 +46,5 @@ public class StoreBusinessDay {
         this.isOpen = isOpen;
         this.openTime = openTime;
         this.closeTime = closeTime;
-    }
-
-    public void update(StoreBusinessDayRequestDto dto) {
-        this.isOpen = dto.getIsOpen();
-        this.openTime = dto.getOpenTime();
-        this.closeTime = dto.getCloseTime();
     }
 }

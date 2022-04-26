@@ -1,7 +1,7 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.owner.Accounting;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Accounting;
+import com.sososhopping.entity.store.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -8,7 +8,7 @@ import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.FixCoupon;
 import com.sososhopping.entity.coupon.RateCoupon;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;

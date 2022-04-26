@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.owner.request;
 
-import com.sososhopping.entity.owner.WritingType;
+import com.sososhopping.entity.store.WritingType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

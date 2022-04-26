@@ -7,7 +7,7 @@ import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.user.UserPoint;
 import com.sososhopping.entity.user.UserPointLog;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.member.UserPointLogRepository;
 import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;

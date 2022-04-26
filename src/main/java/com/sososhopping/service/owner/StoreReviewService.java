@@ -2,7 +2,7 @@ package com.sososhopping.service.owner;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.user.Review;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.store.ReviewRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;

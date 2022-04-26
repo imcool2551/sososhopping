@@ -1,8 +1,8 @@
 package com.sososhopping.domain.store.repository;
 
 import com.sososhopping.entity.owner.Owner;
-import com.sososhopping.entity.owner.Store;
-import com.sososhopping.entity.owner.StoreStatus;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.repository.store.UserStoreRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

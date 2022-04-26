@@ -1,4 +1,4 @@
-package com.sososhopping.entity.owner;
+package com.sososhopping.entity.store;
 
 public enum WritingType {
     EVENT, PROMOTION

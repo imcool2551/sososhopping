@@ -5,7 +5,7 @@ import com.sososhopping.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.entity.user.UserPoint;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.member.UserPointLogRepository;
 import com.sososhopping.repository.member.UserPointRepository;

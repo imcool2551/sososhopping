@@ -1,7 +1,7 @@
 package com.sososhopping.domain.store.dto.response;
 
-import com.sososhopping.entity.owner.Store;
-import com.sososhopping.entity.owner.StoreBusinessDay;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.StoreBusinessDay;
 import lombok.Data;
 
 import java.util.List;

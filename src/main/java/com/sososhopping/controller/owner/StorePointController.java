@@ -3,7 +3,7 @@ package com.sososhopping.controller.owner;
 import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.common.dto.owner.response.StorePointPolicyResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreUserPointResponseDto;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.service.owner.StorePointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -3,7 +3,7 @@ package com.sososhopping.entity.coupon;
 import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.common.BaseTimeEntity;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

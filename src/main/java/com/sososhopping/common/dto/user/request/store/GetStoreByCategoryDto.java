@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.request.store;
 
-import com.sososhopping.entity.owner.StoreType;
+import com.sososhopping.entity.store.StoreType;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

@@ -1,6 +1,7 @@
 package com.sososhopping.domain.store.dto.request;
 
 import com.sososhopping.entity.owner.*;
+import com.sososhopping.entity.store.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

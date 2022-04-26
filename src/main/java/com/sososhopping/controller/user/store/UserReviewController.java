@@ -7,7 +7,7 @@ import com.sososhopping.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.common.dto.user.response.store.UserReviewDto;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.store.ReviewRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.service.user.store.UserReviewService;

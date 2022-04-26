@@ -1,7 +1,7 @@
 package com.sososhopping.entity.coupon;
 
 import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.sososhopping.entity.user;
 
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.orders.Order;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

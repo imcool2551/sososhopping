@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.owner.request.UserReportRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.admin.UserReport;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;

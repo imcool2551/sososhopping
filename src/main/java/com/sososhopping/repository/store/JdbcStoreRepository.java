@@ -1,6 +1,6 @@
 package com.sososhopping.repository.store;
 
-import com.sososhopping.entity.owner.StoreType;
+import com.sososhopping.entity.store.StoreType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

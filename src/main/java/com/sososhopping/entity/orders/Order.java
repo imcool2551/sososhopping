@@ -5,7 +5,7 @@ import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.UserPoint;
-import com.sososhopping.entity.owner.Store;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;

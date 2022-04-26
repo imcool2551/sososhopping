@@ -1,7 +1,7 @@
 package com.sososhopping.domain.store.dto.response;
 
-import com.sososhopping.entity.owner.Store;
-import com.sososhopping.entity.owner.StoreStatus;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.StoreStatus;
 import lombok.Data;
 
 @Data

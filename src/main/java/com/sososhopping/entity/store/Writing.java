@@ -1,4 +1,4 @@
-package com.sososhopping.entity.owner;
+package com.sososhopping.entity.store;
 
 import com.sososhopping.common.dto.owner.request.StoreWritingRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
