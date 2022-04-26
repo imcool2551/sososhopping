@@ -22,7 +22,7 @@ public enum Day {
         return Arrays.stream(Day.values())
                 .filter(day -> day.getKrDay().equals(krDay))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("can't find day of " + krDay));
 
     }
 

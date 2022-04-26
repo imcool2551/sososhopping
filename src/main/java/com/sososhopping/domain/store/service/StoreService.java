@@ -4,6 +4,7 @@ import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.common.service.S3Service;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
 import com.sososhopping.domain.store.dto.request.CreateStoreDto;
+import com.sososhopping.domain.store.exception.DuplicateBusinessNumberException;
 import com.sososhopping.domain.store.exception.MissingFileException;
 import com.sososhopping.domain.store.repository.StoreBusinessDayRepository;
 import com.sososhopping.domain.store.repository.StoreMetaDataRepository;
@@ -44,10 +45,14 @@ public class StoreService {
     }
 
     public Long createStore(Long ownerId, CreateStoreDto dto) {
+        String businessNumber = dto.getBusinessNumber();
+
+        if (storeMetaDataRepository.existsByBusinessNumber(businessNumber)) {
+            throw new DuplicateBusinessNumberException("businessNumber already in use: " + businessNumber);
+        }
+
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(UnAuthorizedException::new);
-
-
         Store store = dto.toStore(owner);
         StoreMetadata storeMetadata = dto.toStoreMetadata(store);
         List<StoreBusinessDay> storeBusinessDays = dto.toStoreBusinessDays(store);

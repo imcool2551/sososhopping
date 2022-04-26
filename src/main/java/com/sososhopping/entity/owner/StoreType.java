@@ -29,7 +29,7 @@ public enum StoreType {
         return Arrays.stream(StoreType.values())
                 .filter(storeType -> storeType.getKrName().equals(krName))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("can't find store type of " + krName));
     }
 
     public String getKrName() {

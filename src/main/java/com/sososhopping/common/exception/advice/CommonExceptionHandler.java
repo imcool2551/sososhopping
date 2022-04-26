@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -35,9 +36,9 @@ public class CommonExceptionHandler {
                 .body(new ErrorResponse(errorMessage));
     }
 
-    @ExceptionHandler({BindingException.class})
+    @ExceptionHandler({BindingException.class, NoSuchElementException.class})
     public ResponseEntity<ErrorResponse> validationException(
-            HttpServletRequest request, BindingException e) {
+            HttpServletRequest request, Exception e) {
 
         log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
 

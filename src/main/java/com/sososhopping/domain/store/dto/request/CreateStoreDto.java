@@ -121,6 +121,10 @@ public class CreateStoreDto {
                 .collect(Collectors.toList());
     }
 
+    public String getBusinessNumber() {
+        return metadata.getBusinessNumber();
+    }
+
     @Data
     static class StoreMetadataDto {
 
