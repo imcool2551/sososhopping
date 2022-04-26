@@ -1,6 +1,7 @@
 package com.sososhopping.common.exception.advice;
 
 import com.sososhopping.common.dto.ErrorResponse;
+import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,19 @@ public class CommonExceptionHandler {
                 .body(new ErrorResponse(errorMessage));
     }
 
+    @ExceptionHandler({BindingException.class})
+    public ResponseEntity<ErrorResponse> validationException(
+            HttpServletRequest request, BindingException e) {
+
+        log.error("[{}] [{}]", request.getRequestURI(), e.getClass(), e);
+
+        String errorMessage = e.getMessage();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(errorMessage));
+    }
+
     @ExceptionHandler({UnAuthorizedException.class})
     public ResponseEntity<ErrorResponse> unAuthorizedException(
             HttpServletRequest request, UnAuthorizedException e) {
@@ -54,4 +68,5 @@ public class CommonExceptionHandler {
                 .status(INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("something went wrong"));
     }
+
 }

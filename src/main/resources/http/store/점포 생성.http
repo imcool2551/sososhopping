@@ -1,0 +1,66 @@
+POST http://localhost:8080/api/v1/owner/my/store
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+
+{
+  "name": "야채 가게",
+  "storeType": "마트",
+  "phone": "01012345678",
+  "lat": "37",
+  "lng": "127.01",
+  "streetAddress": "서울시 용산구 녹사평대로 40다길 19",
+  "detailedAddress": "A동 102호",
+  "pickupStatus": true,
+  "deliveryStatus": true,
+  "pointPolicyStatus": true,
+  "imgUrl": "1/d4f87dd9-a52d-4808-86b5-b5acc2c36e8c.img",
+  "description": "국산 야채 팝니다.",
+  "extraBusinessDay": "매월 셋 째주 일요일은 휴무일입니다",
+  "minimumOrderPrice": 5000,
+  "saveRate": 3.5,
+  "deliveryCharge": 3000,
+  "businessNumber": "1231231234",
+  "representativeName": "김아무개",
+  "businessName": "가락 상회",
+  "openingDate": "2022-04-25T11:11:11",
+  "days":  [
+    {
+      "day": "월",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "20:00"
+    },
+    {
+      "day": "화",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "20:00"
+    },
+    {
+      "day": "수",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "20:00"
+    },
+    {
+      "day": "목",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "20:00"
+    },
+    {
+      "day": "금",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "20:00"
+    },
+    {
+      "day": "토",
+      "isOpen": false
+    },
+    {
+      "day": "일",
+      "isOpen": false
+    }
+  ]
+}
