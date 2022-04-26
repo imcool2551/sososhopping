@@ -51,11 +51,9 @@ public class StoreService {
 
     public Long createStore(Long ownerId, CreateStoreDto dto) {
         String businessNumber = dto.getBusinessNumber();
-
         if (storeMetaDataRepository.existsByBusinessNumber(businessNumber)) {
             throw new DuplicateBusinessNumberException("businessNumber already in use: " + businessNumber);
         }
-
 
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(UnAuthorizedException::new);
@@ -83,6 +81,17 @@ public class StoreService {
     }
 
     public StoreResponse findStore(Long ownerId, Long storeId) {
+        Store store = validateOwnership(ownerId, storeId);
+        return new StoreResponse(store);
+    }
+
+    public boolean setOpen(Long ownerId, Long storeId, boolean open) {
+        Store store = validateOwnership(ownerId, storeId);
+        store.updateOpen(open);
+        return store.isOpen();
+    }
+
+    private Store validateOwnership(Long ownerId, Long storeId) {
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(UnAuthorizedException::new);
 
@@ -93,6 +102,6 @@ public class StoreService {
             throw new ForbiddenException("Store does not belong to owner");
         }
 
-        return new StoreResponse(store);
+        return store;
     }
 }

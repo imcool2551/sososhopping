@@ -1,11 +1,9 @@
 package com.sososhopping.entity.owner;
 
-import com.sososhopping.common.dto.owner.request.StoreBusinessDayRequestDto;
 import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
-import com.sososhopping.common.dto.owner.request.StoreRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
-import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.orders.Item;
+import com.sososhopping.entity.user.Review;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -128,48 +126,21 @@ public class Store extends BaseTimeEntity {
         this.deliveryCharge = deliveryCharge;
     }
 
-    //가게 정보 업데이트
-    public void update(StoreRequestDto dto) {
-        this.storeType = StoreType.ofKrName(dto.getStoreType());
-        this.name = dto.getName();
-        this.description = dto.getDescription();
-        this.extraBusinessDay = dto.getExtraBusinessDay();
-        this.phone = dto.getPhone();
-        this.deliveryStatus = dto.getDeliveryStatus();
-        this.deliveryCharge = dto.getDeliveryCharge();
-
-        List<StoreBusinessDayRequestDto> storeBusinessDays = dto.getStoreBusinessDays();
-
-        for (int i = 0; i < storeBusinessDays.size(); i++) {
-            this.storeBusinessDays.get(i).update(storeBusinessDays.get(i));
-        }
+    public boolean belongsTo(Owner owner) {
+        return this.owner == owner;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void updateOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
-
 
     public void updateStoreStatus(StoreStatus storeStatus) {
         this.storeStatus = storeStatus;
     }
 
-    //가게 포인트 정책 업데이트
     public void updatePointPolicy(StorePointPolicyRequestDto dto) {
         this.pointPolicyStatus = dto.getPointPolicyStatus();
         this.saveRate = dto.getSaveRate();
-    }
-
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void updateBusinessStatus(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public boolean belongsTo(Owner owner) {
-        return this.owner == owner;
     }
 }
 
