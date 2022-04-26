@@ -12,16 +12,10 @@ import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long>, UserStoreRepository {
 
-    //점주 가게 정보 read with 사업자 정보
     @EntityGraph(attributePaths = {"storeMetadata"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Store> findByStoreStatus(StoreStatus storeStatus);
 
     List<Store> findByOwner(Owner owner);
-
-
-    @EntityGraph(attributePaths = {"items"}, type = EntityGraph.EntityGraphType.FETCH)
-    Optional<Store> findStoreItemsById(Long storeId);
-    //점주 가게 정보 read with 글
 
     @EntityGraph(attributePaths = {"writings"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Store> findStoreWithWritingById(Long storeId);

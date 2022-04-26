@@ -2,6 +2,8 @@ package com.sososhopping.domain.store.service;
 
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
+import com.sososhopping.domain.owner.repository.OwnerRepository;
+import com.sososhopping.domain.store.dto.request.CreateItemDto;
 import com.sososhopping.domain.store.dto.response.StoreItemDto;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.store.Item;
@@ -19,9 +21,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final StoreService storeService;
+    private final OwnerRepository ownerRepository;
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
 
+    public Long createItem(Long ownerId, Long storeId, CreateItemDto dto) {
+        Store store = storeService.validateStoreOwner(ownerId, storeId);
+        Item item = dto.toEntity(store);
+        itemRepository.save(item);
+        return item.getId();
+    }
 
     public StoreItemDto findStoreItem(Long storeId, Long itemId) {
         Store store = storeRepository.findById(storeId)

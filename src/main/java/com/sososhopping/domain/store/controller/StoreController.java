@@ -15,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -31,15 +29,6 @@ public class StoreController {
 
     private final StoreService storeService;
     private final StoreRepository storeRepository;
-
-    @PostMapping("/owner/my/store/upload")
-    public ResponseEntity<ApiResponse> upload(Authentication authentication,
-                                              @RequestParam MultipartFile file) throws IOException {
-
-        Long ownerId = Long.parseLong(authentication.getName());
-        String imgUrl = storeService.upload(ownerId, file);
-        return new ResponseEntity<>(new ApiResponse(imgUrl), CREATED);
-    }
 
     @PostMapping("/owner/my/store")
     public ResponseEntity<ApiResponse> createStore(Authentication authentication,
