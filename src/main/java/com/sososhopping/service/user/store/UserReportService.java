@@ -7,7 +7,7 @@ import com.sososhopping.entity.admin.StoreReport;
 import com.sososhopping.entity.owner.Store;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.StoreReportRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

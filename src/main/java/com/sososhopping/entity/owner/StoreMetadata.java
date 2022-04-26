@@ -2,6 +2,7 @@ package com.sososhopping.entity.owner;
 
 import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "store_metadata")
 public class StoreMetadata extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_metadata_id")
     private Long id;
 
@@ -32,4 +33,15 @@ public class StoreMetadata extends BaseTimeEntity {
     private String businessName;
 
     private LocalDateTime openingDate;
+
+    @Builder
+    public StoreMetadata(Store store, String businessNumber, String representativeName,
+                         String businessName, LocalDateTime openingDate) {
+
+        this.store = store;
+        this.businessNumber = businessNumber;
+        this.representativeName = representativeName;
+        this.businessName = businessName;
+        this.openingDate = openingDate;
+    }
 }

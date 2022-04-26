@@ -7,7 +7,7 @@ import com.sososhopping.common.dto.user.response.store.WritingListDto;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.owner.Store;
 import com.sososhopping.entity.owner.Writing;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.repository.store.WritingRepository;
 import com.sososhopping.service.user.store.UserWritingService;
 import lombok.RequiredArgsConstructor;

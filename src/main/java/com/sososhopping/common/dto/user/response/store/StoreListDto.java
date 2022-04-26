@@ -32,7 +32,7 @@ public class StoreListDto implements Comparable<StoreListDto> {
     ) {
         storeId = store.getId();
         ownerId = store.getOwner().getId();
-        storeType = store.getStoreType().getKrType();
+        storeType = store.getStoreType().getKrName();
         name = store.getName();
         description = store.getDescription();
         phone = store.getPhone();
@@ -56,7 +56,7 @@ public class StoreListDto implements Comparable<StoreListDto> {
     public StoreListDto (InterestStore interestStore) {
         storeId = interestStore.getStore().getId();
         ownerId = interestStore.getStore().getOwner().getId();
-        storeType = interestStore.getStore().getStoreType().getKrType();
+        storeType = interestStore.getStore().getStoreType().getKrName();
         name = interestStore.getStore().getName();
         description = interestStore.getStore().getDescription();
         phone = interestStore.getStore().getPhone();

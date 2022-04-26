@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.user.response.store.ItemDto;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.owner.Store;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

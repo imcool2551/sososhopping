@@ -15,7 +15,7 @@ import com.sososhopping.repository.coupon.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
 import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.repository.order.OrderRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

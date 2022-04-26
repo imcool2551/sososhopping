@@ -1,6 +1,7 @@
 package com.sososhopping.entity.owner;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum StoreType {
     GROCERY("마트"),
@@ -18,20 +19,20 @@ public enum StoreType {
     CLOTH("의류")
     ;
 
-    private final String krType;
+    private final String krName;
 
-    StoreType(String krType) {
-        this.krType = krType;
+    StoreType(String krName) {
+        this.krName = krName;
     }
 
-    public static StoreType krTypeOf(String krType) {
+    public static StoreType ofKrName(String krName) {
         return Arrays.stream(StoreType.values())
-                .filter(storeType -> storeType.getKrType().equals(krType))
+                .filter(storeType -> storeType.getKrName().equals(krName))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(NoSuchElementException::new);
     }
 
-    public String getKrType() {
-        return krType;
+    public String getKrName() {
+        return krName;
     }
 }

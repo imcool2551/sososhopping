@@ -12,7 +12,7 @@ import com.sososhopping.repository.member.UserPointLogRepository;
 import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;

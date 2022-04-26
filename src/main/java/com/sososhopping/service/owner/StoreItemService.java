@@ -9,7 +9,7 @@ import com.sososhopping.entity.owner.Store;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.order.OrderItemRepository;
 import com.sososhopping.repository.store.ItemRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.common.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

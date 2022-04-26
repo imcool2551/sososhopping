@@ -4,7 +4,7 @@ import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.owner.Store;
 import com.sososhopping.entity.owner.Writing;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.repository.store.WritingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -35,7 +35,7 @@ public class StoreInfoDto {
     public StoreInfoDto(Store store, boolean isInterestStore, Integer myPoint) {
         storeId = store.getId();
         ownerId = store.getOwner().getId();
-        storeType = store.getStoreType().getKrType();
+        storeType = store.getStoreType().getKrName();
         name = store.getName();
         imgUrl = store.getImgUrl();
         description = store.getDescription();

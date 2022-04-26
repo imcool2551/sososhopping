@@ -21,7 +21,7 @@ import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.repository.store.ItemRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

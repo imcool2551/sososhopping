@@ -7,7 +7,7 @@ import com.sososhopping.entity.owner.Store;
 import com.sososhopping.entity.owner.StoreStatus;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreReportRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

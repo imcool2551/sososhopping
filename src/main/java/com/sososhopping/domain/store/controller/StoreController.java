@@ -34,14 +34,15 @@ public class StoreController {
         return new ResponseEntity<>(new ApiResponse(imgUrl), HttpStatus.CREATED);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/owner/my/store")
-    public void createStore(Authentication authentication,
+    public ResponseEntity<ApiResponse> createStore(Authentication authentication,
                             @RequestBody @Valid CreateStoreDto dto,
                             BindingResult bindingResult) {
 
         validateCreateStoreDto(dto, bindingResult);
-
+        Long ownerId = Long.parseLong(authentication.getName());
+        Long storeId = storeService.createStore(ownerId, dto);
+        return new ResponseEntity<>(new ApiResponse(storeId.toString()), HttpStatus.CREATED);
     }
 
     private void validateCreateStoreDto(CreateStoreDto dto, BindingResult bindingResult) {

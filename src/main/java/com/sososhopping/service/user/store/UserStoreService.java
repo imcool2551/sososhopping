@@ -17,7 +17,7 @@ import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
 import com.sososhopping.repository.store.JdbcStoreRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;

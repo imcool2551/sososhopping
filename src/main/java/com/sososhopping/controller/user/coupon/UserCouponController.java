@@ -12,7 +12,7 @@ import com.sososhopping.entity.owner.Store;
 import com.sososhopping.repository.coupon.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.service.user.coupon.UserCouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

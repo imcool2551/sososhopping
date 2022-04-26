@@ -7,6 +7,7 @@ import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.orders.Item;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -95,27 +96,39 @@ public class Store extends BaseTimeEntity {
     @OrderBy("createdAt desc")
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder
+    public Store(Owner owner, String name, StoreType storeType, String phone,
+                 BigDecimal lat, BigDecimal lng, String streetAddress,
+                 String detailedAddress, StoreStatus storeStatus,
+                 boolean isOpen, boolean pickupStatus, boolean deliveryStatus,
+                 boolean pointPolicyStatus, String imgUrl, String description,
+                 String extraBusinessDay, Integer minimumOrderPrice,
+                 BigDecimal saveRate, Integer deliveryCharge) {
 
-    public Store(Owner owner, StoreRequestDto dto) {
         this.owner = owner;
-        this.storeType = StoreType.krTypeOf(dto.getStoreType());
-        this.name = dto.getName();
-        this.description = dto.getDescription();
-        this.extraBusinessDay = dto.getExtraBusinessDay();
-        this.phone = dto.getPhone();
-        this.isOpen = Boolean.FALSE;
-        this.storeStatus = StoreStatus.PENDING;
-        this.deliveryStatus = dto.getDeliveryStatus();
-        this.deliveryCharge = dto.getDeliveryCharge();
-        this.streetAddress = dto.getStreetAddress();
-        this.detailedAddress = dto.getDetailedAddress();
-        this.lat = new BigDecimal(dto.getLat());
-        this.lng = new BigDecimal(dto.getLng());
+        this.name = name;
+        this.storeType = storeType;
+        this.phone = phone;
+        this.lat = lat;
+        this.lng = lng;
+        this.streetAddress = streetAddress;
+        this.detailedAddress = detailedAddress;
+        this.storeStatus = storeStatus;
+        this.isOpen = isOpen;
+        this.pickupStatus = pickupStatus;
+        this.deliveryStatus = deliveryStatus;
+        this.pointPolicyStatus = pointPolicyStatus;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.extraBusinessDay = extraBusinessDay;
+        this.minimumOrderPrice = minimumOrderPrice;
+        this.saveRate = saveRate;
+        this.deliveryCharge = deliveryCharge;
     }
 
     //가게 정보 업데이트
     public void update(StoreRequestDto dto) {
-        this.storeType = StoreType.krTypeOf(dto.getStoreType());
+        this.storeType = StoreType.ofKrName(dto.getStoreType());
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.extraBusinessDay = dto.getExtraBusinessDay();

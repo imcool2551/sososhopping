@@ -4,7 +4,7 @@ import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.owner.Store;
 import com.sososhopping.repository.store.ReviewRepository;
-import com.sososhopping.repository.store.StoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

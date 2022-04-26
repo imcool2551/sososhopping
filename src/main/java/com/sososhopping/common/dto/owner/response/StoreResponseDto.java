@@ -31,7 +31,7 @@ public class StoreResponseDto {
         this.name = store.getName();
         this.description = store.getDescription();
         this.phone = store.getPhone();
-        this.storeType = store.getStoreType().getKrType();
+        this.storeType = store.getStoreType().getKrName();
         this.storeStatus = store.getStoreStatus().name();
         this.extraBusinessDay = store.getExtraBusinessDay();
         this.deliveryCharge = store.getDeliveryCharge();
