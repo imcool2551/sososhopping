@@ -3,6 +3,7 @@ package com.sososhopping.domain.store.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.domain.store.dto.request.CreateCouponDto;
+import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
 import com.sososhopping.domain.store.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,5 +39,14 @@ public class CouponController {
         if (dto.getExpireDate().isBefore(dto.getIssueStartDate())) {
             throw new BadRequestException("invalid coupon issue start date");
         }
+    }
+
+    @GetMapping("/owner/my/store/{storeId}/coupon/{couponId}")
+    public StoreCouponResponse findCoupon(Authentication authentication,
+                                          @PathVariable Long storeId,
+                                          @PathVariable Long couponId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        return couponService.findCoupon(ownerId, storeId, couponId);
     }
 }

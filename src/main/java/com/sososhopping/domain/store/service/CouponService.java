@@ -1,7 +1,10 @@
 package com.sososhopping.domain.store.service;
 
+import com.sososhopping.common.exception.ForbiddenException;
+import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.store.dto.request.CreateCouponDto;
+import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;
 import com.sososhopping.entity.store.Store;
@@ -32,5 +35,17 @@ public class CouponService {
 
     private String generateCouponCode() {
         return UUID.randomUUID().toString().substring(0, 10);
+    }
+
+    public StoreCouponResponse findCoupon(Long ownerId, Long storeId, Long couponId) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+        Coupon coupon = couponRepository.findById(couponId)
+                .orElseThrow(() -> new NotFoundException("can't find coupon with id " + couponId));
+
+        if (!coupon.belongsTo(store)) {
+            throw new ForbiddenException("coupon with id " + couponId + " does not belong to store with id " + storeId);
+        }
+
+        return new StoreCouponResponse(store, coupon);
     }
 }
