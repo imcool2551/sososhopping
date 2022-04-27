@@ -5,6 +5,7 @@ import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,12 +17,10 @@ import java.time.format.DateTimeFormatter;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "coupon_type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Coupon extends BaseTimeEntity {
+public class Coupon extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coupon_id")
@@ -29,36 +28,49 @@ public abstract class Coupon extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
-    protected Store store;
+    private Store store;
 
-    protected String couponName;
+    private String couponName;
 
-    protected int stockQuantity;
+    private int amount;
+
+    @Enumerated(EnumType.STRING)
+    private CouponType couponType;
+
+    private int stockQuantity;
 
     @Column(columnDefinition = "char", length = 10)
-    protected String couponCode;
+    private String couponCode;
 
-    protected int minimumOrderPrice;
+    private int minimumOrderPrice;
 
-    protected LocalDateTime issueStartDate;
+    private LocalDateTime issueStartDate;
 
-    protected LocalDateTime issueDueDate;
+    private LocalDateTime issueDueDate;
 
-    protected LocalDateTime expireDate;
+    private LocalDateTime expireDate;
 
-    @Column(name = "coupon_type", insertable = false, updatable = false)
-    protected String couponType;
 
-    public Coupon(String couponName, Integer stockQuantity, String couponCode, Integer minimumOrderPrice, LocalDateTime startDate, LocalDateTime dueDate) {
+    @Builder
+    public Coupon(Store store, String couponName, int amount, CouponType couponType,
+                  int stockQuantity, String couponCode, int minimumOrderPrice,
+                  LocalDateTime issueStartDate, LocalDateTime issueDueDate, LocalDateTime expireDate) {
+
+        this.store = store;
         this.couponName = couponName;
+        this.amount = amount;
+        this.couponType = couponType;
         this.stockQuantity = stockQuantity;
         this.couponCode = couponCode;
         this.minimumOrderPrice = minimumOrderPrice;
-        this.issueStartDate = startDate;
-        this.issueDueDate = dueDate;
+        this.issueStartDate = issueStartDate;
+        this.issueDueDate = issueDueDate;
+        this.expireDate = expireDate;
     }
 
-    abstract public int getDiscountPrice(int orderPrice);
+    public int getDiscountPrice(int orderPrice) {
+        return couponType.getDiscountPrice(orderPrice, amount);
+    }
 
 
     public Coupon(Store store, StoreCouponRequestDto dto, String couponCode) {

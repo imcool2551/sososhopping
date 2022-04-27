@@ -40,13 +40,13 @@ public class StoreCouponController {
 //    }
     
     //쿠폰 생성
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon")
-    public ResponseEntity createCoupon(@PathVariable(value = "storeId") Long storeId
-            , @RequestBody StoreCouponRequestDto dto) {
-        storeCouponService.createCoupon(storeId, dto);
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/api/v1/owner/store/{storeId}/coupon")
+//    public ResponseEntity createCoupon(@PathVariable(value = "storeId") Long storeId
+//            , @RequestBody StoreCouponRequestDto dto) {
+//        storeCouponService.createCoupon(storeId, dto);
+//
+//        return new ResponseEntity(HttpStatus.CREATED);
+//    }
     
     //쿠폰 조회
     @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")

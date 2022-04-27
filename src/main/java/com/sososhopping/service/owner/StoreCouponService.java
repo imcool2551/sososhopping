@@ -5,21 +5,17 @@ import com.sososhopping.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.entity.coupon.Coupon;
-import com.sososhopping.entity.coupon.FixCoupon;
-import com.sososhopping.entity.coupon.RateCoupon;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.coupon.CouponRepository;
-import com.sososhopping.repository.coupon.UserCouponRepository;
+import com.sososhopping.domain.store.repository.CouponRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
+import com.sososhopping.entity.coupon.Coupon;
+import com.sososhopping.entity.user.User;
+import com.sososhopping.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Objects;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -55,23 +51,6 @@ public class StoreCouponService {
 //        return beingCoupons;
 //    }
 
-    @Transactional
-    public void createCoupon(Long storeId, StoreCouponRequestDto dto) {
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
-
-        String couponCode = createCode();
-
-        if (dto.getCouponType().equals("FIX")) {
-            FixCoupon coupon = new FixCoupon(store, dto, couponCode);
-            em.persist(coupon);
-        } else if (dto.getCouponType().equals("RATE")) {
-            RateCoupon coupon = new RateCoupon(store, dto, couponCode);
-            em.persist(coupon);
-        } else {
-            throw new Api400Exception("쿠폰 형식이 올바르지 않습니다");
-        }
-    }
 
     @Transactional
     public Coupon readCoupon(Long storeId, Long couponId) {
@@ -116,7 +95,7 @@ public class StoreCouponService {
         return dto;
     }
 
-    @Transactional
+//    @Transactional
 //    public void deleteCouponDirectly(Long storeId, String phone, String couponCode) {
 //        User user = userRepository.findByPhone(phone).orElseThrow(() ->
 //                new Api400Exception("존재하지 않는 고객입니다"));
@@ -137,18 +116,4 @@ public class StoreCouponService {
 //        }
 //    }
 
-    private String createCode() {
-        final char[] codeCharacters = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
-                , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'
-                , 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-        Random random = new Random(System.currentTimeMillis());
-        StringBuilder codeBuilder = new StringBuilder();
-
-        for (int i = 0; i < 10; i++) {
-            codeBuilder.append(codeCharacters[random.nextInt(36)]);
-        }
-
-        return codeBuilder.toString();
-    }
 }

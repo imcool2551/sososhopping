@@ -34,7 +34,6 @@ public class CouponDto {
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         issuedDueDate = coupon.getIssueDueDate()
                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        couponType = coupon.getCouponType();
         if (coupon instanceof FixCoupon) {
             fixAmount = ((FixCoupon) coupon).getFixAmount();
         } else if (coupon instanceof RateCoupon) {
