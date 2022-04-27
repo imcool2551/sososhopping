@@ -1,6 +1,5 @@
 package com.sososhopping.entity.coupon;
 
-import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
@@ -12,7 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -73,23 +71,8 @@ public class Coupon extends BaseTimeEntity {
     }
 
 
-    public Coupon(Store store, StoreCouponRequestDto dto, String couponCode) {
-        this.store = store;
-        this.couponName = dto.getCouponName();
-        this.stockQuantity = dto.getStockQuantity();
-        this.minimumOrderPrice = dto.getMinimumOrderPrice();
-        this.issueStartDate = LocalDateTime.parse(dto.getIssuedStartDate() + " 00:00:00",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.issueDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.expireDate = LocalDateTime.parse(dto.getExpiryDate() + " 23:59:59",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.couponCode = couponCode;
-    }
-
-    public void update(StoreCouponRequestDto dto) {
-        this.issueDueDate = LocalDateTime.parse(dto.getIssuedDueDate() + " 23:59:59",
-                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+    public boolean belongsTo(Store store) {
+        return this.store == store;
     }
 
     public Coupon issueCoupon() {
@@ -105,10 +88,6 @@ public class Coupon extends BaseTimeEntity {
 
     public void addStock(int quantity) {
         stockQuantity += quantity;
-    }
-
-    public boolean belongsTo(Store store) {
-        return this.store == store;
     }
 
     public boolean minimumPriceGreaterThan(Integer orderPrice) {

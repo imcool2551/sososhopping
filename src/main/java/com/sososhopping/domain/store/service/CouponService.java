@@ -5,6 +5,7 @@ import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.store.dto.request.CreateCouponDto;
 import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.store.dto.response.StoreCouponsResponse;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;
 import com.sososhopping.entity.store.Store;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -47,5 +50,12 @@ public class CouponService {
         }
 
         return new StoreCouponResponse(store, coupon);
+    }
+
+    public StoreCouponsResponse findCoupons(Long ownerId, Long storeId) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+        List<Coupon> activeCoupons = couponRepository.findActiveCoupons(store, LocalDateTime.now());
+        List<Coupon> scheduledCoupons = couponRepository.findScheduledCoupons(store, LocalDateTime.now());
+        return new StoreCouponsResponse(store, activeCoupons, scheduledCoupons);
     }
 }

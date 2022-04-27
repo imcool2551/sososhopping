@@ -43,7 +43,7 @@ public class UserCouponController {
 
         LocalDateTime now = LocalDateTime.now();
         List<Coupon> coupons = couponRepository
-                .findDownloadableByStore(findStore, now);
+                .findActiveCoupons(findStore, now);
 
         List<CouponDto> couponListDto = coupons
                 .stream()

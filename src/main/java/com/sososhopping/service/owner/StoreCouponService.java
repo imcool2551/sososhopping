@@ -1,6 +1,5 @@
 package com.sososhopping.service.owner;
 
-import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
 import com.sososhopping.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
@@ -27,16 +26,6 @@ public class StoreCouponService {
     private final UserCouponRepository userCouponRepository;
     private final EntityManager em;
 
-//    @Transactional
-//    public List<Coupon> readExceptedCouponList(Long storeId) {
-//        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-//                new Api400Exception("존재하지 않는 점포입니다"));
-//
-//        List<Coupon> exceptedCoupons
-//                = couponRepository.findExceptedByStoreAndIssuedStartDateAfter(store, LocalDateTime.now());
-//
-//        return exceptedCoupons;
-//    }
 
 //    @Transactional
 //    public List<Coupon> readBeingCouponList(Long storeId) {
@@ -51,20 +40,6 @@ public class StoreCouponService {
 //        return beingCoupons;
 //    }
 
-
-    @Transactional
-    public Coupon readCoupon(Long storeId, Long couponId) {
-        return couponRepository.findById(couponId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 쿠폰입니다"));
-    }
-
-    @Transactional
-    public void updateCoupon(Long storeId, Long couponId, StoreCouponRequestDto dto) {
-        Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 쿠폰입니다"));
-
-        coupon.update(dto);
-    }
 
 //    @Transactional
 //    public void deleteCoupon(Long storeId, Long couponId) {

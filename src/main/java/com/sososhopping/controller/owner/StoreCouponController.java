@@ -1,14 +1,14 @@
 package com.sososhopping.controller.owner;
 
-import com.sososhopping.common.dto.owner.request.StoreCouponRequestDto;
-import com.sososhopping.common.dto.owner.response.StoreCouponResponseDto;
 import com.sososhopping.common.dto.owner.response.UserCouponResponseDto;
-import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.service.owner.StoreCouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,27 +39,7 @@ public class StoreCouponController {
 //                .body(dto);
 //    }
 
-    
-    //쿠폰 조회
-    @GetMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")
-    public ResponseEntity readCoupon(@PathVariable(value = "storeId") Long storeId
-            , @PathVariable(value = "couponId") Long couponId) {
-        Coupon coupon = storeCouponService.readCoupon(storeId, couponId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new StoreCouponResponseDto(coupon, storeId));
-    }
-
-    //쿠폰 수정
-    @PatchMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")
-    public ResponseEntity updateCoupon(@PathVariable(value = "storeId") Long storeId
-            , @PathVariable(value = "couponId") Long couponId
-            , @RequestBody StoreCouponRequestDto dto) {
-        storeCouponService.updateCoupon(storeId, couponId, dto);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
     
     //쿠폰 삭제
 //    @DeleteMapping(value = "/api/v1/owner/store/{storeId}/coupon/{couponId}")

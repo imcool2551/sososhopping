@@ -20,23 +20,38 @@ public class CouponRepositoryCustomImpl implements CouponRepositoryCustom {
     }
 
     @Override
-    public List<Coupon> findDownloadableByStore(Store store, LocalDateTime at) {
+    public List<Coupon> findActiveCoupons(Store store, LocalDateTime dateTime) {
         return queryFactory
                 .select(coupon)
                 .from(coupon)
-                .where(storeEq(store), inStock(), beingIssued(at))
+                .where(storeEq(store), inStock(), beingIssued(dateTime))
                 .fetch();
     }
 
-    private BooleanExpression beingIssued(LocalDateTime at) {
-        return coupon.issueStartDate.before(at).and(coupon.issueDueDate.after(at));
+    @Override
+    public List<Coupon> findScheduledCoupons(Store store, LocalDateTime dateTime) {
+        return queryFactory
+                .select(coupon)
+                .from(coupon)
+                .where(storeEq(store), scheduled(dateTime))
+                .fetch();
+    }
+
+    private BooleanExpression storeEq(Store store) {
+        return coupon.store.eq(store);
     }
 
     private BooleanExpression inStock() {
         return coupon.stockQuantity.gt(0);
     }
 
-    private BooleanExpression storeEq(Store store) {
-        return coupon.store.eq(store);
+    private BooleanExpression beingIssued(LocalDateTime at) {
+        return coupon.issueStartDate.before(at)
+                .and(coupon.issueDueDate.after(at))
+                .and(coupon.expireDate.after(at));
+    }
+
+    private BooleanExpression scheduled(LocalDateTime at) {
+        return coupon.issueStartDate.after(at);
     }
 }

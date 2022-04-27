@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface CouponRepositoryCustom {
 
-    List<Coupon> findDownloadableByStore(Store store, LocalDateTime at);
+    List<Coupon> findActiveCoupons(Store store, LocalDateTime dateTime);
+
+    List<Coupon> findScheduledCoupons(Store store, LocalDateTime dateTime);
 }

@@ -8,7 +8,7 @@ token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJS
   "couponType": "FIX",
   "stockQuantity": 100,
   "minimumOrderPrice": 3000,
-  "issueStartDate": "2022-04-27T09:00:00",
-  "issueDueDate": "2022-05-27T09:00:00",
-  "expireDate": "2022-06-27T09:00:00"
+  "issueStartDate": "2022-05-27T09:00:00",
+  "issueDueDate": "2022-06-27T09:00:00",
+  "expireDate": "2022-07-27T09:00:00"
 }

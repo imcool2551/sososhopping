@@ -4,6 +4,7 @@ import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.domain.store.dto.request.CreateCouponDto;
 import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.store.dto.response.StoreCouponsResponse;
 import com.sososhopping.domain.store.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,19 +26,23 @@ public class CouponController {
                                     @PathVariable Long storeId,
                                     @RequestBody @Valid CreateCouponDto dto) {
 
-        validateCouponIssueStartDate(dto);
+        validateDates(dto);
         Long ownerId = Long.parseLong(authentication.getName());
         Long couponId = couponService.createCoupon(ownerId, storeId, dto);
         return new ApiResponse(couponId);
     }
 
-    private void validateCouponIssueStartDate(CreateCouponDto dto) {
+    private void validateDates(CreateCouponDto dto) {
         if (dto.getIssueDueDate().isBefore(dto.getIssueStartDate())) {
-            throw new BadRequestException("invalid coupon issue start date");
+            throw new BadRequestException("issue due date must be after issue start date");
         }
 
         if (dto.getExpireDate().isBefore(dto.getIssueStartDate())) {
-            throw new BadRequestException("invalid coupon issue start date");
+            throw new BadRequestException("expire date must be after issue start date");
+        }
+
+        if (dto.getExpireDate().isBefore(dto.getIssueDueDate())) {
+            throw new BadRequestException("expire date must be after issue due date");
         }
     }
 
@@ -48,5 +53,13 @@ public class CouponController {
 
         Long ownerId = Long.parseLong(authentication.getName());
         return couponService.findCoupon(ownerId, storeId, couponId);
+    }
+
+    @GetMapping("/owner/my/store/{storeId}/coupon")
+    public ApiResponse findCoupons(Authentication authentication, @PathVariable Long storeId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        StoreCouponsResponse coupons = couponService.findCoupons(ownerId, storeId);
+        return new ApiResponse(coupons);
     }
 }
