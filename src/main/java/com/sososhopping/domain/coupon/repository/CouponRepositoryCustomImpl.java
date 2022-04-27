@@ -1,4 +1,4 @@
-package com.sososhopping.repository.coupon;
+package com.sososhopping.domain.coupon.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

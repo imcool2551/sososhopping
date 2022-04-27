@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.dto.request;
+package com.sososhopping.domain.coupon.dto.request;
 
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;

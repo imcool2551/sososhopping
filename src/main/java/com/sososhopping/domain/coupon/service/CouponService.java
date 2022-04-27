@@ -1,15 +1,15 @@
-package com.sososhopping.domain.store.service;
+package com.sososhopping.domain.coupon.service;
 
 import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
-import com.sososhopping.domain.store.dto.request.CreateCouponDto;
-import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
-import com.sososhopping.domain.store.dto.response.StoreCouponsResponse;
+import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
+import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.coupon.dto.response.StoreCouponsResponse;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.store.repository.CouponRepository;
+import com.sososhopping.domain.coupon.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

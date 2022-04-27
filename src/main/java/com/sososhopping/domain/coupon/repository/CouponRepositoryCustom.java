@@ -1,4 +1,4 @@
-package com.sososhopping.repository.coupon;
+package com.sososhopping.domain.coupon.repository;
 
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.store.Store;

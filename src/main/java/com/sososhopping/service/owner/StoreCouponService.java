@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.owner.response.UserCouponResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.domain.store.repository.CouponRepository;
+import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.user.User;
@@ -26,33 +26,6 @@ public class StoreCouponService {
     private final UserCouponRepository userCouponRepository;
     private final EntityManager em;
 
-
-//    @Transactional
-//    public List<Coupon> readBeingCouponList(Long storeId) {
-//        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-//                new Api400Exception("존재하지 않는 점포입니다"));
-//
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        List<Coupon> beingCoupons
-//                = couponRepository.findBeingByStoreAndIssuedStartDateBeforeAndIssuedDueDateAfter(store, date, date);
-//
-//        return beingCoupons;
-//    }
-
-
-//    @Transactional
-//    public void deleteCoupon(Long storeId, Long couponId) {
-//        Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
-//                new Api400Exception("존재하지 않는 쿠폰입니다"));
-//
-//        if (coupon.getExpiresAt().isBefore(LocalDateTime.now())
-//                || coupon.getIssueStartDate().isAfter(LocalDateTime.now())) {
-//            couponRepository.delete(coupon);
-//        } else {
-//            throw new Api400Exception("아직 삭제할 수 없는 쿠폰입니다");
-//        }
-//    }
 
     @Transactional
     public UserCouponResponseDto readUserCoupon(Long storeId, String phone, String couponCode) {

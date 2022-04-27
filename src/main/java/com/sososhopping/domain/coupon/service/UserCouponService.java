@@ -1,4 +1,4 @@
-package com.sososhopping.service.user.coupon;
+package com.sososhopping.domain.coupon.service;
 
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
@@ -7,7 +7,7 @@ import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.store.repository.CouponRepository;
+import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.repository.coupon.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;

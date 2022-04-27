@@ -1,19 +1,20 @@
-package com.sososhopping.controller.user.coupon;
+package com.sososhopping.domain.coupon.controller;
 
 import com.sososhopping.common.dto.ApiListResponse;
+import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.dto.user.request.coupon.CouponRegisterDto;
 import com.sososhopping.common.dto.user.response.store.CouponDto;
 import com.sososhopping.common.error.Api401Exception;
-import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.coupon.Coupon;
-import com.sososhopping.entity.coupon.UserCoupon;
-import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.store.repository.CouponRepository;
-import com.sososhopping.repository.coupon.UserCouponRepository;
+import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.coupon.repository.CouponRepository;
+import com.sososhopping.domain.coupon.service.UserCouponService;
 import com.sososhopping.domain.store.repository.StoreRepository;
-import com.sososhopping.service.user.coupon.UserCouponService;
+import com.sososhopping.entity.coupon.UserCoupon;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.User;
+import com.sososhopping.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserCouponController {
 
@@ -34,23 +36,20 @@ public class UserCouponController {
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
 
-    @GetMapping("/api/v1/users/stores/{storeId}/coupons")
-    public ApiListResponse<CouponDto> getStoreCoupons(@PathVariable Long storeId, Authentication authentication) {
+    @GetMapping("/store/{storeId}/coupon")
+    public ApiResponse findStoreCoupons(@PathVariable Long storeId) {
 
-        Store findStore = storeRepository
+        Store store = storeRepository
                 .findById(storeId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
+                .orElseThrow(() -> new NotFoundException("store with id " + storeId + " does not exist"));
 
-        LocalDateTime now = LocalDateTime.now();
-        List<Coupon> coupons = couponRepository
-                .findActiveCoupons(findStore, now);
-
-        List<CouponDto> couponListDto = coupons
+        List<StoreCouponResponse> coupons = couponRepository
+                .findActiveCoupons(store, LocalDateTime.now())
                 .stream()
-                .map(coupon -> new CouponDto(coupon))
+                .map(coupon -> new StoreCouponResponse(store, coupon))
                 .collect(Collectors.toList());
 
-        return new ApiListResponse<CouponDto>(couponListDto);
+        return new ApiResponse(coupons);
     }
 
     @PostMapping("/api/v1/users/my/coupons")

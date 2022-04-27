@@ -1,11 +1,11 @@
-package com.sososhopping.domain.store.controller;
+package com.sososhopping.domain.coupon.controller;
 
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
-import com.sososhopping.domain.store.dto.request.CreateCouponDto;
-import com.sososhopping.domain.store.dto.response.StoreCouponResponse;
-import com.sososhopping.domain.store.dto.response.StoreCouponsResponse;
-import com.sososhopping.domain.store.service.CouponService;
+import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
+import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.coupon.dto.response.StoreCouponsResponse;
+import com.sososhopping.domain.coupon.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
