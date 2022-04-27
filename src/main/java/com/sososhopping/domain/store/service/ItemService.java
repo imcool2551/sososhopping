@@ -2,8 +2,9 @@ package com.sososhopping.domain.store.service;
 
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
+import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.store.dto.request.CreateItemDto;
-import com.sososhopping.domain.store.dto.response.StoreItemDto;
+import com.sososhopping.domain.store.dto.response.StoreItemResponse;
 import com.sososhopping.domain.store.repository.ItemRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.store.Item;
@@ -32,7 +33,7 @@ public class ItemService {
         return item.getId();
     }
 
-    public StoreItemDto findStoreItem(Long storeId, Long itemId) {
+    public StoreItemResponse findStoreItem(Long storeId, Long itemId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
 
@@ -43,15 +44,15 @@ public class ItemService {
             throw new BadRequestException("item with id " + itemId + " does not belong to store with id " + storeId);
         }
 
-        return new StoreItemDto(storeId, item);
+        return new StoreItemResponse(storeId, item);
     }
 
-    public List<StoreItemDto> findStoreItems(Long storeId) {
+    public List<StoreItemResponse> findStoreItems(Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
 
         return store.getItems().stream()
-                .map(item -> new StoreItemDto(storeId, item))
+                .map(item -> new StoreItemResponse(storeId, item))
                 .collect(Collectors.toList());
     }
 }

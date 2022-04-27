@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface AccountingRepository extends JpaRepository<Accounting, Long> {
+public interface AccountingRepository extends JpaRepository<Accounting, Long>, AccountingRepositoryCustom {
 
     @Query(value = "select a  from Accounting a where a.store =:store " +
             "and a.date between :start and :end order by a.date asc ")

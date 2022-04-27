@@ -4,7 +4,7 @@ import com.sososhopping.entity.store.Item;
 import lombok.Data;
 
 @Data
-public class StoreItemDto {
+public class StoreItemResponse {
 
     private Long storeId;
     private Long itemId;
@@ -15,7 +15,7 @@ public class StoreItemDto {
     private int price;
     private boolean saleStatus;
 
-    public StoreItemDto(Long storeId, Item item) {
+    public StoreItemResponse(Long storeId, Item item) {
         this.storeId = storeId;
         this.itemId = item.getId();
         this.name = item.getName();

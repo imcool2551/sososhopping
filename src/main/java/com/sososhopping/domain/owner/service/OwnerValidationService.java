@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.service;
+package com.sososhopping.domain.owner.service;
 
 import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
@@ -9,7 +9,6 @@ import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.store.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

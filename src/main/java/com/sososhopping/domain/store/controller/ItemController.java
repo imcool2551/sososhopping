@@ -2,7 +2,7 @@ package com.sososhopping.domain.store.controller;
 
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.request.CreateItemDto;
-import com.sososhopping.domain.store.dto.response.StoreItemDto;
+import com.sososhopping.domain.store.dto.response.StoreItemResponse;
 import com.sososhopping.domain.store.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class ItemController {
     }
 
     @GetMapping("/store/{storeId}/item/{itemId}")
-    public StoreItemDto findStoreItems(@PathVariable Long storeId, @PathVariable Long itemId) {
+    public StoreItemResponse findStoreItems(@PathVariable Long storeId, @PathVariable Long itemId) {
         return itemService.findStoreItem(storeId, itemId);
     }
 

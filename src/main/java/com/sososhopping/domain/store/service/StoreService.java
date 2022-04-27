@@ -2,6 +2,7 @@ package com.sososhopping.domain.store.service;
 
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
+import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.store.dto.request.CreateStoreDto;
 import com.sososhopping.domain.store.dto.response.StoreResponse;
 import com.sososhopping.domain.store.dto.response.StoresResponse;
