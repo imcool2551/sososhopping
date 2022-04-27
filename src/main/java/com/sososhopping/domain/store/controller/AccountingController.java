@@ -53,4 +53,13 @@ public class AccountingController {
         StoreAccountingResponse accounting = accountingService.findAccounting(ownerId, storeId, accountingId);
         return new ApiResponse(accounting);
     }
+
+    @DeleteMapping("/owner/my/store/{storeId}/accounting/{accountingId}")
+    public void deleteAccounting(Authentication authentication,
+                                      @PathVariable Long storeId,
+                                      @PathVariable Long accountingId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        accountingService.deleteAccounting(ownerId, storeId, accountingId);
+    }
 }

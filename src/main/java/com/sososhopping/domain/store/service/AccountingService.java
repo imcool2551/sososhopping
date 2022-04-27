@@ -49,4 +49,16 @@ public class AccountingService {
 
         return new StoreAccountingResponse(storeId, accounting);
     }
+
+    public void deleteAccounting(Long ownerId, Long storeId, Long accountingId) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+        Accounting accounting = accountingRepository.findById(accountingId)
+                .orElseThrow(() -> new NotFoundException("accounting with id " + accountingId + " does not exist"));
+
+        if (!accounting.belongsTo(store)) {
+            throw new ForbiddenException("accounting does not belong to store");
+        }
+
+        accountingRepository.delete(accounting);
+    }
 }
