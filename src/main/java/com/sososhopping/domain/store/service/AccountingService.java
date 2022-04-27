@@ -1,5 +1,7 @@
 package com.sososhopping.domain.store.service;
 
+import com.sososhopping.common.exception.ForbiddenException;
+import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.store.dto.request.CreateAccountingDto;
 import com.sososhopping.domain.store.dto.response.StoreAccountingResponse;
@@ -28,11 +30,23 @@ public class AccountingService {
         return accounting.getId();
     }
 
-    public List<StoreAccountingResponse> findAccountings(Long ownerId, Long storeId, LocalDate localDate) {
+    public List<StoreAccountingResponse> findAccountings(Long ownerId, Long storeId, LocalDate yearMonth) {
         ownerValidationService.validateStoreOwner(ownerId, storeId);
-        return accountingRepository.findAccountingsByMonth(localDate)
+        return accountingRepository.findAccountingsByMonth(yearMonth)
                 .stream()
                 .map(accounting -> new StoreAccountingResponse(storeId, accounting))
                 .collect(Collectors.toList());
+    }
+
+    public StoreAccountingResponse findAccounting(Long ownerId, Long storeId, Long accountingId) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+        Accounting accounting = accountingRepository.findById(accountingId)
+                .orElseThrow(() -> new NotFoundException("accounting with id " + accountingId + " does not exist"));
+
+        if (!accounting.belongsTo(store)) {
+            throw new ForbiddenException("accounting does not belong to store");
+        }
+
+        return new StoreAccountingResponse(storeId, accounting);
     }
 }

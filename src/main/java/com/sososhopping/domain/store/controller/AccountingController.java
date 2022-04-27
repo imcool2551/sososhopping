@@ -40,7 +40,17 @@ public class AccountingController {
                                        @RequestParam LocalDate yearMonth) {
 
         Long ownerId = Long.parseLong(authentication.getName());
-        List<StoreAccountingResponse> accountings = accountingService.findAccountings(ownerId, storeId, localDate);
+        List<StoreAccountingResponse> accountings = accountingService.findAccountings(ownerId, storeId, yearMonth);
         return new ApiResponse(accountings);
+    }
+
+    @GetMapping("/owner/my/store/{storeId}/accounting/{accountingId}")
+    public ApiResponse findAccounting(Authentication authentication,
+                                      @PathVariable Long storeId,
+                                      @PathVariable Long accountingId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        StoreAccountingResponse accounting = accountingService.findAccounting(ownerId, storeId, accountingId);
+        return new ApiResponse(accounting);
     }
 }
