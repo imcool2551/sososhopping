@@ -2,6 +2,7 @@ package com.sososhopping.entity.coupon;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.common.BaseTimeEntity;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -59,5 +60,9 @@ public class UserCoupon extends BaseTimeEntity {
 
     public void restore() {
         used = false;
+    }
+
+    public Store getStore() {
+        return coupon.getStore();
     }
 }

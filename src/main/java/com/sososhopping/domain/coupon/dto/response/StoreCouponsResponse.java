@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 @Data
 public class StoreCouponsResponse {
 
-    private List<StoreCouponResponse> activeCoupons;
-    private List<StoreCouponResponse> scheduledCoupons;
+    private List<CouponResponse> activeCoupons;
+    private List<CouponResponse> scheduledCoupons;
 
     public StoreCouponsResponse(Store store, List<Coupon> activeCoupons, List<Coupon> scheduledCoupons) {
         this.activeCoupons = activeCoupons.stream()
-                .map(coupon -> new StoreCouponResponse(store, coupon))
+                .map(coupon -> new CouponResponse(store, coupon))
                 .collect(Collectors.toList());
 
         this.scheduledCoupons = scheduledCoupons.stream()
-                .map(coupon -> new StoreCouponResponse(store, coupon))
+                .map(coupon -> new CouponResponse(store, coupon))
                 .collect(Collectors.toList());
     }
 }

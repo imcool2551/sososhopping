@@ -4,7 +4,7 @@ import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
-import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.dto.response.StoreCouponsResponse;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;
@@ -40,7 +40,7 @@ public class CouponService {
         return UUID.randomUUID().toString().substring(0, 10);
     }
 
-    public StoreCouponResponse findCoupon(Long ownerId, Long storeId, Long couponId) {
+    public CouponResponse findCoupon(Long ownerId, Long storeId, Long couponId) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(() -> new NotFoundException("can't find coupon with id " + couponId));
@@ -49,7 +49,7 @@ public class CouponService {
             throw new ForbiddenException("coupon with id " + couponId + " does not belong to store with id " + storeId);
         }
 
-        return new StoreCouponResponse(store, coupon);
+        return new CouponResponse(store, coupon);
     }
 
     public StoreCouponsResponse findCoupons(Long ownerId, Long storeId) {

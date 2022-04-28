@@ -1,4 +1,4 @@
-package com.sososhopping.repository.coupon;
+package com.sososhopping.domain.coupon.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.sososhopping.entity.coupon.QCoupon.coupon;
 import static com.sososhopping.entity.coupon.QUserCoupon.userCoupon;
+import static com.sososhopping.entity.owner.QStore.store;
 
 public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCustom {
 
@@ -21,24 +22,25 @@ public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCusto
     }
 
     @Override
-    public List<UserCoupon> findUsableCouponsByUser(User user) {
+    public List<UserCoupon> findActiveCouponsByUserAt(User user, LocalDateTime dateTime) {
         return queryFactory
                 .select(userCoupon)
                 .from(userCoupon)
                 .join(userCoupon.coupon, coupon).fetchJoin()
-                .where(userEq(user), beforeExpiration(), notUsed())
+                .join(coupon.store, store).fetchJoin()
+                .where(userEq(user), isActiveAt(dateTime), notUsed())
                 .fetch();
-    }
-
-    private BooleanExpression notUsed() {
-        return userCoupon.used.isFalse();
-    }
-
-    private BooleanExpression beforeExpiration() {
-        return userCoupon.coupon.expireDate.after(LocalDateTime.now());
     }
 
     private BooleanExpression userEq(User user) {
         return userCoupon.user.eq(user);
+    }
+
+    private BooleanExpression isActiveAt(LocalDateTime dateTime) {
+        return userCoupon.coupon.expireDate.after(dateTime);
+    }
+
+    private BooleanExpression notUsed() {
+        return userCoupon.used.isFalse();
     }
 }

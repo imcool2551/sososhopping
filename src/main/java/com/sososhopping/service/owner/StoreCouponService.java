@@ -8,7 +8,7 @@ import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.coupon.UserCouponRepository;
+import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

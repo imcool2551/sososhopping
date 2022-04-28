@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class StoreCouponResponse {
+public class CouponResponse {
 
     private Long id;
     private Long storeId;
@@ -23,7 +23,7 @@ public class StoreCouponResponse {
     private LocalDateTime expireDate;
 
 
-    public StoreCouponResponse(Store store, Coupon coupon) {
+    public CouponResponse(Store store, Coupon coupon) {
         this.id = coupon.getId();
         this.storeId = store.getId();
         this.couponName = coupon.getCouponName();

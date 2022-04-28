@@ -3,7 +3,7 @@ package com.sososhopping.domain.coupon.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
-import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
+import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.dto.response.StoreCouponsResponse;
 import com.sososhopping.domain.coupon.service.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -47,9 +47,9 @@ public class CouponController {
     }
 
     @GetMapping("/owner/my/store/{storeId}/coupon/{couponId}")
-    public StoreCouponResponse findCoupon(Authentication authentication,
-                                          @PathVariable Long storeId,
-                                          @PathVariable Long couponId) {
+    public CouponResponse findCoupon(Authentication authentication,
+                                     @PathVariable Long storeId,
+                                     @PathVariable Long couponId) {
 
         Long ownerId = Long.parseLong(authentication.getName());
         return couponService.findCoupon(ownerId, storeId, couponId);
