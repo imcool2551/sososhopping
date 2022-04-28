@@ -35,15 +35,15 @@ public class UserCoupon extends BaseTimeEntity {
     @Column(columnDefinition = "tinyint")
     private boolean used;
 
-    public UserCoupon(User user, Coupon coupon, boolean used) {
+    private UserCoupon(User user, Coupon coupon) {
         this.user = user;
         this.coupon = coupon;
-        this.used = used;
+        this.used = false;
     }
 
-    public static UserCoupon buildUserCoupon(User user, Coupon coupon) {
+    public static UserCoupon createUserCoupon(User user, Coupon coupon) {
         coupon.issueCoupon();
-        return new UserCoupon(user, coupon, false);
+        return new UserCoupon(user, coupon);
     }
 
     // Business Logic

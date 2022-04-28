@@ -2,11 +2,12 @@ package com.sososhopping.domain.coupon.controller;
 
 import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.ApiResponse;
-import com.sososhopping.common.dto.user.request.coupon.CouponRegisterDto;
 import com.sososhopping.common.dto.user.response.store.CouponDto;
 import com.sososhopping.common.error.Api401Exception;
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.coupon.dto.request.CouponRegisterDto;
 import com.sososhopping.domain.coupon.dto.response.StoreCouponResponse;
 import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.domain.coupon.service.UserCouponService;
@@ -14,13 +15,11 @@ import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,6 @@ public class UserCouponController {
     private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final CouponRepository couponRepository;
-    private final UserCouponRepository userCouponRepository;
 
     @GetMapping("/store/{storeId}/coupon")
     public ApiResponse findStoreCoupons(@PathVariable Long storeId) {
@@ -52,24 +50,20 @@ public class UserCouponController {
         return new ApiResponse(coupons);
     }
 
-    @PostMapping("/api/v1/users/my/coupons")
-    public ResponseEntity registerCoupon(
-            Authentication authentication,
-            @RequestBody CouponRegisterDto dto
-    ) {
+    @PostMapping("/users/my/coupons")
+    public ApiResponse registerCoupon(Authentication authentication,
+                                      @RequestBody @Valid CouponRegisterDto dto) {
+
+        validateCouponRegister(dto);
         Long userId = Long.parseLong(authentication.getName());
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+        Long couponId = userCouponService.registerCoupon(userId, dto);
+        return new ApiResponse(couponId);
+    }
 
-        if (dto.getCouponId() != null) {
-            userCouponService.registerCouponByCouponId(user, dto.getCouponId());
-        } else if (dto.getCouponCode() != null) {
-            userCouponService.registerCouponByCouponCode(user, dto.getCouponCode());
+    private void validateCouponRegister(CouponRegisterDto dto) {
+        if (dto.getCouponId() == null && dto.getCouponCode() == null) {
+            throw new BadRequestException("missing coupon id or coupon code");
         }
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
     }
 
     @GetMapping("/api/v1/users/my/coupons")

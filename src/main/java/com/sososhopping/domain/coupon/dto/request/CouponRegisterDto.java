@@ -1,8 +1,8 @@
-package com.sososhopping.common.dto.user.request.coupon;
+package com.sososhopping.domain.coupon.dto.request;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class CouponRegisterDto {
     private Long couponId;
     private String couponCode;

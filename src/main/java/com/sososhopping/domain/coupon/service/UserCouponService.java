@@ -3,6 +3,10 @@ package com.sososhopping.domain.coupon.service;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.common.exception.BadRequestException;
+import com.sososhopping.common.exception.NotFoundException;
+import com.sososhopping.common.exception.UnAuthorizedException;
+import com.sososhopping.domain.coupon.dto.request.CouponRegisterDto;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
@@ -19,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserCouponService {
 
@@ -26,6 +31,30 @@ public class UserCouponService {
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
     private final StoreRepository storeRepository;
+
+    public Long registerCoupon(Long userId, CouponRegisterDto dto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UnAuthorizedException::new);
+
+        Coupon coupon = null;
+        Long couponId = dto.getCouponId();
+        String couponCode = dto.getCouponCode();
+        if (couponId != null) {
+            coupon = couponRepository.findById(couponId)
+                    .orElseThrow(() -> new NotFoundException("no coupon with id " + couponId));
+        } else if (couponCode != null) {
+            coupon = couponRepository.findByCouponCode(couponCode)
+                    .orElseThrow(() -> new NotFoundException("no coupon with code " + couponCode));
+        }
+
+        if (userCouponRepository.existsByUserAndCoupon(user, coupon)) {
+            throw new BadRequestException("you have already registered coupon");
+        }
+
+        UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon);
+        userCouponRepository.save(userCoupon);
+        return userCoupon.getId();
+    }
 
     @Transactional
     public void registerCouponByCouponId(User user, Long couponId) {
@@ -36,7 +65,7 @@ public class UserCouponService {
             throw new Api409Exception("이미 발급받은 쿠폰입니다");
         }
 
-        userCouponRepository.save(UserCoupon.buildUserCoupon(user, findCoupon));
+        userCouponRepository.save(UserCoupon.createUserCoupon(user, findCoupon));
     }
 
     @Transactional
@@ -49,7 +78,7 @@ public class UserCouponService {
             throw new Api409Exception("이미 발급받은 쿠폰입니다");
         }
 
-        userCouponRepository.save(UserCoupon.buildUserCoupon(user, findCoupon));
+        userCouponRepository.save(UserCoupon.createUserCoupon(user, findCoupon));
     }
 
     @Transactional

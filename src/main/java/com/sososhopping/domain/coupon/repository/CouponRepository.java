@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long>, CouponRepositoryCustom {
 
-    @EntityGraph(attributePaths = {"store"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Coupon> findByCouponCode(String couponCode);
 
 }
