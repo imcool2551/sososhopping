@@ -1,4 +1,4 @@
-package com.sososhopping.repository.member;
+package com.sososhopping.domain.point.repository;
 
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.point.UserPoint;

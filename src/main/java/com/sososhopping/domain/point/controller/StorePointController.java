@@ -3,6 +3,7 @@ package com.sososhopping.domain.point.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.domain.point.dto.request.UpdateSaveRateDto;
+import com.sososhopping.domain.point.dto.response.UserPointResponse;
 import com.sososhopping.domain.point.service.StorePointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,15 @@ public class StorePointController {
         if (dto.getPointPolicyStatus() && (dto.getSaveRate() == null)) {
             throw new BindingException("적립율을 입력해주세요");
         }
+    }
+
+    @GetMapping("/owner/my/store/{storeId}/point")
+    public UserPointResponse findUserPoint(Authentication authentication,
+                                           @PathVariable Long storeId,
+                                           @RequestParam String userPhone) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        return storePointService.findUserPoint(ownerId, storeId, userPhone);
     }
 
 }

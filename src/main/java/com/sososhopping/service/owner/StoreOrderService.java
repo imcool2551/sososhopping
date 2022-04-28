@@ -13,7 +13,7 @@ import com.sososhopping.entity.orders.OrderStatus;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
-import com.sososhopping.repository.member.UserPointRepository;
+import com.sososhopping.domain.point.repository.UserPointRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;

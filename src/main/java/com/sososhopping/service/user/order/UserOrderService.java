@@ -17,7 +17,7 @@ import com.sososhopping.entity.store.Item;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
-import com.sososhopping.repository.member.UserPointRepository;
+import com.sososhopping.domain.point.repository.UserPointRepository;
 import com.sososhopping.repository.order.CartRepository;
 import com.sososhopping.repository.order.OrderRepository;
 import com.sososhopping.domain.store.repository.ItemRepository;

@@ -13,7 +13,7 @@ import com.sososhopping.entity.user.InterestStore;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.repository.member.UserPointRepository;
+import com.sososhopping.domain.point.repository.UserPointRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.InterestStoreRepository;
 import com.sososhopping.repository.store.JdbcStoreRepository;

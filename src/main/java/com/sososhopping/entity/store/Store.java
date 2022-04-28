@@ -1,6 +1,5 @@
 package com.sososhopping.entity.store;
 
-import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.user.Review;
@@ -136,11 +135,6 @@ public class Store extends BaseTimeEntity {
 
     public void updateStoreStatus(StoreStatus storeStatus) {
         this.storeStatus = storeStatus;
-    }
-
-    public void updatePointPolicy(StorePointPolicyRequestDto dto) {
-        this.pointPolicyStatus = dto.getPointPolicyStatus();
-        this.saveRate = dto.getSaveRate();
     }
 
     public void updateSaveRate(boolean pointPolicyStatus, BigDecimal saveRate) {
