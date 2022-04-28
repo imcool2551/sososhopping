@@ -3,7 +3,6 @@ package com.sososhopping.domain.coupon.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.domain.coupon.dto.request.CouponRegisterDto;
 import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.repository.CouponRepository;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 public class UserCouponController {
 
     private final UserCouponService userCouponService;
-    private final UserAuthRepository userRepository;
     private final StoreRepository storeRepository;
     private final CouponRepository couponRepository;
 

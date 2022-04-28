@@ -8,7 +8,6 @@ import com.sososhopping.domain.coupon.dto.request.CouponRegisterDto;
 import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.repository.CouponRepository;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
@@ -28,7 +27,6 @@ public class UserCouponService {
     private final UserAuthRepository userRepository;
     private final CouponRepository couponRepository;
     private final UserCouponRepository userCouponRepository;
-    private final StoreRepository storeRepository;
 
     public Long registerCoupon(Long userId, CouponRegisterDto dto) {
         User user = userRepository.findById(userId)
