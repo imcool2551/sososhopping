@@ -1,7 +1,5 @@
 package com.sososhopping.domain.coupon.service;
 
-import com.sososhopping.common.error.Api401Exception;
-import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
@@ -9,11 +7,11 @@ import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.domain.coupon.dto.request.CouponRegisterDto;
 import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.repository.CouponRepository;
+import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +54,6 @@ public class UserCouponService {
         return userCoupon.getId();
     }
 
-    @Transactional
     public List<CouponResponse> findMyCoupons(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
@@ -69,21 +66,17 @@ public class UserCouponService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public void deleteMyCoupon(Long userId, Long couponId) {
-
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
+                .orElseThrow(UnAuthorizedException::new);
 
-        Coupon findCoupon = couponRepository.findById(couponId)
-                .orElseThrow(() -> new Api404Exception("쿠폰을 찾을 수 없습니다"));
+        Coupon coupon = couponRepository.findById(couponId)
+                .orElseThrow(() -> new NotFoundException("no coupon with id " + couponId));
 
-        userCouponRepository.findByUserAndCoupon(user, findCoupon)
-                .ifPresentOrElse(userCoupon -> {
-                    userCouponRepository.delete(userCoupon);
-                    findCoupon.addStock(1);
-                }, () -> {
-                    throw new Api404Exception("존재하지 않는 쿠폰입니다");
-                });
+        UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(user, coupon)
+                .orElseThrow(() -> new NotFoundException("you don't have coupon with id " + couponId));
+
+        userCouponRepository.delete(userCoupon);
+        coupon.addStock(1);
     }
 }
