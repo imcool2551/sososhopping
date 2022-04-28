@@ -1,6 +1,6 @@
 package com.sososhopping.entity.coupon;
 
-import com.sososhopping.common.error.Api400Exception;
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
@@ -42,18 +42,22 @@ public class UserCoupon extends BaseTimeEntity {
         this.used = false;
     }
 
-    public static UserCoupon createUserCoupon(User user, Coupon coupon) {
-        coupon.issueCoupon();
+    public static UserCoupon createUserCoupon(User user, Coupon coupon, LocalDateTime at) {
+        coupon.issueCoupon(at);
         return new UserCoupon(user, coupon);
     }
 
-    // Business Logic
-    public void use() {
-        if (used == true) {
-            throw new Api400Exception("이미 사용한 쿠폰입니다");
+    public boolean belongsTo(Store store) {
+        return getStore() == store;
+    }
+
+    public void use(LocalDateTime at) {
+        if (used) {
+            throw new BadRequestException("이미 사용한 쿠폰입니다");
         }
-        if (coupon.getExpireDate().isBefore(LocalDateTime.now())) {
-            throw new Api400Exception("사용기한이 지났습니다");
+
+        if (coupon.isExpired(at)) {
+            throw new BadRequestException("사용기한이 지났습니다");
         }
         used = true;
     }

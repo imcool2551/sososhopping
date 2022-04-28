@@ -15,9 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.time.LocalDateTime.now;
 
 @Service
 @Transactional
@@ -47,7 +48,7 @@ public class UserCouponService {
             throw new BadRequestException("you have already registered coupon");
         }
 
-        UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon);
+        UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
         userCouponRepository.save(userCoupon);
         return userCoupon.getId();
     }
@@ -57,7 +58,7 @@ public class UserCouponService {
                 .orElseThrow(UnAuthorizedException::new);
 
         List<UserCoupon> userCoupons = userCouponRepository
-                .findActiveCouponsByUserAt(user, LocalDateTime.now());
+                .findActiveCouponsByUserAt(user, now());
 
         return userCoupons.stream()
                 .map(userCoupon -> new CouponResponse(userCoupon.getStore(), userCoupon.getCoupon()))

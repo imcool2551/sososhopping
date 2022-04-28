@@ -1,6 +1,6 @@
 package com.sososhopping.entity.coupon;
 
-import com.sososhopping.common.error.Api400Exception;
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
@@ -75,15 +75,22 @@ public class Coupon extends BaseTimeEntity {
         return this.store == store;
     }
 
-    public Coupon issueCoupon() {
-        if (!hasStock()) {
-            throw new Api400Exception("쿠폰 재고가 없습니다");
+    public void issueCoupon(LocalDateTime at) {
+        if (stockQuantity <= 0) {
+            throw new BadRequestException("쿠폰 재고가 없습니다");
         }
-        if (!isBeingIssuedAt(LocalDateTime.now())) {
-            throw new Api400Exception("쿠폰 발급기간이 아닙니다");
+        if (!canIssueAt(at)) {
+            throw new BadRequestException("쿠폰 발급기간이 아닙니다");
         }
         stockQuantity--;
-        return this;
+    }
+
+    private boolean canIssueAt(LocalDateTime at) {
+        return at.isAfter(issueStartDate) && at.isBefore(issueDueDate);
+    }
+
+    public boolean isExpired(LocalDateTime at) {
+        return expireDate.isBefore(at);
     }
 
     public void addStock(int quantity) {
@@ -92,13 +99,5 @@ public class Coupon extends BaseTimeEntity {
 
     public boolean minimumPriceGreaterThan(Integer orderPrice) {
         return minimumOrderPrice > orderPrice;
-    }
-
-    private boolean hasStock() {
-        return stockQuantity > 0;
-    }
-
-    private boolean isBeingIssuedAt(LocalDateTime at) {
-        return at.isAfter(issueStartDate) && at.isBefore(issueDueDate);
     }
 }

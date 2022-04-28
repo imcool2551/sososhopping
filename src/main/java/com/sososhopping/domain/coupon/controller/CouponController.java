@@ -73,4 +73,13 @@ public class CouponController {
         Long ownerId = Long.parseLong(authentication.getName());
         return couponService.findUserCoupon(ownerId, storeId, phone, couponCode);
     }
+
+    @PostMapping("/owner/my/store/{storeId}/users/coupon/{userCouponId}")
+    public void useUserCoupon(Authentication authentication,
+                              @PathVariable Long storeId,
+                              @PathVariable Long userCouponId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        couponService.useUserCoupon(ownerId, storeId, userCouponId);
+    }
 }

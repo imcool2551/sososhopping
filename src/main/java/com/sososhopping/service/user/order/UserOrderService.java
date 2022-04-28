@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -133,7 +134,7 @@ public class UserOrderService {
             UserCoupon userCoupon = userCouponRepository
                     .findByUserAndCoupon(user, findCoupon)
                     .orElseThrow(() -> new Api404Exception("유저에게 쿠폰이 없습니다"));
-            userCoupon.use();
+            userCoupon.use(LocalDateTime.now());
         }
 
         // 최종 가격 계산

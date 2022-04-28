@@ -12,6 +12,7 @@ import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.CouponType;
+import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static java.time.LocalDateTime.*;
 
 @Service
 @Transactional
@@ -60,8 +63,8 @@ public class CouponService {
 
     public StoreCouponsResponse findCoupons(Long ownerId, Long storeId) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
-        List<Coupon> activeCoupons = couponRepository.findActiveCoupons(store, LocalDateTime.now());
-        List<Coupon> scheduledCoupons = couponRepository.findScheduledCoupons(store, LocalDateTime.now());
+        List<Coupon> activeCoupons = couponRepository.findActiveCoupons(store, now());
+        List<Coupon> scheduledCoupons = couponRepository.findScheduledCoupons(store, now());
         return new StoreCouponsResponse(store, activeCoupons, scheduledCoupons);
     }
 
@@ -73,9 +76,22 @@ public class CouponService {
         Coupon coupon = couponRepository.findByCouponCode(couponCode)
                 .orElseThrow(() -> new NotFoundException("coupon with coupon code does not exist: " + couponCode));
 
-        userCouponRepository.findByUserAndCoupon(user, coupon)
+        UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(user, coupon)
                 .orElseThrow(() -> new NotFoundException("user does not have coupon"));
 
-        return new UserCouponResponse(user.getNickname(), store, coupon);
+        return new UserCouponResponse(userCoupon, user, store, coupon);
+    }
+
+    public void useUserCoupon(Long ownerId, Long storeId, Long userCouponId) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+
+        UserCoupon userCoupon = userCouponRepository.findById(userCouponId)
+                .orElseThrow(() -> new NotFoundException("userCoupon with id does not exist " + userCouponId));
+
+        if (!userCoupon.belongsTo(store)) {
+            throw new ForbiddenException("coupon does not belong to store");
+        }
+
+        userCoupon.use(now());
     }
 }
