@@ -13,14 +13,14 @@ sososhop 애플리케이션의 api서버입니다.
 #### 1.1 아키텍쳐 
 
 * 패키지 구조 수정 
-  * 도메인(domain) + 엔티티(entity) + 공통기능(common) 패키지 최상위
+  * 도메인(domain) + 엔티티(entity) + 공통기능(common) 패키지를 루트에 위치
     * 도메인마다 각각 controller, service, repository, exception, dto 소유
     
-* 서비스 계층이 API 예외를 던지는 대신 도메인에 특화된 예외를 던지도록 수정 (웹 계층과 서비스 계층 분리)
+* 서비스 계층이 API 예외를 던지는 대신 도메인 예외/범용 예외를 던지도록 수정 (서비스 계층을 웹에서 독립)
 
-* 예외는 ControllerAdvice 에서 공통 처리
+* 예외는 ControllerAdvice(ExceptionHandler) 에서 공통 처리
 
-* 엔티티가 dto에 의존하지 않도록 변경
+* 엔티티가 dto에 의존하지 않도록 변경 (dto.toEntity() 사용)
 
 #### 1.2 세부사항
 
@@ -43,6 +43,10 @@ sososhop 애플리케이션의 api서버입니다.
 * 리스트 반환시 객체로 래핑 (추후 페이징 적용 대비)
 
 * 쿠폰 종류 엔티티 매핑시 상속 대신 열거형 사용
+
+* 영속성 컨텍스트 캐시를 고려해서 컨트롤러 대신 서비스에서 엔티티 생성
+
+* 테스트를 위해 LocalDateTime을 파라미터로 분리
 
 
 ### 2. TODOS

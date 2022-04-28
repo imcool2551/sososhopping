@@ -142,6 +142,11 @@ public class Store extends BaseTimeEntity {
         this.pointPolicyStatus = dto.getPointPolicyStatus();
         this.saveRate = dto.getSaveRate();
     }
+
+    public void updateSaveRate(boolean pointPolicyStatus, BigDecimal saveRate) {
+        this.pointPolicyStatus = pointPolicyStatus;
+        this.saveRate = saveRate;
+    }
 }
 
 

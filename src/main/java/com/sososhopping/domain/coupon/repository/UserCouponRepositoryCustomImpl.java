@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.sososhopping.entity.coupon.QCoupon.coupon;
 import static com.sososhopping.entity.coupon.QUserCoupon.userCoupon;
-import static com.sososhopping.entity.owner.QStore.store;
+import static com.sososhopping.entity.store.QStore.store;
 
 public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCustom {
 
@@ -22,13 +22,13 @@ public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCusto
     }
 
     @Override
-    public List<UserCoupon> findActiveCouponsByUserAt(User user, LocalDateTime dateTime) {
+    public List<UserCoupon> findActiveCouponsByUserAt(User user, LocalDateTime at) {
         return queryFactory
                 .select(userCoupon)
                 .from(userCoupon)
                 .join(userCoupon.coupon, coupon).fetchJoin()
                 .join(coupon.store, store).fetchJoin()
-                .where(userEq(user), isActiveAt(dateTime), notUsed())
+                .where(userEq(user), isActiveAt(at), notUsed())
                 .fetch();
     }
 
@@ -36,8 +36,8 @@ public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCusto
         return userCoupon.user.eq(user);
     }
 
-    private BooleanExpression isActiveAt(LocalDateTime dateTime) {
-        return userCoupon.coupon.expireDate.after(dateTime);
+    private BooleanExpression isActiveAt(LocalDateTime at) {
+        return userCoupon.coupon.expireDate.after(at);
     }
 
     private BooleanExpression notUsed() {

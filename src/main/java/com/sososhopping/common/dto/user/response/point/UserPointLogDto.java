@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.point;
 
-import com.sososhopping.entity.user.UserPointLog;
+import com.sososhopping.entity.point.UserPointLog;
 import com.sososhopping.entity.store.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

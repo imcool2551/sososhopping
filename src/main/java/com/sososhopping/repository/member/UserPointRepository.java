@@ -1,7 +1,7 @@
 package com.sososhopping.repository.member;
 
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package com.sososhopping.common.dto.user.response.point;
 
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import lombok.Data;
 import lombok.Getter;

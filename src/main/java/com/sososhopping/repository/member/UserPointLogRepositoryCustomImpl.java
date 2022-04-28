@@ -2,8 +2,8 @@ package com.sososhopping.repository.member;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sososhopping.entity.user.UserPoint;
-import com.sososhopping.entity.user.UserPointLog;
+import com.sososhopping.entity.point.UserPoint;
+import com.sososhopping.entity.point.UserPointLog;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;

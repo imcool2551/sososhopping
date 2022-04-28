@@ -11,7 +11,7 @@ import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.user.InterestStore;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.member.UserPointRepository;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;

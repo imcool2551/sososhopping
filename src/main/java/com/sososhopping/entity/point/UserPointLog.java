@@ -1,4 +1,4 @@
-package com.sososhopping.entity.user;
+package com.sososhopping.entity.point;
 
 import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;

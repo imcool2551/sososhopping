@@ -8,7 +8,7 @@ import com.sososhopping.entity.user.User;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.sososhopping.entity.orders.QItem.item;
+import static com.sososhopping.entity.store.QItem.item;
 import static com.sososhopping.entity.user.QCart.cart;
 
 

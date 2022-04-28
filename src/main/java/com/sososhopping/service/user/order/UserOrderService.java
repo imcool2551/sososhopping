@@ -8,7 +8,7 @@ import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderItem;
 import com.sososhopping.entity.orders.OrderStatus;

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.sososhopping.entity.owner.QAccounting.accounting;
+import static com.sososhopping.entity.store.QAccounting.accounting;
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 

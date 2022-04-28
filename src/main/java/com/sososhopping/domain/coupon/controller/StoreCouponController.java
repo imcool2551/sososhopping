@@ -6,7 +6,7 @@ import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
 import com.sososhopping.domain.coupon.dto.response.CouponResponse;
 import com.sososhopping.domain.coupon.dto.response.StoreCouponsResponse;
 import com.sososhopping.domain.coupon.dto.response.UserCouponResponse;
-import com.sososhopping.domain.coupon.service.CouponService;
+import com.sososhopping.domain.coupon.service.StoreCouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,9 +18,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class CouponController {
+public class StoreCouponController {
 
-    private final CouponService couponService;
+    private final StoreCouponService couponService;
 
     @PostMapping("/owner/my/store/{storeId}/coupon")
     public ApiResponse createCoupon(Authentication authentication,

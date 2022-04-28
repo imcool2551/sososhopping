@@ -7,7 +7,7 @@ import com.sososhopping.entity.user.InterestStore;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.sososhopping.entity.owner.QStore.store;
+import static com.sososhopping.entity.store.QStore.store;
 import static com.sososhopping.entity.user.QInterestStore.interestStore;
 
 

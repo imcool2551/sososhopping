@@ -7,7 +7,7 @@ import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
 import com.sososhopping.entity.store.Store;

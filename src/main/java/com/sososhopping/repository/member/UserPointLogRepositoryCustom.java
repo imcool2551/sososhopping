@@ -1,7 +1,7 @@
 package com.sososhopping.repository.member;
 
-import com.sososhopping.entity.user.UserPoint;
-import com.sososhopping.entity.user.UserPointLog;
+import com.sososhopping.entity.point.UserPoint;
+import com.sososhopping.entity.point.UserPointLog;
 
 import java.time.LocalDateTime;
 import java.util.List;

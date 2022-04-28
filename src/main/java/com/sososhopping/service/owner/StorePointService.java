@@ -4,19 +4,18 @@ import com.sososhopping.common.dto.owner.request.StorePointPolicyRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreUserPointResponseDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.entity.user.UserPoint;
+import com.sososhopping.domain.store.repository.StoreRepository;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.member.UserPointLogRepository;
 import com.sososhopping.repository.member.UserPointRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class StorePointService {
 
@@ -25,13 +24,6 @@ public class StorePointService {
     private final UserPointRepository userPointRepository;
     private final UserPointLogRepository userPointLogRepository;
 
-    @Transactional
-    public Store readPointPolicy(Long storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api400Exception("존재하지 않는 점포입니다"));
-
-        return store;
-    }
 
     @Transactional
     public void updatePointPolicy(Long storeId, StorePointPolicyRequestDto dto) {
