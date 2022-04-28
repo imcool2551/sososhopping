@@ -1,5 +1,6 @@
 package com.sososhopping.entity.point;
 
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.store.Store;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.*;
 
 @Entity
 @Getter
@@ -23,7 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPoint extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_point_id")
     private Long id;
 
@@ -35,20 +37,30 @@ public class UserPoint extends BaseTimeEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    private Integer point;
+    private int point;
 
     //List
     @OneToMany(mappedBy = "userPoint", cascade = ALL, orphanRemoval = true)
     private List<UserPointLog> userPointLogs = new ArrayList<>();
 
-    public UserPoint(User user, Store store, Integer point) {
+    public UserPoint(User user, Store store, int point) {
         this.user = user;
         this.store = store;
         this.point = point;
     }
 
-    public void updatePoint(Integer pointAmount) {
-        this.point += pointAmount;
+    public void updatePoint(int used) {
+        int result = point + used;
+        if (result < 0) {
+            throw new BadRequestException("not enough point");
+        }
+         addLog(used, result);
+        this.point = result;
+    }
+
+    private void addLog(int used, int result) {
+        UserPointLog log = new UserPointLog(this, used, result);
+        log.setUserPoint(this);
     }
 
     public boolean hasMoreThan(Integer usedPoint) {
@@ -58,12 +70,7 @@ public class UserPoint extends BaseTimeEntity {
     public void usePoint(Integer usedPoint) {
         point -= usedPoint;
 
-        UserPointLog userPointLog = UserPointLog.builder()
-                .pointAmount(-usedPoint)
-                .resultAmount(point)
-                .build();
-
-        userPointLog.setUserPoint(this);
+        addLog(-usedPoint, point);
     }
 
     public void savePoint(Order order) {
@@ -75,12 +82,7 @@ public class UserPoint extends BaseTimeEntity {
 
             point += savedPoint;
 
-            UserPointLog userPointLog = UserPointLog.builder()
-                    .pointAmount(savedPoint)
-                    .resultAmount(point)
-                    .build();
-
-            userPointLog.setUserPoint(this);
+            addLog(savedPoint, point);
         }
     }
 
@@ -91,12 +93,7 @@ public class UserPoint extends BaseTimeEntity {
         if (restorePoint > 0) {
             point += restorePoint;
 
-            UserPointLog userPointLog = UserPointLog.builder()
-                    .pointAmount(restorePoint)
-                    .resultAmount(point)
-                    .build();
-
-            userPointLog.setUserPoint(this);
+            addLog(restorePoint, point);
         }
     }
 }

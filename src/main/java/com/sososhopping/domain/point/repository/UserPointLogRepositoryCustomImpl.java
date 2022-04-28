@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.sososhopping.entity.user.QUserPointLog.userPointLog;
+import static com.sososhopping.entity.point.QUserPointLog.userPointLog;
 
 
 public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryCustom {

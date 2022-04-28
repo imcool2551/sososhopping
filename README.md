@@ -48,6 +48,8 @@ sososhop 애플리케이션의 api서버입니다.
 
 * 테스트를 위해 LocalDateTime을 파라미터로 분리
 
+* 연관관계 매핑시 PK만 사용하도록 변경(UserPointLog) 참고) https://www.inflearn.com/questions/16570
+
 
 ### 2. TODOS
 

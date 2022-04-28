@@ -3,8 +3,10 @@ package com.sososhopping.domain.point.service;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
 import com.sososhopping.domain.point.dto.request.UpdateSaveRateDto;
+import com.sososhopping.domain.point.dto.request.UpdateUserPointDto;
 import com.sososhopping.domain.point.dto.response.UserPointResponse;
 import com.sososhopping.domain.user.repository.UserRepository;
+import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.domain.point.repository.UserPointRepository;
@@ -47,5 +49,21 @@ public class StorePointService {
         return userPointRepository.findByUserAndStore(user, store)
                 .map(userPoint -> new UserPointResponse(user.getName(), userPoint.getPoint()))
                 .orElse(new UserPointResponse(user.getName(), 0));
+    }
+
+    public void updateUserPoint(Long ownerId, Long storeId, UpdateUserPointDto dto) {
+        Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
+        String userPhone = dto.getUserPhone();
+        User user = userRepository.findByPhone(userPhone)
+                .orElseThrow(() -> new NotFoundException("user does not exist with phone: " + userPhone));
+
+        UserPoint userPoint = userPointRepository.findByUserAndStore(user, store)
+                .orElseGet(() -> {
+                    UserPoint newUserPoint = new UserPoint(user, store, 0);
+                    userPointRepository.save(newUserPoint);
+                    return newUserPoint;
+                });
+
+        userPoint.updatePoint(dto.getAmount());
     }
 }

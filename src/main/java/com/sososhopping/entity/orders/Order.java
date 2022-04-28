@@ -72,7 +72,6 @@ public class Order extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    //List
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 

@@ -2,7 +2,6 @@ package com.sososhopping.entity.point;
 
 import com.sososhopping.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,23 +22,19 @@ public class UserPointLog extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-            @JoinColumn(name = "store_id", referencedColumnName = "store_id")
-    })
+    @JoinColumn(name = "user_point_id")
     private UserPoint userPoint;
 
-    private int pointAmount;
+    private int used;
 
-    private int resultAmount;
+    private int result;
 
-    @Builder
-    public UserPointLog(int pointAmount, int resultAmount) {
-        this.pointAmount = pointAmount;
-        this.resultAmount = resultAmount;
+    public UserPointLog(UserPoint userPoint, int used, int result) {
+        this.userPoint = userPoint;
+        this.used = used;
+        this.result = result;
     }
 
-    // 연관 관계 편의 메서드
     public void setUserPoint(UserPoint userPoint) {
         this.userPoint = userPoint;
         this.userPoint.getUserPointLogs().add(this);

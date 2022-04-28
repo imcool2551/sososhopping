@@ -3,6 +3,7 @@ package com.sososhopping.domain.point.controller;
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.domain.point.dto.request.UpdateSaveRateDto;
+import com.sososhopping.domain.point.dto.request.UpdateUserPointDto;
 import com.sososhopping.domain.point.dto.response.UserPointResponse;
 import com.sososhopping.domain.point.service.StorePointService;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +50,12 @@ public class StorePointController {
         return storePointService.findUserPoint(ownerId, storeId, userPhone);
     }
 
+    @PostMapping("/owner/my/store/{storeId}/point")
+    public void updateUserPoint(Authentication authentication,
+                                @PathVariable Long storeId,
+                                @RequestBody @Valid UpdateUserPointDto dto) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        storePointService.updateUserPoint(ownerId, storeId, dto);
+    }
 }

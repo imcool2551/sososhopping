@@ -25,8 +25,8 @@ public class UserPointLogDto {
         lng = store.getLng().doubleValue();
         logs = userPointLogs.stream()
                 .map(userPointLog -> new Logs(
-                        userPointLog.getPointAmount(),
-                        userPointLog.getResultAmount(),
+                        userPointLog.getUsed(),
+                        userPointLog.getResult(),
                         userPointLog.getCreatedAt()
                                 .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))
                 )
