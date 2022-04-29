@@ -1,4 +1,4 @@
-package com.sososhopping.repository.store;
+package com.sososhopping.domain.store.repository;
 
 import com.sososhopping.entity.store.StoreType;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,44 +20,39 @@ import java.util.stream.Collectors;
 public class JdbcStoreRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final EntityManager em;
 
     public JdbcStoreRepository(DataSource dataSource, EntityManager em) {
-        this.em = em;
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Map<Long, Double> getNearStoreIdsByCategory(
-            Double lat,
-            Double lng,
-            Double radius,
-            StoreType storeType,
-            Integer offset
-    ) {
-        String sql = "SELECT store.store_id AS store_id,\n" +
-                "        p.radius AS radius,\n" +
-                "        p.distance_unit\n" +
-                "                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
-                "                 * COS(RADIANS(store.lat))\n" +
-                "                 * COS(RADIANS(p.longpoint - store.lng))\n" +
-                "                 + SIN(RADIANS(p.latpoint))\n" +
-                "                 * SIN(RADIANS(store.lat))))) AS distance\n" +
-                "  FROM store\n" +
-                "  JOIN (   /* these are the query parameters */\n" +
-                "        SELECT  :lat  AS latpoint, :lng AS longpoint,\n" +
-                "                :radius  AS radius,    111.045 AS distance_unit\n" +
-                "  ) AS p \n" +
-                "  WHERE store.lat\n" +
-                "         BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
-                "         AND p.latpoint  + (p.radius / p.distance_unit)\n" +
-                "     AND store.lng\n" +
-                "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "     AND store.store_type LIKE :storeType\n" +
-                "     AND store.business_status = 1" +
-                "    AND store.store_status LIKE \"ACTIVE\"\n" +
-                " HAVING distance <= radius\n" +
-                " ORDER BY distance\n" +
+    public Map<Long, Double> getNearStoreIdsByCategory(double lat, double lng, double radius,
+                                                       StoreType storeType, int offset, int limit) {
+
+        String sql = " " +
+                "  SELECT store.store_id AS store_id, " +
+                "         p.radius AS radius, " +
+                "         p.distance_unit " +
+                "                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint)) " +
+                "                 * COS(RADIANS(store.lat)) " +
+                "                 * COS(RADIANS(p.longpoint - store.lng)) " +
+                "                 + SIN(RADIANS(p.latpoint)) " +
+                "                 * SIN(RADIANS(store.lat))))) AS distance " +
+                "  FROM store " +
+                "  JOIN ( " +
+                "        SELECT  :lat  AS latpoint, :lng AS longpoint, " +
+                "                :radius  AS radius, 111.045 AS distance_unit " +
+                "  ) AS p  " +
+                "  WHERE store.lat " +
+                "         BETWEEN p.latpoint - (p.radius / p.distance_unit) " +
+                "         AND p.latpoint + (p.radius / p.distance_unit) " +
+                "     AND store.lng " +
+                "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " +
+                "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " +
+                "     AND store.store_type LIKE :storeType " +
+                "     AND store.is_open = 1" +
+                "     AND store.store_status LIKE \"ACTIVE\"" +
+                " HAVING distance <= radius " +
+                " ORDER BY distance " +
                 " LIMIT :limit OFFSET :offset";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
@@ -65,52 +60,7 @@ public class JdbcStoreRepository {
                 .addValue("lng", lng)
                 .addValue("radius", radius)
                 .addValue("storeType", storeType.toString())
-                .addValue("limit", 10 + 1)
-                .addValue("offset", offset);
-        List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
-
-        return list.stream()
-                .flatMap(map -> map.entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public Map<Long, Double> getLocalCurrencyStores(
-            Double lat,
-            Double lng,
-            Double radius,
-            Integer offset
-    ) {
-        String sql = "SELECT store.store_id AS store_id,\n" +
-                "        p.radius AS radius,\n" +
-                "        p.distance_unit\n" +
-                "                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))\n" +
-                "                 * COS(RADIANS(store.lat))\n" +
-                "                 * COS(RADIANS(p.longpoint - store.lng))\n" +
-                "                 + SIN(RADIANS(p.latpoint))\n" +
-                "                 * SIN(RADIANS(store.lat))))) AS distance\n" +
-                "  FROM store\n" +
-                "  JOIN (   /* these are the query parameters */\n" +
-                "        SELECT  :lat  AS latpoint, :lng AS longpoint,\n" +
-                "                :radius  AS radius,    111.045 AS distance_unit\n" +
-                "  ) AS p \n" +
-                "  WHERE store.lat\n" +
-                "         BETWEEN p.latpoint  - (p.radius / p.distance_unit)\n" +
-                "         AND p.latpoint  + (p.radius / p.distance_unit)\n" +
-                "     AND store.lng\n" +
-                "         BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))\n" +
-                "     AND store.local_currency_status = 1 \n" +
-                "     AND store.business_status = 1 \n" +
-                "     AND store.store_status LIKE \"ACTIVE\"\n" +
-                " HAVING distance <= radius\n" +
-                " ORDER BY distance\n" +
-                " LIMIT :limit OFFSET :offset";
-
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("lat", lat)
-                .addValue("lng", lng)
-                .addValue("radius", radius)
-                .addValue("limit", 10 + 1)
+                .addValue("limit", limit + 1)
                 .addValue("offset", offset);
         List<Map<Long, Double>> list = jdbcTemplate.query(sql, parameters, new StoreMapper());
 

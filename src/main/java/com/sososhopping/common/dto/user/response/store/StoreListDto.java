@@ -53,26 +53,6 @@ public class StoreListDto implements Comparable<StoreListDto> {
         distance = idToDistanceMap.get(store.getId());
     }
 
-    public StoreListDto (InterestStore interestStore) {
-        storeId = interestStore.getStore().getId();
-        ownerId = interestStore.getStore().getOwner().getId();
-        storeType = interestStore.getStore().getStoreType().getKrName();
-        name = interestStore.getStore().getName();
-        description = interestStore.getStore().getDescription();
-        phone = interestStore.getStore().getPhone();
-        imgUrl = interestStore.getStore().getImgUrl();
-        location = new Coordinate(
-                interestStore.getStore().getLat().doubleValue(),
-                interestStore.getStore().getLng().doubleValue()
-        );
-        score = interestStore.getStore().getReviews()
-                .stream()
-                .mapToDouble(review -> review.getScore().doubleValue())
-                .average()
-                .orElse(0);
-        isInterestStore = true;
-        distance = null;
-    }
 
     @Override
     public int compareTo(StoreListDto o) {
