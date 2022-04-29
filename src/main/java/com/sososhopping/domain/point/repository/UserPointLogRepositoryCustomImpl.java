@@ -6,10 +6,12 @@ import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.point.UserPointLog;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.sososhopping.entity.point.QUserPointLog.userPointLog;
+import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 
 public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryCustom {
@@ -21,28 +23,28 @@ public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryC
     }
 
     @Override
-    public List<UserPointLog> findMonthlyUserPointLogs(
-            UserPoint userPoint, LocalDateTime at
-    ) {
+    public List<UserPointLog> findMonthlyUserPointLogs(UserPoint userPoint, LocalDate yearMonth) {
         return queryFactory
                 .select(userPointLog)
                 .from(userPointLog)
-                .where(userPointEq(userPoint), monthEq(at))
+                .where(userPointEq(userPoint), monthEq(yearMonth))
                 .orderBy(userPointLog.createdAt.asc())
                 .fetch();
     }
 
     private BooleanExpression userPointEq(UserPoint userPoint) {
+        if (userPoint == null) {
+            return null;
+        }
         return userPointLog.userPoint.eq(userPoint);
     }
 
-    private BooleanExpression monthEq(LocalDateTime at) {
-        LocalDateTime startOfMonth = LocalDateTime.of(at.getYear(), at.getMonth(), 1, 00, 00, 00);
-        LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusMinutes(1);
-
-        return userPointLog.createdAt.between(
-                startOfMonth,
-                endOfMonth
-        );
+    private BooleanExpression monthEq(LocalDate yearMonth) {
+        if (yearMonth == null) {
+            return null;
+        }
+        LocalDate start = yearMonth.with(firstDayOfMonth());
+        LocalDate end = yearMonth.with(lastDayOfMonth()).plusDays(1);
+        return userPointLog.createdAt.between(start.atStartOfDay(), end.atStartOfDay());
     }
 }
