@@ -2,9 +2,11 @@ package com.sososhopping.domain.store.controller.user;
 
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.user.request.StoreSearchByCategoryDto;
+import com.sososhopping.domain.store.dto.user.request.StoreSearchByKeywordDto;
 import com.sososhopping.domain.store.dto.user.response.InterestStoreResponse;
 import com.sososhopping.domain.store.dto.user.response.StoreResponse;
 import com.sososhopping.domain.store.dto.user.response.StoresResponse;
+import com.sososhopping.domain.store.service.user.StoreSearchService;
 import com.sososhopping.domain.store.service.user.UserStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -20,6 +22,7 @@ import java.util.List;
 public class UserStoreController {
 
     private final UserStoreService userStoreService;
+    private final StoreSearchService storeSearchService;
 
     @PostMapping("/users/my/interest_store")
     public void toggleInterest(Authentication authentication, @RequestParam Long storeId) {
@@ -51,6 +54,17 @@ public class UserStoreController {
                 ? Long.parseLong(authentication.getName())
                 : null;
 
-        return userStoreService.findStoresByCategory(userId, dto);
+        return storeSearchService.findStoresByCategory(userId, dto);
+    }
+
+    @GetMapping("/search")
+    public Slice<StoresResponse> findStoresBySearch(Authentication authentication,
+                                                    @ModelAttribute @Valid StoreSearchByKeywordDto dto) {
+
+        Long userId = authentication != null
+                ? Long.parseLong(authentication.getName())
+                : null;
+
+        return storeSearchService.findStoresBySearch(userId, dto);
     }
 }

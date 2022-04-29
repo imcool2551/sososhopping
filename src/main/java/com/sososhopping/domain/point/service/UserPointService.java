@@ -53,7 +53,6 @@ public class UserPointService {
                 .orElseThrow(UnAuthorizedException::new);
 
         List<UserPoint> userPoints = userPointRepository.findByUser(user);
-
         List<Store> interestStores = interestStoreRepository.findByUser(user)
                 .stream()
                 .map(InterestStore::getStore)
