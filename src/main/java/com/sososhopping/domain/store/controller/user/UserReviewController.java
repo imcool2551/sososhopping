@@ -2,13 +2,11 @@ package com.sososhopping.domain.store.controller.user;
 
 import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.OffsetBasedPageRequest;
-import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
-import com.sososhopping.common.dto.user.response.store.StoreReviewDto;
+import com.sososhopping.domain.store.dto.user.response.StoreReviewResponse;
 import com.sososhopping.common.dto.user.response.store.UserReviewDto;
-import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
 import com.sososhopping.domain.store.repository.StoreRepository;
-import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.store.ReviewRepository;
 import com.sososhopping.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
@@ -42,26 +40,15 @@ public class UserReviewController {
         userReviewService.createReview(userId, storeId, dto);
     }
 
-    @GetMapping("/api/v1/users/stores/{storeId}/reviews")
-    public ApiListResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
 
-        List<StoreReviewDto> storeReviews = userReviewService.getStoreReviews(storeId);
-        return new ApiListResponse<StoreReviewDto>(storeReviews);
-    }
+    @GetMapping("/store/{storeId}/reviews")
+    public Slice<StoreReviewResponse> findReviews(@PathVariable Long storeId,
+                                                  @RequestParam Integer offset,
+                                                  @RequestParam Integer limit) {
 
-    @GetMapping("/api/v1/users/stores/{storeId}/reviews/page")
-    public Slice<StoreReviewDto> getStoreReviewsPageable(
-            @PathVariable Long storeId,
-            @RequestParam Integer offset
-    ) {
-        Store findStore = storeRepository
-                .findById(storeId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
 
-        Pageable pageable = new OffsetBasedPageRequest(offset, 10);
-
-        return reviewRepository.findReviewsByStore(findStore, pageable)
-                .map(StoreReviewDto::new);
+        Pageable pageable = new OffsetBasedPageRequest(offset, limit);
+        return userReviewService.findReviews(storeId, pageable);
     }
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews/check")

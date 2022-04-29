@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.*;
+
 public interface ReviewRepository extends JpaRepository<Review, Long>, UserReviewRepository {
 
     boolean existsByUserAndStore(User user, Store store);
@@ -18,8 +20,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, UserRevie
     Optional<Review> findByUserAndStore(User user, Store store);
 
     //점주 리뷰 with 유저
-    @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"user"}, type = FETCH)
     List<Review> findByStoreOrderByCreatedAtDesc(Store store);
 
-    Slice<Review> findReviewsByStore(Store store, Pageable pageable);
+    @EntityGraph(attributePaths = {"user"}, type = FETCH)
+    Slice<Review> findByStoreOrderByCreatedAtDesc(Store store, Pageable pageable);
 }
