@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.dto.request;
+package com.sososhopping.domain.store.dto.owner.request;
 
 import com.sososhopping.entity.store.Accounting;
 import com.sososhopping.entity.store.Store;

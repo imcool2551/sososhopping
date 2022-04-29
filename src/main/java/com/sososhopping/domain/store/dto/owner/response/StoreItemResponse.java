@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.dto.response;
+package com.sososhopping.domain.store.dto.owner.response;
 
 import com.sososhopping.entity.store.Item;
 import lombok.Data;

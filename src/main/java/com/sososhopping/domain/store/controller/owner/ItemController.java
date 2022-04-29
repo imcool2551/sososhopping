@@ -1,9 +1,9 @@
-package com.sososhopping.domain.store.controller;
+package com.sososhopping.domain.store.controller.owner;
 
 import com.sososhopping.common.dto.ApiResponse;
-import com.sososhopping.domain.store.dto.request.CreateItemDto;
-import com.sososhopping.domain.store.dto.response.StoreItemResponse;
-import com.sososhopping.domain.store.service.ItemService;
+import com.sososhopping.domain.store.dto.owner.request.CreateItemDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreItemResponse;
+import com.sososhopping.domain.store.service.owner.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

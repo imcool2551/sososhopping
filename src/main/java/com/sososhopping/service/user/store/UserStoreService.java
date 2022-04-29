@@ -7,20 +7,20 @@ import com.sososhopping.common.dto.user.request.store.GetStoreBySearchDto;
 import com.sososhopping.common.dto.user.request.store.StoreSearchType;
 import com.sososhopping.common.dto.user.response.store.StoreInfoDto;
 import com.sososhopping.common.dto.user.response.store.StoreListDto;
-import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.user.InterestStore;
-import com.sososhopping.entity.user.User;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.point.repository.UserPointRepository;
+import com.sososhopping.domain.store.repository.InterestStoreRepository;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.point.repository.UserPointRepository;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
-import com.sososhopping.repository.store.InterestStoreRepository;
+import com.sososhopping.entity.user.InterestStore;
+import com.sososhopping.entity.user.User;
 import com.sososhopping.repository.store.JdbcStoreRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class UserStoreService {
 
@@ -39,25 +39,6 @@ public class UserStoreService {
     private final UserPointRepository userPointRepository;
     private final JdbcStoreRepository jdbcStoreRepository;
 
-
-    @Transactional
-    public void toggleStoreLike(Long userId, Long storeId) {
-
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid token"));
-
-        Store store = storeRepository
-                .findById(storeId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
-
-        interestStoreRepository
-                .findByUserAndStore(user, store)
-                .ifPresentOrElse(
-                        interestStoreRepository::delete,
-                        () -> interestStoreRepository.save(new InterestStore(user, store))
-                );
-    }
 
     @Transactional
     public StoreInfoDto getStoreInfo(Long userId, Long storeId) {

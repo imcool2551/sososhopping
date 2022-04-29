@@ -1,5 +1,6 @@
 package com.sososhopping.domain.point.service;
 
+import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.point.dto.response.MyPointsResponse;
 import com.sososhopping.domain.point.dto.response.MyPointLogResponse;
 import com.sososhopping.common.exception.NotFoundException;
@@ -12,7 +13,7 @@ import com.sososhopping.entity.point.UserPointLog;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.InterestStore;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.store.InterestStoreRepository;
+import com.sososhopping.domain.store.repository.InterestStoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class UserPointService {
 
     public MyPointLogResponse findMonthlyPointLogs(Long userId, Long storeId, LocalDate yearMonth) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("user does not exist with id" + userId));
+                .orElseThrow(UnAuthorizedException::new);
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("store does not exist with id" + storeId));
@@ -49,7 +50,7 @@ public class UserPointService {
 
     public MyPointsResponse findMyPoints(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("user does not exist with id" + userId));
+                .orElseThrow(UnAuthorizedException::new);
 
         List<UserPoint> userPoints = userPointRepository.findByUser(user);
 

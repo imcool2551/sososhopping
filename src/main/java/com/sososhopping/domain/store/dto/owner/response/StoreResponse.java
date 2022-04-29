@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.dto.response;
+package com.sososhopping.domain.store.dto.owner.response;
 
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreBusinessDay;

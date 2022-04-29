@@ -1,4 +1,4 @@
-package com.sososhopping.repository.store;
+package com.sososhopping.domain.store.repository;
 
 import com.sososhopping.entity.user.InterestStore;
 import com.sososhopping.entity.user.User;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface InterestStoreRepository extends JpaRepository<InterestStore, Long>, UserInterestStoreRepository {
+public interface InterestStoreRepository extends JpaRepository<InterestStore, Long>, InterestStoreRepositoryCustom {
 
     List<InterestStore> findByUser(User user);
 

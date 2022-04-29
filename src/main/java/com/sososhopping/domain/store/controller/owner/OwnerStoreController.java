@@ -1,13 +1,13 @@
-package com.sososhopping.domain.store.controller;
+package com.sososhopping.domain.store.controller.owner;
 
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.common.exception.NotFoundException;
-import com.sososhopping.domain.store.dto.request.CreateStoreDto;
-import com.sososhopping.domain.store.dto.response.StoreResponse;
-import com.sososhopping.domain.store.dto.response.StoresResponse;
+import com.sososhopping.domain.store.dto.owner.request.CreateStoreDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreResponse;
+import com.sososhopping.domain.store.dto.owner.response.StoresResponse;
 import com.sososhopping.domain.store.repository.StoreRepository;
-import com.sososhopping.domain.store.service.StoreService;
+import com.sososhopping.domain.store.service.owner.OwnerStoreService;
 import com.sososhopping.entity.store.Store;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +25,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class StoreController {
+public class OwnerStoreController {
 
-    private final StoreService storeService;
+    private final OwnerStoreService ownerStoreService;
     private final StoreRepository storeRepository;
 
     @PostMapping("/owner/my/store")
@@ -37,7 +37,7 @@ public class StoreController {
 
         validateCreateStoreDto(dto, bindingResult);
         Long ownerId = Long.parseLong(authentication.getName());
-        Long storeId = storeService.createStore(ownerId, dto);
+        Long storeId = ownerStoreService.createStore(ownerId, dto);
         return new ResponseEntity<>(new ApiResponse(storeId), CREATED);
     }
 
@@ -66,14 +66,14 @@ public class StoreController {
     @GetMapping("/owner/my/store")
     public ApiResponse findStores(Authentication authentication) {
         Long ownerId = Long.parseLong(authentication.getName());
-        List<StoresResponse> stores = storeService.findStores(ownerId);
+        List<StoresResponse> stores = ownerStoreService.findStores(ownerId);
         return new ApiResponse(stores);
     }
 
     @GetMapping("/owner/my/store/{storeId}")
     public StoreResponse findStoreById(Authentication authentication, @PathVariable Long storeId) {
         Long ownerId = Long.parseLong(authentication.getName());
-        return storeService.findStore(ownerId, storeId);
+        return ownerStoreService.findStore(ownerId, storeId);
     }
 
     @PatchMapping("/owner/my/store/{storeId}/open")
@@ -82,7 +82,7 @@ public class StoreController {
                                @RequestParam boolean open) {
 
         Long ownerId = Long.parseLong(authentication.getName());
-        boolean isOpen = storeService.setOpen(ownerId, storeId, open);
+        boolean isOpen = ownerStoreService.setOpen(ownerId, storeId, open);
         return new ApiResponse(isOpen);
     }
 

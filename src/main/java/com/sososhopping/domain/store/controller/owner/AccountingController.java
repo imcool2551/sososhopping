@@ -1,10 +1,10 @@
-package com.sososhopping.domain.store.controller;
+package com.sososhopping.domain.store.controller.owner;
 
 
 import com.sososhopping.common.dto.ApiResponse;
-import com.sososhopping.domain.store.dto.request.CreateAccountingDto;
-import com.sososhopping.domain.store.dto.response.StoreAccountingResponse;
-import com.sososhopping.domain.store.service.AccountingService;
+import com.sososhopping.domain.store.dto.owner.request.CreateAccountingDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreAccountingResponse;
+import com.sososhopping.domain.store.service.owner.AccountingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

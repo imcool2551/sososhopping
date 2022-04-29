@@ -1,10 +1,10 @@
-package com.sososhopping.domain.store.service;
+package com.sososhopping.domain.store.service.owner;
 
 import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
-import com.sososhopping.domain.store.dto.request.CreateAccountingDto;
-import com.sososhopping.domain.store.dto.response.StoreAccountingResponse;
+import com.sososhopping.domain.store.dto.owner.request.CreateAccountingDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreAccountingResponse;
 import com.sososhopping.domain.store.repository.AccountingRepository;
 import com.sososhopping.entity.store.Accounting;
 import com.sososhopping.entity.store.Store;

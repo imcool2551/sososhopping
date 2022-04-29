@@ -1,11 +1,11 @@
-package com.sososhopping.domain.store.service;
+package com.sososhopping.domain.store.service.owner;
 
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.owner.repository.OwnerRepository;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
-import com.sososhopping.domain.store.dto.request.CreateStoreDto;
-import com.sososhopping.domain.store.dto.response.StoreResponse;
-import com.sososhopping.domain.store.dto.response.StoresResponse;
+import com.sososhopping.domain.store.dto.owner.request.CreateStoreDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreResponse;
+import com.sososhopping.domain.store.dto.owner.response.StoresResponse;
 import com.sososhopping.domain.store.exception.DuplicateBusinessNumberException;
 import com.sososhopping.domain.store.repository.StoreBusinessDayRepository;
 import com.sososhopping.domain.store.repository.StoreMetaDataRepository;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StoreService {
+public class OwnerStoreService {
 
     private final OwnerValidationService ownerValidationService;
     private final OwnerRepository ownerRepository;

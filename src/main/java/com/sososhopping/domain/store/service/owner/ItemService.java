@@ -1,10 +1,10 @@
-package com.sososhopping.domain.store.service;
+package com.sososhopping.domain.store.service.owner;
 
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.owner.service.OwnerValidationService;
-import com.sososhopping.domain.store.dto.request.CreateItemDto;
-import com.sososhopping.domain.store.dto.response.StoreItemResponse;
+import com.sososhopping.domain.store.dto.owner.request.CreateItemDto;
+import com.sososhopping.domain.store.dto.owner.response.StoreItemResponse;
 import com.sososhopping.domain.store.repository.ItemRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.store.Item;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final OwnerValidationService ownerValidationService;
-    private final StoreService storeService;
+    private final OwnerStoreService ownerStoreService;
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
 

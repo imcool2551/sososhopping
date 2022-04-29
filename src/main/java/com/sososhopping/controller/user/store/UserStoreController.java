@@ -1,27 +1,26 @@
 package com.sososhopping.controller.user.store;
 
+import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.user.request.store.GetLocalCurrencyStoreDto;
 import com.sososhopping.common.dto.user.request.store.GetStoreByCategoryDto;
 import com.sososhopping.common.dto.user.request.store.GetStoreBySearchDto;
-import com.sososhopping.common.dto.user.request.store.ToggleStoreLikeDto;
-import com.sososhopping.common.dto.user.response.store.StoreListDto;
-import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.dto.user.response.store.StoreInfoDto;
-import com.sososhopping.repository.store.InterestStoreRepository;
+import com.sososhopping.common.dto.user.response.store.StoreListDto;
+import com.sososhopping.domain.store.repository.InterestStoreRepository;
 import com.sososhopping.service.user.store.UserStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
 public class UserStoreController {
 
@@ -109,32 +108,5 @@ public class UserStoreController {
         return userStoreService.getStoreInfo(userId, storeId);
     }
 
-    @PostMapping("/api/v1/users/my/interest_store")
-    public ResponseEntity toggleStoreLike(
-            Authentication authentication,
-            @RequestBody @Valid ToggleStoreLikeDto dto
-    ) {
-
-        Long userId = Long.parseLong(authentication.getName());
-        Long storeId = dto.getStoreId();
-
-        userStoreService.toggleStoreLike(userId, storeId);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(null);
-    }
-
-    @GetMapping("/api/v1/users/my/interest_store")
-    public ApiListResponse<StoreListDto> getInterestStores(Authentication authentication) {
-
-        Long userId = Long.parseLong(authentication.getName());
-
-        List<StoreListDto> dtos = interestStoreRepository.findAllByUserId(userId)
-                .stream()
-                .map((interestStore) -> new StoreListDto(interestStore))
-                .collect(Collectors.toList());
-
-        return new ApiListResponse<StoreListDto>(dtos);
-    }
 
 }
