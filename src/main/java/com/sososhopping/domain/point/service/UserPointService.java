@@ -1,6 +1,7 @@
 package com.sososhopping.domain.point.service;
 
-import com.sososhopping.domain.point.dto.response.UserPointLogResponse;
+import com.sososhopping.domain.point.dto.response.MyPointsResponse;
+import com.sososhopping.domain.point.dto.response.MyPointLogResponse;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.point.repository.UserPointLogRepository;
 import com.sososhopping.domain.point.repository.UserPointRepository;
@@ -9,13 +10,16 @@ import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.point.UserPointLog;
 import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.InterestStore;
 import com.sososhopping.entity.user.User;
+import com.sososhopping.repository.store.InterestStoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,8 +30,9 @@ public class UserPointService {
     private final StoreRepository storeRepository;
     private final UserPointRepository userPointRepository;
     private final UserPointLogRepository userPointLogRepository;
+    private final InterestStoreRepository interestStoreRepository;
 
-    public UserPointLogResponse findMonthlyUserPointLogs(Long userId, Long storeId, LocalDate yearMonth) {
+    public MyPointLogResponse findMonthlyPointLogs(Long userId, Long storeId, LocalDate yearMonth) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("user does not exist with id" + userId));
 
@@ -37,8 +42,22 @@ public class UserPointService {
         UserPoint userPoint = userPointRepository.findByUserAndStore(user, store)
                 .orElseThrow(() -> new NotFoundException("user does not have any point at store"));
 
-        List<UserPointLog> userPointLogs = userPointLogRepository.findMonthlyUserPointLogs(userPoint, yearMonth);
+        List<UserPointLog> userPointLogs = userPointLogRepository.findMonthlyPointLogs(userPoint, yearMonth);
 
-        return new UserPointLogResponse(store, userPointLogs);
+        return new MyPointLogResponse(store, userPointLogs);
+    }
+
+    public MyPointsResponse findMyPoints(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("user does not exist with id" + userId));
+
+        List<UserPoint> userPoints = userPointRepository.findByUser(user);
+
+        List<Store> interestStores = interestStoreRepository.findByUser(user)
+                .stream()
+                .map(InterestStore::getStore)
+                .collect(Collectors.toList());
+
+        return new MyPointsResponse(userPoints, interestStores);
     }
 }

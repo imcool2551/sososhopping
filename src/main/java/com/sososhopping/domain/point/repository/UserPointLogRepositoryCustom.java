@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface UserPointLogRepositoryCustom {
-    List<UserPointLog> findMonthlyUserPointLogs(UserPoint userPoint, LocalDate yearMonth);
+    List<UserPointLog> findMonthlyPointLogs(UserPoint userPoint, LocalDate yearMonth);
 }

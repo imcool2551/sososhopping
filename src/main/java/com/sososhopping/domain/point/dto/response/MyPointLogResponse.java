@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class UserPointLogResponse {
+public class MyPointLogResponse {
 
     private static final DateTimeFormatter DATETIME_PATTERN = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private String storeName;
@@ -19,7 +19,7 @@ public class UserPointLogResponse {
     private BigDecimal lng;
     private List<LogResponse> logs;
 
-    public UserPointLogResponse(Store store, List<UserPointLog> userPointLogs) {
+    public MyPointLogResponse(Store store, List<UserPointLog> userPointLogs) {
         storeName = store.getName();
         phone = store.getPhone();
         lat = store.getLat();

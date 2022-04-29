@@ -23,7 +23,7 @@ public class UserPointLogRepositoryCustomImpl implements UserPointLogRepositoryC
     }
 
     @Override
-    public List<UserPointLog> findMonthlyUserPointLogs(UserPoint userPoint, LocalDate yearMonth) {
+    public List<UserPointLog> findMonthlyPointLogs(UserPoint userPoint, LocalDate yearMonth) {
         return queryFactory
                 .select(userPointLog)
                 .from(userPointLog)
