@@ -1,18 +1,17 @@
-package com.sososhopping.controller.user.store;
+package com.sososhopping.domain.store.controller.user;
 
-import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.ApiListResponse;
-import com.sososhopping.common.dto.user.request.store.ReviewCreateDto;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
+import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
 import com.sososhopping.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.common.dto.user.response.store.UserReviewDto;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.repository.store.ReviewRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.service.user.store.UserReviewService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
@@ -24,14 +23,24 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserReviewController {
 
     private final UserReviewService userReviewService;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/store/{storeId}/reviews")
+    public void createReview(Authentication authentication,
+                                       @PathVariable Long storeId,
+                                       @RequestBody @Valid CreateReviewDto dto) {
+
+        Long userId = Long.parseLong(authentication.getName());
+        userReviewService.createReview(userId, storeId, dto);
+    }
 
     @GetMapping("/api/v1/users/stores/{storeId}/reviews")
     public ApiListResponse<StoreReviewDto> getStoreReviews(@PathVariable Long storeId) {
@@ -72,25 +81,11 @@ public class UserReviewController {
                 .body(null);
     }
 
-    @PostMapping("/api/v1/users/stores/{storeId}/reviews")
-    public ResponseEntity createReview(
-            Authentication authentication,
-            @PathVariable Long storeId,
-            @RequestBody @Valid ReviewCreateDto dto
-    ) {
-
-        Long userId = Long.parseLong(authentication.getName());
-        userReviewService.createReview(userId, storeId, dto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
-    }
-
     @PutMapping("/api/v1/users/stores/{storeId}/reviews")
     public ResponseEntity updateMyReview(
             Authentication authentication,
             @PathVariable Long storeId,
-            @RequestBody @Valid ReviewCreateDto dto
+            @RequestBody @Valid CreateReviewDto dto
     ) {
         Long userId = Long.parseLong(authentication.getName());
         userReviewService.updateReview(userId, storeId, dto);

@@ -1,16 +1,18 @@
 package com.sososhopping.service.user.store;
 
-import com.sososhopping.common.dto.user.request.store.ReviewCreateDto;
 import com.sososhopping.common.dto.user.response.store.StoreReviewDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.common.exception.BadRequestException;
+import com.sososhopping.common.exception.NotFoundException;
+import com.sososhopping.common.exception.UnAuthorizedException;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
+import com.sososhopping.domain.store.repository.StoreRepository;
+import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.store.ReviewRepository;
-import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,26 @@ public class UserReviewService {
     private final EntityManager em;
 
     @Transactional
+    public void createReview(Long userId, Long storeId, CreateReviewDto dto) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(UnAuthorizedException::new);
+
+        Store store = storeRepository
+                .findById(storeId)
+                .orElseThrow(() -> new NotFoundException("store with id " + storeId + " does not exist"));
+
+        Review review = dto.toEntity(store, user);
+
+        reviewRepository.findByUserAndStore(user, store)
+                .ifPresentOrElse(
+                        (r) -> {
+                            throw new BadRequestException("review already exists");
+                        },
+                        () -> reviewRepository.save(review));
+    }
+
+    @Transactional
     public List<StoreReviewDto> getStoreReviews(Long storeId) {
         storeRepository
                 .findById(storeId)
@@ -40,34 +62,6 @@ public class UserReviewService {
                 .stream()
                 .map(StoreReviewDto::new)
                 .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public void createReview(Long userId, Long storeId, ReviewCreateDto dto) {
-
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid token"));
-
-        Store store = storeRepository
-                .findById(storeId)
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 점포입니다"));
-
-        Review review = Review.builder()
-                .content(dto.getContent())
-                .score(dto.getScore())
-                .imgUrl(dto.getImgUrl())
-                .user(user)
-                .store(store)
-                .build();
-
-        reviewRepository.findByUserAndStore(user, store)
-                .ifPresentOrElse(
-                        (r) -> {
-                            throw new Api409Exception("이미 작성한 리뷱 존재합니다");
-                        },
-                        () -> reviewRepository.save(review)
-                );
     }
 
     @Transactional
@@ -88,7 +82,7 @@ public class UserReviewService {
     }
 
     @Transactional
-    public void updateReview(Long userId, Long storeId, ReviewCreateDto dto) {
+    public void updateReview(Long userId, Long storeId, CreateReviewDto dto) {
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new Api401Exception("Invalid token"));
