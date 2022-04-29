@@ -47,10 +47,4 @@ public class Review extends BaseTimeEntity {
         this.score = score;
     }
 
-    // Business Logic
-    public void updateReview(String content, String imgUrl, BigDecimal score) {
-        this.content = content;
-        this.imgUrl = imgUrl;
-        this.score = score;
-    }
 }

@@ -13,16 +13,17 @@ import java.util.Optional;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.*;
 
-public interface ReviewRepository extends JpaRepository<Review, Long>, UserReviewRepository {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+
+    List<Review> findByUser(User user);
 
     boolean existsByUserAndStore(User user, Store store);
 
     Optional<Review> findByUserAndStore(User user, Store store);
 
-    //점주 리뷰 with 유저
-    @EntityGraph(attributePaths = {"user"}, type = FETCH)
-    List<Review> findByStoreOrderByCreatedAtDesc(Store store);
-
     @EntityGraph(attributePaths = {"user"}, type = FETCH)
     Slice<Review> findByStoreOrderByCreatedAtDesc(Store store, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"user"}, type = FETCH)
+    List<Review> findByStoreOrderByCreatedAtDesc(Store store);
 }
