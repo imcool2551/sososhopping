@@ -2,6 +2,7 @@ package com.sososhopping.domain.store.controller.user;
 
 import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.user.response.InterestStoreResponse;
+import com.sososhopping.domain.store.dto.user.response.StoreResponse;
 import com.sososhopping.domain.store.service.user.UserStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -27,5 +28,14 @@ public class UserStoreController {
         Long userId = Long.parseLong(authentication.getName());
         List<InterestStoreResponse> stores = userStoreService.findInterestStores(userId);
         return new ApiResponse(stores);
+    }
+
+    @GetMapping("/store/{storeId}")
+    public StoreResponse findStore(Authentication authentication, @PathVariable Long storeId) {
+        Long userId = authentication != null
+                ? Long.parseLong(authentication.getName())
+                : null;
+
+        return userStoreService.findStore(userId, storeId);
     }
 }

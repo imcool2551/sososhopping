@@ -7,12 +7,13 @@ import lombok.Getter;
 public class StoreBusinessDayDto {
 
     private String day;
-    private Boolean isOpen;
+    private boolean isOpen;
     private String openTime;
     private String closeTime;
 
     public StoreBusinessDayDto(StoreBusinessDay storeBusinessDay) {
         day = storeBusinessDay.getDay().getKrDay();
+        isOpen = storeBusinessDay.isOpen();
         openTime = storeBusinessDay.getOpenTime();
         closeTime = storeBusinessDay.getCloseTime();
     }
