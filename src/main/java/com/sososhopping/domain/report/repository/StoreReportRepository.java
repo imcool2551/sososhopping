@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.repository;
+package com.sososhopping.domain.report.repository;
 
 import com.sososhopping.entity.admin.StoreReport;
 import org.springframework.data.jpa.repository.EntityGraph;

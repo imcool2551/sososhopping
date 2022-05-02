@@ -51,7 +51,8 @@ public class ItemService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
 
-        return store.getItems().stream()
+        return store.getItems()
+                .stream()
                 .map(item -> new StoreItemResponse(storeId, item))
                 .collect(Collectors.toList());
     }

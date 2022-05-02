@@ -1,4 +1,4 @@
-package com.sososhopping.domain.store.service.user;
+package com.sososhopping.domain.report.service;
 
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
@@ -7,7 +7,7 @@ import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.admin.StoreReport;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.domain.store.repository.StoreReportRepository;
+import com.sososhopping.domain.report.repository.StoreReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ public class UserReportService {
     private final StoreRepository storeRepository;
     private final StoreReportRepository storeReportRepository;
 
-    public void createReport(Long userId, Long storeId, String content) {
+    public void createStoreReport(Long userId, Long storeId, String content) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
 
