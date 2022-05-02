@@ -6,7 +6,6 @@ import com.sososhopping.domain.user.exception.DuplicatePhoneException;
 import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserInfoService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long updateUserInfo(Long userId, UserInfoUpdateDto dto) {

@@ -1,4 +1,4 @@
-package com.sososhopping.service.user.store;
+package com.sososhopping.domain.store.service.user;
 
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
@@ -10,7 +10,7 @@ import com.sososhopping.domain.user.repository.UserRepository;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.Review;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.store.ReviewRepository;
+import com.sososhopping.domain.store.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

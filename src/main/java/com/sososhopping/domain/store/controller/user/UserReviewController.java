@@ -4,7 +4,7 @@ import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
 import com.sososhopping.domain.store.dto.user.response.StoreReviewResponse;
-import com.sososhopping.service.user.store.UserReviewService;
+import com.sososhopping.domain.store.service.user.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -37,7 +37,6 @@ public class UserReviewController {
     public Slice<StoreReviewResponse> findStoreReviews(@PathVariable Long storeId,
                                                        @RequestParam Integer offset,
                                                        @RequestParam Integer limit) {
-
 
         Pageable pageable = new OffsetBasedPageRequest(offset, limit);
         return userReviewService.findStoreReviews(storeId, pageable);

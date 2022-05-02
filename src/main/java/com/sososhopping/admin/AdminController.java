@@ -1,4 +1,4 @@
-package com.sososhopping.domain.admin;
+package com.sososhopping.admin;
 
 import com.sososhopping.domain.auth.dto.request.AdminLoginDto;
 import com.sososhopping.entity.admin.StoreReport;
@@ -6,7 +6,7 @@ import com.sososhopping.entity.admin.UserReport;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.repository.report.UserReportRepository;
-import com.sososhopping.repository.store.StoreReportRepository;
+import com.sososhopping.domain.store.repository.StoreReportRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

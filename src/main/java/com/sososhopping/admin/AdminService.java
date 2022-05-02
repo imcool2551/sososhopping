@@ -1,4 +1,4 @@
-package com.sososhopping.domain.admin;
+package com.sososhopping.admin;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
@@ -14,7 +14,7 @@ import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.report.UserLogRepository;
 import com.sososhopping.repository.report.UserReportRepository;
 import com.sososhopping.repository.store.StoreLogRepository;
-import com.sososhopping.repository.store.StoreReportRepository;
+import com.sososhopping.domain.store.repository.StoreReportRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
