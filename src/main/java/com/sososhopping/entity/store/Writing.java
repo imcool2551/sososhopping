@@ -1,8 +1,10 @@
 package com.sososhopping.entity.store;
 
-import com.sososhopping.common.dto.owner.request.StoreWritingRequestDto;
 import com.sososhopping.entity.common.BaseTimeEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -43,7 +45,6 @@ public class Writing extends BaseTimeEntity {
         this.imgUrl = imgUrl;
     }
 
-    // 비즈니스 로직
     public boolean belongsTo(Store store) {
         return this.store == store;
     }
@@ -52,9 +53,4 @@ public class Writing extends BaseTimeEntity {
         this.imgUrl = imgUrl;
     }
 
-    public void update(StoreWritingRequestDto dto) {
-        this.title = dto.getTitle();
-        this.content = dto.getContent();
-        this.writingType = dto.getWritingType();
-    }
 }

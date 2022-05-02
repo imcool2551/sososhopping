@@ -36,7 +36,6 @@ public class StoreWritingService {
                 new Api400Exception("존재하지 않는 글입니다"));
     }
 
-
     @Transactional
     public void deleteWriting(Long storeId, Long writingId) {
         writingRepository.deleteById(writingId);

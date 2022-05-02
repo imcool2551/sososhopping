@@ -25,4 +25,14 @@ public class OwnerWritingController {
         Long ownerId = Long.parseLong(authentication.getName());
         ownerWritingService.createWriting(ownerId, storeId, dto);
     }
+
+    @DeleteMapping("/owner/my/store/{storeId}/writings/{writingId}")
+    public void deleteWriting(Authentication authentication,
+                              @PathVariable Long storeId,
+                              @PathVariable Long writingId) {
+
+        Long ownerId = Long.parseLong(authentication.getName());
+        ownerWritingService.deleteWriting(ownerId, storeId, writingId);
+    }
+
 }
