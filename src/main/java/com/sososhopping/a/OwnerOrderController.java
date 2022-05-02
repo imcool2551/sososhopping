@@ -1,9 +1,9 @@
 package com.sososhopping.a;
 
-import com.sososhopping.a.dto.ApiListResponse;
-import com.sososhopping.a.dto.owner.request.OrderSearchType;
-import com.sososhopping.a.dto.user.request.order.ChangeOrderStatusDto;
-import com.sososhopping.a.dto.user.response.order.OrderDetailDto;
+import com.sososhopping.common.dto.ApiListResponse;
+import com.sososhopping.a.owner.request.OrderSearchType;
+import com.sososhopping.a.user.request.order.ChangeOrderStatusDto;
+import com.sososhopping.a.user.response.order.OrderDetailDto;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
@@ -17,8 +17,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sososhopping.a.dto.owner.request.OrderSearchType.DELIVERY;
-import static com.sososhopping.a.dto.owner.request.OrderSearchType.PICKUP;
+import static com.sososhopping.a.owner.request.OrderSearchType.DELIVERY;
+import static com.sososhopping.a.owner.request.OrderSearchType.PICKUP;
 import static com.sososhopping.entity.orders.OrderStatus.*;
 import static org.springframework.format.annotation.DateTimeFormat.ISO;
 

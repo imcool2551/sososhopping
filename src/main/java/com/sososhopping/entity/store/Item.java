@@ -49,7 +49,7 @@ public class Item extends BaseTimeEntity {
         this.onSale = onSale;
     }
 
-    public boolean canBeProvidedBy(Store store) {
+    public boolean available(Store store) {
         return belongsTo(store) && onSale;
     }
 

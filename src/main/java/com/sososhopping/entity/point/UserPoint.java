@@ -62,14 +62,6 @@ public class UserPoint extends BaseTimeEntity {
         log.setUserPoint(this);
     }
 
-    public boolean hasMoreThan(Integer usedPoint) {
-        return point >= usedPoint;
-    }
-
-    public void usePoint(Integer usedPoint) {
-        point -= usedPoint;
-        addLog(-usedPoint, point);
-    }
 
     public void savePoint(Order order) {
         Integer finalPrice = order.getFinalPrice();

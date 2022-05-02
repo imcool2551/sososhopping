@@ -1,7 +1,7 @@
 package com.sososhopping.domain.store.controller.user;
 
-import com.sososhopping.a.dto.ApiResponse;
-import com.sososhopping.a.dto.OffsetBasedPageRequest;
+import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.domain.store.dto.user.request.CreateReviewDto;
 import com.sososhopping.domain.store.dto.user.response.StoreReviewResponse;
 import com.sososhopping.domain.store.service.user.UserReviewService;

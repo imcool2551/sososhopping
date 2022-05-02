@@ -95,6 +95,10 @@ public class Order extends BaseTimeEntity {
         this.orderStatus = orderStatus;
     }
 
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+    }
+
     public boolean canBeCancelledByUser() {
         return orderStatus == OrderStatus.PENDING;
     }

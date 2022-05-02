@@ -1,7 +1,7 @@
 package com.sososhopping.domain.store.controller.owner;
 
 
-import com.sososhopping.a.dto.ApiResponse;
+import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.owner.request.CreateAccountingDto;
 import com.sososhopping.domain.store.dto.owner.response.StoreAccountingResponse;
 import com.sososhopping.domain.store.service.owner.AccountingService;

@@ -1,4 +1,4 @@
-package com.sososhopping.a.dto;
+package com.sososhopping.common.dto;
 
 import lombok.Data;
 

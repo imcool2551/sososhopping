@@ -87,10 +87,6 @@ public class StoreCouponService {
         UserCoupon userCoupon = userCouponRepository.findById(userCouponId)
                 .orElseThrow(() -> new NotFoundException("userCoupon with id does not exist " + userCouponId));
 
-        if (!userCoupon.belongsTo(store)) {
-            throw new ForbiddenException("coupon does not belong to store");
-        }
-
-        userCoupon.use(now());
+        userCoupon.use(store, now());
     }
 }

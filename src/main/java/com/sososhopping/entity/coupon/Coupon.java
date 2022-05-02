@@ -66,8 +66,8 @@ public class Coupon extends BaseTimeEntity {
         this.expireDate = expireDate;
     }
 
-    public int getDiscountPrice(int orderPrice) {
-        return couponType.getDiscountPrice(orderPrice, amount);
+    public int calculateDiscountPrice(int orderPrice) {
+        return couponType.calculateDiscountPrice(orderPrice, amount);
     }
 
 
@@ -97,7 +97,7 @@ public class Coupon extends BaseTimeEntity {
         stockQuantity += quantity;
     }
 
-    public boolean minimumPriceGreaterThan(Integer orderPrice) {
-        return minimumOrderPrice > orderPrice;
+    public boolean usable(int orderPrice) {
+        return minimumOrderPrice <= orderPrice;
     }
 }

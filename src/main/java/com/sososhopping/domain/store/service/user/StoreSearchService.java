@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.service.user;
 
-import com.sososhopping.a.dto.OffsetBasedPageRequest;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.domain.store.dto.user.request.StoreSearchType;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.UnAuthorizedException;

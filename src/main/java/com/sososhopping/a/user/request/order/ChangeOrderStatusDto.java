@@ -1,4 +1,4 @@
-package com.sososhopping.a.dto.user.request.order;
+package com.sososhopping.a.user.request.order;
 
 import com.sososhopping.entity.orders.OrderStatus;
 import lombok.Data;

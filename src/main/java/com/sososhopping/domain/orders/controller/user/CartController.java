@@ -1,6 +1,6 @@
 package com.sososhopping.domain.orders.controller.user;
 
-import com.sososhopping.a.dto.ApiResponse;
+import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.orders.dto.user.request.UpdateCartDto;
 import com.sososhopping.domain.orders.dto.user.request.AddCartItemDto;
 import com.sososhopping.domain.orders.service.user.CartService;

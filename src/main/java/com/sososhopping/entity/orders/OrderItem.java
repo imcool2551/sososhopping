@@ -3,7 +3,6 @@ package com.sososhopping.entity.orders;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Item;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Long id;
 
@@ -37,17 +36,10 @@ public class OrderItem extends BaseTimeEntity {
 
     private int totalPrice;
 
-    @Builder
     public OrderItem(Order order, Item item, int quantity, int totalPrice) {
         this.order = order;
         this.item = item;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
-    }
-
-    // 연관 관계 편의 메서드
-    public void setOrder(Order order) {
-        this.order = order;
-        this.order.getOrderItems().add(this);
     }
 }

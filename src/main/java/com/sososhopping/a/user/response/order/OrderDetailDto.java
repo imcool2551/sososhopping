@@ -1,4 +1,4 @@
-package com.sososhopping.a.dto.user.response.order;
+package com.sososhopping.a.user.response.order;
 
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
@@ -58,7 +58,7 @@ public class OrderDetailDto {
         orderPrice = order.getOrderPrice();
         usedPoint = order.getUsedPoint();
         couponDiscountPrice = Optional.ofNullable(order.getCoupon())
-                .map(coupon -> coupon.getDiscountPrice(orderPrice))
+                .map(coupon -> coupon.calculateDiscountPrice(orderPrice))
                 .orElse(null);
         finalPrice = order.getFinalPrice();
         createdAt = order.getCreatedAt()

@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.controller.user;
 
-import com.sososhopping.a.dto.ApiResponse;
+import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.user.request.StoreSearchByCategoryDto;
 import com.sososhopping.domain.store.dto.user.request.StoreSearchByKeywordDto;
 import com.sososhopping.domain.store.dto.user.response.InterestStoreResponse;

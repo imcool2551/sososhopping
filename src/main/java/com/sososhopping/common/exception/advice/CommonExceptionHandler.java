@@ -1,6 +1,6 @@
 package com.sososhopping.common.exception.advice;
 
-import com.sososhopping.a.dto.ErrorResponse;
+import com.sososhopping.common.dto.ErrorResponse;
 import com.sososhopping.common.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.sososhopping.a.dto.owner.request;
+package com.sososhopping.a.owner.request;
 
 import lombok.Data;
 
