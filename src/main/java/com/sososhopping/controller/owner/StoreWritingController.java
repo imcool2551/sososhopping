@@ -1,6 +1,5 @@
 package com.sososhopping.controller.owner;
 
-import com.sososhopping.common.dto.owner.request.StoreWritingRequestDto;
 import com.sososhopping.common.dto.owner.response.StoreWritingListResponseDto;
 import com.sososhopping.common.dto.owner.response.StoreWritingResponseDto;
 import com.sososhopping.entity.store.Writing;
@@ -8,8 +7,10 @@ import com.sososhopping.service.owner.StoreWritingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,15 +32,6 @@ public class StoreWritingController {
                 .body(writings);
     }
 
-    @PostMapping(value = "/api/v1/owner/store/{storeId}/writing")
-    public ResponseEntity createWriting(
-            @PathVariable(value = "storeId") Long storeId
-            , @RequestPart(value = "dto") StoreWritingRequestDto dto
-            , @RequestPart(value = "img", required = false) MultipartFile image) {
-        storeWritingService.createWriting(storeId, dto, image);
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
 
     @GetMapping(value = "/api/v1/owner/store/{storeId}/writing/{writingId}")
     public ResponseEntity readWriting(
@@ -52,16 +44,6 @@ public class StoreWritingController {
                 .body(new StoreWritingResponseDto(writing));
     }
 
-    @PatchMapping(value = "/api/v1/owner/store/{storeId}/writing/{writingId}")
-    public ResponseEntity updateWriting(
-            @PathVariable(value = "storeId") Long storeId
-            , @PathVariable(value = "writingId") Long writingId
-            , @RequestPart(value = "dto") StoreWritingRequestDto dto
-            , @RequestPart(value = "img", required = false) MultipartFile image) {
-        storeWritingService.updateWriting(storeId, writingId, dto, image);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
     @DeleteMapping(value = "/api/v1/owner/store/{storeId}/writing/{writingId}")
     public ResponseEntity deleteWriting(

@@ -35,11 +35,12 @@ public class Writing extends BaseTimeEntity {
     private String imgUrl;
 
     @Builder
-    public Writing(Store store, String title, String content, WritingType writingType) {
+    public Writing(Store store, String title, String content, WritingType writingType, String imgUrl) {
         this.store = store;
         this.title = title;
         this.content = content;
         this.writingType = writingType;
+        this.imgUrl = imgUrl;
     }
 
     // 비즈니스 로직

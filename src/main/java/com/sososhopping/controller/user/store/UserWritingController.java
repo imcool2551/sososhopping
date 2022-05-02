@@ -8,7 +8,7 @@ import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.Writing;
 import com.sososhopping.domain.store.repository.StoreRepository;
-import com.sososhopping.repository.store.WritingRepository;
+import com.sososhopping.domain.store.repository.WritingRepository;
 import com.sososhopping.service.user.store.UserWritingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/v1/owner/my/store/5/writings
+Content-Type: application/x-www-form-urlencoded
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+
+
+title=오픈 기념 할인합니다&content=오픈 기념 할인합니다&writingType=EVENT&imgUrl=1/d4f87dd9-a52d-4808-86b5-b5acc2c36e8c.img
+

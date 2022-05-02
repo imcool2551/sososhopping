@@ -1,4 +1,4 @@
-package com.sososhopping.repository.store;
+package com.sososhopping.domain.store.repository;
 
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.Writing;
