@@ -1,15 +1,13 @@
 package com.sososhopping.service.user.order;
 
-import com.sososhopping.common.dto.user.request.order.UpdateCartDto;
-import com.sososhopping.common.dto.user.request.order.UpdateCartDto.UpdateCartItemDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
 import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.orders.repository.CartRepository;
 import com.sososhopping.domain.store.repository.ItemRepository;
 import com.sososhopping.entity.store.Item;
 import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.repository.order.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,34 +28,7 @@ public class UserCartService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Api401Exception("Invalid Token"));
 
-        return cartRepository.getCartByUser(user);
-    }
-
-    @Transactional
-    public void updateCart(Long userId, UpdateCartDto dto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
-
-        List<Cart> userCarts = cartRepository.findByUser(user);
-        List<UpdateCartItemDto> requests = dto.getRequests();
-
-        requests.forEach((request) -> {
-            Long itemId = request.getItemId();
-            Integer quantity = request.getQuantity();
-
-            userCarts
-                    .stream()
-                    .filter(userCart -> itemId == userCart.getItem().getId())
-                    .findAny()
-                    .ifPresentOrElse(
-                            cart -> {
-                                cart.updateQuantity(quantity);
-                            },
-                            () -> {
-                                throw new Api404Exception("장바구니에 없는 물품입니다");
-                            }
-                    );
-        });
+        return cartRepository.findByUser(user);
     }
 
     @Transactional

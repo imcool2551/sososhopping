@@ -3,7 +3,6 @@ package com.sososhopping.entity.user;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Item;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,6 +35,10 @@ public class Cart extends BaseTimeEntity {
         this.user = user;
         this.item = item;
         this.quantity = quantity;
+    }
+
+    public boolean matchItemId(Long id) {
+        return item.getId() == id;
     }
 
     public void updateQuantity(int quantity) {
