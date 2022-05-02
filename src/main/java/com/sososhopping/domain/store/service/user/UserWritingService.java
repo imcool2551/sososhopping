@@ -8,6 +8,8 @@ import com.sososhopping.domain.store.repository.WritingRepository;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.store.Writing;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +34,14 @@ public class UserWritingService {
         }
 
         return new WritingDto(writing);
+    }
+
+    public Slice<WritingDto> findStoreWritings(Long storeId, Pageable pageable) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotFoundException("no store with id " + storeId));
+
+        return writingRepository
+                .findByStoreOrderByCreatedAtDesc(store, pageable)
+                .map(WritingDto::new);
     }
 }
