@@ -20,7 +20,7 @@ public class OwnerReportService {
     private final UserRepository userRepository;
     private final UserReportRepository userReportRepository;
 
-    public void createUserReport(Long ownerId, Long storeId, Long userId, String content) {
+    public Long createUserReport(Long ownerId, Long storeId, Long userId, String content) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         User user = userRepository.findById(userId)
                 .orElseThrow(NotFoundException::new);
@@ -33,5 +33,6 @@ public class OwnerReportService {
                 .build();
 
         userReportRepository.save(userReport);
+        return userReport.getId();
     }
 }

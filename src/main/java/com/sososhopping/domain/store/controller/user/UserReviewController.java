@@ -24,12 +24,13 @@ public class UserReviewController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/store/{storeId}/reviews")
-    public void createReview(Authentication authentication,
+    public ApiResponse createReview(Authentication authentication,
                              @PathVariable Long storeId,
                              @RequestBody @Valid CreateReviewDto dto) {
 
         Long userId = Long.parseLong(authentication.getName());
-        userReviewService.createReview(userId, storeId, dto);
+        Long reviewId = userReviewService.createReview(userId, storeId, dto);
+        return new ApiResponse(reviewId);
     }
 
 

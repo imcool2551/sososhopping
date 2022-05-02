@@ -21,7 +21,7 @@ public class UserReportService {
     private final StoreRepository storeRepository;
     private final StoreReportRepository storeReportRepository;
 
-    public void createStoreReport(Long userId, Long storeId, String content) {
+    public Long createStoreReport(Long userId, Long storeId, String content) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
 
@@ -36,5 +36,6 @@ public class UserReportService {
                 .build();
 
         storeReportRepository.save(storeReport);
+        return storeReport.getId();
     }
 }

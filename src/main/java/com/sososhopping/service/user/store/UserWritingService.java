@@ -2,15 +2,14 @@ package com.sososhopping.service.user.store;
 
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.store.Writing;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.domain.store.repository.WritingRepository;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.Writing;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+// @Service
 @RequiredArgsConstructor
 public class UserWritingService {
 

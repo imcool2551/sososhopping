@@ -1,26 +1,26 @@
 package com.sososhopping.controller.user.store;
 
-import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.ApiListResponse;
+import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.dto.user.response.store.WritingDto;
 import com.sososhopping.common.dto.user.response.store.WritingListDto;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.store.Writing;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.domain.store.repository.WritingRepository;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.Writing;
 import com.sososhopping.service.user.store.UserWritingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
 public class UserWritingController {
 

@@ -30,7 +30,7 @@ public class UserReviewService {
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
 
-    public void createReview(Long userId, Long storeId, CreateReviewDto dto) {
+    public Long createReview(Long userId, Long storeId, CreateReviewDto dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
 
@@ -45,6 +45,8 @@ public class UserReviewService {
                             throw new BadRequestException("review already exists");
                         },
                         () -> reviewRepository.save(review));
+
+        return review.getId();
     }
 
     public Slice<StoreReviewResponse> findStoreReviews(Long storeId, Pageable pageable) {

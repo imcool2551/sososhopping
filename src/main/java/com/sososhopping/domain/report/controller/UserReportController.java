@@ -1,5 +1,6 @@
 package com.sososhopping.domain.report.controller;
 
+import com.sososhopping.common.dto.ApiResponse;
 import com.sososhopping.domain.report.dto.request.CreateStoreReportDto;
 import com.sososhopping.domain.report.service.UserReportService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,12 @@ public class UserReportController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/store/{storeId}/reports")
-    public void createStoreReport(Authentication authentication,
-                                  @PathVariable Long storeId,
-                                  @RequestBody @Valid CreateStoreReportDto dto) {
+    public ApiResponse createStoreReport(Authentication authentication,
+                                         @PathVariable Long storeId,
+                                         @RequestBody @Valid CreateStoreReportDto dto) {
 
         Long userId = Long.parseLong(authentication.getName());
-        userReportService.createStoreReport(userId, storeId, dto.getContent());
+        Long storeReportId = userReportService.createStoreReport(userId, storeId, dto.getContent());
+        return new ApiResponse(storeReportId);
     }
 }
