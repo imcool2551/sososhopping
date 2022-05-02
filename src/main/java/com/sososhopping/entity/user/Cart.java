@@ -32,14 +32,12 @@ public class Cart extends BaseTimeEntity {
 
     private int quantity;
 
-    @Builder
     public Cart(User user, Item item, Integer quantity) {
         this.user = user;
         this.item = item;
         this.quantity = quantity;
     }
 
-    // Business Logic
     public void updateQuantity(int quantity) {
         this.quantity = quantity;
     }

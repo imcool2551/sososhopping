@@ -1,4 +1,4 @@
-package com.sososhopping.common.dto.user.response.store;
+package com.sososhopping.domain.store.dto.user.response;
 
 import com.sososhopping.entity.store.Writing;
 import com.sososhopping.entity.store.WritingType;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class WritingDto {
+public class WritingResponse {
 
     private Long writingId;
     private String title;
@@ -16,7 +16,7 @@ public class WritingDto {
     private String imgUrl;
     private LocalDateTime createdAt;
 
-    public WritingDto(Writing writing) {
+    public WritingResponse(Writing writing) {
         writingId = writing.getId();
         title = writing.getTitle();
         content = writing.getContent();

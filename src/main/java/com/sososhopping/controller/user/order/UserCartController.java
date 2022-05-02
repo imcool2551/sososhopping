@@ -1,42 +1,26 @@
 package com.sososhopping.controller.user.order;
 
 import com.sososhopping.common.dto.ApiListResponse;
-import com.sososhopping.common.dto.user.request.order.AddCartItemDto;
 import com.sososhopping.common.dto.user.request.order.UpdateCartDto;
 import com.sososhopping.common.dto.user.response.order.UserCartDto;
-import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.Cart;
 import com.sososhopping.service.user.order.UserCartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
 public class UserCartController {
 
     private final UserCartService userCartService;
 
-    @PostMapping("/api/v1/users/my/cart")
-    public ResponseEntity addCartItem(
-            Authentication authentication,
-            @RequestBody @Valid AddCartItemDto dto
-    ) {
-        Long userId = Long.parseLong(authentication.getName());
-
-        userCartService.addCartItem(userId, dto);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
-    }
 
     @GetMapping("/api/v1/users/my/cart")
     public ApiListResponse<UserCartDto> getMyCart(

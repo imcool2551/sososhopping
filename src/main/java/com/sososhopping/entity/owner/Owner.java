@@ -39,6 +39,9 @@ public class Owner extends BaseTimeEntity {
     @Enumerated(STRING)
     private AccountStatus active;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Store> stores = new ArrayList<>();
+
     @Builder
     public Owner(String email,
                  String password,
@@ -52,10 +55,6 @@ public class Owner extends BaseTimeEntity {
         this.phone = phone;
         this.active = active;
     }
-
-    //List
-    @OneToMany(mappedBy = "owner")
-    private List<Store> stores = new ArrayList<>();
 
     public boolean isActive() {
         return active == AccountStatus.ACTIVE;

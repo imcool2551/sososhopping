@@ -1,25 +1,22 @@
 package com.sososhopping.service.user.order;
 
-import com.sososhopping.common.dto.user.request.order.AddCartItemDto;
 import com.sososhopping.common.dto.user.request.order.UpdateCartDto;
 import com.sososhopping.common.dto.user.request.order.UpdateCartDto.UpdateCartItemDto;
 import com.sososhopping.common.error.Api401Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.common.error.Api409Exception;
+import com.sososhopping.domain.auth.repository.UserAuthRepository;
+import com.sososhopping.domain.store.repository.ItemRepository;
+import com.sososhopping.entity.store.Item;
 import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.store.Item;
-import com.sososhopping.domain.auth.repository.UserAuthRepository;
 import com.sososhopping.repository.order.CartRepository;
-import com.sososhopping.domain.store.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class UserCartService {
 
@@ -27,27 +24,6 @@ public class UserCartService {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
     private final EntityManager em;
-
-    @Transactional
-    public void addCartItem(Long userId, AddCartItemDto dto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Api401Exception("Invalid Token"));
-
-        Item item = itemRepository.findById(dto.getItemId())
-                .orElseThrow(() -> new Api404Exception("존재하지 않는 물품입니다"));
-
-        if (cartRepository.existsByUserAndItem(user, item)) {
-            throw new Api409Exception("이미 장바구니에 담았습니다");
-        }
-
-        Cart cart = Cart.builder()
-                .user(user)
-                .item(item)
-                .quantity(dto.getQuantity())
-                .build();
-
-        cartRepository.save(cart);
-    }
 
     @Transactional
     public List<Cart> getMyCart(Long userId) {

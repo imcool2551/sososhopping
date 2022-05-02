@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface StoreReportRepository extends JpaRepository<StoreReport, Long> {
 
-    @EntityGraph(attributePaths = {"user", "store", "store.owner", "store.storeMetaData"})
+    @EntityGraph(attributePaths = {"user", "store", "store.owner", "store.storeMetadata"})
     List<StoreReport> findByHandled(boolean handled);
 }

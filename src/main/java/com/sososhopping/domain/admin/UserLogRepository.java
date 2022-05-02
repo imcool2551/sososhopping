@@ -1,4 +1,4 @@
-package com.sososhopping.repository.report;
+package com.sososhopping.domain.admin;
 
 import com.sososhopping.entity.user.UserLog;
 import org.springframework.data.jpa.repository.JpaRepository;

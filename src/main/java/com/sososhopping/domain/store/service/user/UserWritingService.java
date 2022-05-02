@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.service.user;
 
-import com.sososhopping.common.dto.user.response.store.WritingDto;
+import com.sososhopping.domain.store.dto.user.response.WritingResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.store.repository.StoreRepository;
@@ -21,7 +21,7 @@ public class UserWritingService {
     private final StoreRepository storeRepository;
     private final WritingRepository writingRepository;
 
-    public WritingDto findStoreWriting(Long storeId, Long writingId) {
+    public WritingResponse findStoreWriting(Long storeId, Long writingId) {
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("no store with id " + storeId));
@@ -33,15 +33,15 @@ public class UserWritingService {
             throw new BadRequestException("writing does not belong to store");
         }
 
-        return new WritingDto(writing);
+        return new WritingResponse(writing);
     }
 
-    public Slice<WritingDto> findStoreWritings(Long storeId, Pageable pageable) {
+    public Slice<WritingResponse> findStoreWritings(Long storeId, Pageable pageable) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("no store with id " + storeId));
 
         return writingRepository
                 .findByStoreOrderByCreatedAtDesc(store, pageable)
-                .map(WritingDto::new);
+                .map(WritingResponse::new);
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
@@ -15,9 +14,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findByStoreStatus(StoreStatus storeStatus);
 
     List<Store> findByOwner(Owner owner);
-
-    @EntityGraph(attributePaths = {"writings"}, type = EntityGraph.EntityGraphType.FETCH)
-    Optional<Store> findStoreWithWritingById(Long storeId);
 
     List<Store> findByIdIn(List<Long> id);
 }

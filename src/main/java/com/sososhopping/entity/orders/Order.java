@@ -95,7 +95,6 @@ public class Order extends BaseTimeEntity {
         this.orderStatus = orderStatus;
     }
 
-    // Business Logic
     public boolean canBeCancelledByUser() {
         return orderStatus == OrderStatus.PENDING;
     }
@@ -149,7 +148,4 @@ public class Order extends BaseTimeEntity {
         orderStatus = OrderStatus.READY;
     }
 
-    public void nullifyUser() {
-        user = null;
-    }
 }

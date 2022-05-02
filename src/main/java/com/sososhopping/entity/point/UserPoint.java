@@ -39,7 +39,6 @@ public class UserPoint extends BaseTimeEntity {
 
     private int point;
 
-    //List
     @OneToMany(mappedBy = "userPoint", cascade = ALL, orphanRemoval = true)
     private List<UserPointLog> userPointLogs = new ArrayList<>();
 
@@ -54,7 +53,7 @@ public class UserPoint extends BaseTimeEntity {
         if (result < 0) {
             throw new BadRequestException("not enough point");
         }
-         addLog(used, result);
+        addLog(used, result);
         this.point = result;
     }
 
@@ -69,7 +68,6 @@ public class UserPoint extends BaseTimeEntity {
 
     public void usePoint(Integer usedPoint) {
         point -= usedPoint;
-
         addLog(-usedPoint, point);
     }
 
