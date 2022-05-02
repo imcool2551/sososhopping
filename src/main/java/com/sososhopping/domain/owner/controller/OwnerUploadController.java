@@ -1,6 +1,6 @@
 package com.sososhopping.domain.owner.controller;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.domain.owner.service.OwnerUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

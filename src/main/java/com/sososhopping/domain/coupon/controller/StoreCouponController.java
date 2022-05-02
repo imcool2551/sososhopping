@@ -1,6 +1,6 @@
 package com.sososhopping.domain.coupon.controller;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.domain.coupon.dto.request.CreateCouponDto;
 import com.sososhopping.domain.coupon.dto.response.CouponResponse;

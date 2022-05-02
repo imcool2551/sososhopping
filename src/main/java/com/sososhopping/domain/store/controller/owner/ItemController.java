@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.controller.owner;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.domain.store.dto.owner.request.CreateItemDto;
 import com.sososhopping.domain.store.dto.owner.response.StoreItemResponse;
 import com.sososhopping.domain.store.service.owner.ItemService;

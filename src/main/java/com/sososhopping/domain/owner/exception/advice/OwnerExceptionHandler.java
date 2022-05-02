@@ -1,8 +1,7 @@
 package com.sososhopping.domain.owner.exception.advice;
 
-import com.sososhopping.common.dto.ErrorResponse;
+import com.sososhopping.a.dto.ErrorResponse;
 import com.sososhopping.domain.owner.exception.MissingFileException;
-import com.sososhopping.domain.store.exception.DuplicateBusinessNumberException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestControllerAdvice

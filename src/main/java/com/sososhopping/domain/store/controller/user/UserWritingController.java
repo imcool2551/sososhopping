@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.controller.user;
 
-import com.sososhopping.common.dto.OffsetBasedPageRequest;
+import com.sososhopping.a.dto.OffsetBasedPageRequest;
 import com.sososhopping.domain.store.dto.user.response.WritingResponse;
 import com.sososhopping.domain.store.service.user.UserWritingService;
 import lombok.RequiredArgsConstructor;

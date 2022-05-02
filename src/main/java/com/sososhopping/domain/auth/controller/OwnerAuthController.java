@@ -1,6 +1,6 @@
 package com.sososhopping.domain.auth.controller;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.domain.auth.dto.request.DuplicateEmailCheckDto;
 import com.sososhopping.domain.auth.dto.request.DuplicatePhoneCheckDto;
 import com.sososhopping.domain.auth.dto.request.OwnerLoginDto;

@@ -1,6 +1,6 @@
 package com.sososhopping.domain.user.exception.advice;
 
-import com.sososhopping.common.dto.ErrorResponse;
+import com.sososhopping.a.dto.ErrorResponse;
 import com.sososhopping.domain.user.exception.DuplicatePhoneException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

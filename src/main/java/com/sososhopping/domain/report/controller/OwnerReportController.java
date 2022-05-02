@@ -1,6 +1,6 @@
 package com.sososhopping.domain.report.controller;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.domain.report.dto.request.CreateUserReportDto;
 import com.sososhopping.domain.report.service.OwnerReportService;
 import lombok.RequiredArgsConstructor;

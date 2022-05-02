@@ -1,6 +1,6 @@
 package com.sososhopping.domain.store.controller.owner;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.store.dto.owner.request.CreateStoreDto;

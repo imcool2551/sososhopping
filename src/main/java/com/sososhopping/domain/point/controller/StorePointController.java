@@ -1,6 +1,6 @@
 package com.sososhopping.domain.point.controller;
 
-import com.sososhopping.common.dto.ApiResponse;
+import com.sososhopping.a.dto.ApiResponse;
 import com.sososhopping.common.exception.BindingException;
 import com.sososhopping.domain.point.dto.request.UpdateSaveRateDto;
 import com.sososhopping.domain.point.dto.request.UpdateUserPointDto;
