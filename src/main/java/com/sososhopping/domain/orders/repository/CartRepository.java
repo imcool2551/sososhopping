@@ -3,6 +3,7 @@ package com.sososhopping.domain.orders.repository;
 import com.sososhopping.entity.user.Cart;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.store.Item;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -15,5 +16,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Optional<Cart> findByUserAndItem(User user, Item item);
 
     List<Cart> findByUser(User user);
+
+    @EntityGraph(attributePaths = {"item", "item.store"}, type = EntityGraph.EntityGraphType.FETCH)
+    List<Cart> findCartWithItemAndStoreByUser(User user);
 
 }

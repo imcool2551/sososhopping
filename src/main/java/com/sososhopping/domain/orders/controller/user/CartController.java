@@ -28,6 +28,12 @@ public class CartController {
         return new ApiResponse(cartId);
     }
 
+    @GetMapping("/users/my/cart")
+    public ApiResponse findMyCart(Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getName());
+        return new ApiResponse(cartService.findMyCart(userId));
+    }
+
     @PatchMapping("/users/my/cart")
     public void updateCartItem(Authentication authentication,
                                @RequestBody @Valid UpdateCartDto dto) {
