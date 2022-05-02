@@ -1,4 +1,4 @@
-package com.sososhopping.a;
+package com.sososhopping.domain.orders.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,29 +21,11 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-
     @Override
-    public List<Order> findOrderListByUserAndOrderStatus(User user, OrderStatus ... status) {
-
-        BooleanExpression orderStatusMatch = orderStatusEq(status[0]);
-        for (int i = 1; i < status.length; i++) {
-            orderStatusMatch = orderStatusMatch.or(orderStatusEq(status[i]));
-        }
-
-        return queryFactory
-                .select(order)
-                .from(order)
-                .join(order.store, store).fetchJoin()
-                .where(userEq(user), orderStatusMatch)
-                .orderBy(order.createdAt.desc())
-                .fetch();
-    }
-
-    @Override
-    public Slice<Order> findOrdersByUserAndOrderStatus(User user, Pageable pageable, OrderStatus... status) {
-        BooleanExpression orderStatusMatch = orderStatusEq(status[0]);
-        for (int i = 1; i < status.length; i++) {
-            orderStatusMatch = orderStatusMatch.or(orderStatusEq(status[i]));
+    public Slice<Order> findOrdersByUserAndOrderStatus(User user, List<OrderStatus> statuses, Pageable pageable) {
+        BooleanExpression orderStatusMatch = orderStatusEq(statuses.get(0));
+        for (int i = 1; i < statuses.size(); i++) {
+            orderStatusMatch = orderStatusMatch.or(orderStatusEq(statuses.get(i)));
         }
 
         List<Order> content = queryFactory
@@ -61,7 +43,6 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
             content.remove(pageable.getPageSize());
             hasNext = true;
         }
-
         return new SliceImpl<>(content, pageable, hasNext);
     }
 

@@ -1,6 +1,6 @@
 package com.sososhopping.domain.orders.service.user;
 
-import com.sososhopping.a.user.request.order.CreateOrderDto;
+import com.sososhopping.domain.orders.dto.user.request.CreateOrderDto;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
@@ -88,7 +88,7 @@ public class CreateOrderService {
         validateFinalPrice(dto, finalPrice);
 
         // 6. 주문 완료
-        Order order = dto.toOrder(user, store, coupon, orderPrice);
+        Order order = dto.toOrder(user, store, coupon, finalPrice, orderPrice, deliveryCharge);
 
         dto.itemIdToQuantity()
                 .forEach((itemId, quantity) -> {

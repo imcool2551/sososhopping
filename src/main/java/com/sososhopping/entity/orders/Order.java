@@ -77,7 +77,12 @@ public class Order extends BaseTimeEntity {
 
 
     @Builder
-    public Order(User user, String ordererName, String ordererPhone, OrderType orderType, LocalDateTime visitDate, Store store, Integer deliveryCharge, String deliveryStreetAddress, String deliveryDetailedAddress, PaymentType paymentType, Integer orderPrice, Integer usedPoint, Coupon coupon, Integer finalPrice, OrderStatus orderStatus) {
+    public Order(User user, String ordererName, String ordererPhone,
+                 OrderType orderType, LocalDateTime visitDate, Store store,
+                 Integer deliveryCharge, String deliveryStreetAddress, String deliveryDetailedAddress,
+                 PaymentType paymentType, Integer orderPrice, Integer usedPoint,
+                 Coupon coupon, Integer finalPrice, OrderStatus orderStatus) {
+
         this.user = user;
         this.ordererName = ordererName;
         this.ordererPhone = ordererPhone;
@@ -97,6 +102,10 @@ public class Order extends BaseTimeEntity {
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
+    }
+
+    public boolean belongsTo(User user) {
+        return this.user == user;
     }
 
     public boolean canBeCancelledByUser() {
@@ -151,5 +160,4 @@ public class Order extends BaseTimeEntity {
         }
         orderStatus = OrderStatus.READY;
     }
-
 }

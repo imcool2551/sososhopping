@@ -1,4 +1,4 @@
-package com.sososhopping.a.user.request.order;
+package com.sososhopping.domain.orders.dto.user.request;
 
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.orders.Order;
@@ -70,7 +70,9 @@ public class CreateOrderDto {
 
     private String deliveryDetailedAddress;
 
-    public Order toOrder(User user, Store store, Coupon coupon, int orderPrice) {
+    public Order toOrder(User user, Store store, Coupon coupon,
+                         int finalPrice, int orderPrice, int deliveryCharge) {
+
         return Order.builder()
                 .user(user)
                 .ordererName(ordererName)
@@ -78,7 +80,7 @@ public class CreateOrderDto {
                 .orderType(orderType)
                 .visitDate(visitDate)
                 .store(store)
-                .deliveryCharge(store.getDeliveryCharge())
+                .deliveryCharge(deliveryCharge)
                 .deliveryStreetAddress(deliveryStreetAddress)
                 .deliveryDetailedAddress(deliveryDetailedAddress)
                 .paymentType(paymentType)

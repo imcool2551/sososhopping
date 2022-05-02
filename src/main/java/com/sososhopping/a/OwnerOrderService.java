@@ -3,6 +3,7 @@ package com.sososhopping.a;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api403Exception;
 import com.sososhopping.common.error.Api404Exception;
+import com.sososhopping.domain.orders.repository.OrderRepository;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.owner.Owner;
@@ -26,7 +27,7 @@ import static com.sososhopping.entity.orders.OrderStatus.*;
 
 @Service
 @RequiredArgsConstructor
-public class StoreOrderService {
+public class OwnerOrderService {
 
     private final OwnerAuthRepository ownerRepository;
     private final StoreRepository storeRepository;
@@ -107,7 +108,7 @@ public class StoreOrderService {
         Store store = storeRepository.findById(storeId).orElseThrow(() ->
                 new Api404Exception("존재하지 않는 점포입니다"));
 
-        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+        Order order = orderRepository.findOrderDetailsById(orderId).orElseThrow(() ->
                 new Api404Exception("존재하지 않는 주문입니다"));
 
         if (order.getStore() != store) {
