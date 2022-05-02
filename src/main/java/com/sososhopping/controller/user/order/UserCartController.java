@@ -49,14 +49,4 @@ public class UserCartController {
         return new ApiListResponse<>(userCartsDto);
     }
 
-
-    @DeleteMapping("/api/v1/users/my/cart")
-    public void deleteCartItem(
-            Authentication authentication,
-            @RequestParam Long itemId
-    ) {
-        Long userId = Long.parseLong(authentication.getName());
-
-        userCartService.deleteCartItem(userId, itemId);
-    }
 }

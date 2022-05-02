@@ -30,9 +30,17 @@ public class CartController {
 
     @PatchMapping("/users/my/cart")
     public void updateCartItem(Authentication authentication,
-                                      @RequestBody @Valid UpdateCartDto dto) {
+                               @RequestBody @Valid UpdateCartDto dto) {
 
         Long userId = Long.parseLong(authentication.getName());
         cartService.updateCartItem(userId, dto);
+    }
+
+    @DeleteMapping("/users/my/cart")
+    public void deleteCartItem(Authentication authentication,
+                               @RequestParam Long itemId) {
+
+        Long userId = Long.parseLong(authentication.getName());
+        cartService.deleteCartItem(userId, itemId);
     }
 }

@@ -57,9 +57,25 @@ public class CartService {
             Cart cart = carts.stream()
                     .filter(c -> c.matchItemId(itemId))
                     .findAny()
-                    .orElseThrow(() -> new NotFoundException("cart does not have imte with id " + itemId));
+                    .orElseThrow(() -> new NotFoundException("cart does not have item with id " + itemId));
 
             cart.updateQuantity(quantity);
         });
+    }
+
+    public void deleteCartItem(Long userId, Long itemId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UnAuthorizedException::new);
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("no item with id " + itemId));
+
+        cartRepository.findByUserAndItem(user, item)
+                .ifPresentOrElse(
+                        cartRepository::delete,
+                        () -> {
+                            throw new NotFoundException("cart does not have item with id " + itemId);
+                        }
+                );
     }
 }
