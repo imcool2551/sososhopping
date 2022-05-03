@@ -1,6 +1,6 @@
 package com.sososhopping.domain.orders.service.user;
 
-import com.sososhopping.domain.orders.dto.user.response.OrderResponse;
+import com.sososhopping.domain.orders.dto.user.response.OrderListResponse;
 import com.sososhopping.domain.orders.repository.OrderRepository;
 import com.sososhopping.domain.orders.dto.user.response.OrderDetailResponse;
 import com.sososhopping.common.exception.ForbiddenException;
@@ -47,7 +47,7 @@ public class OrderQueryService {
         return new OrderDetailResponse(user, owner, order, store);
     }
 
-    public Slice<OrderResponse> findOrders(Long userId, List<OrderStatus> statuses, Pageable pageable) {
+    public Slice<OrderListResponse> findOrders(Long userId, List<OrderStatus> statuses, Pageable pageable) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
@@ -57,7 +57,7 @@ public class OrderQueryService {
                     List<OrderItem> orderItems = order.getOrderItems();
                     Item firstItem = orderItems.get(0)
                             .getItem();
-                    return new OrderResponse(order, firstItem, orderItems.size());
+                    return new OrderListResponse(order, firstItem, orderItems.size());
                 });
     }
 }

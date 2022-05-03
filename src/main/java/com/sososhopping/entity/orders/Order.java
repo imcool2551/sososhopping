@@ -1,6 +1,6 @@
 package com.sososhopping.entity.orders;
 
-import com.sososhopping.common.error.Api400Exception;
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
@@ -109,16 +109,24 @@ public class Order extends BaseTimeEntity {
         return this.user == user;
     }
 
-    public boolean isPending() {
-        return orderStatus == PENDING;
-    }
-
-    public boolean isReady() {
-        return orderStatus == READY;
-    }
 
     public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
+        if (orderStatus != PENDING) {
+            throw new BadRequestException("order is already in progress");
+        }
         orderStatus = CANCEL;
+        restorePointAndUserCoupon(userPoint, userCoupon);
+    }
+
+    public void reject(UserPoint userPoint, UserCoupon userCoupon) {
+        if (orderStatus == DONE || orderStatus == CANCEL) {
+            throw new BadRequestException("order can't be rejected if it is already done or cancelled");
+        }
+        orderStatus = REJECT;
+        restorePointAndUserCoupon(userPoint, userCoupon);
+    }
+
+    private void restorePointAndUserCoupon(UserPoint userPoint, UserCoupon userCoupon) {
         if (userPoint != null) {
             userPoint.updatePoint(usedPoint);
         }
@@ -128,6 +136,9 @@ public class Order extends BaseTimeEntity {
     }
 
     public void confirm(UserPoint userPoint) {
+        if (orderStatus != READY) {
+            throw new BadRequestException("order can't be confirmed if it is not ready");
+        }
         orderStatus = DONE;
         if (store.hasPointPolicy()) {
             int plusPoint = (int) (finalPrice * store.getSaveRate().doubleValue() / 100);
@@ -137,28 +148,14 @@ public class Order extends BaseTimeEntity {
 
     public void approve() {
         if (orderStatus != PENDING) {
-            throw new Api400Exception("잘못된 요청입니다");
+            throw new BadRequestException("order can't be approved if it is not pending");
         }
         orderStatus = APPROVE;
     }
 
-    public void reject(UserPoint userPoint, UserCoupon userCoupon) {
-        if (orderStatus == DONE || orderStatus == CANCEL) {
-            throw new Api400Exception("잘못된 요청입니다");
-        }
-
-        orderStatus = REJECT;
-        if (userPoint != null) {
-            userPoint.restorePoint(this);
-        }
-        if (userCoupon != null) {
-            userCoupon.restore();
-        }
-    }
-
     public void ready() {
         if (orderStatus != APPROVE) {
-            throw new Api400Exception("잚못된 요청입니다");
+            throw new BadRequestException("order can't be ready if it is not approved");
         }
         orderStatus = READY;
     }

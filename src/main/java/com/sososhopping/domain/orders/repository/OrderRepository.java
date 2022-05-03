@@ -1,6 +1,5 @@
 package com.sososhopping.domain.orders.repository;
 
-import com.sososhopping.a.OwnerOrderRepository;
 import com.sososhopping.entity.orders.Order;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

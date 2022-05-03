@@ -3,29 +3,25 @@ package com.sososhopping.a;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.common.error.Api403Exception;
 import com.sososhopping.common.error.Api404Exception;
-import com.sososhopping.domain.orders.repository.OrderRepository;
-import com.sososhopping.entity.coupon.Coupon;
-import com.sososhopping.entity.coupon.UserCoupon;
-import com.sososhopping.entity.owner.Owner;
-import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.point.UserPoint;
-import com.sososhopping.entity.orders.Order;
-import com.sososhopping.entity.orders.OrderStatus;
-import com.sososhopping.entity.store.Store;
-import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import com.sososhopping.domain.auth.repository.OwnerAuthRepository;
+import com.sososhopping.domain.coupon.repository.UserCouponRepository;
+import com.sososhopping.domain.orders.repository.OrderRepository;
 import com.sososhopping.domain.point.repository.UserPointRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
+import com.sososhopping.entity.coupon.Coupon;
+import com.sososhopping.entity.coupon.UserCoupon;
+import com.sososhopping.entity.orders.Order;
+import com.sososhopping.entity.orders.OrderStatus;
+import com.sososhopping.entity.owner.Owner;
+import com.sososhopping.entity.point.UserPoint;
+import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.user.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.List;
 
 import static com.sososhopping.entity.orders.OrderStatus.*;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class OwnerOrderService {
 
@@ -34,66 +30,6 @@ public class OwnerOrderService {
     private final OrderRepository orderRepository;
     private final UserPointRepository userPointRepository;
     private final UserCouponRepository userCouponRepository;
-
-    @Transactional
-    public List<Order> findPendingOrders(Long ownerId, Long storeId) {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점주입니다"));
-
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점포입니다"));
-
-        if (store.getOwner() != owner) {
-            throw new Api403Exception("다른 점주의 점포입니다");
-        }
-
-        return orderRepository.findPendingOrdersByStore(store);
-    }
-
-    @Transactional
-    public List<Order> findPickupOrders(Long ownerId, Long storeId) {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점주입니다"));
-
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점포입니다"));
-
-        if (store.getOwner() != owner) {
-            throw new Api403Exception("다른 점주의 점포입니다");
-        }
-
-        return orderRepository.findPickupOrdersByStore(store);
-    }
-
-    @Transactional
-    public List<Order> findDeliveryOrders(Long ownerId, Long storeId) {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점주입니다"));
-
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점포입니다"));
-
-        if (store.getOwner() != owner) {
-            throw new Api403Exception("다른 점주의 점포입니다");
-        }
-
-        return orderRepository.findDeliveryOrdersByStore(store);
-    }
-
-    @Transactional
-    public List<Order> findDoneOrdersByDate(Long ownerId, Long storeId, LocalDate date) {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점주입니다"));
-
-        Store store = storeRepository.findById(storeId).orElseThrow(() ->
-                new Api404Exception("존재하지 않는 점포입니다"));
-
-        if (store.getOwner() != owner) {
-            throw new Api403Exception("다른 점주의 점포입니다");
-        }
-
-        return orderRepository.findOrdersByStoreAndDate(store, date);
-    }
 
     @Transactional
     public void handleOrder(

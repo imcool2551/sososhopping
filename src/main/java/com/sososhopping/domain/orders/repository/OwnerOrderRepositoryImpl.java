@@ -1,4 +1,4 @@
-package com.sososhopping.a;
+package com.sososhopping.domain.orders.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -25,7 +25,7 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
     }
 
     @Override
-    public List<Order> findPendingOrdersByStore(Store store) {
+    public List<Order> findPendingOrders(Store store) {
         return queryFactory
                 .select(order)
                 .from(order)
@@ -35,44 +35,31 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
     }
 
     @Override
-    public List<Order> findPickupOrdersByStore(Store store) {
+    public List<Order> findTodayPickupOrders(Store store, LocalDate at) {
         return queryFactory
                 .select(order)
                 .from(order)
-                .where(
-                        storeEq(store),
-                        pickupDateEq(LocalDate.now()),
-                        statusEq(APPROVE).or(statusEq(READY))
-                )
+                .where(storeEq(store), statusEq(APPROVE).or(statusEq(READY)), pickupDateEq(at))
                 .orderBy(order.visitDate.asc())
                 .fetch();
     }
 
-
     @Override
-    public List<Order> findDeliveryOrdersByStore(Store store) {
+    public List<Order> findTodayDeliveryOrders(Store store, LocalDate at) {
         return queryFactory
                 .select(order)
                 .from(order)
-                .where(
-                        storeEq(store),
-                        deliveryDateEq(LocalDate.now()),
-                        statusEq(APPROVE)
-                )
+                .where(storeEq(store), statusEq(APPROVE), deliveryDateEq(at))
                 .orderBy(order.createdAt.asc())
                 .fetch();
     }
 
     @Override
-    public List<Order> findOrdersByStoreAndDate(Store store, LocalDate date) {
+    public List<Order> findProcessedOrders(Store store, LocalDate date) {
         return queryFactory
                 .select(order)
                 .from(order)
-                .where(
-                        storeEq(store),
-                        pickupDateEq(date).or(deliveryDateEq(date)),
-                        order.orderStatus.notIn(PENDING)
-                )
+                .where(storeEq(store), pickupDateEq(date).or(deliveryDateEq(date)), order.orderStatus.notIn(PENDING))
                 .orderBy(order.createdAt.asc())
                 .fetch();
     }
@@ -85,27 +72,29 @@ public class OwnerOrderRepositoryImpl implements OwnerOrderRepository {
         return order.orderStatus.eq(status);
     }
 
-    private BooleanExpression orderTypeEq(OrderType type) {
-        return order.orderType.eq(type);
-    }
-
     private BooleanExpression pickupDateEq(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+
         return orderTypeEq(ONSITE)
-                .and(
-                        order.visitDate.between(
-                                date.atStartOfDay(),
-                                date.atStartOfDay().plusDays(1).minusMinutes(1)
-                        )
-                );
+                .and(order.visitDate.between(
+                        date.atStartOfDay(),
+                        date.atStartOfDay().plusDays(1).minusMinutes(1)));
     }
 
     private BooleanExpression deliveryDateEq(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+
         return orderTypeEq(DELIVERY)
-                .and(
-                        order.createdAt.between(
-                                date.atStartOfDay(),
-                                date.atStartOfDay().plusDays(1).minusMinutes(1)
-                        )
-                );
+                .and(order.createdAt.between(
+                        date.atStartOfDay(),
+                        date.atStartOfDay().plusDays(1).minusMinutes(1)));
+    }
+
+    private BooleanExpression orderTypeEq(OrderType type) {
+        return order.orderType.eq(type);
     }
 }

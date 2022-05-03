@@ -5,7 +5,7 @@ import com.sososhopping.common.dto.OffsetBasedPageRequest;
 import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.domain.orders.dto.user.request.CreateOrderDto;
 import com.sososhopping.domain.orders.dto.user.response.OrderDetailResponse;
-import com.sososhopping.domain.orders.dto.user.response.OrderResponse;
+import com.sososhopping.domain.orders.dto.user.response.OrderListResponse;
 import com.sososhopping.domain.orders.service.user.CreateOrderService;
 import com.sososhopping.domain.orders.service.user.OrderQueryService;
 import com.sososhopping.domain.orders.service.user.UpdateOrderService;
@@ -48,10 +48,10 @@ public class UserOrderController {
     }
 
     @GetMapping("/users/my/orders")
-    public Slice<OrderResponse> findOrders(Authentication authentication,
-                                           @RequestParam(defaultValue = "0") int offset,
-                                           @RequestParam(defaultValue = "5") int limit,
-                                           @RequestParam List<OrderStatus> statuses) {
+    public Slice<OrderListResponse> findOrders(Authentication authentication,
+                                               @RequestParam(defaultValue = "0") int offset,
+                                               @RequestParam(defaultValue = "5") int limit,
+                                               @RequestParam List<OrderStatus> statuses) {
 
         Long userId = Long.parseLong(authentication.getName());
         return orderQueryService.findOrders(userId, statuses, new OffsetBasedPageRequest(offset, limit));
@@ -63,7 +63,7 @@ public class UserOrderController {
                                   @RequestParam OrderStatus status) {
 
         if (status != CANCEL && status != DONE) {
-            throw new BadRequestException("invalid status");
+            throw new BadRequestException("invalid order status change");
         }
 
         Long userId = Long.parseLong(authentication.getName());

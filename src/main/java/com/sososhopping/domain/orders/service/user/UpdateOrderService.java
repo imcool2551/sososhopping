@@ -1,6 +1,5 @@
 package com.sososhopping.domain.orders.service.user;
 
-import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
@@ -37,10 +36,6 @@ public class UpdateOrderService {
             throw new ForbiddenException("order does not belong to user");
         }
 
-        if (!order.isPending()) {
-            throw new BadRequestException("order is already in progress");
-        }
-
         UserPoint userPoint = userPointRepository.findByUserAndStore(user, order.getStore())
                 .orElse(null);
 
@@ -59,10 +54,6 @@ public class UpdateOrderService {
 
         if (!order.belongsTo(user)) {
             throw new ForbiddenException("order does not belong to user");
-        }
-
-        if (!order.isReady()) {
-            throw new BadRequestException("order can't be confirmed if it is not ready");
         }
 
         userPointRepository.findByUserAndStore(user, order.getStore())

@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class OrderResponse {
+public class OrderListResponse {
 
     private Long orderId;
     private String firstItemName;
@@ -19,7 +19,7 @@ public class OrderResponse {
     private OrderStatus orderStatus;
     private LocalDateTime createdAt;
 
-    public OrderResponse(Order order, Item firstItem, int totalItemSize) {
+    public OrderListResponse(Order order, Item firstItem, int totalItemSize) {
         this.orderId = order.getId();
         this.firstItemName = firstItem.getName();
         this.totalItemSize = totalItemSize;
