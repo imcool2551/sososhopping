@@ -1,6 +1,6 @@
 package com.sososhopping.domain.auth.service;
 
-import com.sososhopping.common.error.Api500Exception;
+import com.sososhopping.common.exception.Api500Exception;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.common.security.AuthMember;
 import com.sososhopping.domain.auth.repository.AdminAuthRepository;

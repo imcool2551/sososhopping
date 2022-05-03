@@ -109,6 +109,10 @@ public class Order extends BaseTimeEntity {
         return this.user == user;
     }
 
+    public boolean belongsTo(Store store) {
+        return this.store == store;
+    }
+
 
     public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
         if (orderStatus != PENDING) {

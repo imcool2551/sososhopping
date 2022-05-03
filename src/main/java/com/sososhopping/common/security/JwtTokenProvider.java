@@ -1,6 +1,6 @@
 package com.sososhopping.common.security;
 
-import com.sososhopping.common.error.Api500Exception;
+import com.sososhopping.common.exception.Api500Exception;
 import com.sososhopping.domain.auth.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

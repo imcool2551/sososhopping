@@ -49,8 +49,4 @@ public class Writing extends BaseTimeEntity {
         return this.store == store;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
 }
