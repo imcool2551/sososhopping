@@ -2,7 +2,6 @@ package com.sososhopping.a;
 
 import com.sososhopping.a.owner.request.OrderSearchType;
 import com.sososhopping.a.user.request.order.ChangeOrderStatusDto;
-import com.sososhopping.common.dto.ApiListResponse;
 import com.sososhopping.common.error.Api400Exception;
 import com.sososhopping.domain.orders.dto.user.response.OrderDetailResponse;
 import com.sososhopping.entity.orders.Order;
@@ -26,7 +25,7 @@ public class OwnerOrderController {
     private final OwnerOrderService ownerOrderService;
 
     @GetMapping("/api/v1/owner/store/{storeId}/orders")
-    public ApiListResponse<OrderDetailResponse> getOrders(
+    public Object getOrders(
             Authentication authentication,
             @PathVariable Long storeId,
             @RequestParam(required = false) OrderSearchType type,

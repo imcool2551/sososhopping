@@ -11,4 +11,5 @@ public interface OrderRepository extends JpaRepository<Order, Long>, UserOrderRe
 
     @EntityGraph(attributePaths = {"store.owner", "orderItems.item"}, type = EntityGraph.EntityGraphType.FETCH)
     Optional<Order> findOrderDetailsById(Long orderId);
+
 }

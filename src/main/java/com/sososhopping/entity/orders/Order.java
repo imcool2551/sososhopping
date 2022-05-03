@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sososhopping.entity.orders.OrderStatus.*;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
@@ -108,44 +109,45 @@ public class Order extends BaseTimeEntity {
         return this.user == user;
     }
 
-    public boolean canBeCancelledByUser() {
-        return orderStatus == OrderStatus.PENDING;
+    public boolean isPending() {
+        return orderStatus == PENDING;
+    }
+
+    public boolean isReady() {
+        return orderStatus == READY;
     }
 
     public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
-        orderStatus = OrderStatus.CANCEL;
+        orderStatus = CANCEL;
         if (userPoint != null) {
-            userPoint.restorePoint(this);
+            userPoint.updatePoint(usedPoint);
         }
         if (userCoupon != null) {
             userCoupon.restore();
         }
     }
 
-    public boolean canBeConfirmedByUser() {
-        return orderStatus == OrderStatus.READY;
-    }
-
     public void confirm(UserPoint userPoint) {
-        orderStatus = OrderStatus.DONE;
-        if (userPoint != null) {
-            userPoint.savePoint(this);
+        orderStatus = DONE;
+        if (store.hasPointPolicy()) {
+            int plusPoint = (int) (finalPrice * store.getSaveRate().doubleValue() / 100);
+            userPoint.updatePoint(plusPoint);
         }
     }
 
     public void approve() {
-        if (orderStatus != OrderStatus.PENDING) {
+        if (orderStatus != PENDING) {
             throw new Api400Exception("잘못된 요청입니다");
         }
-        orderStatus = OrderStatus.APPROVE;
+        orderStatus = APPROVE;
     }
 
     public void reject(UserPoint userPoint, UserCoupon userCoupon) {
-        if (orderStatus == OrderStatus.DONE || orderStatus == OrderStatus.CANCEL) {
+        if (orderStatus == DONE || orderStatus == CANCEL) {
             throw new Api400Exception("잘못된 요청입니다");
         }
 
-        orderStatus = OrderStatus.REJECT;
+        orderStatus = REJECT;
         if (userPoint != null) {
             userPoint.restorePoint(this);
         }
@@ -155,9 +157,9 @@ public class Order extends BaseTimeEntity {
     }
 
     public void ready() {
-        if (orderStatus != OrderStatus.APPROVE) {
+        if (orderStatus != APPROVE) {
             throw new Api400Exception("잚못된 요청입니다");
         }
-        orderStatus = OrderStatus.READY;
+        orderStatus = READY;
     }
 }

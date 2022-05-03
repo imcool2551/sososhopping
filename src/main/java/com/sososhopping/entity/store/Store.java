@@ -129,6 +129,10 @@ public class Store extends BaseTimeEntity {
         return this.owner == owner;
     }
 
+    public boolean hasPointPolicy() {
+        return pointPolicyStatus;
+    }
+
     public void updateOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
