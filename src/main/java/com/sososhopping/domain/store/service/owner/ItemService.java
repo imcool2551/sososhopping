@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final OwnerValidationService ownerValidationService;
-    private final OwnerStoreService ownerStoreService;
     private final StoreRepository storeRepository;
     private final ItemRepository itemRepository;
 
@@ -51,7 +50,7 @@ public class ItemService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("Store not found with id " + storeId));
 
-        return store.getItems()
+        return itemRepository.findByStore(store)
                 .stream()
                 .map(item -> new StoreItemResponse(storeId, item))
                 .collect(Collectors.toList());
