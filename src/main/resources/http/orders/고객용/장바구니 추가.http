@@ -3,6 +3,6 @@ Content-Type: application/json
 token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0
 
 {
-  "itemId": 1,
+  "itemId": 2,
   "quantity": 3
 }

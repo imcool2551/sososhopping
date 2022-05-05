@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.function.BinaryOperator;
 
 public enum CouponType {
-    FIX((originalPrice, amount) -> amount),
-    RATE((originalPrice, amount) -> originalPrice * (amount / 100));
+    FIX((orderPrice, amount) -> amount),
+    RATE((orderPrice, amount) -> (int) (orderPrice * (amount / 100.0)));
 
     BinaryOperator<Integer> binaryOperator;
 
@@ -21,7 +21,7 @@ public enum CouponType {
                 .orElseThrow(() -> new NoSuchElementException("no coupon type of name " + name));
     }
 
-    public int calculateDiscountPrice(int originalPrice, int amount) {
-        return binaryOperator.apply(originalPrice, amount);
+    public int calculateDiscountPrice(int orderPrice, int amount) {
+        return binaryOperator.apply(orderPrice, amount);
     }
 }

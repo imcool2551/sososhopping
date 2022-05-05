@@ -3,6 +3,6 @@ token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJS
 Content-Type: application/json
 
 {
-  "couponId": 1,
+  "couponId": 6,
   "couponCode": "df14ae0f-9"
 }

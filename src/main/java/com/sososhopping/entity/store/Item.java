@@ -56,4 +56,8 @@ public class Item extends BaseTimeEntity {
     public boolean belongsTo(Store store) {
         return this.store == store;
     }
+
+    public boolean matchId(Long itemId) {
+        return id == itemId;
+    }
 }
