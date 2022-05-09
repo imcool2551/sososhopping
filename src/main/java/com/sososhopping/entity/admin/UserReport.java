@@ -1,8 +1,11 @@
 package com.sososhopping.entity.admin;
 
+import com.sososhopping.common.exception.BadRequestException;
+import com.sososhopping.entity.common.AccountStatus;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
+import com.sososhopping.entity.user.UserLog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +49,28 @@ public class UserReport extends BaseTimeEntity {
         this.handled = handled;
     }
 
-    public void setHandled(boolean handled) {
-        this.handled = handled;
+    public UserLog approve(User user) {
+        if (this.user != user) {
+            throw new BadRequestException();
+        }
+        handled = true;
+        user.suspend();
+        return UserLog.builder()
+                .user(user)
+                .active(AccountStatus.SUSPEND)
+                .description(content)
+                .build();
+    }
+
+    public UserLog reject(User user) {
+        if (this.user != user) {
+            throw new BadRequestException();
+        }
+        handled = true;
+        return UserLog.builder()
+                .user(user)
+                .active(user.getActive())
+                .description(content)
+                .build();
     }
 }

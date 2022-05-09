@@ -1,7 +1,10 @@
 package com.sososhopping.entity.admin;
 
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Store;
+import com.sososhopping.entity.store.StoreLog;
+import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
+import static com.sososhopping.entity.store.StoreStatus.SUSPEND;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -46,7 +50,28 @@ public class StoreReport extends BaseTimeEntity {
         this.handled = handled;
     }
 
-    public void setHandled(boolean handled) {
-        this.handled = handled;
+    public StoreLog approve(Store store) {
+        if (this.store != store) {
+            throw new BadRequestException();
+        }
+        store.updateStoreStatus(SUSPEND);
+        handled = true;
+        return StoreLog.builder()
+                .store(store)
+                .storeStatus(StoreStatus.SUSPEND)
+                .description(content)
+                .build();
+    }
+
+    public StoreLog reject(Store store) {
+        if (this.store != store) {
+            throw new BadRequestException();
+        }
+        handled = true;
+        return StoreLog.builder()
+                .store(store)
+                .storeStatus(store.getStoreStatus())
+                .description(content)
+                .build();
     }
 }

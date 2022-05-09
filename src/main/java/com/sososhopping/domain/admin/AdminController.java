@@ -82,10 +82,9 @@ public class AdminController {
     @PostMapping("/admin/storeReport")
     public String handleStoreReport(@RequestParam Long reportId,
                                     @RequestParam Long storeId,
-                                    @RequestParam String action,
-                                    @RequestParam String description) {
+                                    @RequestParam String action) {
 
-        adminService.handleStoreReport(reportId, storeId, action, description);
+        adminService.handleStoreReport(reportId, storeId, action);
         return "redirect:/admin/storeReport";
     }
 

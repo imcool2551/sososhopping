@@ -8,12 +8,9 @@ import com.sososhopping.domain.report.repository.UserReportRepository;
 import com.sososhopping.domain.store.repository.StoreRepository;
 import com.sososhopping.entity.admin.StoreReport;
 import com.sososhopping.entity.admin.UserReport;
-import com.sososhopping.entity.common.AccountStatus;
 import com.sososhopping.entity.store.Store;
-import com.sososhopping.entity.store.StoreLog;
 import com.sososhopping.entity.store.StoreStatus;
 import com.sososhopping.entity.user.User;
-import com.sososhopping.entity.user.UserLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +45,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void handleStoreReport(Long reportId, Long storeId, String action, String description) {
+    public void handleStoreReport(Long reportId, Long storeId, String action) {
         validateAction(action);
 
         Store store = storeRepository.findById(storeId)
@@ -58,23 +55,10 @@ public class AdminService {
                 .orElseThrow(() -> new NotFoundException("can't find store report with id" + reportId));
 
         if (action.equals(APPROVE)) {
-            store.updateStoreStatus(StoreStatus.SUSPEND);
-            StoreLog storeLog = StoreLog.builder()
-                    .store(store)
-                    .storeStatus(StoreStatus.SUSPEND)
-                    .description(description)
-                    .build();
-            storeLogRepository.save(storeLog);
+            storeLogRepository.save(storeReport.approve(store));
         } else if (action.equals(REJECT)) {
-            StoreLog storeLog = StoreLog.builder()
-                    .store(store)
-                    .storeStatus(store.getStoreStatus())
-                    .description(description)
-                    .build();
-            storeLogRepository.save(storeLog);
+            storeLogRepository.save(storeReport.reject(store));
         }
-
-        storeReport.setHandled(true);
     }
 
     @Transactional
@@ -87,25 +71,11 @@ public class AdminService {
         UserReport userReport = userReportRepository.findById(reportId)
                 .orElseThrow(() -> new NotFoundException("can't find user report with id" + reportId));
 
-
         if (action.equals(APPROVE)) {
-            user.suspend();
-            UserLog userLog = UserLog.builder()
-                    .user(user)
-                    .active(AccountStatus.SUSPEND)
-                    .description(description)
-                    .build();
-            userLogRepository.save(userLog);
+            userLogRepository.save(userReport.approve(user));
         } else if (action.equals(REJECT)) {
-            UserLog userLog = UserLog.builder()
-                    .user(user)
-                    .active(user.getActive())
-                    .description(description)
-                    .build();
-            userLogRepository.save(userLog);
+            userLogRepository.save(userReport.reject(user));
         }
-
-        userReport.setHandled(true);
     }
 
     private void validateAction(String action) {

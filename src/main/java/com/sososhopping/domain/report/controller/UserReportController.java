@@ -6,12 +6,11 @@ import com.sososhopping.domain.report.service.UserReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserReportController {
