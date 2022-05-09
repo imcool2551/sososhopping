@@ -91,7 +91,7 @@ public class CartService {
 
         Map<Store, List<Cart>> storeToCarts = cartRepository.findCartWithItemAndStoreByUser(user)
                 .stream()
-                .collect(groupingBy(cart -> cart.getItem().getStore()));
+                .collect(groupingBy(Cart::getStore));
 
         List<MyCartResponse> myCarts = new ArrayList<>();
         storeToCarts.forEach((store, carts) -> myCarts.add(new MyCartResponse(store, carts)));

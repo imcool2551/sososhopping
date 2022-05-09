@@ -2,6 +2,7 @@ package com.sososhopping.entity.user;
 
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.store.Item;
+import com.sososhopping.entity.store.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,5 +44,9 @@ public class Cart extends BaseTimeEntity {
 
     public void updateQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Store getStore() {
+        return item.getStore();
     }
 }

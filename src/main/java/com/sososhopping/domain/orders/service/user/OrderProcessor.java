@@ -13,7 +13,6 @@ import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.sososhopping.entity.orders.OrderType.DELIVERY;
@@ -39,8 +38,7 @@ public class OrderProcessor {
     }
 
     private void validateItems(Store store, List<Item> items, CreateOrderDto dto) {
-        List<Long> itemIds = new ArrayList<>(dto.itemIdToQuantity().keySet());
-        boolean validIds = itemIds.size() == items.size();
+        boolean validIds = dto.itemIds().size() == items.size();
         boolean availableItems = items.stream()
                 .allMatch(item -> item.available(store));
 
@@ -50,10 +48,6 @@ public class OrderProcessor {
     }
 
     public void useUserPoint(UserPoint userPoint) {
-        if (dto.getUsedPoint() == null) {
-            return;
-        }
-
         if (calculateOrderPrice() < dto.getUsedPoint()) {
             throw new BadRequestException("can't use more point than order price");
         }
@@ -108,7 +102,8 @@ public class OrderProcessor {
                             .orElseThrow(NotFoundException::new);
                     OrderItem orderItem =
                             new OrderItem(order, item, quantity, quantity * item.getPrice());
-                    order.addOrderItem(orderItem);
+
+                    orderItem.toOrder(order);
                 });
     }
 }

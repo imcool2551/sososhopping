@@ -98,10 +98,6 @@ public class Order extends BaseTimeEntity {
         this.orderStatus = orderStatus;
     }
 
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-    }
-
     public boolean belongsTo(User user) {
         return this.user == user;
     }

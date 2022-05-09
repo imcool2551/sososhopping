@@ -17,23 +17,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.sososhopping.entity.orders.OrderStatus.PENDING;
 import static java.util.stream.Collectors.toMap;
 
 @Data
 public class CreateOrderDto {
-
-    @Data
-    static class CreateOrderItemDto {
-
-        @NotNull(message = "물품 id 필수")
-        private Long itemId;
-
-        @NotNull(message = "물품 수량 필수")
-        @Min(1)
-        private Integer quantity;
-    }
 
     @NotNull(message = "점포 id 필수")
     private Long storeId;
@@ -97,4 +87,28 @@ public class CreateOrderDto {
                 .collect(toMap(CreateOrderItemDto::getItemId, CreateOrderItemDto::getQuantity));
     }
 
+    public List<Long> itemIds() {
+        return orderItems.stream()
+                .map(CreateOrderItemDto::getItemId)
+                .collect(Collectors.toList());
+    }
+
+    @Data
+    static class CreateOrderItemDto {
+
+        @NotNull(message = "물품 id 필수")
+        private Long itemId;
+
+        @NotNull(message = "물품 수량 필수")
+        @Min(1)
+        private Integer quantity;
+    }
 }
+
+
+
+
+
+
+
+

@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -48,7 +47,7 @@ public class CreateOrderService {
 
         Store store = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new NotFoundException("can't find store with id" + dto.getStoreId()));
-        List<Item> items = findItems(dto);
+        List<Item> items = itemRepository.findByIdIn(dto.itemIds());
         OrderProcessor orderProcessor = new OrderProcessor(store, items, dto);
 
         if (dto.getUsedPoint() != null) {
@@ -75,8 +74,4 @@ public class CreateOrderService {
         return order.getId();
     }
 
-    private List<Item> findItems(CreateOrderDto dto) {
-        List<Long> itemIds = new ArrayList<>(dto.itemIdToQuantity().keySet());
-        return itemRepository.findByIdIn(itemIds);
-    }
 }

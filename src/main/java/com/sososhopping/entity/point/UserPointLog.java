@@ -29,13 +29,12 @@ public class UserPointLog extends BaseTimeEntity {
 
     private int result;
 
-    public UserPointLog(UserPoint userPoint, int used, int result) {
-        this.userPoint = userPoint;
+    public UserPointLog(int used, int result) {
         this.used = used;
         this.result = result;
     }
 
-    public void setUserPoint(UserPoint userPoint) {
+    public void toUserPoint(UserPoint userPoint) {
         this.userPoint = userPoint;
         this.userPoint.getUserPointLogs().add(this);
     }

@@ -56,7 +56,7 @@ public class UserPoint extends BaseTimeEntity {
     }
 
     private void addLog(int used, int result) {
-        UserPointLog log = new UserPointLog(this, used, result);
-        log.setUserPoint(this);
+        UserPointLog log = new UserPointLog(used, result);
+        log.toUserPoint(this);
     }
 }

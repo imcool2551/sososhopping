@@ -8,10 +8,10 @@ public enum CouponType {
     FIX((orderPrice, amount) -> amount),
     RATE((orderPrice, amount) -> (int) (orderPrice * (amount / 100.0)));
 
-    BinaryOperator<Integer> binaryOperator;
+    BinaryOperator<Integer> discountPriceCalculator;
 
-    CouponType(BinaryOperator<Integer> binaryOperator) {
-        this.binaryOperator = binaryOperator;
+    CouponType(BinaryOperator<Integer> discountPriceCalculator) {
+        this.discountPriceCalculator = discountPriceCalculator;
     }
 
     public static CouponType of(String name) {
@@ -22,6 +22,6 @@ public enum CouponType {
     }
 
     public int calculateDiscountPrice(int orderPrice, int amount) {
-        return binaryOperator.apply(orderPrice, amount);
+        return discountPriceCalculator.apply(orderPrice, amount);
     }
 }
