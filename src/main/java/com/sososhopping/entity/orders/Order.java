@@ -1,5 +1,6 @@
 package com.sososhopping.entity.orders;
 
+import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
@@ -98,17 +99,25 @@ public class Order extends BaseTimeEntity {
         this.orderStatus = orderStatus;
     }
 
-    public boolean belongsTo(User user) {
-        return this.user == user;
-    }
-
-    public boolean belongsTo(Store store) {
-        return this.store == store;
-    }
-
-    public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
+    public void cancel(User user, UserPoint userPoint, UserCoupon userCoupon) {
+        validateUser(user);
         orderStatus = orderStatus.toCancel();
         restorePointAndUserCoupon(userPoint, userCoupon);
+    }
+
+    public void confirm(User user, UserPoint userPoint) {
+        validateUser(user);
+        orderStatus = orderStatus.toDone();
+        if (store.hasPointPolicy()) {
+            int plusPoint = (int) (finalPrice * store.getSaveRate().doubleValue() / 100);
+            userPoint.updatePoint(plusPoint);
+        }
+    }
+
+    private void validateUser(User user) {
+        if (this.user != user) {
+            throw new ForbiddenException("order does not belong to user");
+        }
     }
 
     public void reject(UserPoint userPoint, UserCoupon userCoupon) {
@@ -125,19 +134,19 @@ public class Order extends BaseTimeEntity {
         }
     }
 
-    public void confirm(UserPoint userPoint) {
-        orderStatus = orderStatus.toDone();
-        if (store.hasPointPolicy()) {
-            int plusPoint = (int) (finalPrice * store.getSaveRate().doubleValue() / 100);
-            userPoint.updatePoint(plusPoint);
-        }
-    }
-
     public void approve() {
         orderStatus = orderStatus.toApprove();
     }
 
     public void ready() {
         orderStatus = orderStatus.toReady();
+    }
+
+    public boolean belongsTo(Store store) {
+        return this.store == store;
+    }
+
+    public boolean belongsTo(User user) {
+        return this.user == user;
     }
 }

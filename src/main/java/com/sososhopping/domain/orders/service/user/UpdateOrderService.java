@@ -1,6 +1,5 @@
 package com.sososhopping.domain.orders.service.user;
 
-import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.common.exception.UnAuthorizedException;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
@@ -32,17 +31,13 @@ public class UpdateOrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("no order with id " + orderId));
 
-        if (!order.belongsTo(user)) {
-            throw new ForbiddenException("order does not belong to user");
-        }
-
         UserPoint userPoint = userPointRepository.findByUserAndStore(user, order.getStore())
                 .orElse(null);
 
         UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(user, order.getCoupon())
                 .orElse(null);
 
-        order.cancel(userPoint, userCoupon);
+        order.cancel(user, userPoint, userCoupon);
     }
 
     public void confirmOrder(Long userId, Long orderId) {
@@ -52,17 +47,13 @@ public class UpdateOrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("no order with id " + orderId));
 
-        if (!order.belongsTo(user)) {
-            throw new ForbiddenException("order does not belong to user");
-        }
-
         userPointRepository.findByUserAndStore(user, order.getStore())
                 .ifPresentOrElse(
-                        order::confirm,
+                        userPoint -> order.confirm(user, userPoint),
                         () -> {
                             UserPoint userPoint = new UserPoint(user, order.getStore(), 0);
                             userPointRepository.save(userPoint);
-                            order.confirm(userPoint);
+                            order.confirm(user, userPoint);
                         });
     }
 }
