@@ -1,6 +1,5 @@
 package com.sososhopping.entity.orders;
 
-import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
@@ -18,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sososhopping.entity.orders.OrderStatus.*;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
@@ -76,7 +74,6 @@ public class Order extends BaseTimeEntity {
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-
     @Builder
     public Order(User user, String ordererName, String ordererPhone,
                  OrderType orderType, LocalDateTime visitDate, Store store,
@@ -113,20 +110,13 @@ public class Order extends BaseTimeEntity {
         return this.store == store;
     }
 
-
     public void cancel(UserPoint userPoint, UserCoupon userCoupon) {
-        if (orderStatus != PENDING) {
-            throw new BadRequestException("order is already in progress");
-        }
-        orderStatus = CANCEL;
+        orderStatus = orderStatus.toCancel();
         restorePointAndUserCoupon(userPoint, userCoupon);
     }
 
     public void reject(UserPoint userPoint, UserCoupon userCoupon) {
-        if (orderStatus == DONE || orderStatus == CANCEL) {
-            throw new BadRequestException("order can't be rejected if it is already done or cancelled");
-        }
-        orderStatus = REJECT;
+        orderStatus = orderStatus.toReject();
         restorePointAndUserCoupon(userPoint, userCoupon);
     }
 
@@ -140,10 +130,7 @@ public class Order extends BaseTimeEntity {
     }
 
     public void confirm(UserPoint userPoint) {
-        if (orderStatus != READY) {
-            throw new BadRequestException("order can't be confirmed if it is not ready");
-        }
-        orderStatus = DONE;
+        orderStatus = orderStatus.toDone();
         if (store.hasPointPolicy()) {
             int plusPoint = (int) (finalPrice * store.getSaveRate().doubleValue() / 100);
             userPoint.updatePoint(plusPoint);
@@ -151,16 +138,10 @@ public class Order extends BaseTimeEntity {
     }
 
     public void approve() {
-        if (orderStatus != PENDING) {
-            throw new BadRequestException("order can't be approved if it is not pending");
-        }
-        orderStatus = APPROVE;
+        orderStatus = orderStatus.toApprove();
     }
 
     public void ready() {
-        if (orderStatus != APPROVE) {
-            throw new BadRequestException("order can't be ready if it is not approved");
-        }
-        orderStatus = READY;
+        orderStatus = orderStatus.toReady();
     }
 }

@@ -1,5 +1,6 @@
 package com.sososhopping.domain.orders.service.owner;
 
+import com.sososhopping.common.exception.BadRequestException;
 import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
@@ -20,8 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sososhopping.entity.orders.OrderStatus.APPROVE;
-import static com.sososhopping.entity.orders.OrderStatus.READY;
+import static com.sososhopping.entity.orders.OrderStatus.*;
 
 @Service
 @Transactional
@@ -86,14 +86,17 @@ public class OwnerOrderService {
         } else if (status == READY) {
             order.ready();
             return;
+        } else if (status == REJECT) {
+            UserPoint userPoint = userPointRepository.findByUserAndStore(order.getUser(), store)
+                    .orElse(null);
+
+            UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(order.getUser(), order.getCoupon())
+                    .orElse(null);
+
+            order.reject(userPoint, userCoupon);
+            return;
         }
 
-        UserPoint userPoint = userPointRepository.findByUserAndStore(order.getUser(), store)
-                .orElse(null);
-
-        UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(order.getUser(), order.getCoupon())
-                .orElse(null);
-
-        order.reject(userPoint, userCoupon);
+        throw new BadRequestException("unknown request");
     }
 }

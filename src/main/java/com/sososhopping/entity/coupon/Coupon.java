@@ -79,13 +79,13 @@ public class Coupon extends BaseTimeEntity {
         if (stockQuantity <= 0) {
             throw new BadRequestException("쿠폰 재고가 없습니다");
         }
-        if (!canIssueAt(at)) {
+        if (!isActive(at)) {
             throw new BadRequestException("쿠폰 발급기간이 아닙니다");
         }
         stockQuantity--;
     }
 
-    private boolean canIssueAt(LocalDateTime at) {
+    private boolean isActive(LocalDateTime at) {
         return at.isAfter(issueStartDate) && at.isBefore(issueDueDate);
     }
 
