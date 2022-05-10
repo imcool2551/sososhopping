@@ -8,7 +8,7 @@ public enum CouponType {
     FIX((orderPrice, amount) -> amount),
     RATE((orderPrice, amount) -> (int) (orderPrice * (amount / 100.0)));
 
-    BinaryOperator<Integer> discountPriceCalculator;
+    private BinaryOperator<Integer> discountPriceCalculator;
 
     CouponType(BinaryOperator<Integer> discountPriceCalculator) {
         this.discountPriceCalculator = discountPriceCalculator;
