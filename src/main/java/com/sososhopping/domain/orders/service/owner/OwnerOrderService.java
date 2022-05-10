@@ -1,7 +1,6 @@
 package com.sososhopping.domain.orders.service.owner;
 
 import com.sososhopping.common.exception.BadRequestException;
-import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.common.exception.NotFoundException;
 import com.sososhopping.domain.coupon.repository.UserCouponRepository;
 import com.sososhopping.domain.orders.dto.owner.response.OrderListResponse;
@@ -11,6 +10,7 @@ import com.sososhopping.domain.point.repository.UserPointRepository;
 import com.sososhopping.entity.coupon.UserCoupon;
 import com.sososhopping.entity.orders.Order;
 import com.sososhopping.entity.orders.OrderStatus;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import lombok.RequiredArgsConstructor;
@@ -76,15 +76,13 @@ public class OwnerOrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("no order with id " + orderId));
 
-        if (!order.belongsTo(store)) {
-            throw new ForbiddenException("order does not belong to store");
-        }
+        Owner owner = store.getOwner();
 
         if (status == APPROVE) {
-            order.approve();
+            order.approve(owner);
             return;
         } else if (status == READY) {
-            order.ready();
+            order.ready(owner);
             return;
         } else if (status == REJECT) {
             UserPoint userPoint = userPointRepository.findByUserAndStore(order.getUser(), store)
@@ -93,7 +91,7 @@ public class OwnerOrderService {
             UserCoupon userCoupon = userCouponRepository.findByUserAndCoupon(order.getUser(), order.getCoupon())
                     .orElse(null);
 
-            order.reject(userPoint, userCoupon);
+            order.reject(owner, userPoint, userCoupon);
             return;
         }
 

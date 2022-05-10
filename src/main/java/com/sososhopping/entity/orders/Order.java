@@ -4,6 +4,7 @@ import com.sososhopping.common.exception.ForbiddenException;
 import com.sososhopping.entity.common.BaseTimeEntity;
 import com.sososhopping.entity.coupon.Coupon;
 import com.sososhopping.entity.coupon.UserCoupon;
+import com.sososhopping.entity.owner.Owner;
 import com.sososhopping.entity.point.UserPoint;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
@@ -106,15 +107,20 @@ public class Order extends BaseTimeEntity {
         }
     }
 
-    private void validateUser(User user) {
-        if (this.user != user) {
-            throw new ForbiddenException("order does not belong to user");
-        }
-    }
-
-    public void reject(UserPoint userPoint, UserCoupon userCoupon) {
+    public void reject(Owner owner, UserPoint userPoint, UserCoupon userCoupon) {
+        validateOwner(owner);
         orderStatus = orderStatus.toReject();
         restorePointAndUserCoupon(userPoint, userCoupon);
+    }
+
+    public void ready(Owner owner) {
+        validateOwner(owner);
+        orderStatus = orderStatus.toReady();
+    }
+
+    public void approve(Owner owner) {
+        validateOwner(owner);
+        orderStatus = orderStatus.toApprove();
     }
 
     private void restorePointAndUserCoupon(UserPoint userPoint, UserCoupon userCoupon) {
@@ -126,16 +132,20 @@ public class Order extends BaseTimeEntity {
         }
     }
 
-    public void approve() {
-        orderStatus = orderStatus.toApprove();
+    private void validateUser(User user) {
+        if (!belongsTo(user)) {
+            throw new ForbiddenException("order does not belong to user");
+        }
     }
 
-    public void ready() {
-        orderStatus = orderStatus.toReady();
+    private void validateOwner(Owner owner) {
+        if (!belongsTo(owner)) {
+            throw new ForbiddenException("order does not belong to store");
+        }
     }
 
-    public boolean belongsTo(Store store) {
-        return this.store == store;
+    private boolean belongsTo(Owner owner) {
+        return store.getOwner() == owner;
     }
 
     public boolean belongsTo(User user) {
