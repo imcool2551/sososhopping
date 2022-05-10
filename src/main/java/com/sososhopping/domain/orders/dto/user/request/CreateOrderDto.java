@@ -6,6 +6,7 @@ import com.sososhopping.entity.orders.OrderType;
 import com.sososhopping.entity.orders.PaymentType;
 import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -94,7 +95,8 @@ public class CreateOrderDto {
     }
 
     @Data
-    static class CreateOrderItemDto {
+    @AllArgsConstructor
+    public static class CreateOrderItemDto {
 
         @NotNull(message = "물품 id 필수")
         private Long itemId;
