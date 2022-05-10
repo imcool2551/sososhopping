@@ -22,7 +22,7 @@ public class StoreResponse {
     private boolean isOpen;
     private boolean pickupStatus;
     private boolean deliveryStatus;
-    private int deliveryCharge;
+    private Integer deliveryCharge;
     private BigDecimal saveRate;
     private String streetAddress;
     private String detailedAddress;
@@ -44,7 +44,7 @@ public class StoreResponse {
         this.phone = store.getPhone();
         this.isOpen = store.isOpen();
         this.pickupStatus = store.isPickupStatus();
-        this.deliveryStatus = store.isDeliveryStatus();
+        this.deliveryStatus = store.getDeliveryStatus();
         this.deliveryCharge = store.getDeliveryCharge();
         this.saveRate = store.getSaveRate();
         this.streetAddress = store.getStreetAddress();

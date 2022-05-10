@@ -43,13 +43,8 @@ public class Store extends BaseTimeEntity {
     @Column(columnDefinition = "char", length = 11)
     private String phone;
 
-    private BigDecimal lat;
-
-    private BigDecimal lng;
-
-    private String streetAddress;
-
-    private String detailedAddress;
+    @Embedded
+    private StoreLocation location;
 
     @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
@@ -60,11 +55,11 @@ public class Store extends BaseTimeEntity {
     @Column(columnDefinition = "tinyint")
     private boolean pickupStatus;
 
-    @Column(columnDefinition = "tinyint")
-    private boolean deliveryStatus;
+    @Embedded
+    private StorePointPolicy pointPolicy;
 
-    @Column(columnDefinition = "tinyint")
-    private boolean pointPolicyStatus;
+    @Embedded
+    private StoreDeliveryPolicy deliveryPolicy;
 
     private String imgUrl;
 
@@ -72,12 +67,6 @@ public class Store extends BaseTimeEntity {
     private String description;
 
     private String extraBusinessDay;
-
-    private Integer minimumOrderPrice;
-
-    private BigDecimal saveRate;
-
-    private Integer deliveryCharge;
 
     @OneToMany(mappedBy = "store", cascade = ALL, orphanRemoval = true)
     @OrderBy("id asc")
@@ -101,21 +90,15 @@ public class Store extends BaseTimeEntity {
         this.name = name;
         this.storeType = storeType;
         this.phone = phone;
-        this.lat = lat;
-        this.lng = lng;
-        this.streetAddress = streetAddress;
-        this.detailedAddress = detailedAddress;
+        this.location = new StoreLocation(lat, lng, streetAddress, detailedAddress);
         this.storeStatus = storeStatus;
         this.isOpen = isOpen;
         this.pickupStatus = pickupStatus;
-        this.deliveryStatus = deliveryStatus;
-        this.pointPolicyStatus = pointPolicyStatus;
+        this.pointPolicy = new StorePointPolicy(pointPolicyStatus, saveRate);
+        this.deliveryPolicy = new StoreDeliveryPolicy(deliveryStatus, minimumOrderPrice, deliveryCharge);
         this.imgUrl = imgUrl;
         this.description = description;
         this.extraBusinessDay = extraBusinessDay;
-        this.minimumOrderPrice = minimumOrderPrice;
-        this.saveRate = saveRate;
-        this.deliveryCharge = deliveryCharge;
     }
 
     public boolean belongsTo(Owner owner) {
@@ -123,7 +106,7 @@ public class Store extends BaseTimeEntity {
     }
 
     public boolean hasPointPolicy() {
-        return pointPolicyStatus;
+        return pointPolicy.isPointPolicyStatus();
     }
 
     public void updateOpen(boolean isOpen) {
@@ -135,8 +118,35 @@ public class Store extends BaseTimeEntity {
     }
 
     public void updateSaveRate(boolean pointPolicyStatus, BigDecimal saveRate) {
-        this.pointPolicyStatus = pointPolicyStatus;
-        this.saveRate = saveRate;
+        pointPolicy.updateSaveRate(pointPolicyStatus, saveRate);
+    }
+
+    public BigDecimal getLat() {
+        return location.getLat();
+    }
+
+    public BigDecimal getLng() {
+        return location.getLng();
+    }
+
+    public String getStreetAddress() {
+        return location.getStreetAddress();
+    }
+
+    public String getDetailedAddress() {
+        return location.getDetailedAddress();
+    }
+
+    public BigDecimal getSaveRate() {
+        return pointPolicy.getSaveRate();
+    }
+
+    public boolean getDeliveryStatus() {
+        return deliveryPolicy.isDeliveryStatus();
+    }
+
+    public Integer getDeliveryCharge() {
+        return deliveryPolicy.getDeliveryCharge();
     }
 }
 
