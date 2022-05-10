@@ -52,6 +52,8 @@ sososhop 애플리케이션의 api서버입니다.
 
 * 연관관계 매핑시 PK만 사용하도록 변경(UserPointLog) 참고) https://www.inflearn.com/questions/16570
 
+* JPA Embedded Type 이용해서 클래스 분리 (OOP) 
+
 
 ### 2. TODOS
 

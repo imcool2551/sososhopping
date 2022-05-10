@@ -15,24 +15,26 @@ class UserCouponTest {
     private static User user;
     private static Store storeA;
     private static Store storeB;
+    private static Coupon coupon;
 
     @BeforeEach
     void setUp() {
         user = User.builder().build();
         storeA = Store.builder().build();
         storeB = Store.builder().build();
+        coupon = Coupon.builder()
+                .store(storeA)
+                .minimumOrderPrice(10000)
+                .stockQuantity(100)
+                .issueStartDate(now().minusDays(10))
+                .issueDueDate(now().plusDays(30))
+                .expireDate(now().plusDays(40))
+                .build();
+
     }
 
     @Test
     void use_WhenNotEnoughOrderPrice_ThrowsBadRequestException() {
-        Coupon coupon = Coupon.builder()
-                .store(storeA)
-                .minimumOrderPrice(10000)
-                .stockQuantity(100)
-                .issueStartDate(now().minusDays(1))
-                .issueDueDate(now().plusDays(30))
-                .expireDate(now().plusDays(30))
-                .build();
         UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
 
         assertThatThrownBy(() -> userCoupon.use(storeA, 5000, now()))
@@ -41,12 +43,6 @@ class UserCouponTest {
 
     @Test
     void use_WhenStoreMisMatch_ThrowsBadRequestException() {
-        Coupon coupon = Coupon.builder()
-                .store(storeA)
-                .stockQuantity(100)
-                .issueStartDate(now().minusDays(1))
-                .issueDueDate(now().plusDays(30))
-                .build();
         UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
 
         assertThatThrownBy(() -> userCoupon.use(storeB, now()))
@@ -55,13 +51,6 @@ class UserCouponTest {
 
     @Test
     void use_WhenExpired_ThrowsBadRequestException() {
-        Coupon coupon = Coupon.builder()
-                .store(storeA)
-                .stockQuantity(100)
-                .issueStartDate(now().minusDays(10))
-                .issueDueDate(now().plusDays(30))
-                .expireDate(now().plusDays(40))
-                .build();
         UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
 
         assertThatThrownBy(() -> userCoupon.use(storeA, now().plusDays(50)))
@@ -70,29 +59,16 @@ class UserCouponTest {
 
     @Test
     void use_AlreadyUsed_ThrowsBadRequestException() {
-        Coupon coupon = Coupon.builder()
-                .store(storeA)
-                .stockQuantity(100)
-                .issueStartDate(now().minusDays(10))
-                .issueDueDate(now().plusDays(30))
-                .expireDate(now().plusDays(40))
-                .build();
         UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
 
         userCoupon.use(storeA, now());
+
         assertThatThrownBy(() -> userCoupon.use(storeA, now()))
                 .isInstanceOf(BadRequestException.class);
     }
 
     @Test
     void use() {
-        Coupon coupon = Coupon.builder()
-                .store(storeA)
-                .stockQuantity(100)
-                .issueStartDate(now().minusDays(10))
-                .issueDueDate(now().plusDays(30))
-                .expireDate(now().plusDays(40))
-                .build();
         UserCoupon userCoupon = UserCoupon.createUserCoupon(user, coupon, now());
 
         userCoupon.use(storeA, now());

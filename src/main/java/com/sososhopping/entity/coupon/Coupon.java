@@ -42,12 +42,8 @@ public class Coupon extends BaseTimeEntity {
 
     private int minimumOrderPrice;
 
-    private LocalDateTime issueStartDate;
-
-    private LocalDateTime issueDueDate;
-
-    private LocalDateTime expireDate;
-
+    @Embedded
+    private CouponDateInfo couponDateInfo;
 
     @Builder
     public Coupon(Store store, String couponName, int amount, CouponType couponType,
@@ -61,9 +57,7 @@ public class Coupon extends BaseTimeEntity {
         this.stockQuantity = stockQuantity;
         this.couponCode = couponCode;
         this.minimumOrderPrice = minimumOrderPrice;
-        this.issueStartDate = issueStartDate;
-        this.issueDueDate = issueDueDate;
-        this.expireDate = expireDate;
+        this.couponDateInfo = new CouponDateInfo(issueStartDate, issueDueDate, expireDate);
     }
 
     public int calculateDiscountPrice(int orderPrice) {
@@ -79,18 +73,14 @@ public class Coupon extends BaseTimeEntity {
         if (stockQuantity <= 0) {
             throw new BadRequestException("쿠폰 재고가 없습니다");
         }
-        if (!isActive(at)) {
+        if (!couponDateInfo.isActive(at)) {
             throw new BadRequestException("쿠폰 발급기간이 아닙니다");
         }
         stockQuantity--;
     }
 
-    private boolean isActive(LocalDateTime at) {
-        return at.isAfter(issueStartDate) && at.isBefore(issueDueDate);
-    }
-
     public boolean isExpired(LocalDateTime at) {
-        return expireDate.isBefore(at);
+        return couponDateInfo.isExpired(at);
     }
 
     public void addStock(int quantity) {
@@ -99,5 +89,17 @@ public class Coupon extends BaseTimeEntity {
 
     public boolean usable(int orderPrice) {
         return minimumOrderPrice <= orderPrice;
+    }
+
+    public LocalDateTime getIssueStartDate() {
+        return couponDateInfo.getIssueStartDate();
+    }
+
+    public LocalDateTime getIssueDueDate() {
+        return couponDateInfo.getIssueDueDate();
+    }
+
+    public LocalDateTime getExpireDate() {
+        return couponDateInfo.getExpireDate();
     }
 }
