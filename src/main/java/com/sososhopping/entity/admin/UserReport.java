@@ -7,7 +7,6 @@ import com.sososhopping.entity.store.Store;
 import com.sososhopping.entity.user.User;
 import com.sososhopping.entity.user.UserLog;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -39,14 +38,12 @@ public class UserReport extends BaseTimeEntity {
     private String content;
 
     @Column(columnDefinition = "tinyint")
-    private boolean handled;
+    private boolean handled = false;
 
-    @Builder
-    public UserReport(Store store, User user, String content, boolean handled) {
+    public UserReport(Store store, User user, String content) {
         this.store = store;
         this.user = user;
         this.content = content;
-        this.handled = handled;
     }
 
     public UserLog approve(User user) {

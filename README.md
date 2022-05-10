@@ -22,6 +22,8 @@ sososhop 애플리케이션의 api서버입니다.
 
 * 엔티티가 dto에 의존하지 않도록 변경 (dto.toEntity() 사용)
 
+* 서비스 레이어 로직 도메인 객체로 이동 (Transactional Script Pattern to Domain Model Pattern)
+
 #### 1.2 세부사항
 
 * 사용자 입력값 Bean Validation 을 사용하여 검증 

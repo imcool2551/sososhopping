@@ -28,13 +28,7 @@ public class UserReportService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException("store with id " + storeId + " does not exist"));
 
-        StoreReport storeReport = StoreReport.builder()
-                .user(user)
-                .store(store)
-                .content(content)
-                .handled(false)
-                .build();
-
+        StoreReport storeReport = new StoreReport(user, store, content);
         storeReportRepository.save(storeReport);
         return storeReport.getId();
     }

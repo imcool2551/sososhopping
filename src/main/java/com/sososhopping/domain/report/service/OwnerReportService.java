@@ -25,13 +25,7 @@ public class OwnerReportService {
         User user = userRepository.findById(userId)
                 .orElseThrow(NotFoundException::new);
 
-        UserReport userReport = UserReport.builder()
-                .store(store)
-                .user(user)
-                .content(content)
-                .handled(false)
-                .build();
-
+        UserReport userReport = new UserReport(store, user, content);
         userReportRepository.save(userReport);
         return userReport.getId();
     }
