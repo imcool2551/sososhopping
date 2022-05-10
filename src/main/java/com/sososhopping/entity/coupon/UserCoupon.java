@@ -46,16 +46,15 @@ public class UserCoupon extends BaseTimeEntity {
         return new UserCoupon(user, coupon);
     }
 
-    public void use(Store store, LocalDateTime at) {
-        validateUsability(store, at);
-        used = true;
-    }
-
     public void use(Store store, int orderPrice, LocalDateTime at) {
-        validateUsability(store, at);
         if (!coupon.usable(orderPrice)) {
             throw new BadRequestException("최소 주문 금액 미달입니다");
         }
+        use(store, at);
+    }
+
+    public void use(Store store, LocalDateTime at) {
+        validateUsability(store, at);
         used = true;
     }
 
