@@ -40,21 +40,16 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    private String ordererName;
-
-    @Column(columnDefinition = "char", length = 11)
-    private String ordererPhone;
+    @Embedded
+    private OrdererInfo ordererInfo;
 
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
 
     private LocalDateTime visitDate;
 
-    private Integer deliveryCharge;
-
-    private String deliveryStreetAddress;
-
-    private String deliveryDetailedAddress;
+    @Embedded
+    private DeliveryInfo deliveryInfo;
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
@@ -83,14 +78,11 @@ public class Order extends BaseTimeEntity {
                  Coupon coupon, Integer finalPrice, OrderStatus orderStatus) {
 
         this.user = user;
-        this.ordererName = ordererName;
-        this.ordererPhone = ordererPhone;
+        this.ordererInfo = new OrdererInfo(ordererName, ordererPhone);
         this.orderType = orderType;
         this.visitDate = visitDate;
         this.store = store;
-        this.deliveryCharge = deliveryCharge;
-        this.deliveryStreetAddress = deliveryStreetAddress;
-        this.deliveryDetailedAddress = deliveryDetailedAddress;
+        this.deliveryInfo = new DeliveryInfo(deliveryCharge, deliveryStreetAddress, deliveryDetailedAddress);
         this.paymentType = paymentType;
         this.orderPrice = orderPrice;
         this.usedPoint = usedPoint;
@@ -148,5 +140,25 @@ public class Order extends BaseTimeEntity {
 
     public boolean belongsTo(User user) {
         return this.user == user;
+    }
+
+    public String getOrdererName() {
+        return ordererInfo.getOrdererName();
+    }
+
+    public String getOrdererPhone() {
+        return ordererInfo.getOrdererPhone();
+    }
+
+    public Integer getDeliveryCharge() {
+        return deliveryInfo.getDeliveryCharge();
+    }
+
+    public String getDeliveryStreetAddress() {
+        return deliveryInfo.getDeliveryStreetAddress();
+    }
+
+    public String getDeliveryDetailedAddress() {
+        return deliveryInfo.getDeliveryDetailedAddress();
     }
 }
