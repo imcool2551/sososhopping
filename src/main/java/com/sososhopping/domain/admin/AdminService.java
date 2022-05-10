@@ -62,7 +62,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void handleUserReport(Long reportId, Long userId, String action, String description) {
+    public void handleUserReport(Long reportId, Long userId, String action) {
         validateAction(action);
 
         User user = userRepository.findById(userId)
