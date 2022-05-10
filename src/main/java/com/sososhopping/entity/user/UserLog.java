@@ -14,6 +14,7 @@ import static javax.persistence.FetchType.*;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class UserLog extends BaseTimeEntity {
 
     @Id
