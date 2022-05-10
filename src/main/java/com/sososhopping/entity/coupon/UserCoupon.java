@@ -34,12 +34,11 @@ public class UserCoupon extends BaseTimeEntity {
     private Coupon coupon;
 
     @Column(columnDefinition = "tinyint")
-    private boolean used;
+    private boolean used = false;
 
     private UserCoupon(User user, Coupon coupon) {
         this.user = user;
         this.coupon = coupon;
-        this.used = false;
     }
 
     public static UserCoupon createUserCoupon(User user, Coupon coupon, LocalDateTime at) {

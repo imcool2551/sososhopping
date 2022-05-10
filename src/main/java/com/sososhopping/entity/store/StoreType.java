@@ -16,8 +16,7 @@ public enum StoreType {
     ACADEMY("학원"),
     PHOTO("사진관"),
     FLOWER("꽃집"),
-    CLOTH("의류")
-    ;
+    CLOTH("의류");
 
     private final String krName;
 
