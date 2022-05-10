@@ -31,37 +31,20 @@ public class User extends BaseTimeEntity {
 
     private String password;
 
-    private String name;
-
-    private String nickname;
-
-    @Column(unique = true, columnDefinition = "char", length = 11)
-    private String phone;
-
-    private String streetAddress;
-
-    private String detailedAddress;
+    @Embedded
+    private UserInfo userInfo;
 
     @Enumerated(STRING)
     private AccountStatus active;
 
     @Builder
-    public User(String email,
-                String password,
-                String name,
-                String nickname,
-                String phone,
-                String streetAddress,
-                String detailedAddress,
-                AccountStatus active) {
+    public User(String email, String password, String name,
+                String nickname, String phone, String streetAddress,
+                String detailedAddress, AccountStatus active) {
 
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.streetAddress = streetAddress;
-        this.detailedAddress = detailedAddress;
+        this.userInfo = new UserInfo(name, nickname, phone, streetAddress, detailedAddress);
         this.active = active;
     }
 
@@ -69,21 +52,34 @@ public class User extends BaseTimeEntity {
         active = SUSPEND;
     }
 
-    public void updateUserInfo(String name,
-                               String phone,
-                               String nickname,
-                               String streetAddress,
-                               String detailedAddress) {
+    public void updateUserInfo(String name, String phone, String nickname,
+                               String streetAddress, String detailedAddress) {
 
-        this.name = name;
-        this.phone = phone;
-        this.nickname = nickname;
-        this.streetAddress = streetAddress;
-        this.detailedAddress = detailedAddress;
+        userInfo.updateUserInfo(name, phone, nickname, streetAddress, detailedAddress);
     }
 
     public boolean isActive() {
         return active == ACTIVE;
+    }
+
+    public String getName() {
+        return userInfo.getName();
+    }
+
+    public String getNickname() {
+        return userInfo.getNickname();
+    }
+
+    public String getPhone() {
+        return userInfo.getPhone();
+    }
+
+    public String getStreetAddress() {
+        return userInfo.getStreetAddress();
+    }
+
+    public String getDetailedAddress() {
+        return userInfo.getDetailedAddress();
     }
 }
 
