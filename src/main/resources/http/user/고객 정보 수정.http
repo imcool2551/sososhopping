@@ -1,0 +1,25 @@
+### 수정 성공 (200)
+PATCH http://localhost:8080/api/v1/users/my/info
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0
+
+{
+     "name": "gil",
+     "phone": "01012345678",
+     "nickname": "길동이123",
+     "streetAddress": "서울시 xx구 xx동 xx대로",
+     "detailedAddress": "xx동 xx호"
+}
+
+### 수정 실패 by 번호 중복 (409)
+PATCH http://localhost:8080/api/v1/users/my/info
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0
+
+{
+  "name": "gil",
+  "phone": "01012345678",
+  "nickname": "길동이123",
+  "streetAddress": "서울시 xx구 xx동 xx대로",
+  "detailedAddress": "xx동 xx호"
+}

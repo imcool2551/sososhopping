@@ -1,0 +1,2 @@
+GET http://localhost:8080/api/v1/users/my/info
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0

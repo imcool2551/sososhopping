@@ -1,0 +1,12 @@
+PATCH http://localhost:8080/api/v1/users/my/cart
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0
+
+{
+  "requests": [
+    {
+      "itemId": 1,
+      "quantity": 4
+    }
+  ]
+}

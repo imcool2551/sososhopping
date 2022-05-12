@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/v1/owner/my/store/5/coupon/1
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+

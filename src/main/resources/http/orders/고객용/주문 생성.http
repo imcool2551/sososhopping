@@ -1,0 +1,27 @@
+POST http://localhost:8080/api/v1/users/my/orders
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6IlUiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjUwODc3NTM3LCJleHAiOjE2ODI0MTM1Mzd9.lMxkMj6hJgeicDx93pT7-qlIuRurNz_EgQXLDOrDYC0
+
+{
+  "storeId": 5,
+  "orderItems": [
+    {
+      "itemId": 1,
+      "quantity": 1
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ],
+  "orderType": "DELIVERY",
+  "paymentType": "CARD",
+  "usedPoint": 10000,
+  "couponId": null,
+  "finalPrice": 43000,
+  "ordererName": "홍길동",
+  "ordererPhone": "01012345678",
+  "visitDate": "2022-05-02T11:11:11",
+  "deliveryStreetAddress": null,
+  "deliveryDetailedAddress": null
+}

@@ -1,0 +1,24 @@
+### 승인 대기 주문
+
+GET http://localhost:8080/api/v1/owner/my/store/5/orders?type=PENDING
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+
+
+### 특정일 픽업 주문
+
+GET http://localhost:8080/api/v1/owner/my/store/5/orders?type=PICKUP&date=2022-05-03
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+
+### 특정일 배송 주문
+
+GET http://localhost:8080/api/v1/owner/my/store/5/orders?type=DELIVERY&date=2022-05-03
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE
+
+### 처리된 주문
+
+GET http://localhost:8080/api/v1/owner/my/store/5/orders?type=PROCESSED&date=2022-05-02
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MDg3Nzk0MCwiZXhwIjoxNjgyNDEzOTQwfQ.-gt1fQGtluspUoqtUsMSCNdrbuaqqV7NOvia7d1rjeE

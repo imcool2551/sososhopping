@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/v1/owner/my/store/5/point
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibWVtYmVyVHlwZSI6Ik8iLCJyb2xlcyI6WyJST0xFX09XTkVSIl0sImlhdCI6MTY1MTEzNDEzOSwiZXhwIjoxNjgyNjcwMTM5fQ.QzD0_2PQf98dcMm6pYVymuKR7lssyyK7e323Ocnzo7M
+
+{
+  "userPhone": "01012345678",
+  "amount": 6000
+}
+
