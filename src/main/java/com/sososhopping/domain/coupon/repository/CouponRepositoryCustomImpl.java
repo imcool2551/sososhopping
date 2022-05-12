@@ -46,12 +46,12 @@ public class CouponRepositoryCustomImpl implements CouponRepositoryCustom {
     }
 
     private BooleanExpression beingIssued(LocalDateTime at) {
-        return coupon.issueStartDate.before(at)
-                .and(coupon.issueDueDate.after(at))
-                .and(coupon.expireDate.after(at));
+        return coupon.couponDateInfo.issueStartDate.before(at)
+                .and(coupon.couponDateInfo.issueDueDate.after(at))
+                .and(coupon.couponDateInfo.expireDate.after(at));
     }
 
     private BooleanExpression scheduled(LocalDateTime at) {
-        return coupon.issueStartDate.after(at);
+        return coupon.couponDateInfo.issueStartDate.after(at);
     }
 }

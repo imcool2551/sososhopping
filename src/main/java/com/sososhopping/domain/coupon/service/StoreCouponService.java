@@ -70,7 +70,7 @@ public class StoreCouponService {
     public UserCouponResponse findUserCoupon(Long ownerId, Long storeId, String phone, String couponCode) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
 
-        User user = userRepository.findByPhone(phone)
+        User user = userRepository.findByUserInfoPhone(phone)
                 .orElseThrow(() -> new NotFoundException("user with phone number does not exist: " + phone));
         Coupon coupon = couponRepository.findByCouponCode(couponCode)
                 .orElseThrow(() -> new NotFoundException("coupon with coupon code does not exist: " + couponCode));

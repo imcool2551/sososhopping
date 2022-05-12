@@ -37,7 +37,7 @@ public class UserCouponRepositoryCustomImpl implements UserCouponRepositoryCusto
     }
 
     private BooleanExpression isActiveAt(LocalDateTime at) {
-        return userCoupon.coupon.expireDate.after(at);
+        return userCoupon.coupon.couponDateInfo.expireDate.after(at);
     }
 
     private BooleanExpression notUsed() {

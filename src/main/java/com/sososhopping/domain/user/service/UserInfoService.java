@@ -20,7 +20,7 @@ public class UserInfoService {
         User user = userRepository.findById(userId)
                 .orElseThrow(UnAuthorizedException::new);
 
-        userRepository.findByPhone(dto.getPhone())
+        userRepository.findByUserInfoPhone(dto.getPhone())
                 .ifPresent(existingUser -> {
                             if (user != existingUser) {
                                 throw new DuplicatePhoneException();

@@ -41,7 +41,7 @@ public class UserAuthController {
     public ResponseEntity<ApiResponse> userCheckDuplicatePhone(
             @RequestBody @Valid DuplicatePhoneCheckDto dto) {
 
-        if (userRepository.existsByPhone(dto.getPhone())) {
+        if (userRepository.existsByUserInfoPhone(dto.getPhone())) {
             return new ResponseEntity<>(new ApiResponse("phone number already in use"), CONFLICT);
         }
 

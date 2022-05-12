@@ -43,7 +43,7 @@ public class StorePointService {
     public UserPointResponse findUserPoint(Long ownerId, Long storeId, String userPhone) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
 
-        User user = userRepository.findByPhone(userPhone)
+        User user = userRepository.findByUserInfoPhone(userPhone)
                 .orElseThrow(() -> new NotFoundException("user does not exist with phone: " + userPhone));
 
         return userPointRepository.findByUserAndStore(user, store)
@@ -54,7 +54,7 @@ public class StorePointService {
     public void updateUserPoint(Long ownerId, Long storeId, UpdateUserPointDto dto) {
         Store store = ownerValidationService.validateStoreOwner(ownerId, storeId);
         String userPhone = dto.getUserPhone();
-        User user = userRepository.findByPhone(userPhone)
+        User user = userRepository.findByUserInfoPhone(userPhone)
                 .orElseThrow(() -> new NotFoundException("user does not exist with phone: " + userPhone));
 
         UserPoint userPoint = userPointRepository.findByUserAndStore(user, store)
