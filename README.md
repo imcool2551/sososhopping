@@ -38,62 +38,12 @@
   - domain: 도메인에대한 테스트 파일 위치
   - entity: 엔티티에대한 테스트 파일 위치
 
-### 3. Refactoring points compared to prototype
+
+### 3. How it looks
 
 ---
 
-#### 3.1. Architecture
-
-- 패키지 구조 수정
-  - 도메인(domain) + 엔티티(entity) + 공통기능(common) 패키지를 루트에 위치
-    - 도메인마다 각각 controller, service, repository, exception, dto 소유
-- 서비스 계층이 API 예외를 던지는 대신 도메인 예외/범용 예외를 던지도록 수정 (서비스 계층을 웹에서 독립)
-
-- 예외는 ControllerAdvice(ExceptionHandler) 에서 공통 처리
-
-- 엔티티가 dto에 의존하지 않도록 변경 (Pure Entity)
-
-- 서비스 레이어 로직 도메인 객체로 이동 (Transactional Script Pattern to Domain Model Pattern)
-
-#### 3.2. Minor details
-
-- 모든 사용자 입력값 Bean Validation 을 사용하여 검증
-
-- ControllerAdvice 에서 콘솔 대신 logger 사용
-
-- 양방향 연관관계 최소화
-
-- 커맨드와 쿼리 분리
-
-- 이미지 업로드(multipart/form-data)와 JSON 업로드(application/json) 분리
-
-- 이미지 업로드할 때 prefix, suffix 구분해서 suffix 만 DB에 저장
-
-- 엔티티 매핑시 복합키 대신 유니크 제약 조건 활용. (모든 테이블에 대리키 사용)
-
-- 일대일 연관관계 주 테이블에 외래키 매핑으로 변경 (Store, StoreMetadata)
-
-- 리스트 반환시 객체로 래핑 (추후 페이징 적용 대비)
-
-- 쿠폰 종류 엔티티 매핑시 상속 대신 열거형 사용
-
-- 영속성 컨텍스트 캐시를 고려해서 컨트롤러 대신 서비스에서 엔티티 생성
-
-- 테스트를 위해 LocalDateTime을 파라미터로 분리
-
-- 연관관계 매핑시 PK만 사용하도록 변경(UserPointLog) 참고) https://www.inflearn.com/questions/16570
-
-- JPA Embedded Type 이용해서 클래스 분리 (OOP)
-
-#### 3.3. TODOS
-
-- SpringSecurity
-
-### 4. How it looks
-
----
-
-#### 4.1 고객 앱
+#### 3.1 고객 앱
 
 - 회원가입
 
@@ -155,7 +105,7 @@
 
   ![](https://velog.velcdn.com/images/imcool2551/post/1f0a317f-3bbd-47aa-9c98-c8a7dc2cc34f/image.gif)
 
-#### 4.2 점주 앱
+#### 3.2 점주 앱
 
 - 회원 가입
 
